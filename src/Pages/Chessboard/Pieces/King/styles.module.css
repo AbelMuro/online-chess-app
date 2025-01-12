@@ -1,0 +1,4 @@
+.piece{
+    width: 35px;
+    object-fit: contain;
+}

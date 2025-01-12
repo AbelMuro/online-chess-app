@@ -1,0 +1,21 @@
+@font-face {
+    font-family: 'noto sans';
+    src: url('./assets/fonts/NotoSans-VariableFont_wdth\,wght.ttf');
+}
+
+body{
+    margin: 0px;
+}
+
+* {
+    box-sizing: border-box;
+    transition: all 0.2s linear;
+}
+
+:root{
+    --closest: 100;
+    --closer: 75;
+    --close: 50;
+    --far: 25;
+    --farthest: 1;
+}

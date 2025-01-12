@@ -1,0 +1,8 @@
+.chess_board_square{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(0, 0, 255, 0.6);
+}
