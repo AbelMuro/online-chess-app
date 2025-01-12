@@ -5,6 +5,7 @@ import * as styles from './styles.module.css';
 
 //this is where i left off, i started the legal moves for the pawns, i will need to finish that
 //i also need to let the user cancel a move if they click on any illegal square
+//also dont forget to put the tech-book-club landing page on your portfolio and linkedin
 
 function Chessboard() {
     const board = useSelector(state => state.chess.board);
