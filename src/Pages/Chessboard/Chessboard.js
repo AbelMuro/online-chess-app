@@ -1,11 +1,9 @@
 import React, {useMemo} from 'react';
 import {useSelector} from 'react-redux';
-import Pieces from './Pieces';
+import Squares from './Squares';
 import * as styles from './styles.module.css';
 
-//this is where i left off, i started the legal moves for the pawns, i will need to finish that
-//i also need to let the user cancel a move if they click on any illegal square
-//also dont forget to put the tech-book-club landing page on your portfolio and linkedin
+//this is where i left off, i need to let the user cancel a move if they click on any illegal square
 
 function Chessboard() {
     const board = useSelector(state => state.chess.board);
@@ -18,7 +16,7 @@ function Chessboard() {
                 const piece = board[row][column].slice(6, board[row][column].length);
 
                 squares.push( 
-                    <Pieces piece={piece} color={color} row={row} column={column} key={`${row + 1} ${column + 1}`}/>
+                    <Squares piece={piece} color={color} row={row} column={column} key={`${row + 1} ${column + 1}`}/>
                 ); 
             }        
         }
