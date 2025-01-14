@@ -3,6 +3,8 @@ import {useSelector, useDispatch} from 'react-redux';
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
+// i need to find a way to let the redux store know if a pawn has moved two squares forward, thereby enabling en passant
+
 function Pawn({color, position}) {
     const row = position.row;
     const column = position.column;
