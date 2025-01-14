@@ -9,8 +9,7 @@ const highlightRedSquares = createAction('HIGHLIGHT_RED_SQUARES');
 const removeHighlightedSquares = createAction('REMOVE_HIGHLIGHTED_SQUARES');
 
 const setEnPassant = createAction('SET_ENPASSANT');
-const removeEnPassant = createAction('REMOVE_ENPASSANT');
-const removePieceWithEnPassant = createAction('REMOVE_PIECE_WITH_ENPASSANT')
+const movePieceWithEnPassant = createAction('MOVE_PIECE_WITH_ENPASSANT')
 
 const initialState = { 
     board: [
@@ -41,6 +40,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       const pieceToBeMoved = state.board[oldRow][oldColumn];
       state.board[oldRow][oldColumn] = '';
       state.board[newRow][newColumn] = pieceToBeMoved;
+      state.pieceToBeMoved = initialState.pieceToBeMoved;
     })
     .addCase(highlightBlueSquares, (state, action) => {
       state.blue_squares.push(...action.payload.squares);
@@ -56,22 +56,26 @@ const chessReducer = createReducer(initialState, (builder) => {
       state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
     })
     .addCase(setEnPassant, (state, action) => {
-      state.en_passant = action.payload.square;
+      state.en_passant = action.payload;
     })
-    .addCase(removeEnPassant, (state) => {
-      state.en_passant = null;
-    })
-    .addCase(removePieceWithEnPassant, (state) => {
+    .addCase(movePieceWithEnPassant, (state) => {
       if(!state.en_passant) return;
 
-      const color = state.current_turn;
-      const moveOneRow = color === 'white' ? state.en_passant.row - 1 : state.en_passant.row + 1;
-      const column = state.en_passant.column;
-      state.board[moveOneRow][column] = '';
-      state.en_passant = '';
+      const squareToMoveInto = state.en_passant.squareToMoveInto;
+      const pieceToBeTaken = state.en_passant.pieceToBeTaken;
+      let pieceToBeMoved = state.pieceToBeMoved.square;
+      let piece = state.board[pieceToBeMoved.row][pieceToBeMoved.column];
+
+      state.board[squareToMoveInto.row][squareToMoveInto.column] = piece;
+      state.board[pieceToBeTaken.row][pieceToBeTaken.column] = '';
+      state.board[pieceToBeMoved.row][pieceToBeMoved.column] = '';
+      state.en_passant = null;
+      state.pieceToBeMoved = initialState.pieceToBeMoved;
     })
     .addCase(pieceToBeMoved, (state, action) => {
       state.pieceToBeMoved = action.payload;
+      state.blue_squares = [];
+      state.red_squares = [];
     })
 });
 

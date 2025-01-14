@@ -8,16 +8,13 @@ function Pawn({color, position}) {
     const column = position.column;
     const initialSquareRef = useRef(color === 'white' ? {row: 1} : {row: 6});
     const currentTurn = useSelector(state => state.chess.current_turn);
-    const enPassant = useSelector(state => state.chess.en_passant)
+    const enPassant = useSelector(state => state.chess.en_passant);
     const board = useSelector(state => state.chess.board);                                                                
     const dispatch = useDispatch();
-
 
     const pawnMoveRules = () => {
         const firstSquareInFrontIsAvailable = color === 'white' ? board[row + 1]?.[column] === '' : board[row - 1]?.[column] === '';
         if(!firstSquareInFrontIsAvailable) return;
-
-        dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
 
         const moveTwoSquaresIsAvailable = initialSquareRef.current.row === row;
         const moveOneRow = color === 'white' ? row + 1 : row - 1;        
@@ -25,13 +22,15 @@ function Pawn({color, position}) {
         const secondSquareInFrontIsAvailable = board[moveTwoRows]?.[column] === '';
 
         if(moveTwoSquaresIsAvailable){
-            if(secondSquareInFrontIsAvailable)
-                dispatch({type: 'HIGHLIGHT_BLUE_SQUARES', payload: {squares: [{row, column}, {row: moveOneRow, column: column, enpassant: true}, {row: moveTwoRows, column: column}]}});        //this will set a square for en passant
+            if(secondSquareInFrontIsAvailable){
+                dispatch({type: 'HIGHLIGHT_BLUE_SQUARES', payload: {squares: [{row: moveOneRow, column: column}, {row: moveTwoRows, column: column}]}});
+                dispatch({type: 'SET_ENPASSANT', payload: {squareToMoveInto: {row: moveOneRow, column: column}, pieceToBeTaken: {row: moveTwoRows, column: column}}});
+            }        
             else
-                dispatch({type: 'HIGHLIGHT_BLUE_SQUARES', payload: {squares: [{row, column}, {row: moveOneRow, column: column}]}});  
+                dispatch({type: 'HIGHLIGHT_BLUE_SQUARES', payload: {squares: [{row: moveOneRow, column: column}]}});  
         }     
         else
-            dispatch({type: 'HIGHLIGHT_BLUE_SQUARES', payload: {squares: [{row, column}, {row: moveOneRow, column: column}]}});
+            dispatch({type: 'HIGHLIGHT_BLUE_SQUARES', payload: {squares: [{row: moveOneRow, column: column}]}});
     }
 
     const pawnTakeRules = () =>{
@@ -48,15 +47,19 @@ function Pawn({color, position}) {
             if((color === 'white' && rightCornerSquare.includes('black')) || (color === 'black' && rightCornerSquare.includes('white')))
                 dispatch({type: 'HIGHLIGHT_RED_SQUARES', payload: {squares: [{row: rightCorner.row, column: rightCorner.column}]}})
         }
-        if(enPassant && ((enPassant.row === leftCorner.row && enPassant.column === leftCorner.column) || (enPassant.row === rightCorner.row && enPassant.column === rightCorner.column))){
-            const moveOneRow = color === 'white' ? enPassant.row - 1 : enPassant.row + 1;
-            const pieceToTake = board[moveOneRow]?.[enPassant.column];
-            if((color === 'white' && pieceToTake.includes('black')) || (color === 'black' && pieceToTake.includes('white')))
-                dispatch({type: 'HIGHLIGHT_RED_SQUARES', payload: {squares: [{row: enPassant.row, column: enPassant.column}]}})            
+        if(enPassant){
+            const enPassant_squareToMoveInto = enPassant.squareToMoveInto;
+            const enPassant_pieceToBeTaken = enPassant.pieceToBeTaken;
+            if(((enPassant_squareToMoveInto.row === leftCorner.row && enPassant_squareToMoveInto.column === leftCorner.column) || (enPassant_squareToMoveInto.row === rightCorner.row && enPassant_squareToMoveInto.column === rightCorner.column))){
+                const pieceToTake = board[enPassant_pieceToBeTaken.row]?.[enPassant_pieceToBeTaken.column];
+                if((color === 'white' && pieceToTake.includes('black')) || (color === 'black' && pieceToTake.includes('white')))
+                    dispatch({type: 'HIGHLIGHT_RED_SQUARES', payload: {squares: [{row: enPassant_squareToMoveInto.row, column: enPassant_squareToMoveInto.column}]}})            
+            }
         }
     }
 
     const handleMove = () => {
+        dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
         pawnMoveRules();  
         pawnTakeRules();     
     }
