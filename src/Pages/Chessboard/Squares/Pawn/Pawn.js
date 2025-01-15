@@ -1,5 +1,6 @@
 import React, {memo, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+import {useMouseOver} from '~/hooks';
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
@@ -11,6 +12,7 @@ function Pawn({color, position}) {
     const initialSquareRef = useRef(color === 'white' ? {row: 1} : {row: 6});
     const currentTurn = useSelector(state => state.chess.current_turn);
     const enPassant = useSelector(state => state.chess.en_passant);
+    const [handleMouseEnter, handleMouseLeave, handleStyles] = useMouseOver({color});
     const board = useSelector(state => state.chess.board);                                                                
     const dispatch = useDispatch();
 
@@ -66,8 +68,15 @@ function Pawn({color, position}) {
         pawnTakeRules();     
     }
 
+
     return(
-        <div className={styles.container} onClick={currentTurn === color ? handleMove : () => {}}>
+        <div 
+            className={styles.container} 
+            onMouseEnter={handleMouseEnter} 
+            onMouseLeave={handleMouseLeave} 
+            onClick={currentTurn === color ? handleMove : () => {}}
+            style={handleStyles()}
+            >
             <img className={styles.piece} src={icons[`${color}Pawn`]}/>  
         </div> 
     )

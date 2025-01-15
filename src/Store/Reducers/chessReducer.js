@@ -6,7 +6,6 @@ const pieceToBeMoved = createAction('PIECE_TO_BE_MOVED');
 
 const highlightBlueSquares = createAction('HIGHLIGHT_BLUE_SQUARES');
 const highlightRedSquares = createAction('HIGHLIGHT_RED_SQUARES');
-const removeHighlightedSquares = createAction('REMOVE_HIGHLIGHTED_SQUARES');
 
 const setEnPassant = createAction('SET_ENPASSANT');
 const movePieceWithEnPassant = createAction('MOVE_PIECE_WITH_ENPASSANT')
@@ -41,16 +40,14 @@ const chessReducer = createReducer(initialState, (builder) => {
       state.board[oldRow][oldColumn] = '';
       state.board[newRow][newColumn] = pieceToBeMoved;
       state.pieceToBeMoved = initialState.pieceToBeMoved;
+      state.blue_squares = [];
+      state.red_squares = [];
     })
     .addCase(highlightBlueSquares, (state, action) => {
       state.blue_squares.push(...action.payload.squares);
     })
     .addCase(highlightRedSquares, (state, action) => {
       state.red_squares.push(...action.payload.squares);
-    })
-    .addCase(removeHighlightedSquares, (state) => {
-      state.red_squares = [];
-      state.blue_squares = [];
     })
     .addCase(changeTurn, (state) => {
       state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
@@ -71,6 +68,8 @@ const chessReducer = createReducer(initialState, (builder) => {
       state.board[pieceToBeMoved.row][pieceToBeMoved.column] = '';
       state.en_passant = null;
       state.pieceToBeMoved = initialState.pieceToBeMoved;
+      state.blue_squares = [];
+      state.red_squares = [];
     })
     .addCase(pieceToBeMoved, (state, action) => {
       state.pieceToBeMoved = action.payload;

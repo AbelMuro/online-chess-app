@@ -44,8 +44,7 @@ function Squares({piece, color, row, column}) {
             dispatch({type: 'MOVE_PIECE_WITH_ENPASSANT'});
         else
             dispatch({type: 'MOVE_PIECE', payload: {square: {row, column}}});
-        dispatch({type: 'CHANGE_TURN'})
-        dispatch({type: 'REMOVE_HIGHLIGHTED_SQUARES'});            
+        dispatch({type: 'CHANGE_TURN'})          
     }
 
     useEffect(() => {
