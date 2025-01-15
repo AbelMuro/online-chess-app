@@ -12,4 +12,5 @@
 .piece{
     width: 35px;
     object-fit: contain;
+    pointer-events: none;
 }
