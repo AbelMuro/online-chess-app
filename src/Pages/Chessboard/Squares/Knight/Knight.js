@@ -1,28 +1,24 @@
-import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {useMouseOver} from '~/hooks';
+import React, {useEffect} from 'react';
+import {useDispatch} from 'react-redux';
+import {usePieceLogic} from '~/hooks';
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
-function Knight({color, position}) {
-    const row = position.row;
-    const column = position.column;
-    const board = useSelector(state => state.chess.board);
-    const currentTurn = useSelector(state => state.chess.current_turn);
-    const [handleMouseEnter, handleMouseLeave, handleStyles] = useMouseOver({color});
+function Knight({color, row, column}) {
+    const [board, currentTurn, handleMouseEnter, handleMouseLeave, handleStyles] = usePieceLogic({color});
     const dispatch = useDispatch();
+    const legalSquares = [
+        {row: row + 2, column: column - 1}, 
+        {row: row + 2, column : column + 1},
+        {row: row - 1, column: column + 2}, 
+        {row: row + 1, column: column + 2},
+        {row: row - 2, column: column + 1},
+        {row: row - 2, column: column - 1},
+        {row: row + 1, column: column - 2},
+        {row: row - 1, column: column - 2}
+    ];
 
     const knightMoveRules = () => {
-        const legalSquares = [
-            {row: row + 2, column: column - 1}, 
-            {row: row + 2, column : column + 1},
-            {row: row - 1, column: column + 2}, 
-            {row: row + 1, column: column + 2},
-            {row: row - 2, column: column + 1},
-            {row: row - 2, column: column - 1},
-            {row: row + 1, column: column - 2},
-            {row: row - 1, column: column - 2}
-        ];
         const redSquares = [];
         const blueSquares = [];
 
@@ -42,6 +38,28 @@ function Knight({color, position}) {
         dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
         knightMoveRules();
     }
+
+    useEffect(() => {
+        const squares = [];
+        const piece = `knight ${row} ${column}`;
+
+        for(let i = 0; i < legalSquares.length; i++){
+            if(board[legalSquares[i].row]?.[legalSquares[i].column] !== undefined)
+                squares.push({piece, ...legalSquares[i]})
+        }
+        if(color === 'white')
+            dispatch({type: 'SET_ILLEGAL_MOVES_FOR_BLACK_KING', payload: {squares: squares}}) 
+        else
+            dispatch({type: 'SET_ILLEGAL_MOVES_FOR_WHITE_KING', payload: {squares: squares}}) 
+
+        return () => {
+            if(color === 'white')
+                dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_BLACK_KING', payload: {piece}}) 
+            else
+                dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_WHITE_KING', payload: {piece}}) 
+        }
+        
+    }, [])
 
     return (
         <div             

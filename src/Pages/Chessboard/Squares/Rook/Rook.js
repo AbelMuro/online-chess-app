@@ -1,15 +1,11 @@
-import React from 'react';
-import {useMouseOver} from '~/hooks';
-import {useSelector, useDispatch} from 'react-redux';
+import React, {useEffect} from 'react';
+import {usePieceLogic} from '~/hooks';
+import {useDispatch} from 'react-redux';
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
-function Rook({color, position}) {
-    const row = position.row;
-    const column = position.column;
-    const board = useSelector(state => state.chess.board);
-    const currentTurn = useSelector(state => state.chess.current_turn);
-    const [handleMouseEnter, handleMouseLeave, handleStyles] = useMouseOver({color});
+function Rook({color, row, column}) {
+    const [board, currentTurn, handleMouseEnter, handleMouseLeave, handleStyles] = usePieceLogic({color});
     const dispatch = useDispatch();
 
     const rookMoveRules = () => {
@@ -19,11 +15,7 @@ function Rook({color, position}) {
         for(let i = row + 1; i <= 7; i++){                  //forward
             if(board[i][column] === '')
                 blueSquares.push({row: i, column});
-            else if(color === 'white' && board[i][column].includes('black')){
-                redSquares.push({row: i, column});
-                break;
-            }
-            else if(color === 'black' && board[i][column].includes('white')){
+            else if(!board[i][column].includes(color)){
                 redSquares.push({row: i, column});
                 break;
             }
@@ -31,14 +23,10 @@ function Rook({color, position}) {
                 break;    
         }
 
-        for(let i = row - 1; i >= 0; i--){                  //back
+        for(let i = row - 1; i >= 0; i--){                      //back
             if(board[i][column] === '')
                 blueSquares.push({row: i, column});
-            else if(color === 'white' && board[i][column].includes('black')){
-                redSquares.push({row: i, column});
-                break;
-            }
-            else if(color === 'black' && board[i][column].includes('white')){
+            else if(!board[i][column].includes(color)){
                 redSquares.push({row: i, column});
                 break;
             }
@@ -49,11 +37,7 @@ function Rook({color, position}) {
         for(let i = column - 1; i >= 0; i--){                   //left
             if(board[row][i] === '')
                 blueSquares.push({row, column: i});
-            else if(color === 'white' && board[row][i].includes('black')){
-                redSquares.push({row, column: i});
-                break;
-            }
-            else if(color === 'black' && board[row][i].includes('white')){
+            else if(!board[row][i].includes(color)){
                 redSquares.push({row, column: i});
                 break;
             }
@@ -64,11 +48,7 @@ function Rook({color, position}) {
         for(let i = column + 1; i <= 7; i++){                          //right
             if(board[row][i] === '')
                 blueSquares.push({row, column: i});
-            else if(color === 'white' && board[row][i].includes('black')){
-                redSquares.push({row, column: i});
-                break;
-            }
-            else if(color === 'black' && board[row][i].includes('white')){
+            else if(!board[row][i].includes(color)){
                 redSquares.push({row, column: i});
                 break;
             }
@@ -84,6 +64,60 @@ function Rook({color, position}) {
         dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
         rookMoveRules();
     }
+
+    useEffect(() => {
+        const squares = [];
+        const piece = `rook ${row} ${column}`;
+
+        for(let i = row + 1; i <= 7; i++){                  //forward
+            if(board[i][column] === '')
+                squares.push({piece, row: i, column});
+            else{
+                squares.push({piece, row: i, column});
+                break;
+            }
+        }
+
+        for(let i = row - 1; i >= 0; i--){                  //back
+            if(board[i][column] === '')
+                squares.push({piece, row: i, column});
+            else{
+                squares.push({piece, row: i, column});
+                break;
+            }
+        }
+
+        for(let i = column - 1; i >= 0; i--){                   //left
+            if(board[row][i] === '')
+                squares.push({piece, row, column: i});
+            else{
+                squares.push({piece, row, column: i});
+                break;
+            }
+        }
+
+        for(let i = column + 1; i <= 7; i++){                          //right
+            if(board[row][i] === '')
+                squares.push({piece, row, column: i});
+            else{
+                squares.push({piece, row, column: i});
+                break;
+            }
+        }
+
+        if(color === 'white')
+            dispatch({type: 'SET_ILLEGAL_MOVES_FOR_BLACK_KING', payload: {squares: squares}}) 
+        else
+            dispatch({type: 'SET_ILLEGAL_MOVES_FOR_WHITE_KING', payload: {squares: squares}}) 
+
+        return () => {
+            if(color === 'white')
+                dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_BLACK_KING', payload: {piece}}) 
+            else
+                dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_WHITE_KING', payload: {piece}}) 
+        }
+
+    }, [])
 
     return (
         <div 

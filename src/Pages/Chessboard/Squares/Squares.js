@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import Pawn from './Pawn';
 import Rook from './Rook';
@@ -81,12 +81,12 @@ function Squares({piece, color, row, column}) {
             className={styles.chess_board_square} 
             style={handleStyles()}
             onClick={handleClick}> 
-                {piece === 'pawn' && <Pawn color={color} position={{row, column}}/>}
-                {piece === 'queen' && <Queen color={color} position={{row, column}}/>}
-                {piece === 'rook' && <Rook color={color} position={{row, column}} />}
-                {piece === 'knight' && <Knight color={color} position={{row, column}} />}
-                {piece === 'bishop' && <Bishop color={color} position={{row, column}} />}
-                {piece === 'king' && <King color={color} position={{row, column}}/>}
+                {piece === 'pawn' && <Pawn color={color} row={row} column={column} />}
+                {piece === 'queen' && <Queen color={color} row={row} column={column}/>}
+                {piece === 'rook' && <Rook color={color} row={row} column={column}/>}
+                {piece === 'knight' && <Knight color={color} row={row} column={column}/>}
+                {piece === 'bishop' && <Bishop color={color} row={row} column={column} />}
+                {piece === 'king' && <King color={color} row={row} column={column}/>}
         </div> 
     )
 }

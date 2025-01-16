@@ -1,4 +1,4 @@
-import React, {memo, useRef} from 'react';
+import React, {memo, useRef, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useMouseOver} from '~/hooks';
 import icons from '~/assets/icons';
@@ -6,9 +6,8 @@ import * as styles from './styles.module.css';
 
 // i need to find a way to let the redux store know if a pawn has moved two squares forward, thereby enabling en passant
 
-function Pawn({color, position}) {
-    const row = position.row;
-    const column = position.column;
+function Pawn({color, row, column}) {
+
     const initialSquareRef = useRef(color === 'white' ? {row: 1} : {row: 6});
     const currentTurn = useSelector(state => state.chess.current_turn);
     const enPassant = useSelector(state => state.chess.en_passant);
@@ -43,14 +42,12 @@ function Pawn({color, position}) {
         const leftCornerSquare = board[leftCorner.row]?.[leftCorner.column];
         const rightCornerSquare = board[rightCorner.row]?.[rightCorner.column];
 
-        if(leftCornerSquare){
-            if((color === 'white' && leftCornerSquare.includes('black')) || (color === 'black' && leftCornerSquare.includes('white')))
-                dispatch({type: 'HIGHLIGHT_RED_SQUARES', payload: {squares: [{row: leftCorner.row, column: leftCorner.column}]}})
-        }
-        if(rightCornerSquare){
-            if((color === 'white' && rightCornerSquare.includes('black')) || (color === 'black' && rightCornerSquare.includes('white')))
-                dispatch({type: 'HIGHLIGHT_RED_SQUARES', payload: {squares: [{row: rightCorner.row, column: rightCorner.column}]}})
-        }
+        if(leftCornerSquare && !leftCornerSquare.includes(color))
+            dispatch({type: 'HIGHLIGHT_RED_SQUARES', payload: {squares: [{row: leftCorner.row, column: leftCorner.column}]}})
+        
+        if(rightCornerSquare && !rightCornerSquare.includes(color))
+            dispatch({type: 'HIGHLIGHT_RED_SQUARES', payload: {squares: [{row: rightCorner.row, column: rightCorner.column}]}})
+        
         if(enPassant){
             const enPassant_squareToMoveInto = enPassant.squareToMoveInto;
             const enPassant_pieceToBeTaken = enPassant.pieceToBeTaken;
@@ -67,6 +64,29 @@ function Pawn({color, position}) {
         pawnMoveRules();  
         pawnTakeRules();     
     }
+
+    useEffect(() => {
+        const piece = `pawn ${row} ${column}`;
+        const leftCorner = color === 'white' ? {piece, row: row + 1, column: column - 1} : {piece, row: row - 1, column: column - 1};
+        const rightCorner = color === 'white' ? {piece, row: row + 1, column: column + 1} : {piece, row: row - 1, column: column + 1};
+
+        const squares = [];
+        board[leftCorner.row]?.[leftCorner.column] !== undefined && squares.push(leftCorner);
+        board[rightCorner.row]?.[rightCorner.column]!== undefined && squares.push(rightCorner);
+
+        if(color === 'white')
+            dispatch({type: 'SET_ILLEGAL_MOVES_FOR_BLACK_KING', payload: {squares: squares}}) 
+        else
+            dispatch({type: 'SET_ILLEGAL_MOVES_FOR_WHITE_KING', payload: {squares: squares}}) 
+
+        return () => {
+            if(color === 'white')
+                dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_BLACK_KING', payload: {piece} });
+            else
+                dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_WHITE_KING', payload: {piece}})
+        }
+            
+    }, [])
 
 
     return(
