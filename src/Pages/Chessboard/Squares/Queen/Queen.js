@@ -111,6 +111,10 @@ function Queen({color, row, column}) {
                 squares.push({piece, row: i, column});
                 break;
             } 
+            else if(board[i][column].includes(color === 'white' ? 'black king' : 'white king')){
+                squares.push({piece, row: i, column});
+                break;
+            }  
             else
                 break;
         }
@@ -122,6 +126,11 @@ function Queen({color, row, column}) {
                 squares.push({piece, row: i, column});
                 break;
             } 
+            else if(board[i][column].includes(color === 'white' ? 'black king' : 'white king')){
+                squares.push({piece, row: i, column});
+                break;
+            }
+               
             else
                 break;
         }
@@ -133,6 +142,10 @@ function Queen({color, row, column}) {
                 squares.push({piece, row, column: i});
                 break;
             } 
+            else if(board[row][i].includes(color === 'white' ? 'black king' : 'white king')){
+                squares.push({piece, row, column: i});
+                break;
+            }
             else
                 break;
         }
@@ -144,6 +157,10 @@ function Queen({color, row, column}) {
                 squares.push({piece, row, column: i});
                 break;
             } 
+            else if(board[row][i].includes(color === 'white' ? 'black king' : 'white king')){
+                squares.push({piece, row, column: i});
+                break;
+            }
             else
                 break;
         }
@@ -155,6 +172,10 @@ function Queen({color, row, column}) {
                 squares.push({piece, row: i, column: j});
                 break;
             } 
+            else if(board[i][j].includes(color === 'white' ? 'black king' : 'white king')){
+                squares.push({piece, row: i, column: j});
+                break;
+            }
             else
                 break;
         }
@@ -166,6 +187,10 @@ function Queen({color, row, column}) {
                 squares.push({piece, row: i, column: j});
                 break;
             } 
+            else if(board[i][j].includes(color === 'white' ? 'black king' : 'white king')){
+                squares.push({piece, row: i, column: j});
+                break;
+            }
             else
                 break;
         }
@@ -177,6 +202,10 @@ function Queen({color, row, column}) {
                 squares.push({piece, row: i, column: j});
                 break;
             } 
+            else if(board[i][j].includes(color === 'white' ? 'black king' : 'white king')){
+                squares.push({piece, row: i, column: j});
+                break;
+            }
             else
                 break;
         }
@@ -188,6 +217,10 @@ function Queen({color, row, column}) {
                 squares.push({piece, row: i, column: j});
                 break;
             } 
+            else if(board[i][j].includes(color === 'white' ? 'black king' : 'white king')){
+                squares.push({piece, row: i, column: j});
+                break;
+            }
             else
                 break;
         }

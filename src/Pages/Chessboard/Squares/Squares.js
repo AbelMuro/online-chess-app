@@ -8,8 +8,6 @@ import Queen from './Queen';
 import King from './King';
 import * as styles from './styles.module.css'
 
-//this is where i left off, 
-
 
 //The Squares components is responsible for displaying the red or blue squares; 
 // red means that the square has a piece that can be taken

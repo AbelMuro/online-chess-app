@@ -71,8 +71,22 @@ function Pawn({color, row, column}) {
         const rightCorner = color === 'white' ? {piece, row: row + 1, column: column + 1} : {piece, row: row - 1, column: column + 1};
 
         const squares = [];
-        board[leftCorner.row]?.[leftCorner.column] !== undefined && squares.push(leftCorner);
-        board[rightCorner.row]?.[rightCorner.column]!== undefined && squares.push(rightCorner);
+        const leftCornerExists = board[leftCorner.row]?.[leftCorner.column];
+        const rightCornerExists = board[rightCorner.row]?.[rightCorner.column];
+
+        if(leftCornerExists && leftCornerExists.includes(color))
+            squares.push(leftCorner);
+        else if(leftCornerExists === '')
+            squares.push(leftCorner);
+        else if(leftCornerExists && leftCornerExists.includes(color === 'white' ? 'black king' : 'white king'))
+            squares.push(leftCorner);
+
+        if(rightCornerExists && rightCornerExists.includes(color))
+            squares.push(rightCorner);
+        else if(rightCornerExists === '')
+            squares.push(rightCorner);
+        else if(rightCornerExists && rightCornerExists.includes(color === 'white' ? 'black king' : 'white king'))
+            squares.push(rightCorner);
 
         if(color === 'white')
             dispatch({type: 'SET_ILLEGAL_MOVES_FOR_BLACK_KING', payload: {squares: squares}}) 

@@ -8,7 +8,6 @@ function Bishop({color, row, column}) {
     const [board, currentTurn, handleMouseEnter, handleMouseLeave, handleStyles] = usePieceLogic({color});
     const dispatch = useDispatch();
 
-
     const createSquares = (blueSquares, redSquares, row, column) => {
         if(board[row][column] === ''){
             blueSquares.push({row, column});
@@ -62,18 +61,22 @@ function Bishop({color, row, column}) {
         const piece = `bishop ${row} ${column}`;
 
         const createIllegalMovesForKing = (row, column) => {
-            if(board[row]?.[column] === ''){
+            if(board[row][column] === ''){
                 squares.push({piece, row, column});
                 return true;
             }
-            else if((board[row]?.[column] && !board[row]?.[column].includes(color)) || (board[row]?.[column] && board[row]?.[column].includes(color))){
+            else if(board[row][column].includes(color)){
                 squares.push({piece, row, column});
                 return false;
             }
+            else if(board[row][column].includes(color === 'white' ? 'black king' : 'white king')){
+                squares.push({piece, row, column});
+                return false;
+            }
+                
             else
                 return false;  
         }
-
 
         for(let i = row + 1, j = column - 1; i <= 7 && j >= 0; i++, j--){       //north west diagonal
             if(!createIllegalMovesForKing(i, j))

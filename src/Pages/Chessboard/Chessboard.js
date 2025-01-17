@@ -1,9 +1,10 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import Squares from './Squares';
+import CheckMessage from './CheckMessage';
 import * as styles from './styles.module.css';
 
-//this is where i left off, i need to let the user cancel a move if they click on any illegal square
+
 
 function Chessboard() {
     const board = useSelector(state => state.chess.board);
@@ -23,12 +24,17 @@ function Chessboard() {
         return squares;
     }, [board])
 
+    useEffect(() => {
+
+    }, [])
+
 
     return(
         <section className={styles.chess}> 
             <div className={styles.chess_board}>
                 {squares}
             </div>
+            <CheckMessage/>
         </section>
     )
 }

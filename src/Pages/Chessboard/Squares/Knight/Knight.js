@@ -44,7 +44,13 @@ function Knight({color, row, column}) {
         const piece = `knight ${row} ${column}`;
 
         for(let i = 0; i < legalSquares.length; i++){
-            if(board[legalSquares[i].row]?.[legalSquares[i].column] !== undefined)
+            const square = board[legalSquares[i].row]?.[legalSquares[i].column];
+
+            if(square === '')
+                squares.push({piece, ...legalSquares[i]})
+            else if(square && square.includes(color))
+                squares.push({piece, ...legalSquares[i]})
+            else if(square && square.includes(color === 'white' ? 'black king' : 'white king'))
                 squares.push({piece, ...legalSquares[i]})
         }
         if(color === 'white')
@@ -58,7 +64,6 @@ function Knight({color, row, column}) {
             else
                 dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_WHITE_KING', payload: {piece}}) 
         }
-        
     }, [])
 
     return (
