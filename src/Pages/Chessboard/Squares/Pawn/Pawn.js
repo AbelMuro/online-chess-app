@@ -4,16 +4,16 @@ import {useMouseOver} from '~/hooks';
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
-// i need to find a way to let the redux store know if a pawn has moved two squares forward, thereby enabling en passant
-
 function Pawn({color, row, column}) {
-
+    const pawnRef = useRef();
     const initialSquareRef = useRef(color === 'white' ? {row: 1} : {row: 6});
     const currentTurn = useSelector(state => state.chess.current_turn);
     const enPassant = useSelector(state => state.chess.en_passant);
+    const forkedPieces = useSelector(state => state.chess.forked_pieces);
     const [handleMouseEnter, handleMouseLeave, handleStyles] = useMouseOver({color});
     const board = useSelector(state => state.chess.board);                                                                
     const dispatch = useDispatch();
+
 
     const pawnMoveRules = () => {
         const firstSquareInFrontIsAvailable = color === 'white' ? board[row + 1]?.[column] === '' : board[row - 1]?.[column] === '';
@@ -65,6 +65,17 @@ function Pawn({color, row, column}) {
         pawnTakeRules();     
     }
 
+
+    useEffect(() => {
+        if(forkedPieces)
+
+        forkedPieces.some((piece) => {
+            if(piece.row === row && piece.column === column)
+                pawnRef.current.style.border = '1px solid red';
+
+        })
+    }, [forkedPieces])
+
     useEffect(() => {
         const piece = `pawn ${row} ${column}`;
         const leftCorner = color === 'white' ? {piece, row: row + 1, column: column - 1} : {piece, row: row - 1, column: column - 1};
@@ -109,6 +120,7 @@ function Pawn({color, row, column}) {
             onMouseEnter={handleMouseEnter} 
             onMouseLeave={handleMouseLeave} 
             onClick={currentTurn === color ? handleMove : () => {}}
+            ref={pawnRef}
             style={handleStyles()}
             >
             <img className={styles.piece} src={icons[`${color}Pawn`]}/>  

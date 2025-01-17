@@ -4,8 +4,6 @@ import Squares from './Squares';
 import CheckMessage from './CheckMessage';
 import * as styles from './styles.module.css';
 
-
-
 function Chessboard() {
     const board = useSelector(state => state.chess.board);
 

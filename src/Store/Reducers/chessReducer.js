@@ -14,6 +14,8 @@ const setWhiteKingInCheck = createAction('SET_WHITE_KING_IN_CHECK');
 const highlightBlueSquares = createAction('HIGHLIGHT_BLUE_SQUARES');
 const highlightRedSquares = createAction('HIGHLIGHT_RED_SQUARES');
 
+const setForkedPieces = createAction('SET_FORKED_PIECES');
+
 const setEnPassant = createAction('SET_ENPASSANT');
 const movePieceWithEnPassant = createAction('MOVE_PIECE_WITH_ENPASSANT')
 
@@ -34,6 +36,7 @@ const initialState = {
     illegal_moves_for_black_king: [],
     black_king_in_check: false,
     white_king_in_check: false,
+    forked_pieces: [],
     current_turn: 'white',
     en_passant: null,
     pieceToBeMoved: {square: {row: null, column: null}},
@@ -109,6 +112,9 @@ const chessReducer = createReducer(initialState, (builder) => {
       state.pieceToBeMoved = action.payload;
       state.blue_squares = [];
       state.red_squares = [];
+    })
+    .addCase(setForkedPieces, (state, action) => {
+      state.forked_pieces = action.payload.pieces;
     })
 });
 
