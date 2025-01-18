@@ -8,46 +8,12 @@ function Bishop({color, row, column}) {
     const [board, currentTurn, handleMouseEnter, handleMouseLeave, handleStyles] = usePieceLogic({color});
     const dispatch = useDispatch();
 
-    const createSquares = (blueSquares, redSquares, row, column) => {
-        if(board[row][column] === ''){
-            blueSquares.push({row, column});
-            return true;
-        }
-            
-        else if(!board[row][column].includes(color)){
-            redSquares.push({row, column});
-            return false;
-        }
-        else
-            return false;
-    }
 
     const bishopMoveRules = () => {
-        const blueSquares = [];
-        const redSquares = [];
-
-        for(let i = row + 1, j = column - 1; i <= 7 && j >= 0; i++, j--){       //north west diagonal
-            if(!createSquares(blueSquares, redSquares, i, j))
-                break;
-        }
-
-        for(let i = row + 1, j = column + 1; i <= 7 && j <= 7; i++, j++){       //north east diagonal
-            if(!createSquares(blueSquares, redSquares, i, j))
-                break;
-        }
-
-        for(let i = row - 1, j = column - 1; i >= 0 && j >= 0; i--, j--){       //south west diagonal
-            if(!createSquares(blueSquares, redSquares, i, j))
-                break;
-        }
-
-        for(let i = row - 1, j = column + 1; i >= 0 && j <= 7; i--, j++){       //south east diagonal
-            if(!createSquares(blueSquares, redSquares, i, j))
-                break;
-        }
-
-        dispatch({type: 'HIGHLIGHT_BLUE_SQUARES', payload: {squares: blueSquares}});
-        dispatch({type: 'HIGHLIGHT_RED_SQUARES', payload: {squares: redSquares}});
+        dispatch({type: 'HIGHLIGHT_NORTHWEST_SQUARES', payload: {square: {row, column, color}}});
+        dispatch({type: 'HIGHLIGHT_NORTHEAST_SQUARES', payload: {square: {row, column, color}}});
+        dispatch({type: 'HIGHLIGHT_SOUTHWEST_SQUARES', payload: {square: {row, column, color}}});
+        dispatch({type: 'HIGHLIGHT_SOUTHEAST_SQUARES', payload: {square: {row, column, color}}});
     }
 
 

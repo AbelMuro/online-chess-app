@@ -19,18 +19,7 @@ function Knight({color, row, column}) {
     ];
 
     const knightMoveRules = () => {
-        const redSquares = [];
-        const blueSquares = [];
-
-        legalSquares.forEach((square) => {
-            if(board[square.row]?.[square.column] === '')
-                blueSquares.push(square);
-            else if(board[square.row]?.[square.column] && !board[square.row]?.[square.column].includes(color))
-                redSquares.push(square);
-        })
-
-        dispatch({type: 'HIGHLIGHT_BLUE_SQUARES', payload: {squares: blueSquares}});
-        dispatch({type: 'HIGHLIGHT_RED_SQUARES', payload: {squares: redSquares}});
+        dispatch({type: 'HIGHLIGHT_KNIGHT_SQUARES', payload: {square: {row, column, color}}})
         
     }
 

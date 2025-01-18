@@ -9,55 +9,10 @@ function Rook({color, row, column}) {
     const dispatch = useDispatch();
 
     const rookMoveRules = () => {
-        const blueSquares = [];
-        const redSquares = [];
-
-        for(let i = row + 1; i <= 7; i++){                  //forward
-            if(board[i][column] === '')
-                blueSquares.push({row: i, column});
-            else if(!board[i][column].includes(color)){
-                redSquares.push({row: i, column});
-                break;
-            }
-            else
-                break;    
-        }
-
-        for(let i = row - 1; i >= 0; i--){                      //back
-            if(board[i][column] === '')
-                blueSquares.push({row: i, column});
-            else if(!board[i][column].includes(color)){
-                redSquares.push({row: i, column});
-                break;
-            }
-            else
-                break;
-        }
-
-        for(let i = column - 1; i >= 0; i--){                   //left
-            if(board[row][i] === '')
-                blueSquares.push({row, column: i});
-            else if(!board[row][i].includes(color)){
-                redSquares.push({row, column: i});
-                break;
-            }
-            else
-                break;
-        }
-
-        for(let i = column + 1; i <= 7; i++){                          //right
-            if(board[row][i] === '')
-                blueSquares.push({row, column: i});
-            else if(!board[row][i].includes(color)){
-                redSquares.push({row, column: i});
-                break;
-            }
-            else
-                break;
-            
-        }
-        dispatch({type: 'HIGHLIGHT_BLUE_SQUARES', payload: {squares: blueSquares}});
-        dispatch({type: 'HIGHLIGHT_RED_SQUARES', payload: {squares: redSquares}});
+        dispatch({type: 'HIGHLIGHT_NORTH_SQUARES', payload: {square: {row, column, color}}});
+        dispatch({type: 'HIGHLIGHT_SOUTH_SQUARES', payload: {square: {row, column, color}}});
+        dispatch({type: 'HIGHLIGHT_WEST_SQUARES', payload: {square: {row, column, color}}});
+        dispatch({type: 'HIGHLIGHT_EAST_SQUARES', payload: {square: {row, column, color}}});
     }
 
     const handleClick = () => {
