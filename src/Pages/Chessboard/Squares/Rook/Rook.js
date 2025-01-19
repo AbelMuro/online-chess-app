@@ -20,75 +20,21 @@ function Rook({color, row, column}) {
         rookMoveRules();
     }
 
-    useEffect(() => {
-        const squares = [];
+     useEffect(() => {
         const piece = `rook ${row} ${column}`;
-
-        for(let i = row + 1; i <= 7; i++){                  //forward
-            if(board[i][column] === '')
-                squares.push({piece, row: i, column});
-            else if(board[i][column].includes(color)){
-                squares.push({piece, row: i, column});
-                break;
-            }
-            else if(board[i][column].includes(color === 'white' ? 'black king' : 'white king')){
-                dispatch({type: `SET_${color === 'white' ? 'BLACK' : 'WHITE'}_KING_IN_CHECK`, payload: {check: true}});
-                break;
-            }
-        }
-
-        for(let i = row - 1; i >= 0; i--){                  //back
-            if(board[i][column] === '')
-                squares.push({piece, row: i, column});
-            else if(board[i][column].includes(color)){
-                squares.push({piece, row: i, column});
-                break;
-            }
-            else if(board[i][column].includes(color === 'white' ? 'black king' : 'white king')){
-                dispatch({type: `SET_${color === 'white' ? 'BLACK' : 'WHITE'}_KING_IN_CHECK`, payload: {check: true}});
-                break;
-            }
-        }
-
-        for(let i = column - 1; i >= 0; i--){                   //left
-            if(board[row][i] === '')
-                squares.push({piece, row, column: i});
-            else if(board[row][i].includes(color)){
-                squares.push({piece, row, column: i});
-                break;
-            }
-            else if(board[row][i].includes(color === 'white' ? 'black king' : 'white king')){
-                dispatch({type: `SET_${color === 'white' ? 'BLACK' : 'WHITE'}_KING_IN_CHECK`, payload: {check: true}});
-                break;
-            }
-        }
-
-        for(let i = column + 1; i <= 7; i++){                          //right
-            if(board[row][i] === '')
-                squares.push({piece, row, column: i});
-            else if(board[row][i].includes(color)){
-                squares.push({piece, row, column: i});
-                break;
-            }
-            else if(board[row][i].includes(color === 'white' ? 'black king' : 'white king')){
-                dispatch({type: `SET_${color === 'white' ? 'BLACK' : 'WHITE'}_KING_IN_CHECK`, payload: {check: true}});
-                break;
-            }
-        }
-
-        if(color === 'white')
-            dispatch({type: 'SET_ILLEGAL_MOVES_FOR_BLACK_KING', payload: {squares: squares}}) 
-        else
-            dispatch({type: 'SET_ILLEGAL_MOVES_FOR_WHITE_KING', payload: {squares: squares}}) 
-
-        return () => {
-            if(color === 'white')
-                dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_BLACK_KING', payload: {piece}}) 
-            else
-                dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_WHITE_KING', payload: {piece}}) 
-        }
-
-    }, [])
+ 
+         dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_NORTH', payload: {square: {row, column, color, piece}}});
+         dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_EAST', payload: {square: {row, column, color, piece}}});
+         dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_WEST', payload: {square: {row, column, color, piece}}});
+         dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_SOUTH', payload: {square: {row, column, color, piece}}});
+ 
+         return () => {
+             if(color === 'white')
+                 dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_BLACK_KING', payload: {piece}})
+             else
+                 dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_WHITE_KING', payload: {piece}});
+         }
+     }, [board])
 
     return (
         <div 

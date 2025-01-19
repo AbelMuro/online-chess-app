@@ -36,7 +36,7 @@ function Pawn({color, row, column}) {
     const handleMove = () => {
         dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
         pawnMoveRules();  
-        pawnTakeRules();     
+        //pawnTakeRules();     
     }
 
 
@@ -52,41 +52,17 @@ function Pawn({color, row, column}) {
 
     useEffect(() => {
         const piece = `pawn ${row} ${column}`;
-        const leftCorner = color === 'white' ? {piece, row: row + 1, column: column - 1} : {piece, row: row - 1, column: column - 1};
-        const rightCorner = color === 'white' ? {piece, row: row + 1, column: column + 1} : {piece, row: row - 1, column: column + 1};
 
-        const squares = [];
-        const leftCornerExists = board[leftCorner.row]?.[leftCorner.column];
-        const rightCornerExists = board[rightCorner.row]?.[rightCorner.column];
 
-        if(leftCornerExists && leftCornerExists.includes(color))
-            squares.push(leftCorner);
-        else if(leftCornerExists === '')
-            squares.push(leftCorner);
-        else if(leftCornerExists && leftCornerExists.includes(color === 'white' ? 'black king' : 'white king'))
-            squares.push(leftCorner);
-
-        if(rightCornerExists && rightCornerExists.includes(color))
-            squares.push(rightCorner);
-        else if(rightCornerExists === '')
-            squares.push(rightCorner);
-        else if(rightCornerExists && rightCornerExists.includes(color === 'white' ? 'black king' : 'white king'))
-            squares.push(rightCorner);
-
-        if(color === 'white')
-            dispatch({type: 'SET_ILLEGAL_MOVES_FOR_BLACK_KING', payload: {squares: squares}}) 
-        else
-            dispatch({type: 'SET_ILLEGAL_MOVES_FOR_WHITE_KING', payload: {squares: squares}}) 
+        dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_PAWN', payload: {square: {row, column, color, piece}}});
 
         return () => {
             if(color === 'white')
-                dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_BLACK_KING', payload: {piece} });
+                dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_BLACK_KING', payload: {piece}})
             else
-                dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_WHITE_KING', payload: {piece}})
+                dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_WHITE_KING', payload: {piece}});
         }
-            
-    }, [])
-
+    }, [board])
 
     return(
         <div 
@@ -97,7 +73,7 @@ function Pawn({color, row, column}) {
             ref={pawnRef}
             style={handleStyles()}
             >
-            <img className={styles.piece} src={icons[`${color}Pawn`]}/>  
+                <img className={styles.piece} src={icons[`${color}Pawn`]}/>  
         </div> 
     )
 }

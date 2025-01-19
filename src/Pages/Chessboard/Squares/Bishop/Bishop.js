@@ -23,59 +23,21 @@ function Bishop({color, row, column}) {
     }
 
     useEffect(() => {
-        const squares = [];
         const piece = `bishop ${row} ${column}`;
 
-        const createIllegalMovesForKing = (row, column) => {
-            if(board[row][column] === ''){
-                squares.push({piece, row, column});
-                return true;
-            }
-            else if(board[row][column].includes(color)){
-                squares.push({piece, row, column});
-                return false;
-            }
-            else if(board[row][column].includes(color === 'white' ? 'black king' : 'white king')){
-                squares.push({piece, row, column});
-                return false;
-            }
-                
-            else
-                return false;  
-        }
 
-        for(let i = row + 1, j = column - 1; i <= 7 && j >= 0; i++, j--){       //north west diagonal
-            if(!createIllegalMovesForKing(i, j))
-                break;
-        }
-
-        for(let i = row + 1, j = column + 1; i <= 7 && j <= 7; i++, j++){       //north east diagonal
-            if(!createIllegalMovesForKing(i, j))
-                break;
-        }
-
-        for(let i = row - 1, j = column - 1; i >= 0 && j >= 0; i--, j--){       //south west diagonal
-            if(!createIllegalMovesForKing(i, j))
-                break;
-        }
-
-        for(let i = row - 1, j = column + 1; i >= 0 && j <= 7; i--, j++){       //south east diagonal
-            if(!createIllegalMovesForKing(i, j))
-                break;
-        }
-
-        if(color === 'white')
-            dispatch({type: 'SET_ILLEGAL_MOVES_FOR_BLACK_KING', payload: {squares: squares}}) 
-        else
-            dispatch({type: 'SET_ILLEGAL_MOVES_FOR_WHITE_KING', payload: {squares: squares}}) 
+        dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_NORTHWEST', payload: {square: {row, column, color, piece}}});
+        dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_NORTHEAST', payload: {square: {row, column, color, piece}}});
+        dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_SOUTHWEST', payload: {square: {row, column, color, piece}}});
+        dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_SOUTHEAST', payload: {square: {row, column, color, piece}}});
 
         return () => {
             if(color === 'white')
-                dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_BLACK_KING', payload: {piece}}) 
+                dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_BLACK_KING', payload: {piece}});
             else
-                dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_WHITE_KING', payload: {piece}}) 
+                dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_WHITE_KING', payload: {piece}});
         }
-    }, [])
+    }, [board])
 
     return (
         <div             

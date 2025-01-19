@@ -20,6 +20,7 @@ function Squares({piece, color, row, column}) {
     const blue_squares = useSelector(state => state.chess.blue_squares);    
     const red_squares = useSelector(state => state.chess.red_squares);
     const selected_square = useSelector(state => state.chess.pieceToBeMoved?.square);
+    const kingInCheck = useSelector(state => state.chess[`${color}_king_in_check`]);
     const enPassant = useSelector(state => state.chess.en_passant);
     const dispatch = useDispatch();
 

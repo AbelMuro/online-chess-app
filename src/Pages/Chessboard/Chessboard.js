@@ -1,7 +1,8 @@
-import React, {useMemo, useEffect} from 'react';
+import React, {useMemo} from 'react';
 import {useSelector} from 'react-redux';
 import Squares from './Squares';
 import CheckMessage from './CheckMessage';
+import Checkmate from './Checkmate';
 import * as styles from './styles.module.css';
 
 function Chessboard() {
@@ -22,10 +23,6 @@ function Chessboard() {
         return squares;
     }, [board])
 
-    useEffect(() => {
-
-    }, [])
-
 
     return(
         <section className={styles.chess}> 
@@ -33,6 +30,7 @@ function Chessboard() {
                 {squares}
             </div>
             <CheckMessage/>
+            <Checkmate/>
         </section>
     )
 }
