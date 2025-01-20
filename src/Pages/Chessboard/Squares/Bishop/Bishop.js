@@ -19,12 +19,12 @@ function Bishop({color, row, column}) {
 
     const handleClick = () => {
         dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
+        dispatch({type: 'REMOVE_ALL_HIGHLIGHTED_SQUARES'});
         bishopMoveRules();
     }
 
     useEffect(() => {
         const piece = `bishop ${row} ${column}`;
-
 
         dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_NORTHWEST', payload: {square: {row, column, color, piece}}});
         dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_NORTHEAST', payload: {square: {row, column, color, piece}}});

@@ -1,27 +1,29 @@
 import React, {useMemo} from 'react';
-import {useSelector} from 'react-redux';
 import Squares from './Squares';
-import CheckMessage from './CheckMessage';
 import Checkmate from './Checkmate';
 import * as styles from './styles.module.css';
 
+//The chessboard is a container of <Squares/> components
+//The chessboard is represented by the board global state, a 2-dimensional array that has a total of 64 elements
+//Each element is represented by a <Squares/> component that will either have a chess piece (queen, knight, pawn, etc...) or none at all
+//Each chess piece is a component that is either a <Queen/>, <Knight/>, <Pawn/> component that dispatches an action to the reducer when it is clicked on
+// the action will highlight certain squares on the board as blue or red, letting the player know that they can move the piece to that square
+// blue squares will be a legal move
+// red squares will be a legal TAKE move
+
 function Chessboard() {
-    const board = useSelector(state => state.chess.board);
 
     const squares = useMemo(() => {
         const squares = [];
         for (let row = 7; row >= 0; row--) { 
             for (let column = 0; column <= 7; column++) { 
-                const color = board[row][column].slice(0, 5);
-                const piece = board[row][column].slice(6, board[row][column].length);
-
                 squares.push( 
-                    <Squares piece={piece} color={color} row={row} column={column} key={`${row + 1} ${column + 1}`}/>
+                    <Squares row={row} column={column} key={`${row + 1} ${column + 1}`}/>
                 ); 
             }        
         }
         return squares;
-    }, [board])
+    }, [])
 
 
     return(
@@ -29,7 +31,6 @@ function Chessboard() {
             <div className={styles.chess_board}>
                 {squares}
             </div>
-            <CheckMessage/>
             <Checkmate/>
         </section>
     )

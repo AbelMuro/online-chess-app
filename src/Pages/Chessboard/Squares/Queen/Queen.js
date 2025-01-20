@@ -8,7 +8,6 @@ function Queen({color, row, column}) {
     const [board, currentTurn, handleMouseEnter, handleMouseLeave, handleStyles] = usePieceLogic({color});
     const dispatch = useDispatch();
 
-
     const queenMoveRules = () => {
         dispatch({type: 'HIGHLIGHT_NORTH_SQUARES', payload: {square: {row, column, color}}});
         dispatch({type: 'HIGHLIGHT_SOUTH_SQUARES', payload: {square: {row, column, color}}});
@@ -22,13 +21,12 @@ function Queen({color, row, column}) {
     }
 
     const handleClick = () => {
-        dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}})
+        dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
+        dispatch({type: 'REMOVE_ALL_HIGHLIGHTED_SQUARES'});
         queenMoveRules();
     }
 
-
     useEffect(() => {
-        console.log('queen')
         const piece = `queen ${row} ${column}`;
 
         dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_NORTH', payload: {square: {row, column, color, piece}}});

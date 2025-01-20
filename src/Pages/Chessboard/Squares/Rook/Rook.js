@@ -17,6 +17,7 @@ function Rook({color, row, column}) {
 
     const handleClick = () => {
         dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
+        dispatch({type: 'REMOVE_ALL_HIGHLIGHTED_SQUARES'});
         rookMoveRules();
     }
 

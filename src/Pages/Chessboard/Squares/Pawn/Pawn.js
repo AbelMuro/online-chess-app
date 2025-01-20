@@ -35,6 +35,7 @@ function Pawn({color, row, column}) {
 
     const handleMove = () => {
         dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
+        dispatch({type: 'REMOVE_ALL_HIGHLIGHTED_SQUARES'});
         pawnMoveRules();  
         //pawnTakeRules();     
     }
@@ -62,7 +63,7 @@ function Pawn({color, row, column}) {
             else
                 dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_WHITE_KING', payload: {piece}});
         }
-    }, [board])
+    }, [])
 
     return(
         <div 
