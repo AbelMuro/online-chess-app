@@ -1,11 +1,12 @@
 import React, {useEffect, memo} from 'react';
 import {useDispatch} from 'react-redux';
-import {usePieceLogic} from '~/hooks';
+import {usePieceLogic, usePinnedPieces} from '~/hooks';
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
 function Queen({color, row, column}) {
     const [board, currentTurn, handleMouseEnter, handleMouseLeave, handleStyles] = usePieceLogic({color});
+    const isPinned = usePinnedPieces({color, row, column});
     const dispatch = useDispatch();
 
     const queenMoveRules = () => {

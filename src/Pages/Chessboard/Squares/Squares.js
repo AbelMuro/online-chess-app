@@ -20,7 +20,6 @@ function Squares({row, column}) {
     const piece = currentSquare.slice(6, currentSquare.length);
     const enPassant = useSelector(state => state.chess.en_passant);
     const dispatch = useDispatch();
-    console.log(`${piece} ${row} ${column}`);
 
     const handleStyles = () => {
         if(highlightedSquare === 'red')
@@ -39,6 +38,7 @@ function Squares({row, column}) {
         else
             dispatch({type: 'MOVE_PIECE', payload: {square: {row, column}}});
         dispatch({type: 'CHANGE_TURN'})          
+        dispatch({type: 'SET_PINNED_PIECES', payload: {square: {row, column}}});
     }
 
     return(

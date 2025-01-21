@@ -4,6 +4,7 @@ import {usePieceLogic} from '~/hooks';
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
+// i need to create a hook that watches for any changes to the board state,then i can dispatch an action to find any
 
 function King({color, row, column}) {
     const [board, currentTurn, handleMouseEnter, handleMouseLeave, handleStyles] = usePieceLogic({color});
@@ -48,6 +49,11 @@ function King({color, row, column}) {
         if(kingInCheck)
             dispatch({type: 'CHECKMATE', payload: {square: {color, row, column}}});
     }, [kingInCheck])
+
+    //we will check horizontally, vertically, and diagonally to see if there is any pinned pieces
+    useEffect(() => {
+
+    }, [])
 
     return (
         <div             

@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {usePieceLogic} from '~/hooks';
+import {usePieceLogic, usePinnedPieces} from '~/hooks';
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 

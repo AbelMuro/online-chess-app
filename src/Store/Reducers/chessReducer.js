@@ -42,7 +42,7 @@ const clearIllegalMovesForBlackKing = createAction('CLEAR_ILLEGAL_MOVES_FOR_BLAC
 const setBlackKingInCheck = createAction('SET_BLACK_KING_IN_CHECK');
 const setWhiteKingInCheck = createAction('SET_WHITE_KING_IN_CHECK');
 
-const setForkedPieces = createAction('SET_FORKED_PIECES');
+const setPinnedPieces = createAction('SET_PINNED_PIECES');
 
 const setEnPassant = createAction('SET_ENPASSANT');
 const movePieceWithEnPassant = createAction('MOVE_PIECE_WITH_ENPASSANT');
@@ -99,7 +99,7 @@ const initialState = {
     black_king_in_check: false,
     white_king_in_check: false,
     squares_between_king_and_attacker: [],
-    forked_pieces: [],
+    pinned_pieces: {square: null, legalMoves: []},
     current_turn: 'white',
     en_passant: null,
     pieceToBeMoved: {square: {row: null, column: null}},
@@ -528,7 +528,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       const piece_color = action.payload.square.color;
       const piece = action.payload.square.piece;
       let kingPiece = false;
-let squaresBetweenKingAndAttacker = [];
+      let squaresBetweenKingAndAttacker = [];
 
       for(let i = row - 1; i >= 0; i--){
         if(state.board[i][column] === '')
@@ -564,7 +564,7 @@ let squaresBetweenKingAndAttacker = [];
       const piece_color = action.payload.square.color;
       const piece = action.payload.square.piece;
       let kingPiece = false;
-let squaresBetweenKingAndAttacker = [];
+      let squaresBetweenKingAndAttacker = [];
 
       for(let i = column - 1; i >= 0; i--){
         if(state.board[row][i] === '')
@@ -600,7 +600,7 @@ let squaresBetweenKingAndAttacker = [];
       const piece_color = action.payload.square.color;
       const piece = action.payload.square.piece;
       let kingPiece = false;
-let squaresBetweenKingAndAttacker = [];
+      let squaresBetweenKingAndAttacker = [];
 
       for(let i = column + 1; i <= 7; i++){
         if(state.board[row][i] === '')
@@ -636,7 +636,7 @@ let squaresBetweenKingAndAttacker = [];
       const piece_color = action.payload.square.color;
       const piece = action.payload.square.piece;
       let kingPiece = false;
-let squaresBetweenKingAndAttacker = [];
+      let squaresBetweenKingAndAttacker = [];
 
       for(let i = row + 1, j = column + 1; i <= 7 && j <= 7; i++, j++){
         if(state.board[i][j] === '')
@@ -672,7 +672,7 @@ let squaresBetweenKingAndAttacker = [];
       const piece_color = action.payload.square.color;
       const piece = action.payload.square.piece;
       let kingPiece = false;
-let squaresBetweenKingAndAttacker = [];
+      let squaresBetweenKingAndAttacker = [];
 
       for(let i = row + 1, j = column - 1; i <= 7 && j >= 0; i++, j--){
         if(state.board[i][j] === '')
@@ -708,7 +708,7 @@ let squaresBetweenKingAndAttacker = [];
       const piece_color = action.payload.square.color;
       const piece = action.payload.square.piece;
       let kingPiece = false;
-let squaresBetweenKingAndAttacker = [];
+      let squaresBetweenKingAndAttacker = [];
 
       for(let i = row - 1, j = column - 1; i >= 0 && j >= 0; i--, j--){
         if(state.board[i][j] === '')
@@ -744,7 +744,7 @@ let squaresBetweenKingAndAttacker = [];
       const piece_color = action.payload.square.color;
       const piece = action.payload.square.piece;
       let kingPiece = false;
-let squaresBetweenKingAndAttacker = [];
+      let squaresBetweenKingAndAttacker = [];
 
       for(let i = row - 1, j = column + 1; i >= 0 && j <= 7; i--, j++){
         if(state.board[i][j] === '')
@@ -780,7 +780,6 @@ let squaresBetweenKingAndAttacker = [];
       const piece = action.payload.square.piece;
       const squares = [];
       let kingPiece = false;
-let squaresBetweenKingAndAttacker = [];
 
       const legalSquares = [
         {piece, row: row + 2, column: column - 1}, 
@@ -822,7 +821,6 @@ let squaresBetweenKingAndAttacker = [];
       const piece = currentSquare.piece;
       const squares = [];
       let kingPiece = false;
-let squaresBetweenKingAndAttacker = [];
 
       const leftCornerTake = piece_color === 'white' ? {piece, row: row + 1, column: column - 1} : {piece, row: row - 1, column: column - 1};
       const rightCornerTake = piece_color === 'white' ? {piece, row: row + 1, column: column + 1} : {piece, row: row - 1, column: column + 1};
@@ -974,8 +972,36 @@ let squaresBetweenKingAndAttacker = [];
       state.blue_squares = [];
       state.red_squares = [];
     })
-    .addCase(setForkedPieces, (state, action) => {
-      state.forked_pieces = action.payload.pieces;
+    .addCase(setPinnedPieces, (state, action) => {
+      const row = action.payload.square.row;
+      const column = action.payload.square.column;
+      const piece_color = action.payload.square.color;
+      const opposing_color = piece_color === 'white' ? 'black' : 'white';
+      const legalPinnedMoves = [];
+      const squaresBetweenKingAndAttacker = [];
+      let legalAttacker = null;
+      
+      for(let i = row + 1; i <= 7; i++){                        //north
+        if(state.board[i][column].includes(piece_color))
+          squaresBetweenKingAndAttacker.push({row: i, column});
+
+        if(state.board[i][column].includes(piece_color) || state.board[i][column] === '')
+          legalPinnedMoves.push({row: i, column});       
+        
+        else if(state.board[i][column] === `${opposing_color} rook` || state.board[i][column] === `${opposing_color} queen`){
+          legalPinnedMoves.push({row: i, column}); 
+          legalAttacker = {row: i, column};
+          break;
+        }
+        else
+          break; 
+      }
+
+      if(legalAttacker && squaresBetweenKingAndAttacker.length === 1){
+        const pinnedPiece = squaresBetweenKingAndAttacker[0];
+        state.pinned_pieces = {square: pinnedPiece, legalMoves: legalPinnedMoves};
+      }
+
     })
 });
 

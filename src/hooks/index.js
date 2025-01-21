@@ -1,4 +1,4 @@
-import useMouseOver from "./useMouseOver.js";
 import usePieceLogic from "./usePieceLogic.js";
+import usePinnedPieces from "./usePinnedPieces.js";
 
-export {useMouseOver, usePieceLogic};
+export {usePieceLogic, usePinnedPieces};
