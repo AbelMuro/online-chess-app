@@ -6,7 +6,7 @@ import * as styles from './styles.module.css';
 
 function Queen({color, row, column}) {
     const [board, currentTurn, handleMouseEnter, handleMouseLeave, handleStyles] = usePieceLogic({color});
-    const isPinned = usePinnedPieces({color, row, column});
+    usePinnedPieces({piece: 'queen', color, row, column});
     const dispatch = useDispatch();
 
     const queenMoveRules = () => {

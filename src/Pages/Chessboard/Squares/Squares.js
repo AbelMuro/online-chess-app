@@ -38,7 +38,6 @@ function Squares({row, column}) {
         else
             dispatch({type: 'MOVE_PIECE', payload: {square: {row, column}}});
         dispatch({type: 'CHANGE_TURN'})          
-        dispatch({type: 'SET_PINNED_PIECES', payload: {square: {row, column}}});
     }
 
     return(

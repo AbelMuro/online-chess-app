@@ -1,14 +1,14 @@
 import {useMemo, useState, useEffect} from 'react';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 
 
-//this is where i left off, i will need to complete the logic implemented below
-//pinnedSquares should contain all pinned pieces on the board, i will need to call this hook for every piece on the board
-// and i need to call the dispatch function to pass the legalPinnedMoves array and the pinnedPieces to the reducer
+//this is where i left off, the hook seems to be working, but i may need to optimized the code before going further
 
-function usePinnedPieces({row, column, color}) {
+function usePinnedPieces({piece, row, column, color}) {
     const board = useSelector(state => state.chess.board);
-    const [pinnedSquares, setPinnedSquares] = useState([]);
+    const [pinnedSquares, setPinnedSquares] = useState();
+    const [legalMoves, setLegalMoves] = useState([]);
+    const dispatch = useDispatch();
 
     useMemo(() => {
         if(!board[row][column].includes('queen') && !board[row][column].includes('rook')) return;
@@ -37,11 +37,15 @@ function usePinnedPieces({row, column, color}) {
           }
 
 
-        if(kingExists && squaresBetweenKingAndAttacker.length === 1)
-            setPinnedSquares((prevSquares) => {
-                return [...prevSquares, squaresBetweenKingAndAttacker[0]]
-            })
 
+        if(kingExists && squaresBetweenKingAndAttacker.length === 1){
+            setPinnedSquares(squaresBetweenKingAndAttacker[0])            
+            setLegalMoves(legalPinnedMoves)
+        }
+        else if(kingExists && squaresBetweenKingAndAttacker.length > 1 && pinnedSquares){
+            setPinnedSquares(null)            
+            setLegalMoves([])
+        }
 
     }, [board])
 
@@ -73,10 +77,15 @@ function usePinnedPieces({row, column, color}) {
           }
 
 
-        if(kingExists && squaresBetweenKingAndAttacker.length === 1)
-            setPinnedSquares((prevSquares) => {
-                return [...prevSquares, squaresBetweenKingAndAttacker[0]]
-            })
+
+          if(kingExists && squaresBetweenKingAndAttacker.length === 1){
+            setPinnedSquares(squaresBetweenKingAndAttacker[0])            
+            setLegalMoves(legalPinnedMoves)
+        }
+        else if(kingExists && squaresBetweenKingAndAttacker.length > 1 && pinnedSquares){
+            setPinnedSquares(null)            
+            setLegalMoves([])
+        }
     }, [board])
 
 
@@ -107,10 +116,14 @@ function usePinnedPieces({row, column, color}) {
           }
 
 
-        if(kingExists && squaresBetweenKingAndAttacker.length === 1)
-            setPinnedSquares((prevSquares) => {
-                return [...prevSquares, squaresBetweenKingAndAttacker[0]]
-            })
+        if(kingExists && squaresBetweenKingAndAttacker.length === 1){
+            setPinnedSquares(squaresBetweenKingAndAttacker[0])            
+            setLegalMoves(legalPinnedMoves)
+        }
+        else if(kingExists && squaresBetweenKingAndAttacker.length > 1 && pinnedSquares){
+            setPinnedSquares(null)            
+            setLegalMoves([])
+        }
     }, [board])
 
     useMemo(() => {
@@ -140,10 +153,15 @@ function usePinnedPieces({row, column, color}) {
           }
 
 
-        if(kingExists && squaresBetweenKingAndAttacker.length === 1)
-            setPinnedSquares((prevSquares) => {
-                return [...prevSquares, squaresBetweenKingAndAttacker[0]]
-            })
+
+          if(kingExists && squaresBetweenKingAndAttacker.length === 1){
+            setPinnedSquares(squaresBetweenKingAndAttacker[0])            
+            setLegalMoves(legalPinnedMoves)
+        }
+        else if(kingExists && squaresBetweenKingAndAttacker.length > 1 && pinnedSquares){
+            setPinnedSquares(null)            
+            setLegalMoves([])
+        }
     }, [board])
 
 
@@ -160,7 +178,6 @@ function usePinnedPieces({row, column, color}) {
                 return
             else if(board[i][j] === '')
                 legalPinnedMoves.push({row: i, column: j});      
-            
             else if(board[i][j] === `${opposing_color} king`){
                 kingExists = true;
                 break;
@@ -173,11 +190,17 @@ function usePinnedPieces({row, column, color}) {
               break; 
           }
 
+          if(kingExists && squaresBetweenKingAndAttacker.length === 1){
+            setPinnedSquares(squaresBetweenKingAndAttacker[0])            
+            setLegalMoves(legalPinnedMoves)
+        }
+        else if(kingExists && squaresBetweenKingAndAttacker.length > 1 && pinnedSquares){
+            console.log('im here')
+            setPinnedSquares(null)            
+            setLegalMoves([])
+        }
 
-        if(kingExists && squaresBetweenKingAndAttacker.length === 1)
-            setPinnedSquares((prevSquares) => {
-                return [...prevSquares, squaresBetweenKingAndAttacker[0]]
-            })
+
     }, [board])
 
     useMemo(() => {
@@ -207,10 +230,15 @@ function usePinnedPieces({row, column, color}) {
           }
 
 
-        if(kingExists && squaresBetweenKingAndAttacker.length === 1)
-            setPinnedSquares((prevSquares) => {
-                return [...prevSquares, squaresBetweenKingAndAttacker[0]]
-            })
+
+        if(kingExists && squaresBetweenKingAndAttacker.length === 1){
+            setPinnedSquares(squaresBetweenKingAndAttacker[0])            
+            setLegalMoves(legalPinnedMoves)
+        }
+        else if(kingExists && squaresBetweenKingAndAttacker.length > 1 && pinnedSquares){
+            setPinnedSquares(null)            
+            setLegalMoves([])
+        }
     }, [board])
 
 
@@ -241,10 +269,16 @@ function usePinnedPieces({row, column, color}) {
           }
 
 
-        if(kingExists && squaresBetweenKingAndAttacker.length === 1)
-            setPinnedSquares((prevSquares) => {
-                return [...prevSquares, squaresBetweenKingAndAttacker[0]]
-            })
+
+
+        if(kingExists && squaresBetweenKingAndAttacker.length === 1){
+            setPinnedSquares(squaresBetweenKingAndAttacker[0])            
+            setLegalMoves(legalPinnedMoves)
+        }
+        else if(kingExists && squaresBetweenKingAndAttacker.length > 1 && pinnedSquares){
+            setPinnedSquares(null)            
+            setLegalMoves([])
+        }
     }, [board])
 
     useMemo(() => {
@@ -271,14 +305,26 @@ function usePinnedPieces({row, column, color}) {
             }
             else
               break; 
-          }
+        }
 
-
-        if(kingExists && squaresBetweenKingAndAttacker.length === 1)
-            setPinnedSquares((prevSquares) => {
-                return [...prevSquares, squaresBetweenKingAndAttacker[0]]
-            })
+        if(kingExists && squaresBetweenKingAndAttacker.length === 1){
+            setPinnedSquares(squaresBetweenKingAndAttacker[0])            
+            setLegalMoves(legalPinnedMoves)
+        }
+        else if(kingExists && squaresBetweenKingAndAttacker.length > 1 && pinnedSquares){
+            setPinnedSquares(null)            
+            setLegalMoves([])
+        }
     }, [board])
+
+    useEffect(() => {
+        if(!pinnedSquares && !legalMoves.length)
+            dispatch({type: 'CLEAR_PINNED_PIECES', payload: {piece: `${color} ${piece}`}});
+        else
+            dispatch({type: 'SET_PINNED_PIECES', payload: {piece: `${color} ${piece}`, square: pinnedSquares, legalPinnedMoves: legalMoves}})
+
+    }, [pinnedSquares, legalMoves])
+
 
 }
 
