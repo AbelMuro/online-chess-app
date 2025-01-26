@@ -26,26 +26,6 @@ function Queen({color, row, column}) {
         dispatch({type: 'REMOVE_ALL_HIGHLIGHTED_SQUARES'});
         queenMoveRules();
     }
-
-    useEffect(() => {
-        const piece = `queen ${row} ${column}`;
-
-        dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_NORTH', payload: {square: {row, column, color, piece}}});
-        dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_EAST', payload: {square: {row, column, color, piece}}});
-        dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_WEST', payload: {square: {row, column, color, piece}}});
-        dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_SOUTH', payload: {square: {row, column, color, piece}}});
-        dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_NORTHWEST', payload: {square: {row, column, color, piece}}});
-        dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_NORTHEAST', payload: {square: {row, column, color, piece}}});
-        dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_SOUTHWEST', payload: {square: {row, column, color, piece}}});
-        dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_SOUTHEAST', payload: {square: {row, column, color, piece}}});
-
-        return () => {
-            if(color === 'white')
-                dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_BLACK_KING', payload: {piece}})
-            else
-                dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_WHITE_KING', payload: {piece}});
-        }
-    }, [board])
     
     return (
         <div             

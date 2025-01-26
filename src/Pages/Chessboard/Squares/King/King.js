@@ -31,16 +31,9 @@ function King({color, row, column}) {
         kingMoveRules();
     }
 
-    useEffect(() => {
-        const piece = `king ${row} ${column}`;
-        dispatch({type: 'CREATE_ILLEGAL_SQUARES_FOR_KING_KING', payload: {square: {row, column, color, piece}}});
 
-        return () => {
-            if(color === 'white')
-                dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_BLACK_KING', payload: {piece}});
-            else
-                dispatch({type: 'CLEAR_ILLEGAL_MOVES_FOR_WHITE_KING', payload: {piece}});
-        }
+    useEffect(() => {
+        dispatch({type: 'IS_KING_IN_CHECK', payload: {square: {row, column, color}}})
     }, [board])
 
     //everytime the king is in check, we will check to see if the king has any available legal moves,
@@ -49,11 +42,6 @@ function King({color, row, column}) {
         if(kingInCheck)
             dispatch({type: 'CHECKMATE', payload: {square: {color, row, column}}});
     }, [kingInCheck])
-
-    //we will check horizontally, vertically, and diagonally to see if there is any pinned pieces
-    useEffect(() => {
-
-    }, [])
 
     return (
         <div             

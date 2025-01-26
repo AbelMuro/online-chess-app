@@ -78,7 +78,7 @@ function usePinnedPieces({piece, row, column, color}) {
 
 
 
-          if(kingExists && squaresBetweenKingAndAttacker.length === 1){
+        if(kingExists && squaresBetweenKingAndAttacker.length === 1){
             setPinnedSquares(squaresBetweenKingAndAttacker[0])            
             setLegalMoves(legalPinnedMoves)
         }
