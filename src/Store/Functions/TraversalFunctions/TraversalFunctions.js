@@ -2,7 +2,10 @@ export const northSquares = (callback, row) => {
     for(let i = row + 1; i <= 7; i++){
         const continueIteration = callback(i);
 
-        if(!continueIteration) break;
+        if(!continueIteration){
+            
+            break;
+        };
     }
 }
 export const southSquares = (callback, row) => {
@@ -56,6 +59,25 @@ export const southWestSquares = (callback, row, column) => {
 export const southEastSquares = (callback, row, column) => {
     for(let i = row - 1, j = column + 1; i >= 0 && j <= 7; i--, j++){
         const continueIteration = callback(i, j);
+
+        if(!continueIteration) break;
+    }
+}
+
+export const knightSquares = (callback, row, column) => {
+    const legalSquares = [
+        {row: row + 2, column: column - 1}, 
+        {row: row + 2, column: column + 1},
+        {row: row - 1, column: column + 2}, 
+        {row: row + 1, column: column + 2},
+        {row: row - 2, column: column + 1},
+        {row: row - 2, column: column - 1},
+        {row: row + 1, column: column - 2},
+        {row: row - 1, column: column - 2}
+      ];
+    
+    for(let i = 0; i < legalSquares.length; i++){
+        const continueIteration = callback(legalSquares[i]);
 
         if(!continueIteration) break;
     }

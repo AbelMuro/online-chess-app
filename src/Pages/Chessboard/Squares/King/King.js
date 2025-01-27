@@ -36,13 +36,6 @@ function King({color, row, column}) {
         dispatch({type: 'IS_KING_IN_CHECK', payload: {square: {row, column, color}}})
     }, [board])
 
-    //everytime the king is in check, we will check to see if the king has any available legal moves,
-    //if it doesnt, then its checkmate
-    useEffect(() => {
-        if(kingInCheck)
-            dispatch({type: 'CHECKMATE', payload: {square: {color, row, column}}});
-    }, [kingInCheck])
-
     return (
         <div             
             className={styles.container} 

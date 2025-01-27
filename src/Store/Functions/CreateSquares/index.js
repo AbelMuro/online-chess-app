@@ -1,0 +1,3 @@
+import {createLegalSquaresWhileInCheck,createLegalSquaresForPinnedPiece, createLegalSquaresForKing, checkSquaresForCheck, checkSquaresForBlocks} from './CreateSquares.js';
+
+export {createLegalSquaresWhileInCheck,createLegalSquaresForPinnedPiece, createLegalSquaresForKing, checkSquaresForCheck, checkSquaresForBlocks};

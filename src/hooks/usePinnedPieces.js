@@ -195,7 +195,6 @@ function usePinnedPieces({piece, row, column, color}) {
             setLegalMoves(legalPinnedMoves)
         }
         else if(kingExists && squaresBetweenKingAndAttacker.length > 1 && pinnedSquares){
-            console.log('im here')
             setPinnedSquares(null)            
             setLegalMoves([])
         }
