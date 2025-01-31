@@ -1,9 +1,10 @@
 import { createAction, createReducer } from '@reduxjs/toolkit'
 import { northSquares, southSquares, westSquares, eastSquares, northWestSquares,northEastSquares, southEastSquares, southWestSquares, knightSquares} from '../Functions/TraversalFunctions';
-import {createLegalSquaresWhileInCheck,createLegalSquaresForPinnedPiece, createLegalSquaresForKing, checkSquaresForCheck, checkSquaresForBlocks} from '../Functions/CreateSquares';
+import {createLegalSquaresWhileInCheck,createLegalSquaresForPinnedPiece, createLegalSquaresForKing} from '../Functions/CreateSquares';
+import { checkSquaresForCheck, checkSquaresForBlocks, checkSquaresForThreats} from '../Functions/CheckSquares';
 
 
-//this is where i left off, i will need to make another function that will check if the attacker is either defended or can be taken by the king or any other piece
+//this is where i left off, i will need to double check the logic in createLegalSquaresForKing() the legal moves array that returns from this function should not include squares that have a black square
 
 const movePiece = createAction('MOVE_PIECE');
 const changeTurn = createAction('CHANGE_TURN');
@@ -507,16 +508,18 @@ const chessReducer = createReducer(initialState, (builder) => {
       let isSquareBlockable = false;
       for(let i = 0; i < state.squares_between_king_and_attacker.length; i++){
         isSquareBlockable = checkSquaresForBlocks(state, state.squares_between_king_and_attacker[i], piece_color);
-        if(isSquareBlockable)
+        if(isSquareBlockable){
+          console.log('blockable square')
           return;
+        }
+          
       }
-      
+      const attacker = state.squares_between_king_and_attacker[state.squares_between_king_and_attacker.length - 1];
+      const attackerIsUnderThreat = checkSquaresForThreats(state, attacker, piece_color);
       const legalMoves = createLegalSquaresForKing(state, row, column, piece_color);
+      console.log(legalMoves);
 
-      console.log(legalMoves, 'is checkmate?');
-
-      if(!legalMoves.length)
-        console.log('checkmate');
+      console.log(attackerIsUnderThreat, legalMoves.length, 'reducer case')
 
     })
     .addCase(changeTurn, (state) => {

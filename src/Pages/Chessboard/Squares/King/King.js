@@ -4,8 +4,6 @@ import {usePieceLogic} from '~/hooks';
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
-// i need to create a hook that watches for any changes to the board state,then i can dispatch an action to find any
-
 function King({color, row, column}) {
     const [board, currentTurn, handleMouseEnter, handleMouseLeave, handleStyles] = usePieceLogic({color});
     const dispatch = useDispatch();
