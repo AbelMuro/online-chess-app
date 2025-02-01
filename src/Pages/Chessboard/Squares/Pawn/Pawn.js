@@ -7,7 +7,7 @@ import * as styles from './styles.module.css';
 function Pawn({color, row, column}) {
     const pawnRef = useRef();
     //const enPassant = useSelector(state => state.chess.en_passant);
-    const [board, currentTurn, handleMouseEnter, handleMouseLeave, handleStyles] = usePieceLogic({color});
+    const [, currentTurn, handleMouseEnter, handleMouseLeave, handleStyles] = usePieceLogic({color});
     //const board = useSelector(state => state.chess.board);                                                                
     const dispatch = useDispatch();
 

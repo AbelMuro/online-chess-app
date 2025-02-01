@@ -1,3 +1,3 @@
-import {checkSquaresForCheck, checkSquaresForThreats, checkSquaresForBlocks} from './CheckSquares.js';
+import {checkSquaresForCheck, checkSquaresForThreats, checkSquaresForBlocks, checkSquaresForPinnedPieces} from './CheckSquares.js';
 
-export {checkSquaresForCheck, checkSquaresForThreats, checkSquaresForBlocks};
+export {checkSquaresForCheck, checkSquaresForThreats, checkSquaresForBlocks, checkSquaresForPinnedPieces};

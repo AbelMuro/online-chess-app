@@ -5,7 +5,7 @@ import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
 function Rook({color, row, column}) {
-    const [board, currentTurn, handleMouseEnter, handleMouseLeave, handleStyles] = usePieceLogic({color});
+    const [, currentTurn, handleMouseEnter, handleMouseLeave, handleStyles] = usePieceLogic({color});
     const dispatch = useDispatch();
 
     const rookMoveRules = () => {
@@ -20,6 +20,14 @@ function Rook({color, row, column}) {
         dispatch({type: 'REMOVE_ALL_HIGHLIGHTED_SQUARES'});
         rookMoveRules();
     }
+
+    useEffect(() => {
+        dispatch({type: 'SET_PINNED_PIECES', payload: {square: {row, column, color}}})
+
+        return () => {
+            dispatch({type: 'CLEAR_PINNED_PIECES', payload: {square: {row, column}}})
+        }
+    }, [])
 
     return (
         <div 

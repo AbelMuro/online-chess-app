@@ -1,7 +1,6 @@
 import {useMemo, useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 
-
 //this is where i left off, the hook seems to be working, but i may need to optimized the code before going further
 
 function usePinnedPieces({piece, row, column, color}) {

@@ -494,3 +494,254 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
         return false;
 
   }
+
+  export const checkSquaresForPinnedPieces = (state, attacker, color) => {
+    const row = attacker.row;
+    const column = attacker.column;
+    const piece = state.board[row][column];
+    let kingExists = false;
+    let squaresBetweenKingAndAttacker = [];
+    let legalPinnedMoves = [];
+    const opposing_color = color === 'white' ? 'black' : 'white';
+
+    if(piece.includes('queen') || piece.includes('rook'))
+      northSquares((i) => {
+        if(state.board[i][column].includes(color))
+          return false;
+        else if(state.board[i][column] === ''){
+          legalPinnedMoves.push({row: i, column});  
+          return true;
+        }
+        else if(state.board[i][column] === `${opposing_color} king`){
+            kingExists = true;
+            return false;
+        }
+        else if(state.board[i][column].includes(opposing_color)){
+            squaresBetweenKingAndAttacker.push({row: i, column})
+            return true;
+        }
+        else
+          return false;
+      }, row)
+
+    if(kingExists && squaresBetweenKingAndAttacker.length === 1){
+      legalPinnedMoves.unshift({row, column})
+      state.pinned_pieces.push({piece, square: squaresBetweenKingAndAttacker[0], legalPinnedMoves});
+      return;
+    }  
+    else{
+        squaresBetweenKingAndAttacker = [];
+        legalPinnedMoves = [];      
+    }
+
+    if(piece.includes('queen') || piece.includes('rook'))
+      southSquares((i) => {
+        if(state.board[i][column].includes(color))
+          return false;
+        else if(state.board[i][column] === ''){
+          legalPinnedMoves.push({row: i, column});  
+          return true;
+        }
+        else if(state.board[i][column] === `${opposing_color} king`){
+            kingExists = true;
+            return false;
+        }
+        else if(state.board[i][column].includes(opposing_color)){
+            squaresBetweenKingAndAttacker.push({row: i, column})
+            return true;
+        }
+        else
+          return false;
+      }, row)
+
+    if(kingExists && squaresBetweenKingAndAttacker.length === 1){
+      legalPinnedMoves.unshift({row, column})
+      state.pinned_pieces.push({piece, square: squaresBetweenKingAndAttacker[0], legalPinnedMoves});
+      return;
+    }  
+    else{
+        squaresBetweenKingAndAttacker = [];
+        legalPinnedMoves = [];      
+    }
+
+    if(piece.includes('queen') || piece.includes('rook'))
+      westSquares((i) => {
+        if(state.board[row][i].includes(color))
+          return false;
+        else if(state.board[row][i] === ''){
+          legalPinnedMoves.push({row: i, column});  
+          return true;
+        }
+        else if(state.board[row][i] === `${opposing_color} king`){
+            kingExists = true;
+            return false;
+        }
+        else if(state.board[row][i].includes(opposing_color)){
+            squaresBetweenKingAndAttacker.push({row: i, column})
+            return true;
+        }
+        else
+          return false;
+      }, column)
+
+    if(kingExists && squaresBetweenKingAndAttacker.length === 1){
+      legalPinnedMoves.unshift({row, column})
+      state.pinned_pieces.push({piece, square: squaresBetweenKingAndAttacker[0], legalPinnedMoves});
+      return;
+    }  
+    else{
+        squaresBetweenKingAndAttacker = [];
+        legalPinnedMoves = [];      
+    }
+
+    if(piece.includes('queen') || piece.includes('rook'))
+      eastSquares((i) => {
+        if(state.board[row][i].includes(color))
+          return false;
+        else if(state.board[row][i] === ''){
+          legalPinnedMoves.push({row: i, column});  
+          return true;
+        }
+        else if(state.board[row][i] === `${opposing_color} king`){
+            kingExists = true;
+            return false;
+        }
+        else if(state.board[row][i].includes(opposing_color)){
+            squaresBetweenKingAndAttacker.push({row: i, column})
+            return true;
+        }
+        else
+          return false;
+      }, column)
+
+    if(kingExists && squaresBetweenKingAndAttacker.length === 1){
+      legalPinnedMoves.unshift({row, column})
+      state.pinned_pieces.push({piece, square: squaresBetweenKingAndAttacker[0], legalPinnedMoves});
+      return;
+    }  
+    else{
+        squaresBetweenKingAndAttacker = [];
+        legalPinnedMoves = [];      
+    }
+
+    if(piece.includes('queen') || piece.includes('bishop'))
+      northWestSquares((i, j) => {
+        if(state.board[i][j].includes(color))
+          return false;
+        else if(state.board[i][j] === ''){
+          legalPinnedMoves.push({row: i, column: j});   
+          return true;
+        }
+        else if(state.board[i][j] === `${opposing_color} king`){
+            kingExists = true;
+            return false;
+        }
+        else if(state.board[i][j].includes(opposing_color)){
+            squaresBetweenKingAndAttacker.push({row: i, column: j})
+            return true
+        }
+        else
+          return false; 
+      }, row, column)
+
+    if(kingExists && squaresBetweenKingAndAttacker.length === 1){
+      legalPinnedMoves.unshift({row, column})
+      state.pinned_pieces.push({piece, square: squaresBetweenKingAndAttacker[0], legalPinnedMoves});
+      return;
+    }  
+    else{
+        squaresBetweenKingAndAttacker = [];
+        legalPinnedMoves = [];      
+    }
+
+    if(piece.includes('queen') || piece.includes('bishop'))
+      northEastSquares((i, j) => {
+        if(state.board[i][j].includes(color))
+          return false;
+        else if(state.board[i][j] === ''){
+          legalPinnedMoves.push({row: i, column: j});   
+          return true;
+        }
+        else if(state.board[i][j] === `${opposing_color} king`){
+            kingExists = true;
+            return false;
+        }
+        else if(state.board[i][j].includes(opposing_color)){
+            squaresBetweenKingAndAttacker.push({row: i, column: j})
+            return true
+        }
+        else
+          return false; 
+      }, row, column)
+
+    if(kingExists && squaresBetweenKingAndAttacker.length === 1){
+      legalPinnedMoves.unshift({row, column})
+      state.pinned_pieces.push({piece, square: squaresBetweenKingAndAttacker[0], legalPinnedMoves});
+      return;
+    }  
+    else{
+        squaresBetweenKingAndAttacker = [];
+        legalPinnedMoves = [];      
+    }
+
+    if(piece.includes('queen') || piece.includes('bishop'))
+      southWestSquares((i, j) => {
+        if(state.board[i][j].includes(color))
+          return false;
+        else if(state.board[i][j] === ''){
+          legalPinnedMoves.push({row: i, column: j});   
+          return true;
+        }
+        else if(state.board[i][j] === `${opposing_color} king`){
+            kingExists = true;
+            return false;
+        }
+        else if(state.board[i][j].includes(opposing_color)){
+            squaresBetweenKingAndAttacker.push({row: i, column: j})
+            return true
+        }
+        else
+          return false; 
+      }, row, column)
+
+    if(kingExists && squaresBetweenKingAndAttacker.length === 1){
+      legalPinnedMoves.unshift({row, column})
+      state.pinned_pieces.push({piece, square: squaresBetweenKingAndAttacker[0], legalPinnedMoves});
+      return;
+    }  
+    else{
+        squaresBetweenKingAndAttacker = [];
+        legalPinnedMoves = [];      
+    }
+
+    if(piece.includes('queen') || piece.includes('bishop'))
+      southEastSquares((i, j) => {
+        if(state.board[i][j].includes(color))
+          return false;
+        else if(state.board[i][j] === ''){
+          legalPinnedMoves.push({row: i, column: j});   
+          return true;
+        }
+        else if(state.board[i][j] === `${opposing_color} king`){
+            kingExists = true;
+            return false;
+        }
+        else if(state.board[i][j].includes(opposing_color)){
+            squaresBetweenKingAndAttacker.push({row: i, column: j})
+            return true
+        }
+        else
+          return false; 
+      }, row, column)
+
+    if(kingExists && squaresBetweenKingAndAttacker.length === 1){
+      legalPinnedMoves.unshift({row, column})
+      state.pinned_pieces.push({piece, square: squaresBetweenKingAndAttacker[0], legalPinnedMoves});
+      return;
+    }  
+    else{
+        squaresBetweenKingAndAttacker = [];
+        legalPinnedMoves = [];      
+    }
+    
+  }

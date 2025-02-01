@@ -72,6 +72,7 @@ export const createLegalSquaresForKing = (state, row, column, color) => {
   return legalSquares.filter((square) => {
     if(!state.board[square.row]) return false;
     if(state.board[square.row][square.column] === undefined) return false;
+    if(state.board[square.row][square.column].includes(piece_color)) return false;
 
     let isIllegal = false;
 

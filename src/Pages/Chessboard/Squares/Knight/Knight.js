@@ -5,7 +5,7 @@ import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
 function Knight({color, row, column}) {
-    const [board, currentTurn, handleMouseEnter, handleMouseLeave, handleStyles] = usePieceLogic({color});
+    const [, currentTurn, handleMouseEnter, handleMouseLeave, handleStyles] = usePieceLogic({color});
     const dispatch = useDispatch();
 
     const knightMoveRules = () => {
