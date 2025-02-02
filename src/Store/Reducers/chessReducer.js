@@ -1,11 +1,12 @@
 import { createAction, createReducer } from '@reduxjs/toolkit'
 import { northSquares, southSquares, westSquares, eastSquares, northWestSquares,northEastSquares, southEastSquares, southWestSquares, knightSquares} from '../Functions/TraversalFunctions';
-import {createLegalSquaresWhileInCheck,createLegalSquaresForPinnedPiece, createLegalSquaresForKing} from '../Functions/CreateSquares';
-import { checkSquaresForCheck, checkSquaresForBlocks, checkSquaresForThreats, checkSquaresForPinnedPieces} from '../Functions/CheckSquares';
+import { createLegalSquaresWhileInCheck, createLegalSquaresForKing} from '../Functions/CreateSquares';
+import { checkSquaresForCheck, checkSquaresForBlocks, checkSquaresForThreats} from '../Functions/CheckSquares';
+import { UnpinPieces, findPinnedPieces, findLegalMovesForPinnedPiece } from '../Functions/PinnedPieces';
+import { checkEnpassant, implementEnPassant } from '../Functions/EnPassant';
 
 
-//this is where i left off, i will need to add some additional logic to the 'movePiece' case where it checks if the piece that moves is in the legalPinnedMoves array
-//if it is, then i can unpin a specific piece
+//this is where i left off, i finished the en passant move for the pawns, now i need to implement drag and drop functionality for the pieces
 
 const movePiece = createAction('MOVE_PIECE');
 const changeTurn = createAction('CHANGE_TURN');
@@ -28,10 +29,6 @@ const isKingInCheck = createAction('IS_KING_IN_CHECK');
 
 const setPinnedPieces = createAction('SET_PINNED_PIECES');
 const clearPinnedPieces = createAction('CLEAR_PINNED_PIECES');
-
-const setEnPassant = createAction('SET_ENPASSANT');
-const movePieceWithEnPassant = createAction('MOVE_PIECE_WITH_ENPASSANT');
-
 
 const initialState = { 
     board: [
@@ -72,9 +69,17 @@ const chessReducer = createReducer(initialState, (builder) => {
       const newRow = action.payload.square.row;
       const newColumn = action.payload.square.column;  
       const pieceToBeMoved = state.board[oldRow][oldColumn];
-      state.board[oldRow][oldColumn] = '';
-      state.board[newRow][newColumn] = pieceToBeMoved;
+      UnpinPieces(state, newRow, newColumn);
+
+      if(state.en_passant)
+        implementEnPassant(state, pieceToBeMoved, oldRow, oldColumn , newRow, newColumn);
+      else
+        checkEnpassant(state, oldRow, newRow, newColumn, pieceToBeMoved);
     
+
+      state.board[oldRow][oldColumn] = '';
+      state.board[newRow][newColumn] = pieceToBeMoved;        
+      
       state.pieceToBeMoved = initialState.pieceToBeMoved;
       state.highlighted_squares = initialState.highlighted_squares;
       state.squares_between_king_and_attacker = initialState.squares_between_king_and_attacker;
@@ -105,7 +110,7 @@ const chessReducer = createReducer(initialState, (builder) => {
         const pinnedPiece = state.pinned_pieces.filter(piece => piece.square.row === row && piece.square.column === column)[0];  //we check to see if the current piece is a pinned piece
         
         if(pinnedPiece)
-            createLegalSquaresForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
+            findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
         else if(state.squares_between_king_and_attacker.length)
             createLegalSquaresWhileInCheck(state, blueSquares, redSquares);
         else{
@@ -142,7 +147,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       const pinnedPiece = state.pinned_pieces.filter(piece => piece.square.row === row && piece.square.column === column)[0];   //we check to see if the current piece is a pinned piece//we check to see if the current piece is a pinned piece
       
       if(pinnedPiece)
-          createLegalSquaresForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
+          findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
 
       else if(state.squares_between_king_and_attacker.length)
           createLegalSquaresWhileInCheck(state, blueSquares, redSquares);
@@ -180,7 +185,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       const pinnedPiece = state.pinned_pieces.filter(piece => piece.square.row === row && piece.square.column === column)[0]; //we check to see if the current piece is a pinned piece
       
       if(pinnedPiece)
-          createLegalSquaresForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
+          findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
 
       else if(state.squares_between_king_and_attacker.length)
           createLegalSquaresWhileInCheck(state, blueSquares, redSquares);
@@ -217,7 +222,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       const pinnedPiece = state.pinned_pieces.filter(piece => piece.square.row === row && piece.square.column === column)[0];   //we check to see if the current piece is a pinned piece
       
       if(pinnedPiece)
-          createLegalSquaresForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
+          findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
 
       else if(state.squares_between_king_and_attacker.length)
           createLegalSquaresWhileInCheck(state, blueSquares, redSquares);
@@ -256,7 +261,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       const pinnedPiece = state.pinned_pieces.filter(piece => piece.square.row === row && piece.square.column === column)[0];  //we check to see if the current piece is a pinned piece
       
       if(pinnedPiece)
-          createLegalSquaresForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
+          findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
 
       else if(state.squares_between_king_and_attacker.length)
           createLegalSquaresWhileInCheck(state, blueSquares, redSquares);
@@ -295,7 +300,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       const pinnedPiece = state.pinned_pieces.filter(piece => piece.square.row === row && piece.square.column === column)[0];   //we check to see if the current piece is a pinned piece
       
       if(pinnedPiece)
-          createLegalSquaresForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
+          findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
 
       else if(state.squares_between_king_and_attacker.length)
         createLegalSquaresWhileInCheck(state, blueSquares, redSquares);
@@ -343,7 +348,7 @@ const chessReducer = createReducer(initialState, (builder) => {
 
       const pinnedPiece = state.pinned_pieces.filter(piece => piece.square.row === row && piece.square.column === column)[0];    //we check to see if the current piece is a pinned piece
       if(pinnedPiece)
-          createLegalSquaresForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
+          findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
 
       else if(state.squares_between_king_and_attacker.length)
           createLegalSquaresWhileInCheck(state, blueSquares, redSquares);
@@ -379,9 +384,9 @@ const chessReducer = createReducer(initialState, (builder) => {
 
       const pinnedPiece = state.pinned_pieces.filter(piece => piece.square.row === row && piece.square.column === column)[0];     //we check to see if the current piece is a pinned piece
       if(pinnedPiece)
-          createLegalSquaresForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
+          findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
       else if(state.squares_between_king_and_attacker.length)
-        createLegalSquaresWhileInCheck(state, blueSquares, redSquares);
+          createLegalSquaresWhileInCheck(state, blueSquares, redSquares);
       else{
         blueSquares.forEach((square) => {
           state.highlighted_squares[square.row][square.column] = 'blue';
@@ -436,7 +441,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       const pinnedPiece = state.pinned_pieces.filter(piece => piece.square.row === row && piece.square.column === column)[0];
       
       if(pinnedPiece)
-          createLegalSquaresForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
+          findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
 
       else if(state.squares_between_king_and_attacker.length)
           createLegalSquaresWhileInCheck(state, blueSquares, redSquares);
@@ -454,7 +459,8 @@ const chessReducer = createReducer(initialState, (builder) => {
       const row = currentSquare.row;
       const column = currentSquare.column;
       const piece_color = currentSquare.color;
-      const pawnHasntMovedYet = (row === 1 && piece_color === 'white') || (row === 6 && piece_color === 'black');
+      const opposing_color = piece_color === 'white' ? 'black' : 'white'
+      const twoSquareMoveAvailable = action.payload.square.twoSquareMoveAvailable;
       const blueSquares = [];
       const redSquares = [];
 
@@ -465,23 +471,32 @@ const chessReducer = createReducer(initialState, (builder) => {
 
       if(state.board[oneSquareMove.row]?.[oneSquareMove.column] === '')
           blueSquares.push(oneSquareMove);
-      if(pawnHasntMovedYet && state.board[twoSquareMove.row]?.[twoSquareMove.column] === '')
+      if(twoSquareMoveAvailable && state.board[twoSquareMove.row]?.[twoSquareMove.column] === '')
           blueSquares.push(twoSquareMove)
 
       if(state.board[leftCornerTake.row]?.[leftCornerTake.column] && 
         state.board[leftCornerTake.row]?.[leftCornerTake.column] !== '' &&
         !state.board[leftCornerTake.row]?.[leftCornerTake.column].includes(piece_color))
           redSquares.push(leftCornerTake);
+      else if(state.board[leftCornerTake.row]?.[leftCornerTake.column] === '' && 
+        (state.en_passant?.row === row && state.en_passant?.column === column - 1) && 
+        state.board[row][column - 1] === `${opposing_color} pawn`)  
+          redSquares.push(leftCornerTake)
 
       if(state.board[rightCornerTake.row]?.[rightCornerTake.column] &&
         state.board[rightCornerTake.row]?.[rightCornerTake.column] !== '' &&
         !state.board[rightCornerTake.row]?.[rightCornerTake.column].includes(piece_color))
           redSquares.push(rightCornerTake);
+      else if(state.board[rightCornerTake.row]?.[rightCornerTake.column] === '' && 
+        (state.en_passant?.row === row && state.en_passant?.column === column + 1) && 
+        state.board[row][column + 1] === `${opposing_color} pawn`)  
+          redSquares.push(rightCornerTake)
+      
 
       const pinnedPiece = state.pinned_pieces.filter(piece => piece.square.row === row && piece.square.column === column)[0];   //we check to see if the current piece is a pinned piece
       
       if(pinnedPiece)
-          createLegalSquaresForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
+          findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
       else if(state.squares_between_king_and_attacker.length)
           createLegalSquaresWhileInCheck(state, blueSquares, redSquares);
       else{
@@ -509,9 +524,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       for(let i = 0; i < state.squares_between_king_and_attacker.length; i++){
         isSquareBlockable = checkSquaresForBlocks(state, state.squares_between_king_and_attacker[i], piece_color);
         if(isSquareBlockable)
-          return;
-        
-          
+          return; 
       }
       const attacker = state.squares_between_king_and_attacker[state.squares_between_king_and_attacker.length - 1];
       const attackerIsUnderThreat = checkSquaresForThreats(state, attacker, piece_color);
@@ -519,29 +532,9 @@ const chessReducer = createReducer(initialState, (builder) => {
       
       if(!legalMoves.length && !attackerIsUnderThreat)
         state.checkmate = true;
-
     })
     .addCase(changeTurn, (state) => {
       state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
-    })
-    .addCase(setEnPassant, (state, action) => {
-      state.en_passant = action.payload;
-    })
-    .addCase(movePieceWithEnPassant, (state) => {
-      if(!state.en_passant) return;
-
-      const squareToMoveInto = state.en_passant.squareToMoveInto;
-      const pieceToBeTaken = state.en_passant.pieceToBeTaken;
-      let pieceToBeMoved = state.pieceToBeMoved.square;
-      let piece = state.board[pieceToBeMoved.row][pieceToBeMoved.column];
-
-      state.board[squareToMoveInto.row][squareToMoveInto.column] = piece;
-      state.board[pieceToBeTaken.row][pieceToBeTaken.column] = '';
-      state.board[pieceToBeMoved.row][pieceToBeMoved.column] = '';
-      state.en_passant = null;
-      state.pieceToBeMoved = initialState.pieceToBeMoved;
-      state.blue_squares = [];
-      state.red_squares = [];
     })
     .addCase(pieceToBeMoved, (state, action) => {
       state.pieceToBeMoved = action.payload;
@@ -554,7 +547,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       const row = square.row;
       const column = square.column;
       const piece = state.board[row][column];
-      checkSquaresForPinnedPieces(state, {row, column}, color, piece)
+      findPinnedPieces(state, {row, column}, color, piece)
     })
     .addCase(clearPinnedPieces, (state, action) => {
       const row = action.payload.square.row;

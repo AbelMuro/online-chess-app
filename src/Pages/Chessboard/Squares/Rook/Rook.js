@@ -5,7 +5,7 @@ import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
 function Rook({color, row, column}) {
-    const [, currentTurn, handleMouseEnter, handleMouseLeave, handleStyles] = usePieceLogic({color});
+    const [board, handleMouseEnter, handleMouseLeave] = usePieceLogic({color});
     const dispatch = useDispatch();
 
     const rookMoveRules = () => {
@@ -27,15 +27,14 @@ function Rook({color, row, column}) {
         return () => {
             dispatch({type: 'CLEAR_PINNED_PIECES', payload: {square: {row, column}}})
         }
-    }, [])
+    }, [board])
 
     return (
         <div 
             className={styles.container} 
             onMouseEnter={handleMouseEnter} 
             onMouseLeave={handleMouseLeave} 
-            onClick={currentTurn === color ? handleClick : () => {}}
-            style={handleStyles()}
+            onClick={handleClick}
             >
             <img className={styles.piece} src={icons[`${color}Rook`]}/>
         </div>

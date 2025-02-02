@@ -5,7 +5,7 @@ import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
 function Queen({color, row, column}) {
-    const [, currentTurn, handleMouseEnter, handleMouseLeave, handleStyles] = usePieceLogic({color});
+    const [board, handleMouseEnter, handleMouseLeave] = usePieceLogic({color});
     const dispatch = useDispatch();
 
     const queenMoveRules = () => {
@@ -17,7 +17,6 @@ function Queen({color, row, column}) {
         dispatch({type: 'HIGHLIGHT_NORTHEAST_SQUARES', payload: {square: {row, column, color}}});
         dispatch({type: 'HIGHLIGHT_SOUTHWEST_SQUARES', payload: {square: {row, column, color}}});
         dispatch({type: 'HIGHLIGHT_SOUTHEAST_SQUARES', payload: {square: {row, column, color}}});
-
     }
 
     const handleClick = () => {
@@ -32,15 +31,14 @@ function Queen({color, row, column}) {
         return () => {
             dispatch({type: 'CLEAR_PINNED_PIECES', payload: {square: {row, column}}})
         }
-    }, [])
+    }, [board])
     
     return (
         <div             
             className={styles.container} 
             onMouseEnter={handleMouseEnter} 
             onMouseLeave={handleMouseLeave} 
-            onClick={currentTurn === color ? handleClick : () => {}}
-            style={handleStyles()}>
+            onClick={handleClick}>
                 <img className={styles.piece} src={icons[`${color}Queen`]}/>
         </div>
     )

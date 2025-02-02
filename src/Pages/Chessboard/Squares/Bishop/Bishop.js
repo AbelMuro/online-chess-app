@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, memo} from 'react';
 import {useDispatch} from 'react-redux';
 import {usePieceLogic} from '~/hooks';
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
 function Bishop({color, row, column}) {
-    const [, currentTurn, handleMouseEnter, handleMouseLeave, handleStyles] = usePieceLogic({color});
+    const [board, handleMouseEnter, handleMouseLeave] = usePieceLogic({color});
     const dispatch = useDispatch();
 
 
@@ -30,18 +30,17 @@ function Bishop({color, row, column}) {
         return () => {
             dispatch({type: 'CLEAR_PINNED_PIECES', payload: {square: {row, column}}})
         }
-    }, [])
+    }, [board])
 
     return (
         <div             
             className={styles.container} 
             onMouseEnter={handleMouseEnter} 
             onMouseLeave={handleMouseLeave} 
-            onClick={currentTurn === color ? handleClick : () => {}}
-            style={handleStyles()}>
+            onClick={handleClick}>
                 <img className={styles.piece} src={icons[`${color}Bishop`]}/>
         </div>
     )
 }
 
-export default Bishop;
+export default memo(Bishop);

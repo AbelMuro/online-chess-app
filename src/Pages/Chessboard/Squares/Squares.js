@@ -18,7 +18,6 @@ function Squares({row, column}) {
     const highlightedSquare = useSelector(state => state.chess.highlighted_squares[row][column]);
     const color = currentSquare.slice(0, 5);
     const piece = currentSquare.slice(6, currentSquare.length);
-    const enPassant = useSelector(state => state.chess.en_passant);
     const dispatch = useDispatch();
 
     const handleStyles = () => {
@@ -32,12 +31,8 @@ function Squares({row, column}) {
 
     const handleClick = () => { 
         if(!highlightedSquare) return;
-
-        if(highlightedSquare === 'red' && enPassant && piece === '')
-            dispatch({type: 'MOVE_PIECE_WITH_ENPASSANT'});
-        else
-            dispatch({type: 'MOVE_PIECE', payload: {square: {row, column}}});
-        dispatch({type: 'CHANGE_TURN'})          
+        dispatch({type: 'CHANGE_TURN'})            
+        dispatch({type: 'MOVE_PIECE', payload: {square: {row, column}}});
     }
 
     return(

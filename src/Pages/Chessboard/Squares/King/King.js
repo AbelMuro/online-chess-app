@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, memo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {usePieceLogic} from '~/hooks';
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
 function King({color, row, column}) {
-    const [board, currentTurn, handleMouseEnter, handleMouseLeave, handleStyles] = usePieceLogic({color});
+    const [board, handleMouseEnter, handleMouseLeave] = usePieceLogic({color});
     const dispatch = useDispatch();
     const kingInCheck = useSelector(state => {
         return color === 'white' ? state.chess.white_king_in_check : state.chess.black_king_in_check;
@@ -39,11 +39,11 @@ function King({color, row, column}) {
             className={styles.container} 
             onMouseEnter={handleMouseEnter} 
             onMouseLeave={handleMouseLeave} 
-            onClick={currentTurn === color ? handleClick : () => {}}
-            style={kingInCheck ? handleCheck() : handleStyles()}>
+            onClick={handleClick}
+            style={kingInCheck ? handleCheck() : {}}>
                 <img className={styles.piece} src={icons[`${color}King`]}/>
         </div>
     )
 }
 
-export default King;
+export default memo(King);

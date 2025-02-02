@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {memo} from 'react';
 import {useDispatch} from 'react-redux';
 import {usePieceLogic} from '~/hooks';
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
 function Knight({color, row, column}) {
-    const [, currentTurn, handleMouseEnter, handleMouseLeave, handleStyles] = usePieceLogic({color});
+    const [, handleMouseEnter, handleMouseLeave] = usePieceLogic({color});
     const dispatch = useDispatch();
 
     const knightMoveRules = () => {
@@ -24,11 +24,10 @@ function Knight({color, row, column}) {
             className={styles.container} 
             onMouseEnter={handleMouseEnter} 
             onMouseLeave={handleMouseLeave} 
-            onClick={currentTurn === color ? handleClick : () => {}}
-            style={handleStyles()}>
+            onClick={handleClick}>
             <img className={styles.piece} src={icons[`${color}Knight`]}/>
         </div>
     )
 }
 
-export default Knight;
+export default memo(Knight);

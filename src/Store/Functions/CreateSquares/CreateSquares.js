@@ -30,30 +30,6 @@ export const createLegalSquaresWhileInCheck = (state, blueSquares, redSquares) =
   }
 }
 
-export const createLegalSquaresForPinnedPiece = (state, legalMoves, blueSquares, redSquares) => {
-  const highlightedSquares = state.highlighted_squares;
-
-  for(let i = 0; i < blueSquares.length; i++){
-    for(let j = 0; j < legalMoves.length; j++){
-      const row = legalMoves[j].row;
-      const column = legalMoves[j].column;
-
-      if(blueSquares[i].row === row && blueSquares[i].column === column)
-        highlightedSquares[row][column] = 'blue'
-    }
-  }  
-  for(let i = 0; i < redSquares.length; i++){
-    for(let j = 0; j < legalMoves.length; j++){
-      const row = legalMoves[j].row;
-      const column = legalMoves[j].column;
-
-      if(redSquares[i].row === row && redSquares[i].column === column)
-        highlightedSquares[row][column] = 'red'
-    }
-  }
-}
-
-//i may need to assign true to the isIllegal variable in the first if statements below
 export const createLegalSquaresForKing = (state, row, column, color) => {
   const piece_color = color;
   const opposing_color = piece_color === 'white' ? 'black' : 'white';
