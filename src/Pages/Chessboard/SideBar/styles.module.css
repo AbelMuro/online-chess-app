@@ -1,0 +1,78 @@
+.bar{
+    width: 300px;
+    height: 800px;
+    border: 1px solid black;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    padding: 35px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.bar_title{
+    margin: 0px;
+    font-size: 2rem;
+    font-family: 'mulish';
+    text-transform: capitalize;
+    font-weight: 800;
+    color: rgb(206, 206, 206);
+    white-space: nowrap;
+}
+
+.bar_buttons{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.bar_buttons_resign{
+    width: 100%;
+    height: 60px;
+    background-color: rgb(44, 44, 44);
+    border: none;
+    border-radius: 10px;
+    grid-column: 1/3;
+    grid-row: 1/2;
+    cursor: pointer;
+}
+
+.bar_buttons_resign > img, 
+.bar_buttons_forward > img, 
+.bar_buttons_back > img{
+    width: 25px;
+    object-fit: contain;
+}
+
+.bar_buttons_forward{
+    width: 100%;
+    height: 60px;
+    background-color: rgb(44, 44, 44);
+    border: none;
+    border-radius: 10px;
+    grid-column: 1/2;
+    grid-row: 2/3;
+    cursor: pointer;
+
+}
+
+.bar_buttons_back{
+    width: 100%;
+    height: 60px;
+    background-color: rgb(44, 44, 44);
+    border: none;
+    border-radius: 10px;
+    grid-column: 2/3;
+    grid-row: 2/3;
+    cursor: pointer;
+}
+
+
+.bar_buttons_resign:hover, .bar_buttons_forward:hover, .bar_buttons_back:hover{
+    background-color: rgb(59, 59, 59);
+}
+
+.bar_buttons_resign:active, .bar_buttons_forward:active, .bar_buttons_back:active{
+    background-color: rgb(75, 75, 75);
+}
+

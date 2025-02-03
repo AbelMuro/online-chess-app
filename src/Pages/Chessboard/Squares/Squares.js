@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDrop } from "react-dnd"
 import {useSelector, useDispatch} from 'react-redux';
 import Pawn from './Pawn';
 import Rook from './Rook';
@@ -19,6 +20,16 @@ function Squares({row, column}) {
     const color = currentSquare.slice(0, 5);
     const piece = currentSquare.slice(6, currentSquare.length);
     const dispatch = useDispatch();
+    const [{handlerId}, drop] = useDrop({
+        accept: 'piece',
+        collect: (monitor) => ({
+            handlerId: monitor.getHandlerId()
+        }),
+        drop: () => {
+            handleClick();
+        }
+
+    })
 
     const handleStyles = () => {
         if(highlightedSquare === 'red')
@@ -30,13 +41,16 @@ function Squares({row, column}) {
     }
 
     const handleClick = () => { 
-        if(!highlightedSquare) return;
-        dispatch({type: 'CHANGE_TURN'})            
+        if(!highlightedSquare) return;    
+           
         dispatch({type: 'MOVE_PIECE', payload: {square: {row, column}}});
+        dispatch({type: 'CHANGE_TURN'})     
     }
 
     return(
         <div 
+            ref={drop}
+            data-handler-id={handlerId}
             className={styles.chess_board_square} 
             style={handleStyles()}
             onClick={handleClick}> 

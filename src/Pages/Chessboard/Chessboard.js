@@ -1,6 +1,9 @@
 import React, {useMemo} from 'react';
 import Squares from './Squares';
+import SideBar from './SideBar';
 import Checkmate from './Checkmate';
+import { DndProvider } from "react-dnd"
+import { HTML5Backend } from "react-dnd-html5-backend"
 import * as styles from './styles.module.css';
 
 //The chessboard is a container of <Squares/> components
@@ -27,12 +30,15 @@ function Chessboard() {
 
 
     return(
-        <section className={styles.chess}> 
-            <div className={styles.chess_board}>
-                {squares}
-            </div>
-            <Checkmate/>
-        </section>
+        <DndProvider backend={HTML5Backend}> 
+            <section className={styles.chess}> 
+                <div className={styles.chess_board}>
+                    {squares}
+                </div>
+                <SideBar/>
+                <Checkmate/>
+            </section>
+        </DndProvider>
     )
 }
 

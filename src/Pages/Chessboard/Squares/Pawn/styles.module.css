@@ -5,10 +5,12 @@
     justify-content: center;
     align-items: center;
     border-radius: 10px;
+    background-color: transparent;
 }
+
 
 .piece{
     width: 35px;
     object-fit: contain;
-    pointer-events: none;
+    cursor: grab
 }
