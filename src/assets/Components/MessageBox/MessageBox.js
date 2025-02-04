@@ -3,7 +3,6 @@ import {messageBoxVariants} from './Variants';
 import {motion, AnimatePresence, useCycle} from 'framer-motion'
 import * as styles from './styles.module.css';
 
-//this is where i left off, i will need to create a triangle element for the message box below
 function MessageBox({Component, message}) {
     const [isOpen, toggleOpen] = useCycle(false, true);
 
@@ -15,8 +14,12 @@ function MessageBox({Component, message}) {
         toggleOpen();
     }
 
+    const handleClick = () => {
+        toggleOpen();
+    }
+
     return(
-        <div className={styles.container}>
+        <Component onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onClick={handleClick}>
             <AnimatePresence>
                 {isOpen && <motion.div 
                     className={styles.message}
@@ -25,12 +28,11 @@ function MessageBox({Component, message}) {
                     variants={messageBoxVariants}
                     exit={'closed'}
                     >
-                    {message}
-                    <div className={styles.triangle}/>
+                        {message}
+                        <div className={styles.triangle}/>
                 </motion.div>}                
             </AnimatePresence>
-            <Component onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}/>
-        </div>
+        </Component>
     )
 }
 

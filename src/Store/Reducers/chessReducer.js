@@ -5,12 +5,14 @@ import { checkSquaresForCheck, checkSquaresForBlocks, checkSquaresForThreats} fr
 import { UnpinPieces, findPinnedPieces, findLegalMovesForPinnedPiece } from '../Functions/PinnedPieces';
 import { checkEnpassant, implementEnPassant } from '../Functions/EnPassant';
 
-
-//this is where i left off, i finished the en passant move for the pawns, now i need to implement drag and drop functionality for the pieces
+//this is where i left off, i will need to populate three properties of the state; past, present and future 
+//to implement the take-back and forward features of the app
 
 const movePiece = createAction('MOVE_PIECE');
 const changeTurn = createAction('CHANGE_TURN');
 const pieceToBeMoved = createAction('PIECE_TO_BE_MOVED');
+const UNDO = createAction('UNDO');
+const REDO = createAction('REDO');
 
 const highlightNorthSquares = createAction('HIGHLIGHT_NORTH_SQUARES');
 const highlightSouthSquares = createAction('HIGHLIGHT_SOUTH_SQUARES');
@@ -26,6 +28,7 @@ const highlightKingSquares = createAction('HIGHLIGHT_KING_SQUARES');
 const removeAllHighlightedSquares = createAction('REMOVE_ALL_HIGHLIGHTED_SQUARES');
 
 const isKingInCheck = createAction('IS_KING_IN_CHECK');
+const resigns = createAction('RESIGNS');
 
 const setPinnedPieces = createAction('SET_PINNED_PIECES');
 const clearPinnedPieces = createAction('CLEAR_PINNED_PIECES');
@@ -51,10 +54,14 @@ const initialState = {
       ['', '', '', '', '', '', '', '',],
       ['', '', '', '', '', '', '', '',],
     ],
+    past: [],
+    present: null,
+    future: [],
     black_king_in_check: false,
     white_king_in_check: false,
     squares_between_king_and_attacker: [],
     pinned_pieces: [],
+    resigns: false,
     checkmate: false,
     current_turn: 'white',
     en_passant: null,
@@ -76,10 +83,11 @@ const chessReducer = createReducer(initialState, (builder) => {
       else
         checkEnpassant(state, oldRow, newRow, newColumn, pieceToBeMoved);
     
-
       state.board[oldRow][oldColumn] = '';
-      state.board[newRow][newColumn] = pieceToBeMoved;        
-      
+      state.board[newRow][newColumn] = pieceToBeMoved;     
+      state.present && state.past.push(state.present)
+      state.present = {from: {row: oldRow, column: oldColumn}, to: {row: newRow, column: newColumn}};
+      state.future = [];   
       state.pieceToBeMoved = initialState.pieceToBeMoved;
       state.highlighted_squares = initialState.highlighted_squares;
       state.squares_between_king_and_attacker = initialState.squares_between_king_and_attacker;
@@ -531,7 +539,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       const legalMoves = createLegalSquaresForKing(state, row, column, piece_color);
       
       if(!legalMoves.length && !attackerIsUnderThreat)
-        state.checkmate = true;
+        state.checkmate = piece_color;
     })
     .addCase(changeTurn, (state) => {
       state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
@@ -555,6 +563,10 @@ const chessReducer = createReducer(initialState, (builder) => {
 
       const pieceToRemove = state.board[row][column];
       state.pinned_pieces = state.pinned_pieces.filter(piece => piece.piece !== pieceToRemove);
+    })
+    .addCase(resigns, (state, action) => {
+      const playerWhoResigned = action.payload.resigns;
+      state.resigns = playerWhoResigned;
     })
 });
 

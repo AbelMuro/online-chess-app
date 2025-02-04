@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 import Squares from './Squares';
 import SideBar from './SideBar';
-import Checkmate from './Checkmate';
+import DeclareWinner from './DeclareWinner';
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import * as styles from './styles.module.css';
@@ -36,7 +36,7 @@ function Chessboard() {
                     {squares}
                 </div>
                 <SideBar/>
-                <Checkmate/>
+                <DeclareWinner/>
             </section>
         </DndProvider>
     )

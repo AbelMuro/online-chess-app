@@ -9,7 +9,7 @@ body{
 
 * {
     box-sizing: border-box;
-    transition: all 0.2s linear;
+    transition: all 0.2s linear, transform 0s, opacity 0s;
 }
 
 :root{

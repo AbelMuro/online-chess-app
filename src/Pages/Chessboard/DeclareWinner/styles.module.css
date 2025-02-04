@@ -1,0 +1,37 @@
+.dialog_title{
+    font-size: 1.5rem;
+    font-family: 'mulish';
+    font-weight: 800;
+    color: #CECECE;
+    grid-column: 1/3;
+    grid-row: 1/2;
+    text-align: center;
+    margin: 0px;
+    text-transform: capitalize;
+}
+
+.dialog_button{
+    font-size: 1rem;
+    font-family: 'mulish';
+    font-weight: 400;
+    color: #CECECE;
+    width: 100%;
+    height: 30px;
+    border-radius: 10px;
+    border: none;
+    background-color: #121212;   
+    cursor: pointer;
+    grid-column: 1/3;
+}
+
+.dialog_button:hover{
+    background-color: #272727;
+}
+
+.dialog_button:active{
+    background-color: #333333
+}
+
+.ignore{
+    display: none;
+}
