@@ -1,6 +1,6 @@
 import React, {useEffect, memo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-
+import {motion} from 'framer-motion';
 import { useDrag } from "react-dnd"
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
@@ -40,14 +40,15 @@ function King({color, row, column}) {
     }, [board])
 
     return (
-        <div             
+        <motion.div             
             className={styles.container} 
             onClick={handleClick}
             onMouseDown={handleClick}
             style={isDragging ? {opacity: 0} : {opacity: 1}} 
+            layoutId={`${color} king`}
             ref={drag}>
                 <img className={styles.piece} src={icons[`${color}King`]}/>
-        </div>
+        </motion.div>
     )
 }
 

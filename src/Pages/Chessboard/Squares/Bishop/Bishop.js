@@ -1,11 +1,13 @@
 import React, {useEffect, memo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-
+import {motion} from 'framer-motion';
 import { useDrag } from "react-dnd"
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
-function Bishop({color, row, column}) { 
+
+//this is where i left off, i will need to cancel the layoutId animation by using conditional rendering
+function Bishop({color, row, column, id}) { 
     const currentTurn = useSelector(state => state.chess.current_turn);   
     const board = useSelector(state => state.chess.board);     
     const dispatch = useDispatch();
@@ -15,7 +17,7 @@ function Bishop({color, row, column}) {
             return {row, column};
         },
         isDragging: (monitor) => { 
-            const square = monitor.getItem();            
+            const square = monitor.getItem();         
             return row === square.row && column === square.column; 
         },
         canDrag: () => {                      
@@ -23,7 +25,13 @@ function Bishop({color, row, column}) {
         },
         collect: (monitor) => ({
             isDragging: monitor.isDragging()   
-        })
+        }),
+        end: (item, monitor) => {
+            const itemDropped = monitor.didDrop();
+            if(itemDropped){
+                console.log('it dropped')
+            }
+        }
     })
 
 
@@ -47,14 +55,17 @@ function Bishop({color, row, column}) {
     }, [board])
 
     return (
-        <div             
+        <motion.div             
             className={styles.container} 
             onMouseDown={handleClick}
+            onDragEnd={() => {console.log('im here')}}
             onClick={handleClick}
             style={isDragging ? {opacity: 0} : {opacity: 1}} 
-            ref={drag}>
+            ref={drag}
+            layoutId={`${color} bishop ${id}`}
+            >
                 <img className={styles.piece} src={icons[`${color}Bishop`]}/>
-        </div>
+        </motion.div>
     )
 }
 

@@ -136,7 +136,7 @@ export const findPinnedPieces = (state, attacker, color) => {
           legalPinnedMoves.push({row: i, column});  
           return true;
         }
-        else if(state.board[row][i] === `${opposing_color} king`){
+        else if(state.board[row][i]?.includes(`${opposing_color} king`)){
             kingExists = true;
             return false;
         }
@@ -166,7 +166,7 @@ export const findPinnedPieces = (state, attacker, color) => {
           legalPinnedMoves.push({row: i, column: j});   
           return true;
         }
-        else if(state.board[i][j] === `${opposing_color} king`){
+        else if(state.board[i][j]?.includes(`${opposing_color} king`)){
             kingExists = true;
             return false;
         }
@@ -196,7 +196,7 @@ export const findPinnedPieces = (state, attacker, color) => {
           legalPinnedMoves.push({row: i, column: j});   
           return true;
         }
-        else if(state.board[i][j] === `${opposing_color} king`){
+        else if(state.board[i][j]?.includes(`${opposing_color} king`)){
             kingExists = true;
             return false;
         }
@@ -226,7 +226,7 @@ export const findPinnedPieces = (state, attacker, color) => {
           legalPinnedMoves.push({row: i, column: j});   
           return true;
         }
-        else if(state.board[i][j] === `${opposing_color} king`){
+        else if(state.board[i][j]?.includes(`${opposing_color} king`)){
             kingExists = true;
             return false;
         }
@@ -256,7 +256,7 @@ export const findPinnedPieces = (state, attacker, color) => {
           legalPinnedMoves.push({row: i, column: j});   
           return true;
         }
-        else if(state.board[i][j] === `${opposing_color} king`){
+        else if(state.board[i][j]?.includes(`${opposing_color} king`)){
             kingExists = true;
             return false;
         }

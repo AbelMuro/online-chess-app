@@ -1,10 +1,11 @@
 import React, {memo, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {motion} from 'framer-motion';
 import icons from '~/assets/icons';
 import { useDrag } from "react-dnd"
 import * as styles from './styles.module.css';
 
-function Pawn({color, row, column}) {
+function Pawn({color, row, column, id}) {
     const [twoSquareMoveAvailable,] = useState((row === 1 && color === 'white') || (row === 6 && color === 'black'));
     const currentTurn = useSelector(state => state.chess.current_turn);                                                  
     const dispatch = useDispatch();
@@ -34,15 +35,16 @@ function Pawn({color, row, column}) {
 
 
     return(
-        <div 
+        <motion.div 
             className={styles.container} 
             onClick={handleMove} 
             onMouseDown={handleMove}
             style={isDragging ? {opacity: 0} : {opacity: 1}} 
+            layoutId={`${color} pawn ${id}`}
             ref={drag}
             >
                 <img className={styles.piece} src={icons[`${color}Pawn`]} />  
-        </div> 
+        </motion.div> 
     )
 }
 

@@ -11,8 +11,8 @@ import { checkEnpassant, implementEnPassant } from '../Functions/EnPassant';
 const movePiece = createAction('MOVE_PIECE');
 const changeTurn = createAction('CHANGE_TURN');
 const pieceToBeMoved = createAction('PIECE_TO_BE_MOVED');
-const UNDO = createAction('UNDO');
-const REDO = createAction('REDO');
+const undo = createAction('UNDO');
+const redo = createAction('REDO');
 
 const highlightNorthSquares = createAction('HIGHLIGHT_NORTH_SQUARES');
 const highlightSouthSquares = createAction('HIGHLIGHT_SOUTH_SQUARES');
@@ -35,14 +35,14 @@ const clearPinnedPieces = createAction('CLEAR_PINNED_PIECES');
 
 const initialState = { 
     board: [
-      ['white rook', 'white knight', 'white bishop', 'white queen', 'white king', 'white bishop', 'white knight', 'white rook'],
-      ['white pawn', 'white pawn', 'white pawn', 'white pawn', 'white pawn', 'white pawn', 'white pawn', 'white pawn'],
+      ['white rook a', 'white knight b', 'white bishop c', 'white queen', 'white king', 'white bishop f', 'white knight g', 'white rook h'],
+      ['white pawn a', 'white pawn b', 'white pawn c', 'white pawn d', 'white pawn e', 'white pawn f', 'white pawn g', 'white pawn h'],
       ['', '', '', '', '', '', '', '',],
       ['', '', '', '', '', '', '', '',],
       ['', '', '', '', '', '', '', '',],
       ['', '', '', '', '', '', '', '',],
-      ['black pawn', 'black pawn', 'black pawn', 'black pawn', 'black pawn', 'black pawn', 'black pawn', 'black pawn'],
-      ['black rook', 'black knight', 'black bishop', 'black queen', 'black king', 'black bishop', 'black knight', 'black rook'],
+      ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h'],
+      ['black rook a', 'black knight b', 'black bishop c', 'black queen', 'black king', 'black bishop f', 'black knight g', 'black rook h'],
     ],
     highlighted_squares: [
       ['', '', '', '', '', '', '', '',],
@@ -55,7 +55,6 @@ const initialState = {
       ['', '', '', '', '', '', '', '',],
     ],
     past: [],
-    present: null,
     future: [],
     black_king_in_check: false,
     white_king_in_check: false,
@@ -76,18 +75,58 @@ const chessReducer = createReducer(initialState, (builder) => {
       const newRow = action.payload.square.row;
       const newColumn = action.payload.square.column;  
       const pieceToBeMoved = state.board[oldRow][oldColumn];
+      const pieceToBeTaken = state.board[newRow][newColumn]
       UnpinPieces(state, newRow, newColumn);
 
       if(state.en_passant)
         implementEnPassant(state, pieceToBeMoved, oldRow, oldColumn , newRow, newColumn);
       else
         checkEnpassant(state, oldRow, newRow, newColumn, pieceToBeMoved);
-    
+
       state.board[oldRow][oldColumn] = '';
-      state.board[newRow][newColumn] = pieceToBeMoved;     
-      state.present && state.past.push(state.present)
-      state.present = {from: {row: oldRow, column: oldColumn}, to: {row: newRow, column: newColumn}};
+      state.board[newRow][newColumn] = pieceToBeMoved;
+      const moveToBeSaved = {from: {row: oldRow, column: oldColumn}, to: {row: newRow, column: newColumn}, pieceToBeTaken, pieceToBeMoved}     
+      state.past.push(moveToBeSaved)
       state.future = [];   
+      state.pieceToBeMoved = initialState.pieceToBeMoved;
+      state.highlighted_squares = initialState.highlighted_squares;
+      state.squares_between_king_and_attacker = initialState.squares_between_king_and_attacker;
+      state.black_king_in_check = initialState.black_king_in_check;
+      state.white_king_in_check = initialState.white_king_in_check;
+    })
+    .addCase(undo, (state) => {
+      const move = state.past.pop();    
+      if(!move){
+        state.board = initialState.board;
+        state.current_turn = 'white';
+      }
+      else{
+        const from = move.from;
+        const to = move.to;
+
+        state.board[from.row][from.column] = move.pieceToBeMoved;
+        state.board[to.row][to.column] = move.pieceToBeTaken;
+        state.future.push(move);    
+        state.current_turn = state.current_turn === 'white' ? 'black' : 'white';    
+      }
+
+      state.pieceToBeMoved = initialState.pieceToBeMoved;
+      state.highlighted_squares = initialState.highlighted_squares;
+      state.squares_between_king_and_attacker = initialState.squares_between_king_and_attacker;
+      state.black_king_in_check = initialState.black_king_in_check;
+      state.white_king_in_check = initialState.white_king_in_check;
+    })
+    .addCase(redo, (state) => {
+      const move = state.future.pop();
+      if(!move) return;
+
+      const from = move.from;
+      const to = move.to;
+
+      state.board[from.row][from.column] = move.pieceToBeTaken;
+      state.board[to.row][to.column] = move.pieceToBeMoved;
+      state.past.push(move);
+      state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
       state.pieceToBeMoved = initialState.pieceToBeMoved;
       state.highlighted_squares = initialState.highlighted_squares;
       state.squares_between_king_and_attacker = initialState.squares_between_king_and_attacker;

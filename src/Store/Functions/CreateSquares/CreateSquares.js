@@ -239,7 +239,7 @@ export const createLegalSquaresForKing = (state, row, column, color) => {
         return false;
 
     knightSquares((squares) => {
-      if(state.board[squares.row]?.[squares.column] === `${opposing_color} knight`){
+      if(state.board[squares.row]?.[squares.column]?.includes(`${opposing_color} knight`)){
         isIllegal = true;
         return false;
       }

@@ -17,7 +17,7 @@ import * as styles from './styles.module.css'
 function Squares({row, column}) {
     const currentSquare = useSelector(state => state.chess.board[row][column]);
     const highlightedSquare = useSelector(state => state.chess.highlighted_squares[row][column]);
-    const color = currentSquare.slice(0, 5);
+    const color = currentSquare.includes('white') ? 'white' : 'black';
     const piece = currentSquare.slice(6, currentSquare.length);
     const dispatch = useDispatch();
     const [{handlerId}, drop] = useDrop({
@@ -54,12 +54,12 @@ function Squares({row, column}) {
             className={styles.chess_board_square} 
             style={handleStyles()}
             onClick={handleClick}> 
-                {piece === 'pawn' && <Pawn color={color} row={row} column={column} />}
-                {piece === 'queen' && <Queen color={color} row={row} column={column}/>}
-                {piece === 'rook' && <Rook color={color} row={row} column={column}/>}
-                {piece === 'knight' && <Knight color={color} row={row} column={column}/>}
-                {piece === 'bishop' && <Bishop color={color} row={row} column={column} />}
-                {piece === 'king' && <King color={color} row={row} column={column}/>}
+                {piece.includes('pawn') && <Pawn color={color} row={row} column={column} id={piece[piece.length - 1]}/>}
+                {piece.includes('queen') && <Queen color={color} row={row} column={column} id={piece[piece.length - 1]}/>}
+                {piece.includes('rook') && <Rook color={color} row={row} column={column} id={piece[piece.length - 1]}/>}
+                {piece.includes('knight') && <Knight color={color} row={row} column={column} id={piece[piece.length - 1]}/>}
+                {piece.includes('bishop') && <Bishop color={color} row={row} column={column} id={piece[piece.length - 1]}/>}
+                {piece.includes('king') && <King color={color} row={row} column={column} id={piece[piece.length - 1]}/>}
         </div> 
     )
 }

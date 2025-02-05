@@ -1,10 +1,11 @@
 import React, {memo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {motion} from 'framer-motion';
 import { useDrag } from "react-dnd"
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
-function Knight({color, row, column}) {
+function Knight({color, row, column, id}) {
     const currentTurn = useSelector(state => state.chess.current_turn);    
     const dispatch = useDispatch();
     const [{isDragging}, drag] = useDrag({
@@ -32,13 +33,14 @@ function Knight({color, row, column}) {
     }
 
     return (
-        <div             
+        <motion.div             
             className={styles.container} 
             onClick={handleClick}
             onMouseDown={handleClick}
-            ref={drag}>
+            ref={drag}
+            layoutId={`${color} knight ${id}`}>
             <img className={styles.piece} src={icons[`${color}Knight`]}/>
-        </div>
+        </motion.div>
     )
 }
 

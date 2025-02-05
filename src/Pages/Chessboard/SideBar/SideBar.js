@@ -2,18 +2,19 @@ import React from 'react';
 import icons from './icons';
 import ResignButton from './ResignButton'
 import {MessageBox} from '~/assets/Components/MessageBox';
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import * as styles from './styles.module.css';
 
 function SideBar(){
     const currentTurn = useSelector(state => state.chess.current_turn);
+    const dispatch = useDispatch();
 
     const handleTakeBack = () => {
-
+        dispatch({type: 'UNDO'})
     }
     
     const handleForward = () => {
-
+        dispatch({type: 'REDO'})
     }
 
     return(

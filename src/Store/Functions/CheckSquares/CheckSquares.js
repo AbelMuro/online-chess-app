@@ -170,7 +170,7 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
       squaresBetweenKingAndAttacker = [];
   
     knightSquares((squares) => {
-      if(state.board[squares.row]?.[squares.column] === `${opposing_color} knight`){
+      if(state.board[squares.row]?.[squares.column]?.includes(`${opposing_color} knight`)){
         state[`${piece_color}_king_in_check`] = true;
         squaresBetweenKingAndAttacker.push({row: squares.row, column: squares.column})
         return false;

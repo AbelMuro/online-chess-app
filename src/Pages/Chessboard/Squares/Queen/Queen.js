@@ -1,6 +1,6 @@
 import React, {useEffect, memo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-
+import {motion} from 'framer-motion';
 import { useDrag } from "react-dnd"
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
@@ -49,14 +49,16 @@ function Queen({color, row, column}) {
     }, [board])
     
     return (
-        <div             
+        <motion.div             
             className={styles.container} 
             onMouseDown={handleClick}
             onClick={handleClick}
             style={isDragging ? {opacity: 0} : {opacity: 1}} 
-            ref={drag}>
+            ref={drag}
+            layoutId={`${color} queen`}
+            >
                 <img className={styles.piece} src={icons[`${color}Queen`]}/>
-        </div>
+        </motion.div>
     )
 }
 

@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
-
+import {motion} from 'framer-motion';
 import {useDispatch, useSelector} from 'react-redux';
 import icons from '~/assets/icons';
 import { useDrag } from "react-dnd"
 import * as styles from './styles.module.css';
 
-function Rook({color, row, column}) {
+function Rook({color, row, column, id}) {
     const dispatch = useDispatch();
     const board = useSelector(state => state.chess.board)
     const currentTurn = useSelector(state => state.chess.current_turn);   
@@ -46,15 +46,16 @@ function Rook({color, row, column}) {
     }, [board])
 
     return (
-        <div 
+        <motion.div 
             className={styles.container} 
             onClick={handleClick} 
             onMouseDown={handleClick}
             style={isDragging ? {opacity: 0} : {opacity: 1}}
             ref={drag}
+            layoutId={`${color} rook ${id}`}
             >
                 <img className={styles.piece} src={icons[`${color}Rook`]}/>
-        </div>
+        </motion.div>
     )
 }
 
