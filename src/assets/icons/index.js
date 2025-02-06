@@ -13,6 +13,16 @@ import whiteQueen from './white queen.png';
 import whiteKing from './white king.png';
 
 export default {
-    blackPawn, blackRook, blackKnight, blackBishop, blackQueen, blackKing,
-    whitePawn, whiteRook, whiteKnight, whiteBishop, whiteQueen, whiteKing
+    'black pawn' : blackPawn, 
+    'black rook' : blackRook, 
+    'black knight': blackKnight, 
+    'black bishop' : blackBishop, 
+    'black queen' : blackQueen, 
+    'black king' : blackKing,
+    'white pawn' : whitePawn,
+    'white rook' : whiteRook, 
+    'white knight' : whiteKnight, 
+    'white bishop' : whiteBishop, 
+    'white queen' : whiteQueen, 
+    'white king' : whiteKing
 }

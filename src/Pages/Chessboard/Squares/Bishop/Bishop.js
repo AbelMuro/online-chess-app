@@ -1,4 +1,4 @@
-import React, {useEffect, memo} from 'react';
+import React, {useEffect, memo, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {motion} from 'framer-motion';
 import { useDrag } from "react-dnd"
@@ -7,6 +7,7 @@ import * as styles from './styles.module.css';
 
 
 //this is where i left off, i will need to cancel the layoutId animation by using conditional rendering
+
 function Bishop({color, row, column, id}) { 
     const currentTurn = useSelector(state => state.chess.current_turn);   
     const board = useSelector(state => state.chess.board);     
@@ -17,7 +18,7 @@ function Bishop({color, row, column, id}) {
             return {row, column};
         },
         isDragging: (monitor) => { 
-            const square = monitor.getItem();         
+            const square = monitor.getItem();      
             return row === square.row && column === square.column; 
         },
         canDrag: () => {                      
@@ -25,13 +26,7 @@ function Bishop({color, row, column, id}) {
         },
         collect: (monitor) => ({
             isDragging: monitor.isDragging()   
-        }),
-        end: (item, monitor) => {
-            const itemDropped = monitor.didDrop();
-            if(itemDropped){
-                console.log('it dropped')
-            }
-        }
+        })      
     })
 
 
@@ -54,17 +49,18 @@ function Bishop({color, row, column, id}) {
         }
     }, [board])
 
+
+
     return (
         <motion.div             
             className={styles.container} 
             onMouseDown={handleClick}
-            onDragEnd={() => {console.log('im here')}}
             onClick={handleClick}
             style={isDragging ? {opacity: 0} : {opacity: 1}} 
             ref={drag}
             layoutId={`${color} bishop ${id}`}
             >
-                <img className={styles.piece} src={icons[`${color}Bishop`]}/>
+                <img className={styles.piece} src={icons[`${color} bishop`]}/>
         </motion.div>
     )
 }

@@ -39,7 +39,7 @@ function Knight({color, row, column, id}) {
             onMouseDown={handleClick}
             ref={drag}
             layoutId={`${color} knight ${id}`}>
-            <img className={styles.piece} src={icons[`${color}Knight`]}/>
+            <img className={styles.piece} src={icons[`${color} knight`]}/>
         </motion.div>
     )
 }

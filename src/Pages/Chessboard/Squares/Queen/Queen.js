@@ -57,7 +57,7 @@ function Queen({color, row, column}) {
             ref={drag}
             layoutId={`${color} queen`}
             >
-                <img className={styles.piece} src={icons[`${color}Queen`]}/>
+                <img className={styles.piece} src={icons[`${color} queen`]}/>
         </motion.div>
     )
 }

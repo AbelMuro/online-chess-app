@@ -54,7 +54,7 @@ function Rook({color, row, column, id}) {
             ref={drag}
             layoutId={`${color} rook ${id}`}
             >
-                <img className={styles.piece} src={icons[`${color}Rook`]}/>
+                <img className={styles.piece} src={icons[`${color} rook`]}/>
         </motion.div>
     )
 }

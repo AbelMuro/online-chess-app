@@ -1,0 +1,47 @@
+.container{
+    width: 100%;
+    height: 400px;
+    padding: 10px;
+    background-color: rgb(27, 27, 27);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.container > h2{
+    font-family: 'mulish';
+    font-size: 1.2rem;
+    color: #CECECE;
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    overflow-y: auto;
+}
+
+.moves{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    overflow: auto;
+}
+
+.moves_move{
+    font-family: 'mulish';
+    font-size: 1rem;
+    color: #CECECE;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 0px;
+}
+
+.moves_move_piece{
+    width: 10px;
+    object-fit: contain;
+}

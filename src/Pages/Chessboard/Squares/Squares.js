@@ -25,6 +25,9 @@ function Squares({row, column}) {
         collect: (monitor) => ({
             handlerId: monitor.getHandlerId()
         }),
+        canDrop: () => {
+            return !!highlightedSquare;
+        },
         drop: () => {
             handleClick();
         }

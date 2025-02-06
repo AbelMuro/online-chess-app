@@ -47,7 +47,7 @@ function King({color, row, column}) {
             style={isDragging ? {opacity: 0} : {opacity: 1}} 
             layoutId={`${color} king`}
             ref={drag}>
-                <img className={styles.piece} src={icons[`${color}King`]}/>
+                <img className={styles.piece} src={icons[`${color} king`]}/>
         </motion.div>
     )
 }

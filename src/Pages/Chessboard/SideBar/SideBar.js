@@ -1,5 +1,6 @@
 import React from 'react';
 import icons from './icons';
+import ShowMoves from './ShowMoves';
 import ResignButton from './ResignButton'
 import {MessageBox} from '~/assets/Components/MessageBox';
 import {useSelector, useDispatch} from 'react-redux'
@@ -22,6 +23,7 @@ function SideBar(){
             <h1 className={styles.bar_title}>
                 {`${currentTurn} to move`}
             </h1>
+            <ShowMoves/>
             <div className={styles.bar_buttons}>
                 <ResignButton/>
                 <MessageBox message={'Take back'} Component={({onMouseEnter, onMouseLeave, children}) => {

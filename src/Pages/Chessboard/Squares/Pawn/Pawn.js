@@ -43,7 +43,7 @@ function Pawn({color, row, column, id}) {
             layoutId={`${color} pawn ${id}`}
             ref={drag}
             >
-                <img className={styles.piece} src={icons[`${color}Pawn`]} />  
+                <img className={styles.piece} src={icons[`${color} pawn`]} />  
         </motion.div> 
     )
 }
