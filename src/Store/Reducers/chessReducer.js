@@ -4,6 +4,7 @@ import { createLegalSquaresWhileInCheck, createLegalSquaresForKing} from '../Fun
 import { checkSquaresForCheck, checkSquaresForBlocks, checkSquaresForThreats} from '../Functions/CheckSquares';
 import { UnpinPieces, findPinnedPieces, findLegalMovesForPinnedPiece } from '../Functions/PinnedPieces';
 import { checkEnpassant, implementEnPassant } from '../Functions/EnPassant';
+import { legalMovesExist} from '../Functions/Stalemate';
 
 //this is where i left off, i will need to populate three properties of the state; past, present and future 
 //to implement the take-back and forward features of the app
@@ -29,6 +30,8 @@ const removeAllHighlightedSquares = createAction('REMOVE_ALL_HIGHLIGHTED_SQUARES
 
 const isKingInCheck = createAction('IS_KING_IN_CHECK');
 const resigns = createAction('RESIGNS');
+const countLegalMoves = createAction('COUNT_LEGAL_MOVES');
+const resetLegalMoves = createAction('RESET_LEGAL_MOVES');
 
 const setPinnedPieces = createAction('SET_PINNED_PIECES');
 const clearPinnedPieces = createAction('CLEAR_PINNED_PIECES');
@@ -78,16 +81,17 @@ const chessReducer = createReducer(initialState, (builder) => {
       const pieceToBeMoved = state.board[oldRow][oldColumn];
       const pieceToBeTaken = state.board[newRow][newColumn];
       UnpinPieces(state, newRow, newColumn);
+      let pieceTakenByEnPassant = null;
 
       if(state.en_passant)
-        implementEnPassant(state, pieceToBeMoved, oldRow, oldColumn , newRow, newColumn);
+        pieceTakenByEnPassant = implementEnPassant(state, pieceToBeMoved, oldRow, oldColumn , newRow, newColumn);
       else if(pieceToBeMoved.includes('pawn'))
         checkEnpassant(state, oldRow, newRow, newColumn, pieceToBeMoved);
 
       state.board[oldRow][oldColumn] = '';
       state.board[newRow][newColumn] = pieceToBeMoved;
-      const moveToBeSaved = {from: {row: oldRow, column: oldColumn}, to: {row: newRow, column: newColumn}, pieceToBeTaken, pieceToBeMoved}     
-      state.moves.push(moveToBeSaved);
+      const moveToBeSaved = {from: {row: oldRow, column: oldColumn}, to: {row: newRow, column: newColumn}, pieceToBeTaken: pieceTakenByEnPassant || pieceToBeTaken, pieceToBeMoved}     
+      state.moves.unshift(moveToBeSaved);
       state.past.push(moveToBeSaved)
       state.future = [];   
       state.pieceToBeMoved = initialState.pieceToBeMoved;
@@ -98,7 +102,7 @@ const chessReducer = createReducer(initialState, (builder) => {
     })
     .addCase(undo, (state) => {
       const move = state.past.pop();    
-      state.moves.pop();
+      state.moves.shift();
       if(!move){
         state.board = initialState.board;
         state.current_turn = 'white';
@@ -122,7 +126,7 @@ const chessReducer = createReducer(initialState, (builder) => {
     .addCase(redo, (state) => {
       const move = state.future.pop();
       if(!move) return;
-      state.moves.push(move);
+      state.moves.unshift(move);
       const from = move.from;
       const to = move.to;
 
@@ -609,6 +613,16 @@ const chessReducer = createReducer(initialState, (builder) => {
     .addCase(resigns, (state, action) => {
       const playerWhoResigned = action.payload.resigns;
       state.resigns = playerWhoResigned;
+    })
+    .addCase(countLegalMoves, (state, action) => {
+      const color = action.payload.square.color;
+      const row = action.payload.square.row;
+      const column = action.payload.square.column;
+      const piece = state.board[row][column];
+
+      const pieceCanMove = legalMovesExist(state, piece, color, {row, column});
+
+      console.log(pieceCanMove);
     })
 });
 

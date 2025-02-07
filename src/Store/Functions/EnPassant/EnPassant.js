@@ -19,8 +19,10 @@ export const implementEnPassant = (state, piece, oldRow, oldColumn, newRow, newC
     if(state.board[row][column].includes(`${opposing_color} pawn`) && 
         ((newColumn === column && newRow + 1 === row) && ((oldColumn + 1 === column || oldColumn - 1 === column) && oldRow === row)) ||                                 //black pawn
         ((newColumn === column && newRow - 1 === row) && ((oldColumn - 1 === column || oldColumn + 1 === column) && oldRow === row)) ){              //white pawn
+            let pieceToBeTaken = state.board[row][column];
             state.board[row][column] = '';
             state.en_passant = null;
+            return pieceToBeTaken;
         }   
     else
         checkEnpassant(state, oldRow, newRow, newColumn); 
