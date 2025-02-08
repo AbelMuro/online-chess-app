@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {motion} from 'framer-motion';
 import { useDrag } from "react-dnd"
@@ -31,6 +31,15 @@ function Knight({color, row, column, id}) {
         dispatch({type: 'REMOVE_ALL_HIGHLIGHTED_SQUARES'});
         dispatch({type: 'HIGHLIGHT_KNIGHT_SQUARES', payload: {square: {row, column, color}}})
     }
+
+    useEffect(() => {
+        dispatch({type: 'COUNT_LEGAL_MOVES', payload: {square: {row, column, color}}});
+        
+        return () => {
+            dispatch({type: 'RESET_LEGAL_MOVES', payload: {square: {row, column, color}}});
+        }
+
+    }, [])
 
     return (
         <motion.div             

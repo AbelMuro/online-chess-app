@@ -49,6 +49,15 @@ function Bishop({color, row, column, id}) {
         }
     }, [board])
 
+    useEffect(() => {
+        dispatch({type: 'COUNT_LEGAL_MOVES', payload: {square: {row, column, color}}});
+        
+        return () => {
+            dispatch({type: 'RESET_LEGAL_MOVES', payload: {square: {row, column, color}}});
+        }
+
+    }, [])
+
 
 
     return (

@@ -47,6 +47,15 @@ function Queen({color, row, column}) {
             dispatch({type: 'CLEAR_PINNED_PIECES', payload: {square: {row, column}}})
         }
     }, [board])
+
+    useEffect(() => {
+        dispatch({type: 'COUNT_LEGAL_MOVES', payload: {square: {row, column, color}}});
+        
+        return () => {
+            dispatch({type: 'RESET_LEGAL_MOVES', payload: {square: {row, column, color}}});
+        }
+
+    }, [])
     
     return (
         <motion.div             

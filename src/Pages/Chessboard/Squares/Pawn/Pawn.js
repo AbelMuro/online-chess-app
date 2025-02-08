@@ -1,4 +1,4 @@
-import React, {memo, useState} from 'react';
+import React, {memo, useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {motion} from 'framer-motion';
 import icons from '~/assets/icons';
@@ -32,6 +32,15 @@ function Pawn({color, row, column, id}) {
         dispatch({type: 'REMOVE_ALL_HIGHLIGHTED_SQUARES'});
         dispatch({type: 'HIGHLIGHT_PAWN_SQUARES', payload: {square: {row, column, color, twoSquareMoveAvailable}}});
     }
+
+    useEffect(() => {
+        dispatch({type: 'COUNT_LEGAL_MOVES', payload: {square: {row, column, color}}});
+        
+        return () => {
+            dispatch({type: 'RESET_LEGAL_MOVES', payload: {square: {row, column, color}}});
+        }
+
+    }, [])
 
 
     return(

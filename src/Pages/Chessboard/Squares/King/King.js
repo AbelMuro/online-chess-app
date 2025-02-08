@@ -39,6 +39,15 @@ function King({color, row, column}) {
         dispatch({type: 'IS_KING_IN_CHECK', payload: {square: {row, column, color}}})
     }, [board])
 
+    useEffect(() => {
+        dispatch({type: 'COUNT_LEGAL_MOVES', payload: {square: {row, column, color}}});
+        
+        return () => {
+            dispatch({type: 'RESET_LEGAL_MOVES', payload: {square: {row, column, color}}});
+        }
+
+    }, [])
+
     return (
         <motion.div             
             className={styles.container} 

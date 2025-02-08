@@ -2,8 +2,11 @@ import { northSquares, southSquares,
     westSquares, eastSquares, 
     northWestSquares,northEastSquares, 
     southEastSquares, southWestSquares, 
-    knightSquares} from '../../Functions/TraversalFunctions';
+    knightSquares, pawnSquares} from '../../Functions/TraversalFunctions';
 
+import {
+    createLegalSquaresForKing
+} from '../../Functions/CreateSquares';
 
 //this is where i left off, i will need to check if any pawns are available to move, as well as the king
 export function legalMovesExist(state, piece, color, square) {
@@ -11,6 +14,35 @@ export function legalMovesExist(state, piece, color, square) {
      const column = square.column;
      const opposing_color = color === 'white' ? 'black' : 'white';
      let legalMoves = false;
+     
+    if(piece.includes('pawn')){
+        const twoSquareMoveAvailable = color === 'white' ? row === 1 : row === 6;
+        const [blueSquares, redSquares] = pawnSquares(state, row, column, color, twoSquareMoveAvailable);
+        return blueSquares.length !== 0 || redSquares.length !== 0;
+    }
+
+    if(piece.includes('king')){
+        const legalSquares = createLegalSquaresForKing(state, row, column, color);
+        return legalSquares.length !== 0
+    }
+
+    if(piece.includes('knight'))
+        knightSquares((squares) => {
+            if(squares[squares.row]?.[squares.column] === ''){
+                legalMoves = true;
+                return false
+            }
+            else if(squares[square.row]?.[square.column].includes(`${opposing_color}`)){
+                legalMoves = true;
+                return false;
+            }
+            else
+                return false;
+            }, row, column)
+    
+    if(legalMoves)
+        return true;
+        
 
      if(piece.includes('rook') || piece.includes('queen'))
         northSquares((i) => {
@@ -134,38 +166,22 @@ export function legalMovesExist(state, piece, color, square) {
         if(legalMoves)
             return true;
     
-      southEastSquares((i, j) => {
-        if(state.board[i][j] === ''){
-            legalMoves = true;
-            return false
-        }
-        else if(state.board[i][j].includes(`${opposing_color}`)){
-            legalMoves = true;
-            return false;
-        }
-        else
-            return false;
-      }, row, column)
+        if(piece.includes('bishop') || piece.includes('queen'))
+            southEastSquares((i, j) => {
+                if(state.board[i][j] === ''){
+                    legalMoves = true;
+                    return false
+                }
+                else if(state.board[i][j].includes(`${opposing_color}`)){
+                    legalMoves = true;
+                    return false;
+                }
+                else
+                    return false;
+            }, row, column)
 
       if(legalMoves)
         return true;
-    
-      knightSquares((squares) => {
-        if(squares[squares.row]?.[squares.column] === ''){
-            legalMoves = true;
-            return false
-        }
-        else if(squares[square.row]?.[square.column].includes(`${opposing_color}`)){
-            legalMoves = true;
-            return false;
-        }
-        else
-            return false;
-        }, row, column)
-    
-        if(legalMoves)
-            return true;
-        else
-            return false;
-
+      else 
+        return false;
 }

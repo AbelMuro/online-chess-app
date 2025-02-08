@@ -5,6 +5,7 @@ import * as styles from './styles.module.css';
 
 function DeclareWinner() {
     const checkmate = useSelector(state => state.chess.checkmate);
+    const stalemate = useSelector(state => state.stalemate);
     const resigns = useSelector(state => state.chess.resigns);
     const buttonRef = useRef();
 
@@ -21,6 +22,7 @@ function DeclareWinner() {
                         <h2 className={styles.dialog_title}>
                             {checkmate && `${checkmate} wins!`}
                             {resigns && `${resigns} resigns!`}
+                            {stalemate && `It's a draw!`} 
                         </h2>
                         <button className={styles.dialog_button} onClick={handleOpen}>
                             Ok

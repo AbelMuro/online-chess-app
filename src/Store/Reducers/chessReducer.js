@@ -1,13 +1,12 @@
 import { createAction, createReducer } from '@reduxjs/toolkit'
-import { northSquares, southSquares, westSquares, eastSquares, northWestSquares,northEastSquares, southEastSquares, southWestSquares, knightSquares} from '../Functions/TraversalFunctions';
+import { northSquares, southSquares, westSquares, eastSquares, northWestSquares,northEastSquares, southEastSquares, southWestSquares, knightSquares, pawnSquares} from '../Functions/TraversalFunctions';
 import { createLegalSquaresWhileInCheck, createLegalSquaresForKing} from '../Functions/CreateSquares';
 import { checkSquaresForCheck, checkSquaresForBlocks, checkSquaresForThreats} from '../Functions/CheckSquares';
 import { UnpinPieces, findPinnedPieces, findLegalMovesForPinnedPiece } from '../Functions/PinnedPieces';
 import { checkEnpassant, implementEnPassant } from '../Functions/EnPassant';
 import { legalMovesExist} from '../Functions/Stalemate';
 
-//this is where i left off, i will need to populate three properties of the state; past, present and future 
-//to implement the take-back and forward features of the app
+//this is where i left off, i will need to test out the stalemate feature by re-ordering the board property of the state
 
 const movePiece = createAction('MOVE_PIECE');
 const changeTurn = createAction('CHANGE_TURN');
@@ -57,7 +56,10 @@ const initialState = {
       ['', '', '', '', '', '', '', '',],
       ['', '', '', '', '', '', '', '',],
     ],
-    moves: [],
+    moves: [],                    //this property is for the component that keeps track of all the moves (pawn to b3, etc...)
+    movesAvailableForWhite: [],
+    movesAvailableForBlack: [], 
+    stalemate: false,
     past: [],
     future: [],
     black_king_in_check: false,
@@ -513,40 +515,10 @@ const chessReducer = createReducer(initialState, (builder) => {
       const row = currentSquare.row;
       const column = currentSquare.column;
       const piece_color = currentSquare.color;
-      const opposing_color = piece_color === 'white' ? 'black' : 'white'
       const twoSquareMoveAvailable = action.payload.square.twoSquareMoveAvailable;
-      const blueSquares = [];
-      const redSquares = [];
 
-      const oneSquareMove = piece_color === 'white' ? {row: row + 1, column} : {row: row - 1, column};
-      const twoSquareMove = piece_color === 'white' ? {row: row + 2, column} : {row: row - 2, column};
-      const leftCornerTake = piece_color === 'white' ? {row: row + 1, column: column - 1} : {row: row - 1, column: column - 1};
-      const rightCornerTake = piece_color === 'white' ? {row: row + 1, column: column + 1} : {row: row - 1, column: column + 1};
-
-      if(state.board[oneSquareMove.row]?.[oneSquareMove.column] === '')
-          blueSquares.push(oneSquareMove);
-      if(twoSquareMoveAvailable && state.board[twoSquareMove.row]?.[twoSquareMove.column] === '')
-          blueSquares.push(twoSquareMove)
-
-      if(state.board[leftCornerTake.row]?.[leftCornerTake.column] && 
-        state.board[leftCornerTake.row]?.[leftCornerTake.column] !== '' &&
-        !state.board[leftCornerTake.row]?.[leftCornerTake.column].includes(piece_color))
-          redSquares.push(leftCornerTake);
-      else if(state.board[leftCornerTake.row]?.[leftCornerTake.column] === '' && 
-        (state.en_passant?.row === row && state.en_passant?.column === column - 1) && 
-        state.board[row][column - 1]?.includes(`${opposing_color} pawn`))  
-          redSquares.push(leftCornerTake)
-
-      if(state.board[rightCornerTake.row]?.[rightCornerTake.column] &&
-        state.board[rightCornerTake.row]?.[rightCornerTake.column] !== '' &&
-        !state.board[rightCornerTake.row]?.[rightCornerTake.column].includes(piece_color))
-          redSquares.push(rightCornerTake);
-      else if(state.board[rightCornerTake.row]?.[rightCornerTake.column] === '' && 
-        (state.en_passant?.row === row && state.en_passant?.column === column + 1) && 
-        state.board[row][column + 1]?.includes(`${opposing_color} pawn`))  
-          redSquares.push(rightCornerTake)
+      const [blueSquares, redSquares] = pawnSquares(state, row, column, piece_color, twoSquareMoveAvailable);
       
-
       const pinnedPiece = state.pinned_pieces.filter(piece => piece.square.row === row && piece.square.column === column)[0];   //we check to see if the current piece is a pinned piece
       
       if(pinnedPiece)
@@ -619,10 +591,23 @@ const chessReducer = createReducer(initialState, (builder) => {
       const row = action.payload.square.row;
       const column = action.payload.square.column;
       const piece = state.board[row][column];
+      const blackKingInCheck = state[`black_king_in_check`];
+      const whiteKingInCheck = state[`white_king_in_check`];
 
       const pieceCanMove = legalMovesExist(state, piece, color, {row, column});
 
-      console.log(pieceCanMove);
+      if(color === 'white' && pieceCanMove)
+        state.movesAvailableForWhite.push(piece);
+      else if(color === 'white' && !pieceCanMove)
+        state.movesAvailableForWhite = state.movesAvailableForWhite.filter((move) => move !== piece)
+      else if(color === 'black' && pieceCanMove)
+        state.movesAvailableForBlack.push(piece);
+      else
+        state.movesAvailableForBlack = state.movesAvailableForBlack.filter((move) => move !== piece)
+      
+
+      if(!state.movesAvailableForWhite.length && !state.movesAvailableForBlack.length && !blackKingInCheck && !whiteKingInCheck)
+          state.stalemate = true;
     })
 });
 
