@@ -1,12 +1,13 @@
-import React, {useEffect, memo} from 'react';
+import React, {memo} from 'react';
+import SetPinnedPieces from '~/assets/Components/SetPinnedPieces';
+import CountLegalMoves from '~/assets/Components/CountLegalMoves';
 import {useDispatch, useSelector} from 'react-redux';
 import {motion} from 'framer-motion';
 import { useDrag } from "react-dnd"
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
-function Queen({color, row, column}) {
-    const board = useSelector(state => state.chess.board);   
+function Queen({color, row, column, pieceId}) {
     const currentTurn = useSelector(state => state.chess.current_turn);     
     const dispatch = useDispatch();
     const [{isDragging}, drag] = useDrag({
@@ -40,22 +41,6 @@ function Queen({color, row, column}) {
         dispatch({type: 'HIGHLIGHT_SOUTHEAST_SQUARES', payload: {square: {row, column, color}}});
     }
 
-    useEffect(() => {
-        dispatch({type: 'SET_PINNED_PIECES', payload: {square: {row, column, color}}})
-
-        return () => {
-            dispatch({type: 'CLEAR_PINNED_PIECES', payload: {square: {row, column}}})
-        }
-    }, [board])
-
-    useEffect(() => {
-        dispatch({type: 'COUNT_LEGAL_MOVES', payload: {square: {row, column, color}}});
-        
-        return () => {
-            dispatch({type: 'RESET_LEGAL_MOVES', payload: {square: {row, column, color}}});
-        }
-
-    }, [])
     
     return (
         <motion.div             
@@ -64,9 +49,11 @@ function Queen({color, row, column}) {
             onClick={handleClick}
             style={isDragging ? {opacity: 0} : {opacity: 1}} 
             ref={drag}
-            layoutId={`${color} queen`}
+            layoutId={pieceId}
             >
                 <img className={styles.piece} src={icons[`${color} queen`]}/>
+                <SetPinnedPieces row={row} column={column} color={color}/>
+                <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
         </motion.div>
     )
 }

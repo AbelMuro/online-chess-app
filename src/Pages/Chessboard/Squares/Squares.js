@@ -19,6 +19,7 @@ function Squares({row, column}) {
     const highlightedSquare = useSelector(state => state.chess.highlighted_squares[row][column]);
     const color = currentSquare.includes('white') ? 'white' : 'black';
     const piece = currentSquare.slice(6, currentSquare.length);
+    const id = piece[piece.length - 1]
     const dispatch = useDispatch();
     const [{handlerId}, drop] = useDrop({
         accept: 'piece',
@@ -57,12 +58,12 @@ function Squares({row, column}) {
             className={styles.chess_board_square} 
             style={handleStyles()}
             onClick={handleClick}> 
-                {piece.includes('pawn') && <Pawn color={color} row={row} column={column} id={piece[piece.length - 1]}/>}
-                {piece.includes('queen') && <Queen color={color} row={row} column={column} id={piece[piece.length - 1]}/>}
-                {piece.includes('rook') && <Rook color={color} row={row} column={column} id={piece[piece.length - 1]}/>}
-                {piece.includes('knight') && <Knight color={color} row={row} column={column} id={piece[piece.length - 1]}/>}
-                {piece.includes('bishop') && <Bishop color={color} row={row} column={column} id={piece[piece.length - 1]}/>}
-                {piece.includes('king') && <King color={color} row={row} column={column} id={piece[piece.length - 1]}/>}
+                {piece.includes('pawn') && <Pawn color={color} row={row} column={column} pieceId={`${color} pawn ${id}`}/>}
+                {piece.includes('queen') && <Queen color={color} row={row} column={column} pieceId={`${color} queen ${id}`}/>}
+                {piece.includes('rook') && <Rook color={color} row={row} column={column} pieceId={`${color} rook ${id}`}/>}
+                {piece.includes('knight') && <Knight color={color} row={row} column={column} pieceId={`${color} knight ${id}`}/>}
+                {piece.includes('bishop') && <Bishop color={color} row={row} column={column} pieceId={`${color} bishop ${id}`}/>}
+                {piece.includes('king') && <King color={color} row={row} column={column} pieceId={`${color} king ${id}`}/>}
         </div> 
     )
 }

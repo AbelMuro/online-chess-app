@@ -15,7 +15,7 @@
     border-radius: 10px;
     background-image: url('./images/chessboard.png');
     background-position: center;
-    background-size: contain;
+    background-size: cover;
     background-repeat: no-repeat;
     display: grid;
     grid-template-columns: repeat(8, 1fr);
@@ -30,4 +30,20 @@
     border-radius: 10px;
     padding: 35px;
     display: flex;
+}
+
+
+@media(max-width: 1170px){
+    .chess{
+        flex-direction: column;
+    }
+
+    .chess_board{
+        width: 600px;
+        height: 600px;
+    }
+
+    .chess_bar{
+        height: 300px;
+    }
 }

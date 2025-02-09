@@ -1,11 +1,12 @@
-import React, {memo, useEffect} from 'react';
+import React, {memo} from 'react';
+import CountLegalMoves from '~/assets/Components/CountLegalMoves';
 import {useDispatch, useSelector} from 'react-redux';
 import {motion} from 'framer-motion';
 import { useDrag } from "react-dnd"
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
-function Knight({color, row, column, id}) {
+function Knight({color, row, column, pieceId}) {
     const currentTurn = useSelector(state => state.chess.current_turn);    
     const dispatch = useDispatch();
     const [{isDragging}, drag] = useDrag({
@@ -32,23 +33,15 @@ function Knight({color, row, column, id}) {
         dispatch({type: 'HIGHLIGHT_KNIGHT_SQUARES', payload: {square: {row, column, color}}})
     }
 
-    useEffect(() => {
-        dispatch({type: 'COUNT_LEGAL_MOVES', payload: {square: {row, column, color}}});
-        
-        return () => {
-            dispatch({type: 'RESET_LEGAL_MOVES', payload: {square: {row, column, color}}});
-        }
-
-    }, [])
-
     return (
         <motion.div             
             className={styles.container} 
             onClick={handleClick}
             onMouseDown={handleClick}
             ref={drag}
-            layoutId={`${color} knight ${id}`}>
-            <img className={styles.piece} src={icons[`${color} knight`]}/>
+            layoutId={pieceId}>
+                <img className={styles.piece} src={icons[`${color} knight`]}/>
+                <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
         </motion.div>
     )
 }

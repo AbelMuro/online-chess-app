@@ -6,8 +6,6 @@ import { UnpinPieces, findPinnedPieces, findLegalMovesForPinnedPiece } from '../
 import { checkEnpassant, implementEnPassant } from '../Functions/EnPassant';
 import { legalMovesExist} from '../Functions/Stalemate';
 
-//this is where i left off, i will need to test out the stalemate feature by re-ordering the board property of the state
-
 const movePiece = createAction('MOVE_PIECE');
 const changeTurn = createAction('CHANGE_TURN');
 const pieceToBeMoved = createAction('PIECE_TO_BE_MOVED');
@@ -31,9 +29,32 @@ const isKingInCheck = createAction('IS_KING_IN_CHECK');
 const resigns = createAction('RESIGNS');
 const countLegalMoves = createAction('COUNT_LEGAL_MOVES');
 const resetLegalMoves = createAction('RESET_LEGAL_MOVES');
+const checkStalemate = createAction('CHECK_STALEMATE');
 
 const setPinnedPieces = createAction('SET_PINNED_PIECES');
 const clearPinnedPieces = createAction('CLEAR_PINNED_PIECES');
+
+/* 
+      ['white king e', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', ''],
+      ['', '', '', '', '', '', '', '',],
+      ['', '', '', 'white queen f', '', '', '', '',],
+      ['', '', '', '', 'white rook a', '', '', '',],
+      ['', '', '', '', '', '', '', '',],
+      ['', '', '', '', '', '', '', ''],
+      ['black king e', '', '', '', '', '', '', ''],
+
+
+
+      ['white rook a', 'white knight b', 'white bishop c', 'white queen d', 'white king e', 'white bishop f', 'white knight g', 'white rook h'],
+      ['white pawn a', 'white pawn b', 'white pawn c', 'white pawn d', 'white pawn e', 'white pawn f', 'white pawn g', 'white pawn h'],
+      ['', '', '', '', '', '', '', '',],
+      ['', '', '', '', '', '', '', '',],
+      ['', '', '', '', '', '', '', '',],
+      ['', '', '', '', '', '', '', '',],
+      ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h'],
+      ['black rook a', 'black knight b', 'black bishop c', 'black queen d', 'black king e', 'black bishop f', 'black knight g', 'black rook h'],
+*/
 
 const initialState = { 
     board: [
@@ -57,8 +78,8 @@ const initialState = {
       ['', '', '', '', '', '', '', '',],
     ],
     moves: [],                    //this property is for the component that keeps track of all the moves (pawn to b3, etc...)
-    movesAvailableForWhite: [],
-    movesAvailableForBlack: [], 
+    movesAvailableForWhite: ['white pawn a', 'white pawn b', 'white pawn c', 'white pawn d', 'white pawn e', 'white pawn f', 'white pawn g', 'white pawn h', 'white knight b', 'white knight g'],
+    movesAvailableForBlack: ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h', 'black knight b', 'black knight g'], 
     stalemate: false,
     past: [],
     future: [],
@@ -132,8 +153,9 @@ const chessReducer = createReducer(initialState, (builder) => {
       const from = move.from;
       const to = move.to;
 
-      state.board[from.row][from.column] = move.pieceToBeTaken;
-      state.board[to.row][to.column] = move.pieceToBeMoved;
+      state.board[from.row][from.column] = '';
+      state.board[to.row][to.column] = move.pieceToBeMoved;        
+
       state.past.push(move);
       state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
       state.pieceToBeMoved = initialState.pieceToBeMoved;
@@ -591,24 +613,35 @@ const chessReducer = createReducer(initialState, (builder) => {
       const row = action.payload.square.row;
       const column = action.payload.square.column;
       const piece = state.board[row][column];
-      const blackKingInCheck = state[`black_king_in_check`];
-      const whiteKingInCheck = state[`white_king_in_check`];
 
       const pieceCanMove = legalMovesExist(state, piece, color, {row, column});
+      const movesAvailable = state[`movesAvailableFor${color === 'white' ? 'White' : 'Black'}`]
 
-      if(color === 'white' && pieceCanMove)
-        state.movesAvailableForWhite.push(piece);
-      else if(color === 'white' && !pieceCanMove)
-        state.movesAvailableForWhite = state.movesAvailableForWhite.filter((move) => move !== piece)
-      else if(color === 'black' && pieceCanMove)
-        state.movesAvailableForBlack.push(piece);
-      else
-        state.movesAvailableForBlack = state.movesAvailableForBlack.filter((move) => move !== piece)
+      if(pieceCanMove && !movesAvailable.includes(piece))
+        movesAvailable.push(piece);
+      else if(!pieceCanMove)
+        state[`movesAvailableFor${color === 'white' ? 'White' : 'Black'}`] = movesAvailable.filter((move) => move !== piece)
+
+    })
+    .addCase(resetLegalMoves, (state, action) => {
+        const color = action.payload.color === 'white' ? 'White' : 'Black';
+        const piece = action.payload.pieceId;
       
+        state[`movesAvailableFor${color}`] = state[`movesAvailableFor${color}`].filter((move) => move !== piece);
+    })
+    .addCase(checkStalemate, (state, action) => {
+        const color = action.payload.square.color;
+        const row = action.payload.square.row;
+        const column = action.payload.square.column;
+        const availableMoves = state[`movesAvailableFor${color === 'white' ? 'White' : 'Black'}`];
+        const kingInCheck = state[`${color}_king_in_check`];
 
-      if(!state.movesAvailableForWhite.length && !state.movesAvailableForBlack.length && !blackKingInCheck && !whiteKingInCheck)
+        const legalSquaresForKing = createLegalSquaresForKing(state, row, column, color);
+        
+        if(legalSquaresForKing.length === 0 && availableMoves.length === 0 && !kingInCheck)
           state.stalemate = true;
     })
+    
 });
 
 export default chessReducer;

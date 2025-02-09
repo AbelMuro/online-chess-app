@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useRef} from 'react';
 import {squareCoordinates} from './SquareCoordinates';
 import {useSelector} from 'react-redux';
 import * as styles from './styles.module.css';
@@ -22,7 +22,7 @@ function ShowMoves() {
                         const pieceToBeMoved = move.pieceToBeMoved;
                         let piece = pieceToBeMoved.slice(0, pieceToBeMoved.length - 2);
                         const pieceToBeTaken = move.pieceToBeTaken;    
-                        let pieceTaken = pieceToBeTaken.slice(0, pieceToBeMoved.length - 2);                    
+                        let pieceTaken = pieceToBeTaken.slice(0, pieceToBeTaken.length - 2);               
                     
                         const fromSquare = squareCoordinates[from.row][from.column];
                         const toSquare = squareCoordinates[to.row][to.column];

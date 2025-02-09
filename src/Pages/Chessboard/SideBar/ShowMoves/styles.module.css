@@ -19,15 +19,24 @@
     gap: 10px;
     justify-content: space-between;
     align-items: center;
-    overflow-y: auto;
 }
 
 .moves{
+    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     gap: 15px;
     overflow: auto;
+}
+
+.moves::-webkit-scrollbar{
+    width: 10px;
+    background-color: transparent;
+}
+
+.moves::-webkit-scrollbar-thumb{
+    background-color: rgb(44, 44, 44);
+    border-radius: 10px;
 }
 
 .moves_move{
@@ -44,4 +53,15 @@
 .moves_move_piece{
     width: 15px;
     object-fit: contain;
+}
+
+@media(max-width: 1170px){
+    .container{
+        width: 200px;
+        height: 100%;
+    }
+
+    .container > h2{
+        display: none;
+    }
 }

@@ -14,3 +14,9 @@
     object-fit: contain;
     cursor: grab
 }
+
+@media(max-width: 1170px){
+    .piece{
+        width: 25px;
+    }
+}

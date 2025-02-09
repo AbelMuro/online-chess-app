@@ -1,11 +1,12 @@
-import React, {memo, useState, useEffect} from 'react';
+import React, {memo, useState} from 'react';
+import CountLegalMoves from '~/assets/Components/CountLegalMoves';
 import {useDispatch, useSelector} from 'react-redux';
 import {motion} from 'framer-motion';
 import icons from '~/assets/icons';
 import { useDrag } from "react-dnd"
 import * as styles from './styles.module.css';
 
-function Pawn({color, row, column, id}) {
+function Pawn({color, row, column, pieceId}) {
     const [twoSquareMoveAvailable,] = useState((row === 1 && color === 'white') || (row === 6 && color === 'black'));
     const currentTurn = useSelector(state => state.chess.current_turn);                                                  
     const dispatch = useDispatch();
@@ -33,15 +34,6 @@ function Pawn({color, row, column, id}) {
         dispatch({type: 'HIGHLIGHT_PAWN_SQUARES', payload: {square: {row, column, color, twoSquareMoveAvailable}}});
     }
 
-    useEffect(() => {
-        dispatch({type: 'COUNT_LEGAL_MOVES', payload: {square: {row, column, color}}});
-        
-        return () => {
-            dispatch({type: 'RESET_LEGAL_MOVES', payload: {square: {row, column, color}}});
-        }
-
-    }, [])
-
 
     return(
         <motion.div 
@@ -49,10 +41,11 @@ function Pawn({color, row, column, id}) {
             onClick={handleMove} 
             onMouseDown={handleMove}
             style={isDragging ? {opacity: 0} : {opacity: 1}} 
-            layoutId={`${color} pawn ${id}`}
+            layoutId={pieceId}
             ref={drag}
             >
                 <img className={styles.piece} src={icons[`${color} pawn`]} />  
+                <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
         </motion.div> 
     )
 }

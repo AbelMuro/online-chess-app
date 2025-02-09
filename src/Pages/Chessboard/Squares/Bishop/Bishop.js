@@ -1,16 +1,16 @@
-import React, {useEffect, memo, useState} from 'react';
+import React, {useEffect, memo} from 'react';
+import SetPinnedPieces from '~/assets/Components/SetPinnedPieces';
+import CountLegalMoves from '~/assets/Components/CountLegalMoves';
 import {useDispatch, useSelector} from 'react-redux';
 import {motion} from 'framer-motion';
 import { useDrag } from "react-dnd"
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
-
 //this is where i left off, i will need to cancel the layoutId animation by using conditional rendering
 
-function Bishop({color, row, column, id}) { 
-    const currentTurn = useSelector(state => state.chess.current_turn);   
-    const board = useSelector(state => state.chess.board);     
+function Bishop({color, row, column, pieceId}) { 
+    const currentTurn = useSelector(state => state.chess.current_turn);        
     const dispatch = useDispatch();
     const [{isDragging}, drag] = useDrag({
         type: 'piece',
@@ -40,26 +40,6 @@ function Bishop({color, row, column, id}) {
         dispatch({type: 'HIGHLIGHT_SOUTHEAST_SQUARES', payload: {square: {row, column, color}}});
     }
 
-
-    useEffect(() => {
-        dispatch({type: 'SET_PINNED_PIECES', payload: {square: {row, column, color}}})
-
-        return () => {
-            dispatch({type: 'CLEAR_PINNED_PIECES', payload: {square: {row, column}}})
-        }
-    }, [board])
-
-    useEffect(() => {
-        dispatch({type: 'COUNT_LEGAL_MOVES', payload: {square: {row, column, color}}});
-        
-        return () => {
-            dispatch({type: 'RESET_LEGAL_MOVES', payload: {square: {row, column, color}}});
-        }
-
-    }, [])
-
-
-
     return (
         <motion.div             
             className={styles.container} 
@@ -67,9 +47,11 @@ function Bishop({color, row, column, id}) {
             onClick={handleClick}
             style={isDragging ? {opacity: 0} : {opacity: 1}} 
             ref={drag}
-            layoutId={`${color} bishop ${id}`}
+            layoutId={pieceId}
             >
                 <img className={styles.piece} src={icons[`${color} bishop`]}/>
+                <SetPinnedPieces row={row} column={column} color={color}/>
+                <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
         </motion.div>
     )
 }

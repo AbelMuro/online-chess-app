@@ -4,11 +4,6 @@ import { northSquares, southSquares,
     southEastSquares, southWestSquares, 
     knightSquares, pawnSquares} from '../../Functions/TraversalFunctions';
 
-import {
-    createLegalSquaresForKing
-} from '../../Functions/CreateSquares';
-
-//this is where i left off, i will need to check if any pawns are available to move, as well as the king
 export function legalMovesExist(state, piece, color, square) {
      const row = square.row;
      const column = square.column;
@@ -21,23 +16,18 @@ export function legalMovesExist(state, piece, color, square) {
         return blueSquares.length !== 0 || redSquares.length !== 0;
     }
 
-    if(piece.includes('king')){
-        const legalSquares = createLegalSquaresForKing(state, row, column, color);
-        return legalSquares.length !== 0
-    }
-
     if(piece.includes('knight'))
         knightSquares((squares) => {
-            if(squares[squares.row]?.[squares.column] === ''){
+            if(state.board[squares.row]?.[squares.column] === ''){
                 legalMoves = true;
                 return false
             }
-            else if(squares[square.row]?.[square.column].includes(`${opposing_color}`)){
+            else if(state.board[square.row]?.[square.column].includes(`${opposing_color}`)){
                 legalMoves = true;
                 return false;
             }
             else
-                return false;
+                return true;
             }, row, column)
     
     if(legalMoves)

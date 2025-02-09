@@ -1,11 +1,12 @@
 import React, {useEffect, memo} from 'react';
+import CheckStalemate from './CheckStalemate';
 import {useDispatch, useSelector} from 'react-redux';
 import {motion} from 'framer-motion';
 import { useDrag } from "react-dnd"
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
-function King({color, row, column}) {
+function King({color, row, column, pieceId}) {
     const currentTurn = useSelector(state => state.chess.current_turn);    
     const board = useSelector(state => state.chess.board);   
     const dispatch = useDispatch();
@@ -40,13 +41,8 @@ function King({color, row, column}) {
     }, [board])
 
     useEffect(() => {
-        dispatch({type: 'COUNT_LEGAL_MOVES', payload: {square: {row, column, color}}});
-        
-        return () => {
-            dispatch({type: 'RESET_LEGAL_MOVES', payload: {square: {row, column, color}}});
-        }
-
-    }, [])
+        dispatch({type: 'CHECK_STALEMATE', payload: {square: {row, column, color}}})
+    }, [board])
 
     return (
         <motion.div             
@@ -54,9 +50,10 @@ function King({color, row, column}) {
             onClick={handleClick}
             onMouseDown={handleClick}
             style={isDragging ? {opacity: 0} : {opacity: 1}} 
-            layoutId={`${color} king`}
+            layoutId={pieceId}
             ref={drag}>
                 <img className={styles.piece} src={icons[`${color} king`]}/>
+                <CheckStalemate row={row} column={column} color={color}/>
         </motion.div>
     )
 }

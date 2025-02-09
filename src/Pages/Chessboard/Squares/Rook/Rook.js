@@ -1,13 +1,14 @@
 import React, {useEffect} from 'react';
+import SetPinnedPieces from '~/assets/Components/SetPinnedPieces';
+import CountLegalMoves from '~/assets/Components/CountLegalMoves';
 import {motion} from 'framer-motion';
 import {useDispatch, useSelector} from 'react-redux';
 import icons from '~/assets/icons';
 import { useDrag } from "react-dnd"
 import * as styles from './styles.module.css';
 
-function Rook({color, row, column, id}) {
+function Rook({color, row, column, pieceId}) {
     const dispatch = useDispatch();
-    const board = useSelector(state => state.chess.board)
     const currentTurn = useSelector(state => state.chess.current_turn);   
     const [{isDragging}, drag] = useDrag({
         type: 'piece',
@@ -37,23 +38,6 @@ function Rook({color, row, column, id}) {
         dispatch({type: 'HIGHLIGHT_EAST_SQUARES', payload: {square: {row, column, color}}});
     }
 
-    useEffect(() => {
-        dispatch({type: 'SET_PINNED_PIECES', payload: {square: {row, column, color}}})
-
-        return () => {
-            dispatch({type: 'CLEAR_PINNED_PIECES', payload: {square: {row, column}}})
-        }
-    }, [board])
-
-    useEffect(() => {
-        dispatch({type: 'COUNT_LEGAL_MOVES', payload: {square: {row, column, color}}});
-        
-        return () => {
-            dispatch({type: 'RESET_LEGAL_MOVES', payload: {square: {row, column, color}}});
-        }
-
-    }, [])
-
     return (
         <motion.div 
             className={styles.container} 
@@ -61,9 +45,11 @@ function Rook({color, row, column, id}) {
             onMouseDown={handleClick}
             style={isDragging ? {opacity: 0} : {opacity: 1}}
             ref={drag}
-            layoutId={`${color} rook ${id}`}
+            layoutId={pieceId}
             >
                 <img className={styles.piece} src={icons[`${color} rook`]}/>
+                <SetPinnedPieces row={row} column={column} color={color}/>
+                <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
         </motion.div>
     )
 }
