@@ -47,6 +47,8 @@ import * as styles from './styles.module.css';
 
 
 //this is where i left off, i need to work on the responsiveness of the chessboard
+//also make sure you implement all the supported pseudo selectors for each browser for the scrollball styling in <ShowMoves/> component
+
 function Chessboard() {
 
     const squares = useMemo(() => {
