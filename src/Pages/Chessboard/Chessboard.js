@@ -48,6 +48,8 @@ import * as styles from './styles.module.css';
 
 //this is where i left off, i need to work on the responsiveness of the chessboard
 //also make sure you implement all the supported pseudo selectors for each browser for the scrollball styling in <ShowMoves/> component
+// once im finished with the responsiveness, i will make this into a full stack app, first implement the login page and then set up the server with node.js
+// and the database with mongoDB
 
 function Chessboard() {
 
