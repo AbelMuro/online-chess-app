@@ -27,6 +27,8 @@
     flex-direction: column;
     gap: 15px;
     overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(44, 44, 44) transparent
 }
 
 .moves::-webkit-scrollbar{
