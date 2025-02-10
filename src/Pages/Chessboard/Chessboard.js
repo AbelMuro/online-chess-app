@@ -47,8 +47,7 @@ import * as styles from './styles.module.css';
 
 
 
-//this is where i left off, i will make this into a full stack app, first implement the login page and then set up the server with node.js
-// and the database with mongoDB
+//this is where i left off, i need to implement the castleling feature for this app
 
 function Chessboard() {
 
