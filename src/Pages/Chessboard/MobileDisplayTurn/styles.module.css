@@ -1,0 +1,9 @@
+.currentTurn{
+    margin: 20px 0px 0px 0px;
+    font-size: 2rem;
+    font-family: 'mulish';
+    text-transform: capitalize;
+    font-weight: 800;
+    color: rgb(206, 206, 206);
+    white-space: nowrap;
+}

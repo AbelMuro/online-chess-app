@@ -1,0 +1,38 @@
+.container{
+    width: 100%;
+    height: 70px;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.buttons{
+    display: flex;
+    gap: 10px;
+}
+
+.buttons > button > img, .resign > img{
+    width: 20px;
+    object-fit: contain;
+}
+
+.buttons > button, .resign{
+    position: relative;
+    width: 60px;
+    height: 40px;
+    background-color: rgb(44, 44, 44);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+
+.buttons > button:hover, .resign:hover{
+    background-color: rgb(59, 59, 59);
+}
+
+.buttons > button:active, .resign:active{
+    background-color: rgb(75, 75, 75);
+}

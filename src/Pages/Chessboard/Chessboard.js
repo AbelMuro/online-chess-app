@@ -2,6 +2,7 @@ import React, {useMemo} from 'react';
 import Squares from './Squares';
 import SideBar from './SideBar';
 import DeclareWinner from './DeclareWinner';
+import MobileDisplayTurn from './MobileDisplayTurn';
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import * as styles from './styles.module.css';
@@ -69,6 +70,7 @@ function Chessboard() {
     return(
         <DndProvider backend={HTML5Backend}> 
             <section className={styles.chess}> 
+                <MobileDisplayTurn/>
                 <div className={styles.chess_board}>
                     {squares}
                 </div>

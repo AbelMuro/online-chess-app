@@ -1,24 +1,19 @@
 import React from 'react';
-import icons from './icons';
+import TakeBackButton from './TakeBackButton';
 import ShowMoves from './ShowMoves';
 import ResignButton from './ResignButton'
-import {MessageBox} from '~/assets/Components/MessageBox';
+import RedoButton from './RedoButton';
 import {useSelector, useDispatch} from 'react-redux'
 import * as styles from './styles.module.css';
+import MobileBar from './MobileBar';
+import { useMediaQuery } from '~/Hooks';
 
 function SideBar(){
     const currentTurn = useSelector(state => state.chess.current_turn);
+    const [mobile] = useMediaQuery('(max-width: 620px)');
     const dispatch = useDispatch();
 
-    const handleTakeBack = () => {
-        dispatch({type: 'UNDO'})
-    }
-    
-    const handleForward = () => {
-        dispatch({type: 'REDO'})
-    }
-
-    return(
+    return mobile ? <MobileBar/> :
         <aside className={styles.bar}>
             <h1 className={styles.bar_title}>
                 {`${currentTurn} to move`}
@@ -26,33 +21,11 @@ function SideBar(){
             <ShowMoves/>
             <div className={styles.bar_buttons}>
                 <ResignButton/>
-                <MessageBox message={'Take back'} Component={({onMouseEnter, onMouseLeave, children}) => {
-                    return(
-                        <button 
-                            className={styles.bar_buttons_forward} 
-                            onMouseEnter={onMouseEnter} 
-                            onMouseLeave={onMouseLeave}
-                            onClick={handleTakeBack}>
-                                {children}
-                                <img src={icons['arrowLeft']}/>
-                        </button>
-                    )
-                }}/>
-                <MessageBox message={'Forward'} Component={({onMouseEnter, onMouseLeave, children}) => {
-                    return (
-                        <button className={styles.bar_buttons_back}
-                            onMouseEnter={onMouseEnter} 
-                            onMouseLeave={onMouseLeave}
-                            onClick={handleForward}
-                            >
-                                {children}
-                                <img src={icons['arrowRight']}/>
-                        </button>
-                    )
-                }}/>
+                <TakeBackButton/>
+                <RedoButton/>
             </div>
         </aside>
-    )
+    
 }
 
 export default SideBar;

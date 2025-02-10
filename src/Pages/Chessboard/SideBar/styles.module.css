@@ -96,7 +96,7 @@
     .bar_buttons{
         width: 150px;
         align-self: center;
-        gap: 5px;
+        row-gap: 30px;
+        column-gap: 10px;
     }
-
 }

@@ -22,16 +22,6 @@
     grid-template-rows: repeat(8, 1fr);
 }
 
-.chess_bar{
-    width: 300px;
-    height: 800px;
-    border: 1px solid black;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
-    padding: 35px;
-    display: flex;
-}
-
 
 @media(max-width: 1170px){
     .chess{
@@ -42,8 +32,19 @@
         width: 600px;
         height: 600px;
     }
+}
 
-    .chess_bar{
-        height: 300px;
+@media(max-width: 620px){
+    .chess{
+        justify-content: space-between;
+        gap: 30px;
+    }
+
+    .chess_board{
+        flex-shrink: 0;
+        border-radius: 0px;
+        width: 100%;
+        height: 100vw;
+        transition: all 0.2s linear, height 0s;
     }
 }

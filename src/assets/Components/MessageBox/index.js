@@ -1,3 +1,3 @@
 import MessageBox from "./MessageBox.js";
 
-export {MessageBox};
+export default MessageBox;

@@ -2,7 +2,7 @@ import React from 'react';
 import Dialog from '~/assets/Components/Dialog';
 import {useDispatch, useSelector} from 'react-redux';
 import icons from '../icons';
-import {MessageBox} from '~/assets/Components/MessageBox';
+import MessageBox from '~/assets/Components/MessageBox';
 import * as styles from './styles.module.css';
 
 function ResignButton(){
