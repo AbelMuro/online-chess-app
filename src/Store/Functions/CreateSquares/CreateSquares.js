@@ -5,6 +5,27 @@ import { northSquares, southSquares,
     knightSquares} from '../../Functions/TraversalFunctions';
 
 
+export const createSquaresForCastleling = (state, row, column, color, blueSquares) => {
+    if(state[`has_${color}_king_been_moved`])
+      return;
+
+    if(state.board[row]?.[column + 1] === '' && 
+      state.board[row]?.[column + 2] === '' && 
+      state.board[row]?.[column + 3].includes(`${color} rook`)){
+        if(!state[`has_${color}_rooks_been_moved`][1])
+          blueSquares.push({row, column: column + 2, castle: true})
+    }
+        
+    if(state.board[row]?.[column - 1] === '' && 
+      state.board[row]?.[column - 2] === '' && 
+      state.board[row]?.[column - 3] === '' && 
+      state.board[row]?.[column - 4].includes(`${color} rook`)){
+        if(!state[`has_${color}_rooks_been_moved`][0])
+          blueSquares.push({row, column: column - 2, castle: true})
+      }
+      
+}
+
 export const createLegalSquaresWhileInCheck = (state, blueSquares, redSquares) => {
   const squaresBetweenKingAndAttacker = state.squares_between_king_and_attacker;
   const highlightedSquares = state.highlighted_squares;

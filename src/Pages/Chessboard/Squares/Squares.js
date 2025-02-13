@@ -19,6 +19,7 @@ function Squares({row, column}) {
     const highlightedSquare = useSelector(state => state.chess.highlighted_squares[row][column]);
     const color = currentSquare.includes('white') ? 'white' : 'black';
     const piece = currentSquare.slice(6, currentSquare.length);
+    const castle = highlightedSquare.includes('castle');
     const id = piece[piece.length - 1]
     const dispatch = useDispatch();
     const [{handlerId}, drop] = useDrop({
@@ -36,9 +37,9 @@ function Squares({row, column}) {
     })
 
     const handleStyles = () => {
-        if(highlightedSquare === 'red')
+        if(highlightedSquare.includes('red'))
             return {backgroundColor: 'rgba(255, 0, 0, 0.6)', cursor: 'pointer'}
-        else if(highlightedSquare === 'blue')
+        else if(highlightedSquare.includes('blue'))
             return {backgroundColor: 'rgba(0, 0, 255, 0.6)', cursor: 'pointer'}
         else
             return {};
@@ -47,7 +48,7 @@ function Squares({row, column}) {
     const handleClick = () => { 
         if(!highlightedSquare) return;    
            
-        dispatch({type: 'MOVE_PIECE', payload: {square: {row, column}}});
+        dispatch({type: 'MOVE_PIECE', payload: {square: {row, column, castle}}});
         dispatch({type: 'CHANGE_TURN'})     
     }
 

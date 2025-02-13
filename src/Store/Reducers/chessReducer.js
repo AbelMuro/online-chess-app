@@ -1,10 +1,15 @@
 import { createAction, createReducer } from '@reduxjs/toolkit'
 import { northSquares, southSquares, westSquares, eastSquares, northWestSquares,northEastSquares, southEastSquares, southWestSquares, knightSquares, pawnSquares} from '../Functions/TraversalFunctions';
-import { createLegalSquaresWhileInCheck, createLegalSquaresForKing} from '../Functions/CreateSquares';
+import { createLegalSquaresWhileInCheck, createLegalSquaresForKing, createSquaresForCastleling} from '../Functions/CreateSquares';
 import { checkSquaresForCheck, checkSquaresForBlocks, checkSquaresForThreats} from '../Functions/CheckSquares';
 import { UnpinPieces, findPinnedPieces, findLegalMovesForPinnedPiece } from '../Functions/PinnedPieces';
 import { checkEnpassant, implementEnPassant } from '../Functions/EnPassant';
 import { legalMovesExist} from '../Functions/Stalemate';
+import { ResetState} from '../Functions/ResetState';
+
+
+//this is where i left off, i will need to fix the bug in castleling that happens when the user redo's or takes back a move
+//i also need to organize the code in the 'movePiece' Case
 
 const movePiece = createAction('MOVE_PIECE');
 const changeTurn = createAction('CHANGE_TURN');
@@ -33,28 +38,6 @@ const checkStalemate = createAction('CHECK_STALEMATE');
 
 const setPinnedPieces = createAction('SET_PINNED_PIECES');
 const clearPinnedPieces = createAction('CLEAR_PINNED_PIECES');
-
-/* 
-      ['white king e', '', '', '', '', '', '', ''],
-      ['', '', '', '', '', '', '', ''],
-      ['', '', '', '', '', '', '', '',],
-      ['', '', '', 'white queen f', '', '', '', '',],
-      ['', '', '', '', 'white rook a', '', '', '',],
-      ['', '', '', '', '', '', '', '',],
-      ['', '', '', '', '', '', '', ''],
-      ['black king e', '', '', '', '', '', '', ''],
-
-
-
-      ['white rook a', 'white knight b', 'white bishop c', 'white queen d', 'white king e', 'white bishop f', 'white knight g', 'white rook h'],
-      ['white pawn a', 'white pawn b', 'white pawn c', 'white pawn d', 'white pawn e', 'white pawn f', 'white pawn g', 'white pawn h'],
-      ['', '', '', '', '', '', '', '',],
-      ['', '', '', '', '', '', '', '',],
-      ['', '', '', '', '', '', '', '',],
-      ['', '', '', '', '', '', '', '',],
-      ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h'],
-      ['black rook a', 'black knight b', 'black bishop c', 'black queen d', 'black king e', 'black bishop f', 'black knight g', 'black rook h'],
-*/
 
 const initialState = { 
     board: [
@@ -85,6 +68,10 @@ const initialState = {
     future: [],
     black_king_in_check: false,
     white_king_in_check: false,
+    has_white_king_been_moved: false,
+    has_black_King_been_moved: false,
+    has_black_rooks_been_moved: [false, false],
+    has_white_rooks_been_moved: [false, false],
     squares_between_king_and_attacker: [],
     pinned_pieces: [],
     resigns: false,
@@ -101,11 +88,39 @@ const chessReducer = createReducer(initialState, (builder) => {
       const oldColumn = state.pieceToBeMoved.square.column; 
       const newRow = action.payload.square.row;
       const newColumn = action.payload.square.column;  
+      const castle = action.payload.square.castle;
       const pieceToBeMoved = state.board[oldRow][oldColumn];
       const pieceToBeTaken = state.board[newRow][newColumn];
+      const piece_color = pieceToBeMoved.includes('white') ? 'white' : 'black';
       UnpinPieces(state, newRow, newColumn);
       let pieceTakenByEnPassant = null;
 
+      if(pieceToBeMoved.includes(`king`))
+        state[`has_${piece_color}_king_been_moved`] = true;
+
+      if(pieceToBeMoved.includes('rook')){
+        const AorH = pieceToBeMoved[pieceToBeMoved.length - 1];
+        state[`has_${piece_color}_rooks_been_moved`][AorH === 'a' ? 0 : 1] = true;
+      }
+        
+      //castling
+      if(castle){
+        state.board[oldRow][oldColumn] = '';              //kings original position
+        state.board[newRow][newColumn] = pieceToBeMoved;  //kings new position
+        if(state.board[newRow]?.[newColumn + 1]?.includes(`${piece_color} rook`)){
+          const rook = state.board[newRow][newColumn + 1];
+          state.board[newRow][newColumn + 1] = '';
+          state.board[oldRow][oldColumn + 1] = rook;
+        }
+        else{
+          const rook = state.board[newRow]?.[newColumn - 2];
+          state.board[newRow][newColumn - 2] = '';
+          state.board[oldRow][oldColumn - 1] = rook;
+        }
+
+      }
+
+      //en passant
       if(state.en_passant)
         pieceTakenByEnPassant = implementEnPassant(state, pieceToBeMoved, oldRow, oldColumn , newRow, newColumn);
       else if(pieceToBeMoved.includes('pawn'))
@@ -117,11 +132,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       state.moves.unshift(moveToBeSaved);
       state.past.push(moveToBeSaved)
       state.future = [];   
-      state.pieceToBeMoved = initialState.pieceToBeMoved;
-      state.highlighted_squares = initialState.highlighted_squares;
-      state.squares_between_king_and_attacker = initialState.squares_between_king_and_attacker;
-      state.black_king_in_check = initialState.black_king_in_check;
-      state.white_king_in_check = initialState.white_king_in_check;
+      ResetState(state, initialState);
     })
     .addCase(undo, (state) => {
       const move = state.past.pop();    
@@ -140,11 +151,7 @@ const chessReducer = createReducer(initialState, (builder) => {
         state.current_turn = state.current_turn === 'white' ? 'black' : 'white';    
       }
 
-      state.pieceToBeMoved = initialState.pieceToBeMoved;
-      state.highlighted_squares = initialState.highlighted_squares;
-      state.squares_between_king_and_attacker = initialState.squares_between_king_and_attacker;
-      state.black_king_in_check = initialState.black_king_in_check;
-      state.white_king_in_check = initialState.white_king_in_check;
+      ResetState(state, initialState);
     })
     .addCase(redo, (state) => {
       const move = state.future.pop();
@@ -158,11 +165,7 @@ const chessReducer = createReducer(initialState, (builder) => {
 
       state.past.push(move);
       state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
-      state.pieceToBeMoved = initialState.pieceToBeMoved;
-      state.highlighted_squares = initialState.highlighted_squares;
-      state.squares_between_king_and_attacker = initialState.squares_between_king_and_attacker;
-      state.black_king_in_check = initialState.black_king_in_check;
-      state.white_king_in_check = initialState.white_king_in_check;
+      ResetState(state, initialState);
     })
     .addCase(highlightNorthSquares, (state, action) => {
       const currentSquare = action.payload.square;
@@ -491,8 +494,14 @@ const chessReducer = createReducer(initialState, (builder) => {
               redSquares.push(legalMoves[i]);
       }
 
+      createSquaresForCastleling(state, row, column, piece_color, blueSquares);
+
       blueSquares.forEach((square) => {
-        state.highlighted_squares[square.row][square.column] = 'blue';
+        const castle = square.castle;
+        if(castle)
+          state.highlighted_squares[square.row][square.column] = `blue castle`;
+        else
+          state.highlighted_squares[square.row][square.column] = 'blue';
       })
       redSquares.forEach((square) => {
         state.highlighted_squares[square.row][square.column] = 'red'
