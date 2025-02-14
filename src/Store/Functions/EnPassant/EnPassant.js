@@ -22,7 +22,7 @@ export const implementEnPassant = (state, piece, oldRow, oldColumn, newRow, newC
             let pieceToBeTaken = state.board[row][column];
             state.board[row][column] = '';
             state.en_passant = null;
-            return pieceToBeTaken;
+            return {row, column, pieceToBeTaken};
         }   
     else
         checkEnpassant(state, oldRow, newRow, newColumn); 

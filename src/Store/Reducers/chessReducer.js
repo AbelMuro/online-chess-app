@@ -39,6 +39,14 @@ const checkStalemate = createAction('CHECK_STALEMATE');
 const setPinnedPieces = createAction('SET_PINNED_PIECES');
 const clearPinnedPieces = createAction('CLEAR_PINNED_PIECES');
 
+const saveMove = (state, moveToBeSaved) => {    
+      state.moves.unshift(moveToBeSaved);
+      state.past.push(moveToBeSaved)
+      state.future = [];   
+}
+
+//this is where i left off, i will need to refactor the 'movePiece' case again and implement the feature for castleling in undo and redo functionality
+
 const initialState = { 
     board: [
       ['white rook a', 'white knight b', 'white bishop c', 'white queen d', 'white king e', 'white bishop f', 'white knight g', 'white rook h'],
@@ -92,7 +100,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       const pieceToBeMoved = state.board[oldRow][oldColumn];
       const pieceToBeTaken = state.board[newRow][newColumn];
       const piece_color = pieceToBeMoved.includes('white') ? 'white' : 'black';
-      UnpinPieces(state, newRow, newColumn);
+      UnpinPieces(state, newRow, newColumn);                //this will check if the current piece being moved will unpin other pieces
       let pieceTakenByEnPassant = null;
 
       if(pieceToBeMoved.includes(`king`))
@@ -105,8 +113,6 @@ const chessReducer = createReducer(initialState, (builder) => {
         
       //castling
       if(castle){
-        state.board[oldRow][oldColumn] = '';              //kings original position
-        state.board[newRow][newColumn] = pieceToBeMoved;  //kings new position
         if(state.board[newRow]?.[newColumn + 1]?.includes(`${piece_color} rook`)){
           const rook = state.board[newRow][newColumn + 1];
           state.board[newRow][newColumn + 1] = '';
@@ -117,21 +123,31 @@ const chessReducer = createReducer(initialState, (builder) => {
           state.board[newRow][newColumn - 2] = '';
           state.board[oldRow][oldColumn - 1] = rook;
         }
-
       }
 
-      //en passant
-      if(state.en_passant)
-        pieceTakenByEnPassant = implementEnPassant(state, pieceToBeMoved, oldRow, oldColumn , newRow, newColumn);
-      else if(pieceToBeMoved.includes('pawn'))
-        checkEnpassant(state, oldRow, newRow, newColumn, pieceToBeMoved);
+      //en-passant
+      if(state.en_passant || pieceToBeMoved.includes('pawn')){
+        if(state.en_passant){
+          pieceTakenByEnPassant = implementEnPassant(state, pieceToBeMoved, oldRow, oldColumn , newRow, newColumn);   //defender will be removed by en-passant, but this will not move the attacker yet
 
-      state.board[oldRow][oldColumn] = '';
+        }
+          
+        else
+          checkEnpassant(state, oldRow, newRow, newColumn, pieceToBeMoved);        
+      }
+
+
+      state.board[oldRow][oldColumn] = '';                                  //this is what moves the piece on the board
       state.board[newRow][newColumn] = pieceToBeMoved;
-      const moveToBeSaved = {from: {row: oldRow, column: oldColumn}, to: {row: newRow, column: newColumn}, pieceToBeTaken: pieceTakenByEnPassant || pieceToBeTaken, pieceToBeMoved}     
-      state.moves.unshift(moveToBeSaved);
-      state.past.push(moveToBeSaved)
-      state.future = [];   
+
+      saveMove(state, {
+          from: {row: oldRow, column: oldColumn}, 
+          to: {row: newRow, column: newColumn}, 
+          pieceToBeTaken: pieceTakenByEnPassant ? '' : pieceToBeTaken, 
+          pieceToBeMoved,
+          enPassant: pieceTakenByEnPassant,
+        }
+      )
       ResetState(state, initialState);
     })
     .addCase(undo, (state) => {
@@ -144,9 +160,14 @@ const chessReducer = createReducer(initialState, (builder) => {
       else{
         const from = move.from;
         const to = move.to;
+        const enPassant = move.enPassant;
 
         state.board[from.row][from.column] = move.pieceToBeMoved;
         state.board[to.row][to.column] = move.pieceToBeTaken;
+
+        if(enPassant)
+          state.board[enPassant.row][enPassant.column] = enPassant.pieceToBeTaken;
+        
         state.future.push(move);    
         state.current_turn = state.current_turn === 'white' ? 'black' : 'white';    
       }
@@ -159,9 +180,13 @@ const chessReducer = createReducer(initialState, (builder) => {
       state.moves.unshift(move);
       const from = move.from;
       const to = move.to;
+      const enPassant = move.enPassant;
 
       state.board[from.row][from.column] = '';
-      state.board[to.row][to.column] = move.pieceToBeMoved;        
+      state.board[to.row][to.column] = move.pieceToBeMoved;     
+      
+      if(enPassant)
+        state.board[enPassant.row][enPassant.column] = '';
 
       state.past.push(move);
       state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
