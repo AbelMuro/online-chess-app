@@ -13,7 +13,7 @@ export const createSquaresForCastleling = (state, row, column, color, blueSquare
       state.board[row]?.[column + 2] === '' && 
       state.board[row]?.[column + 3].includes(`${color} rook`)){
         if(!state[`has_${color}_rooks_been_moved`][1])
-          blueSquares.push({row, column: column + 2, castle: true})
+          blueSquares.push({row, column: column + 2})
     }
         
     if(state.board[row]?.[column - 1] === '' && 
@@ -21,7 +21,7 @@ export const createSquaresForCastleling = (state, row, column, color, blueSquare
       state.board[row]?.[column - 3] === '' && 
       state.board[row]?.[column - 4].includes(`${color} rook`)){
         if(!state[`has_${color}_rooks_been_moved`][0])
-          blueSquares.push({row, column: column - 2, castle: true})
+          blueSquares.push({row, column: column - 2})
       }
       
 }

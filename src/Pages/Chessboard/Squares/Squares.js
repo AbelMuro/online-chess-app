@@ -19,7 +19,6 @@ function Squares({row, column}) {
     const highlightedSquare = useSelector(state => state.chess.highlighted_squares[row][column]);
     const color = currentSquare.includes('white') ? 'white' : 'black';
     const piece = currentSquare.slice(6, currentSquare.length);
-    const castle = highlightedSquare.includes('castle');
     const id = piece[piece.length - 1]
     const dispatch = useDispatch();
     const [{handlerId}, drop] = useDrop({
@@ -48,7 +47,7 @@ function Squares({row, column}) {
     const handleClick = () => { 
         if(!highlightedSquare) return;    
            
-        dispatch({type: 'MOVE_PIECE', payload: {square: {row, column, castle}}});
+        dispatch({type: 'MOVE_PIECE', payload: {square: {row, column}}});
         dispatch({type: 'CHANGE_TURN'})     
     }
 

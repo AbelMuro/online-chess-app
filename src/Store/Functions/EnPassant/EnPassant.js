@@ -1,14 +1,14 @@
 export const checkEnpassant = (state, initialRow, newRow, newColumn) => {
-    if(initialRow + 2 === newRow || initialRow - 2 === newRow)
+    if((initialRow + 2 === newRow || initialRow - 2 === newRow))
         state.en_passant = {row: newRow, column: newColumn};
     else
         state.en_passant = null;      
 }
 
 export const implementEnPassant = (state, piece, oldRow, oldColumn, newRow, newColumn) => {
-    if(!piece.includes('pawn')) {
+    if(!piece.includes('pawn') || !state.en_passant) {
         state.en_passant = null;
-        return;
+        return null;
     }
 
     const opposing_color = piece.includes('white') ? 'black' : 'white';
@@ -18,7 +18,7 @@ export const implementEnPassant = (state, piece, oldRow, oldColumn, newRow, newC
       
     if(state.board[row][column].includes(`${opposing_color} pawn`) && 
         ((newColumn === column && newRow + 1 === row) && ((oldColumn + 1 === column || oldColumn - 1 === column) && oldRow === row)) ||                                 //black pawn
-        ((newColumn === column && newRow - 1 === row) && ((oldColumn - 1 === column || oldColumn + 1 === column) && oldRow === row)) ){              //white pawn
+        ((newColumn === column && newRow - 1 === row) && ((oldColumn - 1 === column || oldColumn + 1 === column) && oldRow === row)) ){                                 //white pawn
             let pieceToBeTaken = state.board[row][column];
             state.board[row][column] = '';
             state.en_passant = null;

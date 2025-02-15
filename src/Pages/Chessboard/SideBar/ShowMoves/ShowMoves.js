@@ -20,8 +20,10 @@ function ShowMoves() {
                         const from = move.from;
                         const to = move.to;
                         const pieceToBeMoved = move.pieceToBeMoved;
-                        let piece = pieceToBeMoved.slice(0, pieceToBeMoved.length - 2);
-                        const pieceToBeTaken = move.pieceToBeTaken;    
+                        const pieceToBeTaken = move.pieceToBeTaken;   
+                        const piece_color = pieceToBeMoved.includes('white') ? 'white' : 'black';
+                        const castleling = move.castleling;
+                        let piece = pieceToBeMoved.slice(0, pieceToBeMoved.length - 2);         
                         let pieceTaken = pieceToBeTaken.slice(0, pieceToBeTaken.length - 2);               
                     
                         const fromSquare = squareCoordinates[from.row][from.column];
@@ -30,6 +32,8 @@ function ShowMoves() {
                         return(
                             <p className={styles.moves_move} key={`${fromSquare} ${toSquare}`}>
                                 <img className={styles.moves_move_piece} src={icons[piece]}/>
+                                {castleling && ' - '}
+                                {castleling && <img className={styles.moves_move_piece} src={icons[`${piece_color} rook`]}/>}
                                 {pieceTaken && ` x `}
                                 {pieceTaken && <img className={styles.moves_move_piece} src={icons[pieceTaken]}/>}
                                 {`${toSquare}`}
