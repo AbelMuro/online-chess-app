@@ -1,0 +1,7 @@
+.error_message{
+    font-size: 0.7rem;
+    font-family: 'mulish';
+    color: var(--error-text);
+    margin: 0px;
+    align-self: start;
+}

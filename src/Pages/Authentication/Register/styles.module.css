@@ -1,0 +1,31 @@
+.register{
+    width: 500px;
+    padding: 20px 30px 20px 30px;
+    background-color: var(--container-background);
+    border-radius: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.register_title{
+    font-size: 1.6rem;
+    font-family: 'mulish';
+    font-weight: 800;
+    color: var(--text-color);
+    margin: 0px;
+}
+
+.register_desc{
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'mulish';
+    color: var(--text-color);
+    margin: 0px;
+    text-align: center;
+}

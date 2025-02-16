@@ -11,7 +11,6 @@ import { useMediaQuery } from '~/Hooks';
 function SideBar(){
     const currentTurn = useSelector(state => state.chess.current_turn);
     const [mobile] = useMediaQuery('(max-width: 620px)');
-    const dispatch = useDispatch();
 
     return mobile ? <MobileBar/> :
         <aside className={styles.bar}>
