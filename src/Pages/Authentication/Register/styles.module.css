@@ -29,3 +29,37 @@
     margin: 0px;
     text-align: center;
 }
+
+.register_message{
+    font-size: 0.9rem;
+    font-family: 'mulish';
+    font-weight: 300;
+    color: var(--text-color);
+    margin: 0px;
+}
+
+.register_link{
+    color: var(--link-text-color);
+}
+
+.register_link:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.register_link:active{
+    color: var(--link-text-color-hover);
+}
+
+.register_link{
+    color: var(--link-text-color);
+}
+
+.register_link:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.register_link:active{
+    color: var(--link-text-color-hover);
+}

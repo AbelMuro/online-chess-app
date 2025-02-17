@@ -46,17 +46,26 @@ import * as styles from './styles.module.css';
 // if a black pawn is between the white queen and the black king, that black pawn cannot be moved, so it will be stored within the pinned_pieces array
 
 
-
-//this is where i left off, i need to implement the castleling feature for this app
+//this is where i left off, i will need to fix a visual bug for the white pieces when they are moved, something is wrong with framer-motion
+//then i will need to start the forgot password feature of the login page
 
 function Chessboard() {
 
     const squares = useMemo(() => {
         const squares = [];
         for (let row = 7; row >= 0; row--) { 
+            const alternate = row % 2 === 0
             for (let column = 0; column <= 7; column++) { 
+                let square;
+                const id = `${row + 1} ${column + 1}`
+
+                if(alternate)
+                    square = column % 2 !== 0 ? 'lightSquare' : 'darkSquare';
+                else
+                    square = column % 2 === 0 ? 'lightSquare' : 'darkSquare';
+                    
                 squares.push( 
-                    <Squares row={row} column={column} key={`${row + 1} ${column + 1}`}/>
+                    <Squares colorOfSquare={square} row={row} column={column} id={id} key={id}/>
                 ); 
             }        
         }

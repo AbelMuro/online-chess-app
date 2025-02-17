@@ -10,6 +10,10 @@ function Login() {
         navigate('/register');
     }
 
+    const handleGuest = () => {
+        
+    }
+
     return(
         <section className={styles.login}>
             <h1 className={styles.login_title}>
@@ -19,13 +23,13 @@ function Login() {
                 Please sign in with your account or as a guest
             </h2>
             <Form/>
-            <p className={styles.form_message}>
+            <p className={styles.login_message}>
                  Don't have an account? &nbsp;
-                <a className={styles.form_link} onClick={handleRegister}>
+                <a className={styles.login_link} onClick={handleRegister}>
                     Register here
                 </a>                
             </p>
-            <button className={styles.form_button}>
+            <button className={styles.login_button} onClick={handleGuest}>
                 Sign in as guest
             </button>
         </section>

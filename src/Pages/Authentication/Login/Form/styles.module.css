@@ -13,15 +13,22 @@
     font-family: 'mulish';
     font-size: 1.2rem;
     border: none;
-    background-color: var(--login-background-button);
+    background-color: var(--login-button-bg);
     color: var(--text-color);
     cursor: pointer;
 }
 
 .form_submit:hover{
-    background-color: var(--login-background-button-hover);
+    background-color: var(--login-button-bg-hover);
 }
 
 .form_submit:active{
-    background-color: var(--login-background-button-active);
+    background-color: var(--login-button-bg-active);
+}
+
+.error_message{
+    font-size: 0.9rem;
+    font-family: 'mulish';
+    color: var(--error-text);
+    margin: 0px;
 }

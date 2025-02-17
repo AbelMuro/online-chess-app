@@ -1,4 +1,4 @@
-.email{
+.username{
     width: 100%;
     margin: 0px;
     padding: 0px;
@@ -8,13 +8,13 @@
     gap: 10px;
 }
 
-.email_label{
+.username_label{
     font-size: 0.8rem;
     color: var(--text-color);
     font-family: 'mulish'
 }
 
-.email_input{
+.username_input{
     padding: 0px 10px 0px 10px;
     width: 100%;
     height: 35px;
@@ -24,7 +24,7 @@
     color: var(--input-text-color);
 }
 
-.email_input:focus{
+.username_input:focus{
     outline: 2px solid rgb(0, 0, 165);
     outline-offset: 2px;
 }

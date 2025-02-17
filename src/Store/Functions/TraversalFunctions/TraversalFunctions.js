@@ -94,7 +94,9 @@ export const pawnSquares = (state, row, column, piece_color, twoSquareMoveAvaila
 
     if(state.board[oneSquareMove.row]?.[oneSquareMove.column] === '')
         blueSquares.push(oneSquareMove);
-    if(twoSquareMoveAvailable && state.board[twoSquareMove.row]?.[twoSquareMove.column] === '')
+    if(twoSquareMoveAvailable && 
+        state.board[oneSquareMove.row]?.[oneSquareMove.column] === '' && 
+        state.board[twoSquareMove.row]?.[twoSquareMove.column] === '')
         blueSquares.push(twoSquareMove)
 
     if(state.board[leftCornerTake.row]?.[leftCornerTake.column] && 

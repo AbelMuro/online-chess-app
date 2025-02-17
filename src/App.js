@@ -5,6 +5,7 @@ import store from './Store';
 import Chessboard from './Pages/Chessboard';
 import Login from './Pages/Authentication/Login';
 import Register from './Pages/Authentication/Register';
+import Menu from './Pages/Menu'
 import './global.css';
 
 function App() {
@@ -13,8 +14,9 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path='/' element={<Login/>}/>
-                    <Route path='/chessboard' element={<Chessboard/>}/>
                     <Route path='/register' element={<Register/>}/>
+                    <Route path='/menu' element={<Menu/>}/>
+                    <Route path='/chessboard' element={<Chessboard/>}/>
                 </Routes>
             </BrowserRouter>
         </Provider>
