@@ -46,8 +46,17 @@ import * as styles from './styles.module.css';
 // if a black pawn is between the white queen and the black king, that black pawn cannot be moved, so it will be stored within the pinned_pieces array
 
 
+
+
+
+
 //this is where i left off, i will need to fix a visual bug for the white pieces when they are moved, something is wrong with framer-motion
 //then i will need to start the forgot password feature of the login page
+
+
+
+
+
 
 function Chessboard() {
 
