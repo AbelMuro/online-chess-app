@@ -43,4 +43,15 @@ body{
     --menu-button-bg: rgb(31, 31, 153);
     --menu-button-bg-hover: rgb(39, 39, 180);
     --menu-button-bg-active: rgb(54, 54, 228);
+
+    --sidebar-button-bg: rgb(31, 31, 153);
+    --sidebar-button-bg-hover: rgb(39, 39, 180);
+    --sidebar-button-bg-active: rgb(54, 54, 228);
+
+    --scroll-bar-bg: rgb(31, 31, 153);
+
+    --dialog-bg: rgb(0, 0, 179);
+    --dialog-button-bg: rgb(0, 0, 61);
+    --dialog-button-bg-hover: rgb(0, 0, 104);
+    --dialog-button-bg-active: rgb(17, 17, 131);
 }

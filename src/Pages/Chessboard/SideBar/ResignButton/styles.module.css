@@ -2,12 +2,20 @@
     position: relative;
     width: 100%;
     height: 60px;
-    background-color: rgb(44, 44, 44);
+    background-color: var(--sidebar-button-bg);
     border: none;
     border-radius: 10px;
     grid-column: 1/3;
     grid-row: 1/2;
     cursor: pointer;
+}
+
+.button:hover{
+    background-color: var(--sidebar-button-bg-hover);
+}
+
+.button:active{
+    background-color: var(--sidebar-button-bg-active);
 }
 
 .button > img{
@@ -35,7 +43,7 @@
     height: 30px;
     border-radius: 10px;
     border: none;
-    background-color: #121212;   
+    background-color: var(--dialog-button-bg);   
     cursor: pointer;
 }
 
@@ -50,19 +58,11 @@
 }
 
 .dialog_button:hover{
-    background-color: #272727;
+    background-color: var(--dialog-button-bg-hover);
 }
 
 .dialog_button:active{
-    background-color: #333333
-}
-
-.button:hover{
-    background-color: rgb(59, 59, 59);
-}
-
-.button:active{
-    background-color: rgb(75, 75, 75);
+    background-color: var(--dialog-button-bg-active);
 }
 
 @media(max-width: 620px){

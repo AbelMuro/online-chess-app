@@ -6,13 +6,14 @@
     align-items: center;
     border-radius: 10px;
     background-color: transparent;
+    transition: none;
 }
 
 
 .piece{
     width: 35px;
     object-fit: contain;
-    cursor: grab
+    cursor: grab;
 }
 
 @media(max-width: 1170px){

@@ -14,6 +14,10 @@ function Login() {
         
     }
 
+    const handleForgot = () => {
+        navigate('/forgotpassword');
+    }
+
     return(
         <section className={styles.login}>
             <h1 className={styles.login_title}>
@@ -23,6 +27,9 @@ function Login() {
                 Please sign in with your account or as a guest
             </h2>
             <Form/>
+            <a className={styles.login_link} onClick={handleForgot}>
+                Forgot password?
+            </a>
             <p className={styles.login_message}>
                  Don't have an account? &nbsp;
                 <a className={styles.login_link} onClick={handleRegister}>

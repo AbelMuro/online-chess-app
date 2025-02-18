@@ -5,7 +5,7 @@ import { checkSquaresForCheck, checkSquaresForBlocks, checkSquaresForThreats} fr
 import { UnpinPieces, findPinnedPieces, findLegalMovesForPinnedPiece } from '../Functions/PinnedPieces';
 import { implementEnPassant } from '../Functions/EnPassant';
 import { legalMovesExist} from '../Functions/Stalemate';
-import { ResetState} from '../Functions/ResetState';
+import { ResetState, ResetProperties} from '../Functions/ResetState';
 import {implementCastleling} from '../Functions/Castleling'
 import {saveMove} from '../Functions/RecordMoves';
 
@@ -37,11 +37,11 @@ const resigns = createAction('RESIGNS');
 const countLegalMoves = createAction('COUNT_LEGAL_MOVES');
 const resetLegalMoves = createAction('RESET_LEGAL_MOVES');
 const checkStalemate = createAction('CHECK_STALEMATE');
+const resetState = createAction('RESET_STATE')
 
 const setPinnedPieces = createAction('SET_PINNED_PIECES');
 const clearPinnedPieces = createAction('CLEAR_PINNED_PIECES');
 
-//this is where i left off, i will need to implement the login page and the authorization with node.js and mongoDB
 
 const initialState = { 
     board: [
@@ -123,9 +123,11 @@ const chessReducer = createReducer(initialState, (builder) => {
       if(pieceToBeMoved.includes('pawn') && (oldRow + 2 === newRow || oldRow - 2 === newRow))
         state.en_passant = {row: newRow, column: newColumn};
       else
-        pieceTakenByEnPassant = implementEnPassant(state, pieceToBeMoved, oldRow, oldColumn, newRow, newColumn)
+        pieceTakenByEnPassant = implementEnPassant(state, pieceToBeMoved, oldRow, oldColumn, newRow, newColumn);
+    
 
-      state.board[oldRow][oldColumn] = '';                                  //this is what moves the piece on the board
+      //this is what moves the piece on the board  
+      state.board[oldRow][oldColumn] = '';                                  
       state.board[newRow][newColumn] = pieceToBeMoved;
 
       saveMove(state, {
@@ -139,7 +141,7 @@ const chessReducer = createReducer(initialState, (builder) => {
           kingHasBeenMovedForFirstTime
         }
       )
-      ResetState(state, initialState);
+      ResetProperties(state, initialState);
     })
     .addCase(undo, (state) => {
       const move = state.past.pop();    
@@ -185,7 +187,7 @@ const chessReducer = createReducer(initialState, (builder) => {
         state.current_turn = state.current_turn === 'white' ? 'black' : 'white';    
       }
 
-      ResetState(state, initialState);
+      ResetProperties(state, initialState);
     })
     .addCase(redo, (state) => {
       const move = state.future.pop();
@@ -226,7 +228,7 @@ const chessReducer = createReducer(initialState, (builder) => {
 
       state.past.push(move);
       state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
-      ResetState(state, initialState);
+      ResetProperties(state, initialState);
     })
     .addCase(highlightNorthSquares, (state, action) => {
       const currentSquare = action.payload.square;
@@ -711,7 +713,9 @@ const chessReducer = createReducer(initialState, (builder) => {
         if(legalSquaresForKing.length === 0 && availableMoves.length === 0 && !kingInCheck)
           state.stalemate = true;
     })
-    
+    .addCase(resetState, (state) => {
+      ResetState(state, initialState);
+    })
 });
 
 export default chessReducer;

@@ -8,7 +8,7 @@ function MobileDisplayTurn() {
     const currentTurn = useSelector(state => state.chess.current_turn);
 
     return mobile &&
-        <h1 className={styles.currentTurn} style={currentTurn === 'white' ? {color: 'rgb(206, 206, 206)'} : {color: 'rgb(34, 34, 34)'}}>
+        <h1 className={styles.currentTurn}>
             {`${currentTurn} to move`}
         </h1>
     

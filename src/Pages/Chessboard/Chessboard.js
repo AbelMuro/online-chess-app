@@ -47,17 +47,6 @@ import * as styles from './styles.module.css';
 
 
 
-
-
-
-//this is where i left off, i will need to fix a visual bug for the white pieces when they are moved, something is wrong with framer-motion
-//then i will need to start the forgot password feature of the login page
-
-
-
-
-
-
 function Chessboard() {
 
     const squares = useMemo(() => {

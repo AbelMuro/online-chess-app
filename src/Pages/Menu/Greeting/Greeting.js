@@ -15,7 +15,6 @@ function Greeting(){
 
             if(response.status === 200){
                 const username = await response.text();
-                console.log(username);
                 setName(username);
             }
             else if(response.status === 403){

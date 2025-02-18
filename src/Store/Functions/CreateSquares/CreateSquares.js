@@ -3,24 +3,25 @@ import { northSquares, southSquares,
     northWestSquares,northEastSquares, 
     southEastSquares, southWestSquares, 
     knightSquares} from '../../Functions/TraversalFunctions';
+import { checkSquaresForThreats } from '../CheckSquares';
 
 
 export const createSquaresForCastleling = (state, row, column, color, blueSquares) => {
-    if(state[`has_${color}_king_been_moved`])
-      return;
+    if(state[`has_${color}_king_been_moved`] || state[`${color}_king_in_check`]) return;
+    const opposing_color = color === 'white' ? 'black' : 'white';
 
-    if(state.board[row]?.[column + 1] === '' && 
-      state.board[row]?.[column + 2] === '' && 
-      state.board[row]?.[column + 3].includes(`${color} rook`)){
-        if(!state[`has_${color}_rooks_been_moved`][1])
+    if((state.board[row]?.[column + 1] === '' && !checkSquaresForThreats(state, {row, column: column + 1}, opposing_color)) && 
+      (state.board[row]?.[column + 2] === '' && !checkSquaresForThreats(state, {row, column: column + 2}, opposing_color)) &&
+      state.board[row]?.[column + 3].includes(`${color} rook`) && 
+      !state[`has_${color}_rooks_been_moved`][1]){
           blueSquares.push({row, column: column + 2})
     }
         
-    if(state.board[row]?.[column - 1] === '' && 
-      state.board[row]?.[column - 2] === '' && 
-      state.board[row]?.[column - 3] === '' && 
-      state.board[row]?.[column - 4].includes(`${color} rook`)){
-        if(!state[`has_${color}_rooks_been_moved`][0])
+    if((state.board[row]?.[column - 1] === '' && !checkSquaresForThreats(state, {row, column: column - 1}, opposing_color)) &&
+      (state.board[row]?.[column - 2] === '' && !checkSquaresForThreats(state, {row, column: column - 2}, opposing_color)) && 
+      (state.board[row]?.[column - 3] === '' && !checkSquaresForThreats(state, {row, column: column - 3}, opposing_color)) &&
+      state.board[row]?.[column - 4].includes(`${color} rook`) &&
+      !state[`has_${color}_rooks_been_moved`][0]){
           blueSquares.push({row, column: column - 2})
       }
       

@@ -1,3 +1,3 @@
-import {ResetState} from './ResetState.js';
+import {ResetState, ResetProperties} from './ResetState.js';
 
-export {ResetState};
+export {ResetState, ResetProperties};

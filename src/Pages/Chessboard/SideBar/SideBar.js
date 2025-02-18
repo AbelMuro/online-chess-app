@@ -3,7 +3,7 @@ import TakeBackButton from './TakeBackButton';
 import ShowMoves from './ShowMoves';
 import ResignButton from './ResignButton'
 import RedoButton from './RedoButton';
-import {useSelector, useDispatch} from 'react-redux'
+import {useSelector} from 'react-redux'
 import * as styles from './styles.module.css';
 import MobileBar from './MobileBar';
 import { useMediaQuery } from '~/Hooks';

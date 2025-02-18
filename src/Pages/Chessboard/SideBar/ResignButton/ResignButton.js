@@ -11,7 +11,7 @@ function ResignButton(){
 
 
     const handleResignation = () => {
-        dispatch({type: 'RESIGNS', payload: {resigns: currentTurn}})
+        dispatch({type: 'RESIGNS', payload: {resigns: currentTurn}});
     }
 
     return(

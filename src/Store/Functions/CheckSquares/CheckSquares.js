@@ -336,15 +336,14 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
   
   }
   
-  export const checkSquaresForThreats = (state, attacker, color) => {
+  export const checkSquaresForThreats = (state, attacker, opposing_color) => {
       const row = attacker.row;
       const column = attacker.column;
-      let attackerIsUnderThreat = false;
-      const opposing_color = color;
+      let squareIsUnderThreat = false;
   
       northSquares((i) => {
         if(state.board[i][column].includes(`${opposing_color} queen`) || state.board[i][column].includes(`${opposing_color} rook`)){
-            attackerIsUnderThreat = true;
+            squareIsUnderThreat = true;
           return false
         }
         else if(state.board[i][column] === '')
@@ -354,12 +353,12 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
   
       }, row)
   
-      if(attackerIsUnderThreat)
+      if(squareIsUnderThreat)
           return true;
   
       southSquares((i) => {
         if(state.board[i][column].includes(`${opposing_color} queen`) || state.board[i][column].includes(`${opposing_color} rook`)){
-            attackerIsUnderThreat = true;
+            squareIsUnderThreat = true;
           return false
         }
         else if(state.board[i][column] === '')
@@ -369,13 +368,13 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
   
       }, row)
   
-      if(attackerIsUnderThreat)
+      if(squareIsUnderThreat)
         return true;
   
   
       westSquares((i) => {
         if(state.board[row][i].includes(`${opposing_color} queen`) || state.board[row][i].includes(`${opposing_color} rook`)){
-            attackerIsUnderThreat = true;
+            squareIsUnderThreat = true;
           return false
         }
         else if(state.board[row][i] === '')
@@ -385,13 +384,13 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
   
       }, column)
   
-      if(attackerIsUnderThreat)
+      if(squareIsUnderThreat)
         return true;
   
   
       eastSquares((i) => {
         if(state.board[row][i].includes(`${opposing_color} queen`) || state.board[row][i].includes(`${opposing_color} rook`)){
-            attackerIsUnderThreat = true;
+            squareIsUnderThreat = true;
           return false
         }
         else if(state.board[row][i] === '')
@@ -401,55 +400,55 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
   
       }, column)
   
-      if(attackerIsUnderThreat)
+      if(squareIsUnderThreat)
         return true;
   
       northWestSquares((i, j) => {
         if(state.board[i][j].includes(`${opposing_color} queen`) || state.board[i][j].includes(`${opposing_color} bishop`)){
-            attackerIsUnderThreat = true;
+            squareIsUnderThreat = true;
             return false
         }
         else if(state.board[i][j] === '')
           return true;
         else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === row + 1 && j === column - 1)){
-            attackerIsUnderThreat = true;
+            squareIsUnderThreat = true;
             return false
         }
         else
           return false;
       }, row, column)
   
-      if(attackerIsUnderThreat)
+      if(squareIsUnderThreat)
         return true;
   
       northEastSquares((i, j) => {
         
         if(state.board[i][j].includes(`${opposing_color} queen`) || state.board[i][j].includes(`${opposing_color} bishop`)){
-            attackerIsUnderThreat = true;
+            squareIsUnderThreat = true;
             return false
         }
         else if(state.board[i][j] === '')
           return true;
         else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === row + 1 && j === column + 1)){
-            attackerIsUnderThreat = true;
+            squareIsUnderThreat = true;
             return false
         }
         else
           return false;
       }, row, column)
   
-      if(attackerIsUnderThreat)
+      if(squareIsUnderThreat)
         return true;
   
       southWestSquares((i, j) => {
         if(state.board[i][j].includes(`${opposing_color} queen`) || state.board[i][j].includes(`${opposing_color} bishop`)){
-            attackerIsUnderThreat = true;
+            squareIsUnderThreat = true;
             return false
         }
         else if(state.board[i][j] === '')
           return true;
         else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === row - 1 && j === column - 1)){
-            attackerIsUnderThreat = true;
+            squareIsUnderThreat = true;
             return false
         }
         else
@@ -457,18 +456,18 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
   
       }, row, column)
   
-      if(attackerIsUnderThreat)
+      if(squareIsUnderThreat)
         return true;
   
       southEastSquares((i, j) => {
         if(state.board[i][j].includes(`${opposing_color} queen`) || state.board[i][j].includes(`${opposing_color} bishop`)){
-            attackerIsUnderThreat = true;
+            squareIsUnderThreat = true;
             return false
         }
         else if(state.board[i][j] === '')
           return true;
         else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === row - 1 && j === column + 1)){
-            attackerIsUnderThreat = true;
+            squareIsUnderThreat = true;
             return false
         }
         else
@@ -476,19 +475,19 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
   
       }, row, column)
   
-      if(attackerIsUnderThreat)
+      if(squareIsUnderThreat)
         return true;
   
       knightSquares((square) => {
         if(state.board[square.row]?.[square.column]?.includes(`${opposing_color} knight`)){
-          attackerIsUnderThreat = true;;
+          squareIsUnderThreat = true;;
           return false
         }
         else 
           return true;
       }, row, column)
 
-      if(attackerIsUnderThreat)
+      if(squareIsUnderThreat)
         return true;
     else
         return false;

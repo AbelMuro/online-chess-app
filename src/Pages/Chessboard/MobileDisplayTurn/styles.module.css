@@ -4,6 +4,6 @@
     font-family: 'mulish';
     text-transform: capitalize;
     font-weight: 800;
-    color: rgb(206, 206, 206);
+    color: var(--text-color);
     white-space: nowrap;
 }
