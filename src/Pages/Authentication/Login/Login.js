@@ -3,6 +3,8 @@ import {useNavigate} from 'react-router-dom';
 import Form from './Form'
 import * as styles from './styles.module.css';
 
+//this is where i left off, i will need to implement the login-guest feature on the server with node.js
+
 function Login() {
     const navigate = useNavigate();
 

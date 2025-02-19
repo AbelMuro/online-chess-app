@@ -10,6 +10,30 @@ function Menu() {
         navigate('/chessboard', {state: {option}})
     }
 
+    const handleLogOut = async () => {
+        try{
+            const response = await fetch('http://localhost:4000/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type' : 'application/json'
+                },
+                body: '',
+                credentials: 'include'
+            })
+
+            if(response.status === 200){
+                console.log('User has been logged out');
+                alert('User has been logged out');
+                navigate('/');
+            }
+
+        }
+        catch(error){
+            const message = error.message;
+            console.log(message);
+            alert('Server is offline, please try again later')
+        }
+    }   
 
     return(
         <section className={styles.menu}>
@@ -20,7 +44,7 @@ function Menu() {
             <button className={styles.menu_option} onClick={() => handleChessboard('online')}>
                 Play online
             </button>
-            <button className={styles.menu_option}>
+            <button className={styles.menu_option} onClick={handleLogOut}>
                 Log Out
             </button>
         </section>

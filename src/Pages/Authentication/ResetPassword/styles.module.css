@@ -1,4 +1,4 @@
-.forgot{
+.reset{
     width: 500px;
     padding: 20px 30px 20px 30px;
     background-color: var(--container-background);
@@ -13,7 +13,7 @@
     gap: 20px;
 }
 
-.forgot_title{
+.reset_title{
     font-size: 1.6rem;
     font-family: 'mulish';
     font-weight: 800;
@@ -21,7 +21,7 @@
     margin: 0px;
 }
 
-.forgot_desc{
+.reset_desc{
     font-size: 1rem;
     font-weight: 600;
     font-family: 'mulish';
@@ -30,39 +30,19 @@
     text-align: center;
 }
 
-.forgot_button{
-    width: 100%;
-    height: 45px;
-    border-radius: 10px;
-    font-family: 'mulish';
-    font-size: 1.2rem;
-    border: none;
-    background-color: var(--login-guest-button-bg);
-    color: var(--login-guest-button-text);
-    cursor: pointer;
-}
-
-.forgot_button:hover{
-    background-color: var(--login-guest-button-bg-hover);
-}
-
-.forgot_button:active{
-    background-color: var(--login-guest-button-bg-active);
-}
-
 @media(max-width: 620px){
-    .forgot{
+    .reset{
         width: 350px;
         background-color: var(--container-background);
         padding: 20px;
     }
     
-    .forgot_title{
+    .reset_title{
         font-size: 1.2rem;
         text-align: center;
     }
 
-    .forgot_desc{
+    .reset_desc{
         font-size: 0.9rem;
         text-align: center;
     }

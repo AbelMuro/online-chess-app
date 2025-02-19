@@ -5,6 +5,7 @@ import store from './Store';
 import Login from './Pages/Authentication/Login';
 import Register from './Pages/Authentication/Register';
 import ForgotPassword from './Pages/Authentication/ForgotPassword';
+import ResetPassword from './Pages/Authentication/ResetPassword';
 import Chessboard from './Pages/Chessboard';
 import Menu from './Pages/Menu'
 import './global.css';
@@ -19,6 +20,7 @@ function App() {
                     <Route path='/menu' element={<Menu/>}/>
                     <Route path='/chessboard' element={<Chessboard/>}/>
                     <Route path='/forgotpassword' element={<ForgotPassword/>}/>
+                    <Route path='/resetpassword/:token' element={<ResetPassword/>}/>
                 </Routes>
             </BrowserRouter>
         </Provider>
