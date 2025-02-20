@@ -1,19 +1,41 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {ClipLoader} from 'react-spinners';
 import {useNavigate} from 'react-router-dom';
 import Form from './Form'
 import * as styles from './styles.module.css';
 
-//this is where i left off, i will need to implement the login-guest feature on the server with node.js
-
 function Login() {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const handleRegister = () => {
         navigate('/register');
     }
 
-    const handleGuest = () => {
-        
+    const handleGuest = async () => {
+        setLoading(true);
+        try{
+            const response = await fetch('http://localhost:4000/guestlogin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: '',
+                credentials: 'include'
+            });
+            if(response.status === 200){
+                console.log('User has been logged in as guest');
+                navigate('/menu');
+            }
+        }
+        catch(error){
+            const message = error.message;
+            console.log(message);
+            alert('Server is offline, please try again later');
+        }
+        finally{
+            setLoading && setLoading(false);
+        }
     }
 
     const handleForgot = () => {
@@ -39,7 +61,7 @@ function Login() {
                 </a>                
             </p>
             <button className={styles.login_button} onClick={handleGuest}>
-                Sign in as guest
+                {loading ? <ClipLoader size='30px' color='#0000A1'/> : 'Sign in as guest'}
             </button>
         </section>
     )

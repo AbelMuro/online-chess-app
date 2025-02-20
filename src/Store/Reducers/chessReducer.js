@@ -14,6 +14,7 @@ import {saveMove} from '../Functions/RecordMoves';
 //i also need to organize the code in the 'movePiece' Case
 
 const movePiece = createAction('MOVE_PIECE');
+const movePieceWithAI = createAction('MOVE_PIECE_WITH_AI');
 const changeTurn = createAction('CHANGE_TURN');
 const pieceToBeMoved = createAction('PIECE_TO_BE_MOVED');
 const undo = createAction('UNDO');
@@ -142,6 +143,9 @@ const chessReducer = createReducer(initialState, (builder) => {
         }
       )
       ResetProperties(state, initialState);
+    })
+    .addCase(movePieceWithAI, (state, action) => {
+      state.board = action.payload.board;
     })
     .addCase(undo, (state) => {
       const move = state.past.pop();    

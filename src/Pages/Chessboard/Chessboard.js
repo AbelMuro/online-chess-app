@@ -1,4 +1,5 @@
 import React, {useMemo} from 'react';
+import AI_Player from './StockfishAI';
 import Squares from './Squares';
 import SideBar from './SideBar';
 import DeclareWinner from './DeclareWinner';
@@ -80,6 +81,7 @@ function Chessboard() {
                 </div>
                 <SideBar/>
                 <DeclareWinner/>
+                <AI_Player/>
             </section>
         </DndProvider>
     )

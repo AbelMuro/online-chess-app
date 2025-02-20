@@ -44,6 +44,11 @@ module.exports = {
             {
                 test: /\.(png|jpg|webp|mp4|wav|svg)$/,
                 type: 'asset/resource'                                              //asset/resource loads files such as images, audio and videos
+            }, 
+            {
+                test: /\.wasm$/,
+                type: 'javascript/auto',
+                loader: 'file-loader',
             }
         ]
     },
