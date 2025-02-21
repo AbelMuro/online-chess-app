@@ -42,6 +42,7 @@ function AI_Player() {
     }
 
     useEffect(() => {
+        console.log(board);
         if(currentTurn === 'black')
             handleAImove();
     }, [board])
