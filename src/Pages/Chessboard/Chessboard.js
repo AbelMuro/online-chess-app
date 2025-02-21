@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import AI_Player from './StockfishAI';
+import AI_Player from './AI_Player';
 import Squares from './Squares';
 import SideBar from './SideBar';
 import DeclareWinner from './DeclareWinner';
