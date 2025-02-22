@@ -6,7 +6,6 @@ import {useSelector} from 'react-redux';
 function AI_Player() {
     const board = useSelector(state => state.chess.board);
     const currentTurn = useSelector(state => state.chess.current_turn);
-    const fen = ConvertMatrixToFen(board);
 
     const handleAImove = async () => {
         try{
@@ -20,7 +19,7 @@ function AI_Player() {
 
             if(response.status === 200){
                 const boardUpdatedWithAImove = await response.json();
-                console.log(boardUpdatedWithAImove)
+                console.log(boardUpdatedWithAImove);
             }
             else if(response.status === 400){
                 console.log('Failed to analyze position');
@@ -31,21 +30,21 @@ function AI_Player() {
                 console.log(message);
                 alert('Internal Server error has occurred, please try again later')
             }
-
         }
         catch(error){
             const message = error.message;
             console.log(message);
             alert('Server is offline, please try again later');
-
         }
     }
 
     useEffect(() => {
-        console.log(board);
-        if(currentTurn === 'black')
+        if(currentTurn === 'black'){
             handleAImove();
-    }, [board])
+            console.log('fetch request made')
+        }
+            
+    }, [board, currentTurn])
 
     return null
 }
