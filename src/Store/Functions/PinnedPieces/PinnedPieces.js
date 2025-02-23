@@ -297,17 +297,21 @@ export const UnpinPieces = (state, newRow, newColumn) => {
 
 //this is where i left off, i will need to create a specific function that will pin two pieces at the same time
 //then i can translate the best move from the AI into a logic my app can understand
+
 export const CheckForDoublePin = (state, king, color) => {
     const row = king.row;
     const column = king.column;
     const opposing_color = color === 'white' ? 'black' : 'white';
     const squaresBetweenKings = [];
+    let bothKingsExist = false;
 
     northSquares((i) => {
         if(state.board[i][column].includes(`${opposing_color} king`)){
-          squaresBetweenKings.push({row: i, column});
+          bothKingsExist = true;
           return false;
         } 
+        else if(state.board[i][column] === '')
+          return true;
         else {
           squaresBetweenKings.push({row: i, column});
           return true;
@@ -315,10 +319,21 @@ export const CheckForDoublePin = (state, king, color) => {
           
     }, row)
 
-    squaresBetweenKings.forEach((square) => {
-      const row = square.row;
-      const column = square.column;
 
-        
-    });
+    //i need to test out this logic
+    if(bothKingsExist && squaresBetweenKings.length === 2){
+        const pieceOne = {row: squaresBetweenKings[0].row, column: squaresBetweenKings[0].column};
+        const pieceTwo = {row: squaresBetweenKings[1].row, column: squaresBetweenKings[1].column};
+
+        if((state.board[pieceOne.row][pieceTwo.column].includes(`${color} queen`) || state.board[pieceOne.row][pieceTwo.column].includes(`${color} rook`)) &&
+           (state.board[pieceOne.row][pieceTwo.column].includes(`${opposing_color} queen`) || state.board[pieceOne.row][pieceTwo.column].includes(`${opposing_color} rook`))){
+              const pinnedPieceOne = state.board[pieceOne.row][pieceTwo.column];
+              const pinnedPieceTwo = state.board[pieceOne.row][pieceTwo.column];
+              state.pinned_pieces.push({pinnedPieceOne, square: {row: pieceOne.row, column: pieceOne.column}, squaresBetweenKings});
+              state.pinned_pieces.push({pinnedPieceTwo, square: {row: pieceTwo.row, column: pieceTwo.column}, squaresBetweenKings});
+           }
+                
+    }
+      
+
 }
