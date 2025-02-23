@@ -2,7 +2,7 @@ import { createAction, createReducer } from '@reduxjs/toolkit'
 import { northSquares, southSquares, westSquares, eastSquares, northWestSquares,northEastSquares, southEastSquares, southWestSquares, knightSquares, pawnSquares} from '../Functions/TraversalFunctions';
 import { createLegalSquaresWhileInCheck, createLegalSquaresForKing, createSquaresForCastleling} from '../Functions/CreateSquares';
 import { checkSquaresForCheck, checkSquaresForBlocks, checkSquaresForThreats} from '../Functions/CheckSquares';
-import { UnpinPieces, findPinnedPieces, findLegalMovesForPinnedPiece } from '../Functions/PinnedPieces';
+import { UnpinPieces, findPinnedPieces, findLegalMovesForPinnedPiece, CheckForDoublePin } from '../Functions/PinnedPieces';
 import { implementEnPassant } from '../Functions/EnPassant';
 import { legalMovesExist} from '../Functions/Stalemate';
 import { ResetState, ResetProperties} from '../Functions/ResetState';
@@ -39,6 +39,7 @@ const countLegalMoves = createAction('COUNT_LEGAL_MOVES');
 const resetLegalMoves = createAction('RESET_LEGAL_MOVES');
 const checkStalemate = createAction('CHECK_STALEMATE');
 const resetState = createAction('RESET_STATE')
+const checkForPins = createAction('CHECK_FOR_PINS');
 
 const setPinnedPieces = createAction('SET_PINNED_PIECES');
 const clearPinnedPieces = createAction('CLEAR_PINNED_PIECES');
@@ -46,14 +47,14 @@ const clearPinnedPieces = createAction('CLEAR_PINNED_PIECES');
 
 const initialState = { 
     board: [
-      ['white rook a', 'white knight b', 'white bishop c', 'white queen d', 'white king e', 'white bishop f', 'white knight g', 'white rook h'],
-      ['white pawn a', 'white pawn b', 'white pawn c', 'white pawn d', 'white pawn e', 'white pawn f', 'white pawn g', 'white pawn h'],
-      ['', '', '', '', '', '', '', '',],
-      ['', '', '', '', '', '', '', '',],
-      ['', '', '', '', '', '', '', '',],
-      ['', '', '', '', '', '', '', '',],
-      ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h'],
       ['black rook a', 'black knight b', 'black bishop c', 'black queen d', 'black king e', 'black bishop f', 'black knight g', 'black rook h'],
+      ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h'],      
+      ['', '', '', '', '', '', '', '',],
+      ['', '', '', '', '', '', '', '',],
+      ['', '', '', '', '', '', '', '',],
+      ['', '', '', '', '', '', '', '',],
+      ['white pawn a', 'white pawn b', 'white pawn c', 'white pawn d', 'white pawn e', 'white pawn f', 'white pawn g', 'white pawn h'],
+      ['white rook a', 'white knight b', 'white bishop c', 'white queen d', 'white king e', 'white bishop f', 'white knight g', 'white rook h'], 
     ],
     highlighted_squares: [
       ['', '', '', '', '', '', '', '',],
@@ -145,7 +146,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       ResetProperties(state, initialState);
     })
     .addCase(movePieceWithAI, (state, action) => {
-      state.board = action.payload.board;
+      const bestmove = action.payload.bestmove;
     })
     .addCase(undo, (state) => {
       const move = state.past.pop();    
@@ -227,12 +228,19 @@ const chessReducer = createReducer(initialState, (builder) => {
       if(kingHasBeenMovedForFirstTime){
           const piece_color = pieceToBeMoved.includes('white') ? 'white' : 'black';
           state[`has_${piece_color}_king_been_moved`] = true;
-        
       }
 
       state.past.push(move);
       state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
       ResetProperties(state, initialState);
+    })
+    .addCase(checkForPins, (state, action) => {    //i need to check for a specific type of pin, i will traverse through a file in the board and find the other king, i will see if there are threats within that file
+      const row = action.payload.square.row;
+      const column = action.payload.square.column;
+      const piece_color = action.payload.square.color;
+
+      CheckForDoublePin(state, {row, column}, piece_color);
+
     })
     .addCase(highlightNorthSquares, (state, action) => {
       const currentSquare = action.payload.square;
@@ -451,7 +459,7 @@ const chessReducer = createReducer(initialState, (builder) => {
           findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
 
       else if(state.squares_between_king_and_attacker.length)
-        createLegalSquaresWhileInCheck(state, blueSquares, redSquares);
+          createLegalSquaresWhileInCheck(state, blueSquares, redSquares);
       else{
         blueSquares.forEach((square) => {
           state.highlighted_squares[square.row][square.column] = 'blue';
@@ -488,7 +496,7 @@ const chessReducer = createReducer(initialState, (builder) => {
           blueSquares.push({row: i, column: j})
         else if(!state.board[i][j].includes(piece_color)){
           redSquares.push({row: i, column: j});
-          break
+          break;
         }
         else
           break;

@@ -1,3 +1,3 @@
-import { UnpinPieces, findPinnedPieces, findLegalMovesForPinnedPiece } from "./PinnedPieces.js";
+import { UnpinPieces, findPinnedPieces, findLegalMovesForPinnedPiece, CheckForDoublePin } from "./PinnedPieces.js";
 
-export {UnpinPieces, findPinnedPieces, findLegalMovesForPinnedPiece};
+export {UnpinPieces, findPinnedPieces, findLegalMovesForPinnedPiece, CheckForDoublePin};

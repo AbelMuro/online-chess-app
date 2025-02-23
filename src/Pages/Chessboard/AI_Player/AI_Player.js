@@ -1,25 +1,26 @@
-import React, {useEffect} from 'react';
-import {useDispatch} from 'react-redux';
-import { ConvertMatrixToFen, UpdateMatrixWithAIMove } from './utils';
-import {useSelector} from 'react-redux';
+import {useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 
 function AI_Player() {
     const board = useSelector(state => state.chess.board);
     const currentTurn = useSelector(state => state.chess.current_turn);
+    const dispatch = useDispatch();
 
     const handleAImove = async () => {
+
         try{
             const response = await fetch('http://localhost:4000/ai_move', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(board)
+                body: JSON.stringify({board, AI_Color: 'black'})
             });
 
             if(response.status === 200){
-                const boardUpdatedWithAImove = await response.json();
-                console.log(boardUpdatedWithAImove);
+                const bestmove = await response.json();
+                console.log(bestmove);
+                dispatch({type: 'MOVE_PIECE_WITH_AI', payload: {bestmove}})
             }
             else if(response.status === 400){
                 console.log('Failed to analyze position');
@@ -39,11 +40,9 @@ function AI_Player() {
     }
 
     useEffect(() => {
-        if(currentTurn === 'black'){
+        if(currentTurn === 'black')
             handleAImove();
-            console.log('fetch request made')
-        }
-            
+        
     }, [board, currentTurn])
 
     return null

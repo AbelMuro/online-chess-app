@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, useRef} from 'react';
 import AI_Player from './AI_Player';
 import Squares from './Squares';
 import SideBar from './SideBar';
@@ -49,19 +49,21 @@ import * as styles from './styles.module.css';
 
 
 function Chessboard() {
+    const columns = useRef(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']);
 
     const squares = useMemo(() => {
         const squares = [];
-        for (let row = 7; row >= 0; row--) { 
+        for (let row = 0; row <= 7; row++) { 
             const alternate = row % 2 === 0
             for (let column = 0; column <= 7; column++) { 
                 let square;
-                const id = `${row + 1} ${column + 1}`
+                const currentColumn = columns.current[column];
+                const id = `${currentColumn}${row + 1}`
 
                 if(alternate)
-                    square = column % 2 !== 0 ? 'lightSquare' : 'darkSquare';
-                else
                     square = column % 2 === 0 ? 'lightSquare' : 'darkSquare';
+                else
+                    square = column % 2 !== 0 ? 'lightSquare' : 'darkSquare';
                     
                 squares.push( 
                     <Squares colorOfSquare={square} row={row} column={column} id={id} key={id}/>

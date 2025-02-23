@@ -294,3 +294,30 @@ export const UnpinPieces = (state, newRow, newColumn) => {
         })
       }
 }
+
+//this is where i left off, i will need to create a specific function that will pin two pieces at the same time
+export const CheckForDoublePin = (state, king, color) => {
+    const row = king.row;
+    const column = king.column;
+    const opposing_color = color === 'white' ? 'black' : 'white';
+    const squaresBetweenKings = [];
+
+    northSquares((i) => {
+        if(state.board[i][column].includes(`${opposing_color} king`)){
+          squaresBetweenKings.push({row: i, column});
+          return false;
+        } 
+        else {
+          squaresBetweenKings.push({row: i, column});
+          return true;
+        }
+          
+    }, row)
+
+    squaresBetweenKings.forEach((square) => {
+      const row = square.row;
+      const column = square.column;
+
+        
+    });
+}

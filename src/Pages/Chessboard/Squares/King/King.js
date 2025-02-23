@@ -44,6 +44,10 @@ function King({color, row, column, pieceId}) {
         dispatch({type: 'CHECK_STALEMATE', payload: {square: {row, column, color}}})
     }, [board])
 
+    useEffect(() => {
+        dispatch({type: 'CHECK_FOR_PINS', payload: {square: {row, column, color}}})
+    }, [board])
+
     return (
         <motion.div             
             className={styles.container} 

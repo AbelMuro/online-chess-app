@@ -31,7 +31,6 @@ function Squares({row, column, colorOfSquare, id}) {
         drop: () => {
             handleClick();
         }
-
     })
 
     const handleStyles = () => {

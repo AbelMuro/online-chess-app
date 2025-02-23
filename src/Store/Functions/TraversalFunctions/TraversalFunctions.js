@@ -1,18 +1,18 @@
 export const northSquares = (callback, row) => {
-    for(let i = row + 1; i <= 7; i++){
-        const continueIteration = callback(i);
-
-        if(!continueIteration){
-            
-            break;
-        };
-    }
-}
-export const southSquares = (callback, row) => {
     for(let i = row - 1; i >= 0; i--){
         const continueIteration = callback(i);
 
         if(!continueIteration) break;
+    }
+}
+
+export const southSquares = (callback, row) => {
+    for(let i = row + 1; i <= 7; i++){
+        const continueIteration = callback(i);
+
+        if(!continueIteration){
+            break;
+        };
     }
 }
 
@@ -33,22 +33,6 @@ export const eastSquares = (callback, column) => {
 }
 
 export const northWestSquares = (callback, row, column) => {
-    for(let i = row + 1, j = column - 1; i <= 7 && j >= 0; i++, j--){
-        const continueIteration = callback(i, j);
-
-        if(!continueIteration) break;
-    }
-}
-
-export const northEastSquares = (callback, row, column) => {
-    for(let i = row + 1, j = column + 1; i <= 7 && j <= 7; i++, j++){
-        const continueIteration = callback(i, j);
-
-        if(!continueIteration) break;
-    }
-}
-
-export const southWestSquares = (callback, row, column) => {
     for(let i = row - 1, j = column - 1; i >= 0 && j >= 0; i--, j--){
         const continueIteration = callback(i, j);
 
@@ -56,7 +40,27 @@ export const southWestSquares = (callback, row, column) => {
     }
 }
 
+
+export const southWestSquares = (callback, row, column) => {
+    for(let i = row + 1, j = column - 1; i <= 7 && j >= 0; i++, j--){
+        const continueIteration = callback(i, j);
+
+        if(!continueIteration) break;
+    }
+}
+
+
+
 export const southEastSquares = (callback, row, column) => {
+    for(let i = row + 1, j = column + 1; i <= 7 && j <= 7; i++, j++){
+        const continueIteration = callback(i, j);
+
+        if(!continueIteration) break;
+    }
+}
+
+
+export const northEastSquares = (callback, row, column) => {
     for(let i = row - 1, j = column + 1; i >= 0 && j <= 7; i--, j++){
         const continueIteration = callback(i, j);
 
@@ -84,10 +88,10 @@ export const knightSquares = (callback, row, column) => {
 }
 
 export const pawnSquares = (state, row, column, piece_color, twoSquareMoveAvailable) => {
-    const oneSquareMove = piece_color === 'white' ? {row: row + 1, column} : {row: row - 1, column};
-    const twoSquareMove = piece_color === 'white' ? {row: row + 2, column} : {row: row - 2, column};
-    const leftCornerTake = piece_color === 'white' ? {row: row + 1, column: column - 1} : {row: row - 1, column: column - 1};
-    const rightCornerTake = piece_color === 'white' ? {row: row + 1, column: column + 1} : {row: row - 1, column: column + 1};
+    const oneSquareMove = piece_color === 'white' ? {row: row - 1, column} : {row: row + 1, column};
+    const twoSquareMove = piece_color === 'white' ? {row: row - 2, column} : {row: row + 2, column};
+    const leftCornerTake = piece_color === 'white' ? {row: row - 1, column: column - 1} : {row: row + 1, column: column - 1};
+    const rightCornerTake = piece_color === 'white' ? {row: row - 1, column: column + 1} : {row: row + 1, column: column + 1};
     const opposing_color = piece_color === 'white' ? 'black' : 'white';
     const blueSquares = [];
     const redSquares = [];
