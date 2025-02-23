@@ -296,6 +296,7 @@ export const UnpinPieces = (state, newRow, newColumn) => {
 }
 
 //this is where i left off, i will need to create a specific function that will pin two pieces at the same time
+//then i can translate the best move from the AI into a logic my app can understand
 export const CheckForDoublePin = (state, king, color) => {
     const row = king.row;
     const column = king.column;
