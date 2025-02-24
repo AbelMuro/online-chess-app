@@ -8,10 +8,8 @@ import { legalMovesExist} from '../Functions/Stalemate';
 import { ResetState, ResetProperties} from '../Functions/ResetState';
 import {implementCastleling} from '../Functions/Castleling'
 import {saveMove} from '../Functions/RecordMoves';
+import {IntepretAIMoves} from '../Functions/IntepretAIMoves';
 
-
-//this is where i left off, i will need to fix the bug in castleling that happens when the user redo's or takes back a move
-//i also need to organize the code in the 'movePiece' Case
 
 const movePiece = createAction('MOVE_PIECE');
 const movePieceWithAI = createAction('MOVE_PIECE_WITH_AI');
@@ -39,7 +37,7 @@ const countLegalMoves = createAction('COUNT_LEGAL_MOVES');
 const resetLegalMoves = createAction('RESET_LEGAL_MOVES');
 const checkStalemate = createAction('CHECK_STALEMATE');
 const resetState = createAction('RESET_STATE')
-const checkForPins = createAction('CHECK_FOR_PINS');
+const checkForDoublePins = createAction('CHECK_FOR_DOUBLE_PINS');
 
 const setPinnedPieces = createAction('SET_PINNED_PIECES');
 const clearPinnedPieces = createAction('CLEAR_PINNED_PIECES');
@@ -74,6 +72,10 @@ const initialState = {
     future: [],
     black_king_in_check: false,
     white_king_in_check: false,
+
+    has_king_been_moved: false,
+    has_rooks_been_moved: [false, false],
+    
     has_white_king_been_moved: false,
     has_black_King_been_moved: false,
     has_black_rooks_been_moved: [false, false],
@@ -82,10 +84,82 @@ const initialState = {
     pinned_pieces: [],
     resigns: false,
     checkmate: false,
+    user_color: 'white',
+    opponent_color: 'black',
     current_turn: 'white',
     en_passant: null,
     pieceToBeMoved: {square: {row: null, column: null}},
   }
+
+
+
+/* 
+    The reducer below has cases where it will highlight a group of squares, each highlighted square will tell the player they can move their piece to that square
+    
+    Everything starts with the user clicking on one of their pieces on their side of the board.
+    This event will trigger a dispatch method that will call the appropriate cases
+        highlightNorthSquares
+        highlightSouthSquares
+        etc.. 
+
+    1) If the player clicks on the bishop, the position of the bishop will be recorded in the pieceToBeMoved property of the global state
+
+    2) Then it will trigger the following cases
+          highlightNorthWestSquares
+          highlightNorthEastSquares
+          highlightSouthWestSquares
+          highlightSouthEastSquares
+
+    3) Before we highlight the squares, we check if the bishop is a pinned piece (ex: bishop may be in-between the opposing queen and its king)
+       If its a pinned piece, then there are only a few legal squares the bishop can move to. Thereby limiting the movement of the bishop
+
+          (Keep in mind, that everytime a piece has been moved, it will dispatch an action 'SET_PINNED_PIECES' that will find a pinned piece and save it in the pinned-pieces array)
+
+    4) Before we highlight the squares, we also check if the king is in check. If the king is in check, the bishop will have a limited number
+       of squares that it can move into. The bishop must either protect its king by blocking or taking the threat
+
+    5) If the bishop is not a pinned piece, and its king is NOT in check, then the bishop can move freely to any of its highlighted squares
+
+    6) If the player clicks on one of the highlighted squares, the bishop can be moved to that square
+
+    7) Before we actually move the bishop, we check if the new position of the bishop will unpin other pieces 
+        (ex: bishop moves in-between black queen, white pawn, white king.... thereby unpinning the white pawn)
+
+    8) Before we actually move the bishop, we check if the piece being moved is either a king or a rook, 
+       and we record the first time these pieces have been moved
+       The reason for this is because the rules of chess state that if a rook or king has been moved, the king wont be able to castle
+
+    9) Before we actually move the bishop, we also check if the piece being moved is a pawn that took an opposing pawn with en-passant
+       if so, then we implement the logic necessary for en-passant
+       if not, the we disable en-passant
+
+        (Keep in mind that when a pawn moves two squares forward, it will enable en-passant in the global state
+        If the next move is a non-pawn piece or a piece that did not take with en-passant, then we disable en-passant)
+
+    10) Before we actually move the bishop, we check if the piece being moved is a king that was castled
+        If so, we move the rook and king to its correct position
+
+    11) THEN WE FINALLY MOVE THE BISHOP
+    
+    12) We also record the move that was just made in the moves property of the global state
+
+
+    Everytime there is a change in the board state, we dispatch an action 'IS_KING_IN_CHECK' within the <king/> component
+    This action will help us verify if the king is in check
+    If the king is in check, then we create an array 'squaresBetweenKingAndAttacker' that will contain all the squares between the threat and the king
+      this array will force every piece to only move to a square that is within this array of legal squares
+
+    Once we populate the 'squaresBetweenKingAndAttacker' array, then we check if any surrounding pieces can legally move to those squares to block and protect the king
+    we also check if the piece, that is attacking the king, is under threat
+    we also check if the king has any legal moves left
+
+    If there are no legal moves left for the king, 
+    no pieces to defend the king, 
+    no threats to the attacker, 
+    then its checkmate
+  
+
+*/
 
 const chessReducer = createReducer(initialState, (builder) => {      
   builder
@@ -146,7 +220,10 @@ const chessReducer = createReducer(initialState, (builder) => {
       ResetProperties(state, initialState);
     })
     .addCase(movePieceWithAI, (state, action) => {
-      const bestmove = action.payload.bestmove;
+      const {bestMove} = action.payload.bestmove;
+      console.log(bestMove)
+      IntepretAIMoves(state, bestMove);
+      ResetProperties(state, initialState);
     })
     .addCase(undo, (state) => {
       const move = state.past.pop();    
@@ -233,14 +310,6 @@ const chessReducer = createReducer(initialState, (builder) => {
       state.past.push(move);
       state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
       ResetProperties(state, initialState);
-    })
-    .addCase(checkForPins, (state, action) => {    //i need to check for a specific type of pin, i will traverse through a file in the board and find the other king, i will see if there are threats within that file
-      const row = action.payload.square.row;
-      const column = action.payload.square.column;
-      const piece_color = action.payload.square.color;
-
-      CheckForDoublePin(state, {row, column}, piece_color);
-
     })
     .addCase(highlightNorthSquares, (state, action) => {
       const currentSquare = action.payload.square;
@@ -491,17 +560,6 @@ const chessReducer = createReducer(initialState, (builder) => {
           return false;
       }, row, column)
 
-      for(let i = row - 1, j = column - 1; i >= 0 && j >= 0; i--, j--){
-        if(state.board[i][j] === '')
-          blueSquares.push({row: i, column: j})
-        else if(!state.board[i][j].includes(piece_color)){
-          redSquares.push({row: i, column: j});
-          break;
-        }
-        else
-          break;
-      }
-
       const pinnedPiece = state.pinned_pieces.filter(piece => piece.square.row === row && piece.square.column === column)[0];    //we check to see if the current piece is a pinned piece
       if(pinnedPiece)
           findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, blueSquares, redSquares);
@@ -647,6 +705,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       const row = action.payload.square.row;
       const column = action.payload.square.column;
       const piece_color = action.payload.square.color;
+      const opposing_color = piece_color === 'white' ? 'black' : 'white';
       
       checkSquaresForCheck(state, row, column, piece_color)     //this function will check if the king is currently in check by traversing through the squares north, west, east, south and diagonally for threats
     
@@ -658,12 +717,12 @@ const chessReducer = createReducer(initialState, (builder) => {
         if(isSquareBlockable)
           return; 
       }
-      const attacker = state.squares_between_king_and_attacker[state.squares_between_king_and_attacker.length - 1];
+      const attacker = state.squares_between_king_and_attacker[state.squares_between_king_and_attacker.length - 1]; 
       const attackerIsUnderThreat = checkSquaresForThreats(state, attacker, piece_color);
       const legalMoves = createLegalSquaresForKing(state, row, column, piece_color);
       
       if(!legalMoves.length && !attackerIsUnderThreat)
-        state.checkmate = piece_color;
+        state.checkmate = opposing_color;
     })
     .addCase(changeTurn, (state) => {
       state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
@@ -672,6 +731,12 @@ const chessReducer = createReducer(initialState, (builder) => {
       state.pieceToBeMoved = action.payload;
       state.blue_squares = [];
       state.red_squares = [];
+    })
+    .addCase(checkForDoublePins, (state, action) => {    //i need to check for a specific type of pin, i will traverse through a file in the board and find the other king, i will see if there are threats within that file
+      const row = action.payload.square.row;
+      const column = action.payload.square.column;
+      const piece_color = action.payload.square.color;
+      CheckForDoublePin(state, {row, column}, piece_color);
     })
     .addCase(setPinnedPieces, (state, action) => {
       const square = action.payload.square;

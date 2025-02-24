@@ -16,7 +16,7 @@ function ShowMoves() {
             </h2>
             <div className={styles.moves} ref={movesBox}> 
                 {
-                    moves && moves.map((move) => {
+                    moves && moves.map((move, i) => {
                         const from = move.from;
                         const to = move.to;
                         const pieceToBeMoved = move.pieceToBeMoved;
@@ -30,7 +30,7 @@ function ShowMoves() {
                         const toSquare = squareCoordinates[to.row][to.column];
 
                         return(
-                            <p className={styles.moves_move} key={`${fromSquare} ${toSquare}`}>
+                            <p className={styles.moves_move} key={`${i} ${fromSquare} ${toSquare}`}>
                                 <img className={styles.moves_move_piece} src={icons[piece]}/>
                                 {castleling && ' - '}
                                 {castleling && <img className={styles.moves_move_piece} src={icons[`${piece_color} rook`]}/>}

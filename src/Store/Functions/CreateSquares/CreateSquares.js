@@ -163,11 +163,11 @@ export const createLegalSquaresForKing = (state, row, column, color) => {
     northWestSquares((i, j) => {
       if(state.board[i][j].includes(piece_color) && !state.board[i][j].includes(`${piece_color} king`))
         return false
-      else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === square.row + 1 && j === square.column - 1)){
+      else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === square.row - 1 && j === square.column - 1)){
         isIllegal = true;
         return false;
       }
-      else if(state.board[i][j].includes(`${opposing_color} king`) && (i === square.row + 1 && j === square.column - 1)){
+      else if(state.board[i][j].includes(`${opposing_color} king`) && (i === square.row - 1 && j === square.column - 1)){
         isIllegal = true;
         return false;
       }
@@ -187,11 +187,11 @@ export const createLegalSquaresForKing = (state, row, column, color) => {
     northEastSquares((i, j) => {
       if(state.board[i][j].includes(piece_color) && !state.board[i][j].includes(`${piece_color} king`))
         return false
-      else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === square.row + 1 && j === square.column + 1)){
+      else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === square.row - 1 && j === square.column + 1)){
         isIllegal = true;
         return false;
       }
-      else if(state.board[i][j].includes(`${opposing_color} king`) && (i === square.row + 1 && j === square.column + 1)){
+      else if(state.board[i][j].includes(`${opposing_color} king`) && (i === square.row - 1 && j === square.column + 1)){
         isIllegal = true;
         return false;
       }
@@ -213,11 +213,11 @@ export const createLegalSquaresForKing = (state, row, column, color) => {
     southWestSquares((i, j) => {
       if(state.board[i][j].includes(piece_color) && !state.board[i][j].includes(`${piece_color} king`))
         return false
-      else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === square.row - 1 && j === square.column - 1)){
+      else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === square.row + 1 && j === square.column - 1)){
         isIllegal = true;
         return false;
       }
-      else if(state.board[i][j].includes(`${opposing_color} king`) && (i === square.row - 1 && j === square.column - 1)){
+      else if(state.board[i][j].includes(`${opposing_color} king`) && (i === square.row + 1 && j === square.column - 1)){
         isIllegal = true;
         return false;
       }
@@ -238,11 +238,11 @@ export const createLegalSquaresForKing = (state, row, column, color) => {
     southEastSquares((i, j) => {
       if(state.board[i][j].includes(piece_color) && !state.board[i][j].includes(`${piece_color} king`))
         return false
-      else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === square.row - 1 && j === square.column + 1)){
+      else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === square.row + 1 && j === square.column + 1)){
         isIllegal = true;
         return false;
       }
-      else if(state.board[i][j].includes(`${opposing_color} king`) && (i === square.row - 1 && j === square.column + 1)){
+      else if(state.board[i][j].includes(`${opposing_color} king`) && (i === square.row + 1 && j === square.column + 1)){
         isIllegal = true;
         return false;
       }

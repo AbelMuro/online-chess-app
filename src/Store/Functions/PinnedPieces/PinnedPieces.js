@@ -302,9 +302,35 @@ export const CheckForDoublePin = (state, king, color) => {
     const row = king.row;
     const column = king.column;
     const opposing_color = color === 'white' ? 'black' : 'white';
-    const squaresBetweenKings = [];
+    let squaresBetweenKings = [];
     let bothKingsExist = false;
+    let stopSearching = false;
 
+    const findDoublePin = (pieceToBeFoundOne, pieceToBeFoundTwo) => {
+      if(bothKingsExist && squaresBetweenKings.length === 2){
+        const pieceOne = {row: squaresBetweenKings[0].row, column: squaresBetweenKings[0].column};
+        const pieceTwo = {row: squaresBetweenKings[1].row, column: squaresBetweenKings[1].column};
+
+        if((state.board[pieceOne.row][pieceOne.column].includes(`${color} ${pieceToBeFoundOne}`) || state.board[pieceOne.row][pieceOne.column].includes(`${color} ${pieceToBeFoundTwo}`)) &&
+           (state.board[pieceTwo.row][pieceTwo.column].includes(`${opposing_color} ${pieceToBeFoundOne}`) || state.board[pieceTwo.row][pieceTwo.column].includes(`${opposing_color} ${pieceToBeFoundTwo}`))){
+              const pinnedPieceOne = state.board[pieceOne.row][pieceOne.column];
+              const pinnedPieceTwo = state.board[pieceTwo.row][pieceTwo.column];
+              state.pinned_pieces.push({piece: pinnedPieceOne, square: {row: pieceOne.row, column: pieceOne.column}, legalPinnedMoves: squaresBetweenKings});
+              state.pinned_pieces.push({piece: pinnedPieceTwo, square: {row: pieceTwo.row, column: pieceTwo.column}, legalPinnedMoves: squaresBetweenKings});
+           }     
+           return true;
+        }
+        else if(bothKingsExist)
+          return true;
+        else{
+          squaresBetweenKings = [];
+          bothKingsExist = false;
+          return false;
+        }
+    }
+
+
+    //we look for the opposing king
     northSquares((i) => {
         if(state.board[i][column].includes(`${opposing_color} king`)){
           bothKingsExist = true;
@@ -319,21 +345,139 @@ export const CheckForDoublePin = (state, king, color) => {
           
     }, row)
 
+    stopSearching = findDoublePin('queen', 'rook');
+    if(stopSearching) return;
 
-    //i need to test out this logic
-    if(bothKingsExist && squaresBetweenKings.length === 2){
-        const pieceOne = {row: squaresBetweenKings[0].row, column: squaresBetweenKings[0].column};
-        const pieceTwo = {row: squaresBetweenKings[1].row, column: squaresBetweenKings[1].column};
 
-        if((state.board[pieceOne.row][pieceTwo.column].includes(`${color} queen`) || state.board[pieceOne.row][pieceTwo.column].includes(`${color} rook`)) &&
-           (state.board[pieceOne.row][pieceTwo.column].includes(`${opposing_color} queen`) || state.board[pieceOne.row][pieceTwo.column].includes(`${opposing_color} rook`))){
-              const pinnedPieceOne = state.board[pieceOne.row][pieceTwo.column];
-              const pinnedPieceTwo = state.board[pieceOne.row][pieceTwo.column];
-              state.pinned_pieces.push({pinnedPieceOne, square: {row: pieceOne.row, column: pieceOne.column}, squaresBetweenKings});
-              state.pinned_pieces.push({pinnedPieceTwo, square: {row: pieceTwo.row, column: pieceTwo.column}, squaresBetweenKings});
-           }
-                
-    }
-      
+    //we look for the opposing king
+    southSquares((i) => {
+      if(state.board[i][column].includes(`${opposing_color} king`)){
+        bothKingsExist = true;
+        return false;
+      } 
+      else if(state.board[i][column] === '')
+        return true;
+      else {
+        squaresBetweenKings.push({row: i, column});
+        return true;
+      }
+          
+    }, row)
+
+    stopSearching = findDoublePin('queen', 'rook');
+    if(stopSearching) return;
+
+
+    //we look for the opposing king
+    westSquares((i) => {
+      if(state.board[i][column].includes(`${opposing_color} king`)){
+        bothKingsExist = true;
+        return false;
+      } 
+      else if(state.board[i][column] === '')
+        return true;
+      else {
+        squaresBetweenKings.push({row: i, column});
+        return true;
+      }
+          
+    }, row)
+  
+    stopSearching = findDoublePin('queen', 'rook');
+    if(stopSearching) return;
+
+
+    //we look for the opposing king
+    eastSquares((i) => {
+      if(state.board[i][column].includes(`${opposing_color} king`)){
+        bothKingsExist = true;
+        return false;
+      } 
+      else if(state.board[i][column] === '')
+        return true;
+      else {
+        squaresBetweenKings.push({row: i, column});
+        return true;
+      }
+          
+    }, row)
+  
+    stopSearching = findDoublePin('queen', 'rook');
+    if(stopSearching) return;
+
+
+    //we look for the opposing king
+    northWestSquares((i) => {
+      if(state.board[i][column].includes(`${opposing_color} king`)){
+        bothKingsExist = true;
+        return false;
+      } 
+      else if(state.board[i][column] === '')
+        return true;
+      else {
+        squaresBetweenKings.push({row: i, column});
+        return true;
+      }
+          
+    }, row)
+  
+    stopSearching = findDoublePin('queen', 'bishop');
+    if(stopSearching) return;
+
+    //we look for the opposing king
+    northEastSquares((i) => {
+      if(state.board[i][column].includes(`${opposing_color} king`)){
+        bothKingsExist = true;
+        return false;
+      } 
+      else if(state.board[i][column] === '')
+        return true;
+      else {
+        squaresBetweenKings.push({row: i, column});
+        return true;
+      }
+          
+    }, row)
+  
+    stopSearching = findDoublePin('queen', 'bishop');
+    if(stopSearching) return;
+
+    //we look for the opposing king
+    southWestSquares((i) => {
+      if(state.board[i][column].includes(`${opposing_color} king`)){
+        bothKingsExist = true;
+        return false;
+      } 
+      else if(state.board[i][column] === '')
+        return true;
+      else {
+        squaresBetweenKings.push({row: i, column});
+        return true;
+      }
+          
+    }, row)
+  
+    stopSearching = findDoublePin('queen', 'bishop');
+    if(stopSearching) return;
+
+    //we look for the opposing king
+    southEastSquares((i) => {
+      if(state.board[i][column].includes(`${opposing_color} king`)){
+        bothKingsExist = true;
+        return false;
+      } 
+      else if(state.board[i][column] === '')
+        return true;
+      else {
+        squaresBetweenKings.push({row: i, column});
+        return true;
+      }
+          
+    }, row)
+  
+    stopSearching = findDoublePin('queen', 'bishop');
+    if(stopSearching) return;
+
+
 
 }

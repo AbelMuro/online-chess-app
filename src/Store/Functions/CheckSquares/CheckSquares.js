@@ -185,7 +185,7 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
     }
   }
   
-  export const checkSquaresForBlocks = (state,square, piece_color) => {
+  export const checkSquaresForBlocks = (state, square, piece_color) => {
      const row = square.row;
      const column = square.column;
      let isBlockableOrTakable = false;

@@ -7,7 +7,6 @@ import { useDrag } from "react-dnd"
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
-//this is where i left off, i will need to cancel the layoutId animation by using conditional rendering
 
 function Bishop({color, row, column, pieceId}) { 
     const currentTurn = useSelector(state => state.chess.current_turn);        

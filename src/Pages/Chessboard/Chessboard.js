@@ -30,7 +30,7 @@ import * as styles from './styles.module.css';
 // blue squares will be a legal move
 // red squares will be a legal 'take' move
 
-//When you click on one of the blue or red squares, then it will cause a change in the board state
+//When you click on one of the blue or red squares, then it will cause a change in the board state and move a piece from one square to another
 
 //Everytime there is a change to the board state, it will trigger a useEffect within the <King/> component, this useEffect will check if the king is in check
 //If the king is in check, then the useEffect will dispatch an action that will create an array of squares that is inbetween the king and the attacker
