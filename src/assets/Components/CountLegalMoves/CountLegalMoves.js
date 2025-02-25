@@ -15,10 +15,7 @@ function CountLegalMoves({row, column, color, pieceId}){
     }, [board])
     
 
-    return(
-        <>
-        </>
-    )
+    return null;
 }
 
 export default memo(CountLegalMoves);

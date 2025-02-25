@@ -41,10 +41,6 @@ function King({color, row, column, pieceId}) {
     }, [board])
 
     useEffect(() => {
-        dispatch({type: 'CHECK_STALEMATE', payload: {square: {row, column, color}}})
-    }, [board])
-
-    useEffect(() => {
         dispatch({type: 'CHECK_FOR_DOUBLE_PINS', payload: {square: {row, column, color}}})
     }, [board])
 

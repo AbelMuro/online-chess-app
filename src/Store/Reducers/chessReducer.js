@@ -76,10 +76,8 @@ const initialState = {
     has_king_been_moved: false,
     has_rooks_been_moved: [false, false],
     
-    has_white_king_been_moved: false,
-    has_black_King_been_moved: false,
-    has_black_rooks_been_moved: [false, false],
-    has_white_rooks_been_moved: [false, false],
+    has_king_been_moved: false,
+    has_rooks_been_moved: [false, false],
     squares_between_king_and_attacker: [],
     pinned_pieces: [],
     resigns: false,
@@ -164,6 +162,7 @@ const initialState = {
 const chessReducer = createReducer(initialState, (builder) => {      
   builder
     .addCase(movePiece, (state, action) => {    
+      const userColor = state.user_color;
       const oldRow = state.pieceToBeMoved.square.row;
       const oldColumn = state.pieceToBeMoved.square.column; 
       const newRow = action.payload.square.row;
@@ -180,14 +179,14 @@ const chessReducer = createReducer(initialState, (builder) => {
       UnpinPieces(state, newRow, newColumn);                
 
       //we record the first time the king has been moved
-      if(pieceToBeMoved.includes(`king`) && !state[`has_${piece_color}_king_been_moved`]){
-        state[`has_${piece_color}_king_been_moved`] = true;
+      if(pieceToBeMoved.includes(`king`) && !state[`has_king_been_moved`]){
+        state[`has_king_been_moved`] = true;
         kingHasBeenMovedForFirstTime = true;
       }
 
       //we record the first time the rooks have been moved
-      if(pieceToBeMoved.includes('rook') && !state[`has_${piece_color}_rooks_been_moved`][pieceToBeMoved[11] === 'a' ? 0 : 1]){
-        state[`has_${piece_color}_rooks_been_moved`][pieceToBeMoved[11] === 'a' ? 0 : 1] = true;
+      if(pieceToBeMoved.includes('rook') && !state[`has_rooks_been_moved`][pieceToBeMoved[11] === 'a' ? 0 : 1]){
+        state[`has_rooks_been_moved`][pieceToBeMoved[11] === 'a' ? 0 : 1] = true;
         rookHasBeenMovedForFirstTime = true;
       }
         
@@ -250,21 +249,16 @@ const chessReducer = createReducer(initialState, (builder) => {
         if(castleling){
           state.board[castleling.from.row][castleling.from.column] = castleling.piece;
           state.board[castleling.to.row][castleling.to.column] = ''
-          const piece_color = castleling.piece.includes('white') ? 'white' : 'black';
-          state[`has_${piece_color}_king_been_moved`] = false;
-          state[`has_${piece_color}_rooks_been_moved`][pieceToBeMoved[11] === 'a' ? 0 : 1] = false
+          state[`has_king_been_moved`] = false;
+          state[`has_rooks_been_moved`][pieceToBeMoved[11] === 'a' ? 0 : 1] = false
         }
 
-        if(rookHasBeenMovedForFirstTime){
-          const piece_color = pieceToBeMoved.includes('white') ? 'white' : 'black';
-          state[`has_${piece_color}_rooks_been_moved`][pieceToBeMoved[11] === 'a' ? 0 : 1] = false;
-        }
-
-        if(kingHasBeenMovedForFirstTime){
-          const piece_color = pieceToBeMoved.includes('white') ? 'white' : 'black';
-          state[`has_${piece_color}_king_been_moved`] = false;
-        }
-            
+        if(rookHasBeenMovedForFirstTime)
+          state[`has_rooks_been_moved`][pieceToBeMoved[11] === 'a' ? 0 : 1] = false;
+      
+        if(kingHasBeenMovedForFirstTime)
+          state[`has_king_been_moved`] = false;
+        
         state.future.push(move);    
         state.current_turn = state.current_turn === 'white' ? 'black' : 'white';    
       }
@@ -781,13 +775,12 @@ const chessReducer = createReducer(initialState, (builder) => {
     .addCase(checkStalemate, (state, action) => {
         const color = action.payload.square.color;
         const row = action.payload.square.row;
-        const column = action.payload.square.column;
-        const availableMoves = state[`movesAvailableFor${color === 'white' ? 'White' : 'Black'}`];
+        const column = action.payload.square.column;      
+        const movesAvailable = action.payload.movesAvailable;
+        const legalSquaresForKing = createLegalSquaresForKing(state, row, column, color);
         const kingInCheck = state[`${color}_king_in_check`];
 
-        const legalSquaresForKing = createLegalSquaresForKing(state, row, column, color);
-        
-        if(legalSquaresForKing.length === 0 && availableMoves.length === 0 && !kingInCheck)
+        if(legalSquaresForKing.length === 0 && !kingInCheck && movesAvailable.length === 0)
           state.stalemate = true;
     })
     .addCase(resetState, (state) => {

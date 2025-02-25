@@ -87,7 +87,7 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
         return false;
       }
   
-      else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === row + 1 && j === column - 1)){
+      else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === row - 1 && j === column - 1)){
         state[`${piece_color}_king_in_check`] = true;
         return false;
       }
@@ -109,7 +109,7 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
         state[`${piece_color}_king_in_check`] = true;
         return false;
       }
-      else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === row + 1 && j === column + 1)){
+      else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === row - 1 && j === column + 1)){
         state[`${piece_color}_king_in_check`] = true;
         return false;
       }
@@ -131,7 +131,7 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
         state[`${piece_color}_king_in_check`] = true;
         return false;
       }
-      else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === row - 1 && j === column - 1)){
+      else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === row + 1 && j === column - 1)){
         state[`${piece_color}_king_in_check`] = true;
         return false;
       }
@@ -153,7 +153,7 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
         state[`${piece_color}_king_in_check`] = true;
         return false;
       }
-      else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === row - 1 && j === column + 1)){
+      else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === row + 1 && j === column + 1)){
         state[`${piece_color}_king_in_check`] = true;
         return false;
       }
@@ -189,13 +189,17 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
      const row = square.row;
      const column = square.column;
      let isBlockableOrTakable = false;
+     const pinnedPieces = state.pinned_pieces;
   
       northSquares((i) => {
+        if(pinnedPieces.some(piece => piece.square.row === i && piece.square.column === column))
+            return false;
+
         if(state.board[i][column].includes(`${piece_color} queen`) || state.board[i][column].includes(`${piece_color} rook`)){
           isBlockableOrTakable = true;
           return false
         }
-        else if(state.board[i][column].includes(`black pawn`) && state[`black_king_in_check`] && (i === row + 1 || (i === row + 2 && row === 6))){
+        else if(state.board[i][column].includes(`black pawn`) && state[`black_king_in_check`] && (i === row - 1 || (i === row - 2 && row === 1))){
           isBlockableOrTakable = true;
           return false
         }
@@ -214,7 +218,7 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
           isBlockableOrTakable = true;
           return false
         }
-        else if(state.board[i][column].includes(`white pawn`) && state[`white_king_in_check`] && (i === row + 1 || (i === row + 2 && row === 1))){
+        else if(state.board[i][column].includes(`white pawn`) && state[`white_king_in_check`] && (i === row + 1 || (i === row + 2 && row === 6))){
           isBlockableOrTakable = true;
           return false
         }

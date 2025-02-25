@@ -1,15 +1,15 @@
-import React, {useEffect} from 'react';
+import {useEffect, memo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 function CheckStalemate({row, column, color}) {
     const dispatch = useDispatch();
-    const availableMoves = useSelector(state => state.chess[`movesAvailableFor${color === 'white' ? 'White' : 'Black'}`])
+    const movesAvailable = useSelector(state => state.chess[`movesAvailableFor${color === 'white' ? 'White' : 'Black'}`])
 
     useEffect(() => {
-        dispatch({type: 'CHECK_STALEMATE', payload: {square: {row, column, color}}})
-    }, [availableMoves])
+        dispatch({type: 'CHECK_STALEMATE', payload: {square: {row, column, color}, movesAvailable}})
+    }, [movesAvailable])
 
-    return(<></>)
+    return null;
 }
 
-export default CheckStalemate;
+export default memo(CheckStalemate);

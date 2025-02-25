@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 
 function AI_Player() {
@@ -45,7 +45,11 @@ function AI_Player() {
         
     }, [board, currentTurn])
 
-    return null
+    return (
+        <button onClick={handleAImove}>
+            Make AI move
+        </button>
+    )
 }
 
 export default AI_Player;
