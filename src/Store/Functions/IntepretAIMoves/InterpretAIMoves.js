@@ -1,7 +1,8 @@
 import {saveMove} from '../RecordMoves';
 
 //this is where i left off, i will need to finish implementing this function
-//i also want to re-engineer the logic for the rooks and kings being moved for the first time, i only need to keep track of the current player's rooks and king
+
+// i fixed the bug with stalemate
 
 export const IntepretAIMoves = (state, bestMove) => {
     const enPassant = bestMove.includes('e.p');
