@@ -2,7 +2,7 @@ import {saveMove} from '../RecordMoves';
 
 //this is where i left off, i will need to finish implementing this function
 
-// i fixed the bug with stalemate
+// i fixed the bug with stalemate and i may need to double check the functions in ../CheckSquares and ../CreateSquares
 
 export const IntepretAIMoves = (state, bestMove) => {
     const enPassant = bestMove.includes('e.p');
