@@ -78,6 +78,10 @@ export const IntepretAIMoves = (state, bestMove) => {
         else
             rookToBeCastled = {from: {row: rookRow, column: rookColumn}, to: {row: rookRow, column: rookColumn + 2}}
     }
+
+    else if(enPassant){
+
+    }
     else{
         state.board[fromRow][fromColumn] = '';
         state.board[toRow][toColumn] =  promotion ? pieces[promotion] : pieceToBeMoved;        

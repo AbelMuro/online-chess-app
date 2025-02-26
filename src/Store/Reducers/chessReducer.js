@@ -72,10 +72,6 @@ const initialState = {
     future: [],
     black_king_in_check: false,
     white_king_in_check: false,
-
-    has_king_been_moved: false,
-    has_rooks_been_moved: [false, false],
-    
     has_king_been_moved: false,
     has_rooks_been_moved: [false, false],
     squares_between_king_and_attacker: [],

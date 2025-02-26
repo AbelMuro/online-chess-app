@@ -343,6 +343,7 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
   export const checkSquaresForThreats = (state, attacker, opposing_color) => {
       const row = attacker.row;
       const column = attacker.column;
+      const pieceAttacker = state.board[row][column];
       let squareIsUnderThreat = false;
   
       northSquares((i) => {
@@ -414,7 +415,7 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
         }
         else if(state.board[i][j] === '')
           return true;
-        else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === row + 1 && j === column - 1)){
+        else if(pieceAttacker.includes('white') && state.board[i][j].includes(`${opposing_color} pawn`) && (i === row - 1 && j === column - 1)){
             squareIsUnderThreat = true;
             return false
         }
@@ -426,14 +427,13 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
         return true;
   
       northEastSquares((i, j) => {
-        
         if(state.board[i][j].includes(`${opposing_color} queen`) || state.board[i][j].includes(`${opposing_color} bishop`)){
             squareIsUnderThreat = true;
             return false
         }
         else if(state.board[i][j] === '')
           return true;
-        else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === row + 1 && j === column + 1)){
+        else if(pieceAttacker.includes('white') && state.board[i][j].includes(`${opposing_color} pawn`) && (i === row - 1 && j === column + 1)){
             squareIsUnderThreat = true;
             return false
         }
@@ -451,7 +451,7 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
         }
         else if(state.board[i][j] === '')
           return true;
-        else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === row - 1 && j === column - 1)){
+        else if(pieceAttacker.includes('black') && state.board[i][j].includes(`${opposing_color} pawn`) && (i === row + 1 && j === column - 1)){
             squareIsUnderThreat = true;
             return false
         }
@@ -470,7 +470,7 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
         }
         else if(state.board[i][j] === '')
           return true;
-        else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === row - 1 && j === column + 1)){
+        else if(pieceAttacker.includes('black') && state.board[i][j].includes(`${opposing_color} pawn`) && (i === row + 1 && j === column + 1)){
             squareIsUnderThreat = true;
             return false
         }

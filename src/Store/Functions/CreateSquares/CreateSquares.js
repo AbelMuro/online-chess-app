@@ -81,7 +81,7 @@ export const createLegalSquaresForKing = (state, row, column, color) => {
         isIllegal = true;
         return false;
       }
-      else if(state.board[i][square.column].includes(`${opposing_color} king`) && (i === square.row + 1)){
+      else if(state.board[i][square.column].includes(`${opposing_color} king`) && (i === square.row - 1)){
         isIllegal = true;
         return false;
       }
@@ -102,7 +102,7 @@ export const createLegalSquaresForKing = (state, row, column, color) => {
         isIllegal = true;
         return false;
       }
-      else if(state.board[i][square.column].includes(`${opposing_color} king`) && (i === square.row - 1)){
+      else if(state.board[i][square.column].includes(`${opposing_color} king`) && (i === square.row + 1)){
         isIllegal = true;
         return false;
       }
