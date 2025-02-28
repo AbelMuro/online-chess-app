@@ -4,7 +4,6 @@ import {useDispatch, useSelector} from 'react-redux';
 function CheckStalemate({row, column, color}) {
     const dispatch = useDispatch();
     const movesAvailable = useSelector(state => state.chess[`movesAvailableFor${color === 'white' ? 'White' : 'Black'}`])
-    console.log(movesAvailable);
 
 
     useEffect(() => {

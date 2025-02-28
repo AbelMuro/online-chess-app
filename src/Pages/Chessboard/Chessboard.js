@@ -1,9 +1,10 @@
-import React, {useMemo, useRef} from 'react';
+import React, {useMemo, useRef, useEffect} from 'react';
 import AI_Player from './AI_Player';
 import Squares from './Squares';
 import SideBar from './SideBar';
 import DeclareWinner from './DeclareWinner';
 import MobileDisplayTurn from './MobileDisplayTurn';
+import {useDispatch} from 'react-redux';
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import * as styles from './styles.module.css';
@@ -50,6 +51,7 @@ import * as styles from './styles.module.css';
 
 function Chessboard() {
     const columns = useRef(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']);
+    const dispatch = useDispatch();
 
     const squares = useMemo(() => {
         const squares = [];
@@ -73,6 +75,12 @@ function Chessboard() {
         return squares;
     }, [])
 
+
+    useEffect(() => {
+        return () => {
+            dispatch({type: 'RESET_STATE'});
+        }
+    }, [])
 
     return(
         <DndProvider backend={HTML5Backend}> 

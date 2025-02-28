@@ -1,11 +1,10 @@
 import React, {useRef, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import Dialog from '~/assets/Components/Dialog';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import * as styles from './styles.module.css';
 
 function DeclareWinner() {
-    const dispatch = useDispatch();
     const checkmate = useSelector(state => state.chess.checkmate);
     const stalemate = useSelector(state => state.chess.stalemate);
     const resigns = useSelector(state => state.chess.resigns);
@@ -13,7 +12,6 @@ function DeclareWinner() {
     const navigate = useNavigate();
 
     const handleGoBack = () => {
-        dispatch({type: 'RESET_STATE'});
         navigate('/menu');
     }
 

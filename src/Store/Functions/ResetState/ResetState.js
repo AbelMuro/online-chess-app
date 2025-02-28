@@ -7,7 +7,6 @@ export const ResetProperties = (state, initialState) => {
   }
 
   export const ResetState = (state, initialState) => {
-    console.log('im here');
     state.board = initialState.board;
     state.highlighted_squares = initialState.highlighted_squares;
     state.moves = initialState.moves;                  

@@ -1,18 +1,32 @@
 import {saveMove} from '../RecordMoves';
+import { implementEnPassant } from '../EnPassant';
 
-//this is where i left off, i will need to finish implementing this function
+const checkEnPassant = (state, pieceToBeMoved, pieceToBeTaken) => {
+    const enPassant = state.en_passant;
 
-// i fixed the bug with stalemate and i may need to double check the functions in ../CheckSquares and ../CreateSquares
+    if(enPassant && pieceToBeMoved.includes('pawn') && pieceToBeTaken === '' ) return true;
+    else return false;
+}
 
 export const IntepretAIMoves = (state, bestMove) => {
-    const enPassant = bestMove.includes('e.p');
-    const castleKingSide = bestMove.includes('o-o');
-    const castleQueenSide = bestMove.includes('o-o-o');
+    const castleKingSide = bestMove.includes('e1g1') || bestMove.includes('e8g8');
+    const castleQueenSide = bestMove.includes('e1c1') || bestMove.includes('e8c8');
     let rookToBeCastled = null;
     const from = bestMove.slice(0, 2);
     const to = bestMove.slice(2, 4);
     const promotion = bestMove[4];
     const piece_color = state.opponent_color;
+    let pieceTakenByEnPassant = null;
+
+    const fromColumn = columns[from[0]];
+    const fromRow = row[from[1]];
+    const toColumn = columns[to[0]];
+    const toRow = row[to[1]];
+
+    const pieceToBeMoved = state.board[fromRow][fromColumn];
+    const pieceToBeTaken = state.board[toRow][toColumn];
+    const enPassant = checkEnPassant(pieceToBeMoved);
+
     const columns = {
         a: 0,
         b: 1,
@@ -41,16 +55,7 @@ export const IntepretAIMoves = (state, bestMove) => {
         'q': `${piece_color} queen`,
         'k': `${piece_color} king`,
     }
-
-    const fromColumn = columns[from[0]];
-    const fromRow = row[from[1]];
-    const toColumn = columns[to[0]];
-    const toRow = row[to[1]];
-
-    const pieceToBeMoved = state.board[fromRow][fromColumn];
-    const pieceToBeTaken = state.board[toRow][toColumn];
-
-        
+       
     if(castleKingSide || castleQueenSide){
         const rookRow = piece_color === 'black' ? 0 : 7;
         const rookColumn = castleKingSide ? 7 : 0;
@@ -80,20 +85,22 @@ export const IntepretAIMoves = (state, bestMove) => {
     }
 
     else if(enPassant){
-
+        pieceTakenByEnPassant = implementEnPassant(state, pieceToBeMoved, fromRow, fromColumn, toRow, toColumn);
+        state.board[fromRow][fromColumn] = '';
+        state.board[toRow][toColumn] = pieceToBeMoved;         
     }
+
     else{
         state.board[fromRow][fromColumn] = '';
         state.board[toRow][toColumn] =  promotion ? pieces[promotion] : pieceToBeMoved;        
     }
 
-
     saveMove(state, {
         from: {row: fromRow, column: fromColumn}, 
         to: {row: toRow, column: toColumn}, 
-        pieceToBeTaken: pieceToBeTaken, //pieceTakenByEnPassant ? '' : pieceToBeTaken, 
+        pieceToBeTaken: pieceTakenByEnPassant ? '' : pieceToBeTaken, 
         pieceToBeMoved,
-        //enPassant: pieceTakenByEnPassant,
+        enPassant: pieceTakenByEnPassant,
         castleling: rookToBeCastled,
       }
     )
