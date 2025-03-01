@@ -7,6 +7,8 @@ import icons from '~/assets/icons';
 import { useDrag } from "react-dnd"
 import * as styles from './styles.module.css';
 
+//i will need to find a way to display the black pieces more clearly in the buttons of the dialog
+
 function Pawn({color, row, column, pieceId}) {
     const [twoSquareMoveAvailable,] = useState((row === 1 && color === 'black') || (row === 6 && color === 'white'));
     const [promotion, setPromotion] = useState((row === 7 && color === 'black') || (row === 0 && color === 'white'));

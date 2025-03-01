@@ -11,6 +11,8 @@ import {saveMove} from '../Functions/RecordMoves';
 import {IntepretAIMoves} from '../Functions/IntepretAIMoves';
 
 
+//test out promotion feature for AI and find a way to display black pieces better in dialog for pawn component
+
 const movePiece = createAction('MOVE_PIECE');
 const movePieceWithAI = createAction('MOVE_PIECE_WITH_AI');
 const changeTurn = createAction('CHANGE_TURN');
@@ -43,7 +45,6 @@ const checkForDoublePins = createAction('CHECK_FOR_DOUBLE_PINS');
 const setPinnedPieces = createAction('SET_PINNED_PIECES');
 const clearPinnedPieces = createAction('CLEAR_PINNED_PIECES');
 
-//this is where i left off, i will need to implement the promotion feature for this app
 
 const initialState = { 
     board: [

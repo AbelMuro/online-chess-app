@@ -8,6 +8,8 @@ const checkEnPassant = (state, pieceToBeMoved, pieceToBeTaken) => {
     else return false;
 }
 
+//this is where i left off, i need to test out the promotion feature for the AI
+
 export const IntepretAIMoves = (state, bestMove) => {
     const columns = {
         a: 0,
@@ -29,13 +31,22 @@ export const IntepretAIMoves = (state, bestMove) => {
         '7': 1,
         '8': 0
     }
+    const id = pieceToBeMoved[pieceToBeMoved.length - 1];
+    const uniqueId = {
+        'a': 'z',
+        'b': 'y',
+        'c': 'x',
+        'd': 'w',
+        'e': 'm',
+        'f': 'o',
+        'g': 'q',
+        'h': 'l',
+      }
     const pieces = {
-        'p': `${piece_color} pawn`,
-        'r': `${piece_color} rook`,
-        'b': `${piece_color} bishop`,
-        'n': `${piece_color} knight`,
-        'q': `${piece_color} queen`,
-        'k': `${piece_color} king`,
+        'r': `${piece_color} rook ${uniqueId[id]}`,
+        'b': `${piece_color} bishop ${uniqueId[id]}`,
+        'n': `${piece_color} knight ${uniqueId[id]}`,
+        'q': `${piece_color} queen ${uniqueId[id]}`,
     } 
 
     const castleKingSide = bestMove.includes('e1g1') || bestMove.includes('e8g8');
