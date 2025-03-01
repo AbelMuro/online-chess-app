@@ -40,6 +40,7 @@ function AI_Player() {
     }
 
     useEffect(() => {
+        return;
         if(currentTurn === 'black')
             handleAImove();
         

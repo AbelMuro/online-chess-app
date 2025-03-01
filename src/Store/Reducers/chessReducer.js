@@ -15,6 +15,7 @@ const movePiece = createAction('MOVE_PIECE');
 const movePieceWithAI = createAction('MOVE_PIECE_WITH_AI');
 const changeTurn = createAction('CHANGE_TURN');
 const pieceToBeMoved = createAction('PIECE_TO_BE_MOVED');
+const promotion = createAction('PROMOTION')
 const undo = createAction('UNDO');
 const redo = createAction('REDO');
 
@@ -220,6 +221,26 @@ const chessReducer = createReducer(initialState, (builder) => {
       console.log(bestMove)
       IntepretAIMoves(state, bestMove);
       ResetProperties(state, initialState);
+    })
+    .addCase(promotion, (state, action) => {
+        const piece = action.payload.piece;
+        const row = action.payload.square.row;
+        const column = action.payload.square.column;
+        const color = action.payload.color;
+        const pieceId = action.payload.pieceId;
+        const id = pieceId[pieceId.length - 1];
+        const uniqueId = {
+          'a': 'z',
+          'b': 'y',
+          'c': 'x',
+          'd': 'w',
+          'e': 'm',
+          'f': 'o',
+          'g': 'q',
+          'h': 'l',
+        }
+
+        state.board[row][column] = `${color} ${piece} ${uniqueId[id]}` 
     })
     .addCase(undo, (state) => {
       const move = state.past.pop();    

@@ -9,24 +9,6 @@ const checkEnPassant = (state, pieceToBeMoved, pieceToBeTaken) => {
 }
 
 export const IntepretAIMoves = (state, bestMove) => {
-    const castleKingSide = bestMove.includes('e1g1') || bestMove.includes('e8g8');
-    const castleQueenSide = bestMove.includes('e1c1') || bestMove.includes('e8c8');
-    let rookToBeCastled = null;
-    const from = bestMove.slice(0, 2);
-    const to = bestMove.slice(2, 4);
-    const promotion = bestMove[4];
-    const piece_color = state.opponent_color;
-    let pieceTakenByEnPassant = null;
-
-    const fromColumn = columns[from[0]];
-    const fromRow = row[from[1]];
-    const toColumn = columns[to[0]];
-    const toRow = row[to[1]];
-
-    const pieceToBeMoved = state.board[fromRow][fromColumn];
-    const pieceToBeTaken = state.board[toRow][toColumn];
-    const enPassant = checkEnPassant(pieceToBeMoved);
-
     const columns = {
         a: 0,
         b: 1,
@@ -54,8 +36,24 @@ export const IntepretAIMoves = (state, bestMove) => {
         'n': `${piece_color} knight`,
         'q': `${piece_color} queen`,
         'k': `${piece_color} king`,
-    }
-       
+    } 
+
+    const castleKingSide = bestMove.includes('e1g1') || bestMove.includes('e8g8');
+    const castleQueenSide = bestMove.includes('e1c1') || bestMove.includes('e8c8');
+    let rookToBeCastled = null;
+    const from = bestMove.slice(0, 2);
+    const to = bestMove.slice(2, 4);
+    const promotion = bestMove[4];
+    const piece_color = state.opponent_color;
+    let pieceTakenByEnPassant = null;
+    const fromColumn = columns[from[0]];
+    const fromRow = row[from[1]];
+    const toColumn = columns[to[0]];
+    const toRow = row[to[1]];
+    const pieceToBeMoved = state.board[fromRow][fromColumn];
+    const pieceToBeTaken = state.board[toRow][toColumn];
+    const enPassant = checkEnPassant(pieceToBeMoved);
+ 
     if(castleKingSide || castleQueenSide){
         const rookRow = piece_color === 'black' ? 0 : 7;
         const rookColumn = castleKingSide ? 7 : 0;
