@@ -37,6 +37,11 @@ function Pawn({color, row, column, pieceId}) {
         handleOpen();
     }
 
+    const handleStyles = () => {
+        if(color === 'black')
+            return {}
+    }
+
     const handleMove = () => {
         if(currentTurn !== color) return;
         dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});

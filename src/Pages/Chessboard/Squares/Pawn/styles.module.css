@@ -44,18 +44,18 @@
     justify-content: center;
     align-items: center;
     padding: 10px;
-    background-color: var(--dialog-button-bg);
+    background-color: var(--dialog-promotion-button-bg);
     border: 0px;
     border-radius: 10px;
     cursor: pointer;
 }
 
 .content_piece:hover{
-    background-color: var(--dialog-button-bg-hover);
+    background-color: var(--dialog-promotion-button-hover);
 }
 
 .content_piece:active{
-    background-color: var(--dialog-button-bg-active);
+    background-color: var(--dialog-promotion-button-active);
 }
 
 .content_piece > img{

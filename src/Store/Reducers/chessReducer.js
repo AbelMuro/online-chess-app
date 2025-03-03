@@ -11,7 +11,7 @@ import {saveMove} from '../Functions/RecordMoves';
 import {IntepretAIMoves} from '../Functions/IntepretAIMoves';
 
 
-//test out promotion feature for AI and find a way to display black pieces better in dialog for pawn component
+//find a way to display black pieces better in dialog for pawn component
 
 const movePiece = createAction('MOVE_PIECE');
 const movePieceWithAI = createAction('MOVE_PIECE_WITH_AI');

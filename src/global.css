@@ -54,4 +54,8 @@ body{
     --dialog-button-bg: rgb(0, 0, 61);
     --dialog-button-bg-hover: rgb(0, 0, 104);
     --dialog-button-bg-active: rgb(17, 17, 131);
+
+    --dialog-promotion-button-bg: rgb(1, 1, 148);
+    --dialog-promotion-button-hover: rgb(11, 11, 172);
+    --dialog-promotion-button-active: rgb(38, 38, 230);
 }

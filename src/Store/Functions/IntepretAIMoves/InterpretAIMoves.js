@@ -31,7 +31,6 @@ export const IntepretAIMoves = (state, bestMove) => {
         '7': 1,
         '8': 0
     }
-    const id = pieceToBeMoved[pieceToBeMoved.length - 1];
     const uniqueId = {
         'a': 'z',
         'b': 'y',
@@ -42,12 +41,6 @@ export const IntepretAIMoves = (state, bestMove) => {
         'g': 'q',
         'h': 'l',
       }
-    const pieces = {
-        'r': `${piece_color} rook ${uniqueId[id]}`,
-        'b': `${piece_color} bishop ${uniqueId[id]}`,
-        'n': `${piece_color} knight ${uniqueId[id]}`,
-        'q': `${piece_color} queen ${uniqueId[id]}`,
-    } 
 
     const castleKingSide = bestMove.includes('e1g1') || bestMove.includes('e8g8');
     const castleQueenSide = bestMove.includes('e1c1') || bestMove.includes('e8c8');
@@ -62,8 +55,15 @@ export const IntepretAIMoves = (state, bestMove) => {
     const toColumn = columns[to[0]];
     const toRow = row[to[1]];
     const pieceToBeMoved = state.board[fromRow][fromColumn];
+    const id = pieceToBeMoved[pieceToBeMoved.length - 1];
     const pieceToBeTaken = state.board[toRow][toColumn];
     const enPassant = checkEnPassant(pieceToBeMoved);
+    const pieces = {
+        'r': `${piece_color} rook ${uniqueId[id]}`,
+        'b': `${piece_color} bishop ${uniqueId[id]}`,
+        'n': `${piece_color} knight ${uniqueId[id]}`,
+        'q': `${piece_color} queen ${uniqueId[id]}`,
+    } 
  
     if(castleKingSide || castleQueenSide){
         const rookRow = piece_color === 'black' ? 0 : 7;
@@ -101,7 +101,7 @@ export const IntepretAIMoves = (state, bestMove) => {
 
     else{
         state.board[fromRow][fromColumn] = '';
-        state.board[toRow][toColumn] =  promotion ? pieces[promotion] : pieceToBeMoved;        
+        state.board[toRow][toColumn] = promotion ? pieces[promotion] : pieceToBeMoved;        
     }
 
     saveMove(state, {
