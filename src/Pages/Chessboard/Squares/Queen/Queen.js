@@ -8,6 +8,7 @@ import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
 function Queen({color, row, column, pieceId}) {
+    const userColor = useSelector(state => state.chess.user_color); 
     const currentTurn = useSelector(state => state.chess.current_turn);     
     const dispatch = useDispatch();
     const [{isDragging}, drag] = useDrag({
@@ -20,7 +21,7 @@ function Queen({color, row, column, pieceId}) {
             return row === square.row && column === square.column; 
         },
         canDrag: () => {                      
-            return currentTurn === color;            
+            return color === currentTurn && currentTurn === userColor;;            
         },
         collect: (monitor) => ({
             isDragging: monitor.isDragging()   
@@ -28,17 +29,18 @@ function Queen({color, row, column, pieceId}) {
     })
 
     const handleClick = () => {
-        if(currentTurn !== color) return;
-        dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
-        dispatch({type: 'REMOVE_ALL_HIGHLIGHTED_SQUARES'});
-        dispatch({type: 'HIGHLIGHT_NORTH_SQUARES', payload: {square: {row, column, color}}});
-        dispatch({type: 'HIGHLIGHT_SOUTH_SQUARES', payload: {square: {row, column, color}}});
-        dispatch({type: 'HIGHLIGHT_WEST_SQUARES', payload: {square: {row, column, color}}});
-        dispatch({type: 'HIGHLIGHT_EAST_SQUARES', payload: {square: {row, column, color}}});
-        dispatch({type: 'HIGHLIGHT_NORTHWEST_SQUARES', payload: {square: {row, column, color}}});
-        dispatch({type: 'HIGHLIGHT_NORTHEAST_SQUARES', payload: {square: {row, column, color}}});
-        dispatch({type: 'HIGHLIGHT_SOUTHWEST_SQUARES', payload: {square: {row, column, color}}});
-        dispatch({type: 'HIGHLIGHT_SOUTHEAST_SQUARES', payload: {square: {row, column, color}}});
+        if(color === currentTurn && currentTurn === userColor) {
+            dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
+            dispatch({type: 'REMOVE_ALL_LEGAL_SQUARES'});
+            dispatch({type: 'HIGHLIGHT_NORTH_SQUARES', payload: {square: {row, column, color}}});
+            dispatch({type: 'HIGHLIGHT_SOUTH_SQUARES', payload: {square: {row, column, color}}});
+            dispatch({type: 'HIGHLIGHT_WEST_SQUARES', payload: {square: {row, column, color}}});
+            dispatch({type: 'HIGHLIGHT_EAST_SQUARES', payload: {square: {row, column, color}}});
+            dispatch({type: 'HIGHLIGHT_NORTHWEST_SQUARES', payload: {square: {row, column, color}}});
+            dispatch({type: 'HIGHLIGHT_NORTHEAST_SQUARES', payload: {square: {row, column, color}}});
+            dispatch({type: 'HIGHLIGHT_SOUTHWEST_SQUARES', payload: {square: {row, column, color}}});
+            dispatch({type: 'HIGHLIGHT_SOUTHEAST_SQUARES', payload: {square: {row, column, color}}});            
+        }
     }
 
     

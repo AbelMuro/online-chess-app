@@ -95,34 +95,33 @@ export const pawnSquares = (state, row, column, piece_color, twoSquareMoveAvaila
     const leftCornerTake = piece_color === 'white' ? {row: row - 1, column: column - 1} : {row: row + 1, column: column - 1};
     const rightCornerTake = piece_color === 'white' ? {row: row - 1, column: column + 1} : {row: row + 1, column: column + 1};
     const opposing_color = piece_color === 'white' ? 'black' : 'white';
-    const blueSquares = [];
-    const redSquares = [];
+    const legalSquares = [];
 
     if(state.board[oneSquareMove.row]?.[oneSquareMove.column] === '')
-        blueSquares.push(oneSquareMove);
+        legalSquares.push(oneSquareMove);
     if(twoSquareMoveAvailable && 
         state.board[oneSquareMove.row]?.[oneSquareMove.column] === '' && 
         state.board[twoSquareMove.row]?.[twoSquareMove.column] === '')
-        blueSquares.push(twoSquareMove)
+        legalSquares.push(twoSquareMove)
 
     if(state.board[leftCornerTake.row]?.[leftCornerTake.column] && 
       state.board[leftCornerTake.row]?.[leftCornerTake.column] !== '' &&
       !state.board[leftCornerTake.row]?.[leftCornerTake.column].includes(piece_color))
-        redSquares.push(leftCornerTake);
+        legalSquares.push(leftCornerTake);
     else if(state.board[leftCornerTake.row]?.[leftCornerTake.column] === '' && 
       (state.en_passant?.row === row && state.en_passant?.column === column - 1) && 
       state.board[row][column - 1]?.includes(`${opposing_color} pawn`))  
-        redSquares.push(leftCornerTake)
+        legalSquares.push(leftCornerTake)
 
     if(state.board[rightCornerTake.row]?.[rightCornerTake.column] &&
       state.board[rightCornerTake.row]?.[rightCornerTake.column] !== '' &&
       !state.board[rightCornerTake.row]?.[rightCornerTake.column].includes(piece_color))
-        redSquares.push(rightCornerTake);
+        legalSquares.push(rightCornerTake);
     else if(state.board[rightCornerTake.row]?.[rightCornerTake.column] === '' && 
       (state.en_passant?.row === row && state.en_passant?.column === column + 1) && 
       state.board[row][column + 1]?.includes(`${opposing_color} pawn`))  
-        redSquares.push(rightCornerTake);
+        legalSquares.push(rightCornerTake);
 
-    return [blueSquares, redSquares];
+    return [legalSquares];
 }
 

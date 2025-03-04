@@ -8,6 +8,7 @@ import * as styles from './styles.module.css';
 
 function King({color, row, column, pieceId}) {
     const currentTurn = useSelector(state => state.chess.current_turn);    
+    const userColor = useSelector(state => state.chess.user_color); 
     const board = useSelector(state => state.chess.board);   
     const dispatch = useDispatch();
     const [{isDragging}, drag] = useDrag({
@@ -20,7 +21,7 @@ function King({color, row, column, pieceId}) {
             return row === square.row && column === square.column; 
         },
         canDrag: () => {                      
-            return currentTurn === color;            
+            return color === currentTurn && currentTurn === userColor;;            
         },
         collect: (monitor) => ({
             isDragging: monitor.isDragging()   
@@ -29,15 +30,16 @@ function King({color, row, column, pieceId}) {
 
 
     const handleClick = () => {
-        if(currentTurn !== color) return;
-        dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
-        dispatch({type: 'REMOVE_ALL_HIGHLIGHTED_SQUARES'});
-        dispatch({type: 'HIGHLIGHT_KING_SQUARES', payload: {square: {row, column, color}}})
+        if(color === currentTurn && currentTurn === userColor){
+            dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
+            dispatch({type: 'REMOVE_ALL_LEGAL_SQUARES'});
+            dispatch({type: 'HIGHLIGHT_KING_SQUARES', payload: {square: {row, column, color}}})            
+        }
     }
 
 
     useEffect(() => {
-        if(currentTurn !== color) return;
+        if(currentTurn === userColor) return;
         dispatch({type: 'IS_KING_IN_CHECK', payload: {square: {row, column, color}}})
     }, [board])
 

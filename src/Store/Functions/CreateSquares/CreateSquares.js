@@ -6,7 +6,7 @@ import { northSquares, southSquares,
 import { checkSquaresForThreats } from '../CheckSquares';
 
 
-export const createSquaresForCastleling = (state, row, column, color, blueSquares) => {
+export const createSquaresForCastleling = (state, row, column, color, legalSquares) => {
     if(state[`has_king_been_moved`] || state[`${color}_king_in_check`]) return;
     const opposing_color = color === 'white' ? 'black' : 'white';
 
@@ -14,7 +14,7 @@ export const createSquaresForCastleling = (state, row, column, color, blueSquare
       (state.board[row]?.[column + 2] === '' && !checkSquaresForThreats(state, {row, column: column + 2}, opposing_color)) &&
       state.board[row]?.[column + 3].includes(`${color} rook`) && 
       !state[`has_rooks_been_moved`][1]){
-          blueSquares.push({row, column: column + 2})
+          legalSquares.push({row, column: column + 2})
     }
         
     if((state.board[row]?.[column - 1] === '' && !checkSquaresForThreats(state, {row, column: column - 1}, opposing_color)) &&
@@ -22,34 +22,24 @@ export const createSquaresForCastleling = (state, row, column, color, blueSquare
       (state.board[row]?.[column - 3] === '' && !checkSquaresForThreats(state, {row, column: column - 3}, opposing_color)) &&
       state.board[row]?.[column - 4].includes(`${color} rook`) &&
       !state[`has_rooks_been_moved`][0]){
-          blueSquares.push({row, column: column - 2})
+          legalSquares.push({row, column: column - 2})
       }
       
 }
 
-export const createLegalSquaresWhileInCheck = (state, blueSquares, redSquares) => {
+export const createLegalSquaresWhileInCheck = (state, legalSquares) => {
   const squaresBetweenKingAndAttacker = state.squares_between_king_and_attacker;
-  const highlightedSquares = state.highlighted_squares;
 
-  for(let i = 0; i < blueSquares.length; i++){
+  for(let i = 0; i < legalSquares.length; i++){
     for(let j = 0; j < squaresBetweenKingAndAttacker.length; j++){
       const row = squaresBetweenKingAndAttacker[j].row;
       const column = squaresBetweenKingAndAttacker[j].column;
 
-      if(blueSquares[i].row === row && blueSquares[i].column === column)
-        highlightedSquares[row][column] = 'blue'
+      if(legalSquares[i].row === row && legalSquares[i].column === column)
+        state.legal_squares[row][column] = true
     }
   }  
-  
-  for(let i = 0; i < redSquares.length; i++){
-    for(let j = 0; j < squaresBetweenKingAndAttacker.length; j++){
-      const row = squaresBetweenKingAndAttacker[j].row;
-      const column = squaresBetweenKingAndAttacker[j].column;
 
-      if(redSquares[i].row === row && redSquares[i].column === column)
-        highlightedSquares[row][column] = 'red'
-    }
-  }
 }
 
 export const createLegalSquaresForKing = (state, row, column, color) => {

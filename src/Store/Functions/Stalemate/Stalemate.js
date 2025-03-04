@@ -12,8 +12,8 @@ export function legalMovesExist(state, piece, color, square) {
      
     if(piece.includes('pawn')){
         const twoSquareMoveAvailable = color === 'white' ? row === 1 : row === 6;
-        const [blueSquares, redSquares] = pawnSquares(state, row, column, color, twoSquareMoveAvailable);
-        return blueSquares.length !== 0 || redSquares.length !== 0;
+        const [legalSquares] = pawnSquares(state, row, column, color, twoSquareMoveAvailable);
+        return legalSquares.length !== 0;
     }
 
     if(piece.includes('knight'))

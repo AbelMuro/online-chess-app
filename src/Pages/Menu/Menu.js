@@ -6,8 +6,8 @@ import * as styles from './styles.module.css';
 function Menu() {
     const navigate = useNavigate();
 
-    const handleChessboard = (option) => {
-        navigate('/chessboard', {state: {option}})
+    const handleOptions = () => {
+        navigate('/selectoptions')
     }
 
     const handleLogOut = async () => {
@@ -38,10 +38,10 @@ function Menu() {
     return(
         <section className={styles.menu}>
             <Greeting/>
-            <button className={styles.menu_option} onClick={() => handleChessboard('ai')}>
+            <button className={styles.menu_option} onClick={handleOptions}>
                 Play against AI
             </button>
-            <button className={styles.menu_option} onClick={() => handleChessboard('online')}>
+            <button className={styles.menu_option} onClick={() => {}}>
                 Play online
             </button>
             <button className={styles.menu_option} onClick={handleLogOut}>

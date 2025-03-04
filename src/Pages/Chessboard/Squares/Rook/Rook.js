@@ -9,6 +9,7 @@ import * as styles from './styles.module.css';
 
 function Rook({color, row, column, pieceId}) {
     const dispatch = useDispatch();
+    const userColor = useSelector(state => state.chess.user_color); 
     const currentTurn = useSelector(state => state.chess.current_turn);   
     const [{isDragging}, drag] = useDrag({
         type: 'piece',
@@ -20,7 +21,7 @@ function Rook({color, row, column, pieceId}) {
             return row === square.row && column === square.column; 
         },
         canDrag: () => {                      
-            return currentTurn === color;            
+            return color === currentTurn && currentTurn === userColor;;            
         },
         collect: (monitor) => ({
             isDragging: monitor.isDragging()   
@@ -29,13 +30,14 @@ function Rook({color, row, column, pieceId}) {
     
 
     const handleClick = () => {
-        if(currentTurn !== color) return;
-        dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
-        dispatch({type: 'REMOVE_ALL_HIGHLIGHTED_SQUARES'});
-        dispatch({type: 'HIGHLIGHT_NORTH_SQUARES', payload: {square: {row, column, color}}});
-        dispatch({type: 'HIGHLIGHT_SOUTH_SQUARES', payload: {square: {row, column, color}}});
-        dispatch({type: 'HIGHLIGHT_WEST_SQUARES', payload: {square: {row, column, color}}});
-        dispatch({type: 'HIGHLIGHT_EAST_SQUARES', payload: {square: {row, column, color}}});
+        if(color === currentTurn && currentTurn === userColor){
+            dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
+            dispatch({type: 'REMOVE_ALL_LEGAL_SQUARES'});
+            dispatch({type: 'HIGHLIGHT_NORTH_SQUARES', payload: {square: {row, column, color}}});
+            dispatch({type: 'HIGHLIGHT_SOUTH_SQUARES', payload: {square: {row, column, color}}});
+            dispatch({type: 'HIGHLIGHT_WEST_SQUARES', payload: {square: {row, column, color}}});
+            dispatch({type: 'HIGHLIGHT_EAST_SQUARES', payload: {square: {row, column, color}}});            
+        }
     }
 
     return (

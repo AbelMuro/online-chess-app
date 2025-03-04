@@ -3,6 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 
 function AI_Player() {
     const board = useSelector(state => state.chess.board);
+    const opponentColor = useSelector(state => state.chess.opponent_color);
     const currentTurn = useSelector(state => state.chess.current_turn);
     const dispatch = useDispatch();
 
@@ -40,8 +41,7 @@ function AI_Player() {
     }
 
     useEffect(() => {
-        return;
-        if(currentTurn === 'black')
+        if(currentTurn === opponentColor)
             handleAImove();
         
     }, [board, currentTurn])

@@ -7,9 +7,8 @@ import icons from '~/assets/icons';
 import { useDrag } from "react-dnd"
 import * as styles from './styles.module.css';
 
-//i will need to find a way to display the black pieces more clearly in the buttons of the dialog
-
 function Pawn({color, row, column, pieceId}) {
+    const userColor = useSelector(state => state.chess.user_color)
     const [twoSquareMoveAvailable,] = useState((row === 1 && color === 'black') || (row === 6 && color === 'white'));
     const [promotion, setPromotion] = useState((row === 7 && color === 'black') || (row === 0 && color === 'white'));
     const buttonRef = useRef(); 
@@ -25,7 +24,7 @@ function Pawn({color, row, column, pieceId}) {
             return row === square.row && column === square.column; 
         },
         canDrag: () => {                      
-            return currentTurn === color;            
+            return color === currentTurn && currentTurn === userColor;            
         },
         collect: (monitor) => ({
             isDragging: monitor.isDragging()   
@@ -37,16 +36,13 @@ function Pawn({color, row, column, pieceId}) {
         handleOpen();
     }
 
-    const handleStyles = () => {
-        if(color === 'black')
-            return {}
-    }
-
     const handleMove = () => {
-        if(currentTurn !== color) return;
-        dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
-        dispatch({type: 'REMOVE_ALL_HIGHLIGHTED_SQUARES'});
-        dispatch({type: 'HIGHLIGHT_PAWN_SQUARES', payload: {square: {row, column, color, twoSquareMoveAvailable}}});
+        if(color === currentTurn && currentTurn === userColor){
+            dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
+            dispatch({type: 'REMOVE_ALL_LEGAL_SQUARES'});
+            dispatch({type: 'HIGHLIGHT_PAWN_SQUARES', payload: {square: {row, column, color, twoSquareMoveAvailable}}});            
+        }
+
     }
 
     useEffect(() => {

@@ -5,27 +5,16 @@ import { northSquares, southSquares,
 
 
 
-export const findLegalMovesForPinnedPiece = (state, legalMoves, blueSquares, redSquares) => {
-  const highlightedSquares = state.highlighted_squares;
-
-  for(let i = 0; i < blueSquares.length; i++){
+export const findLegalMovesForPinnedPiece = (state, legalMoves, legalSquares) => {
+  for(let i = 0; i < legalSquares.length; i++){
     for(let j = 0; j < legalMoves.length; j++){
       const row = legalMoves[j].row;
       const column = legalMoves[j].column;
 
-      if(blueSquares[i].row === row && blueSquares[i].column === column)
-        highlightedSquares[row][column] = 'blue'
+      if(legalSquares[i].row === row && legalSquares[i].column === column)
+        state.legal_squares[row][column] = true
     }
   }  
-  for(let i = 0; i < redSquares.length; i++){
-    for(let j = 0; j < legalMoves.length; j++){
-      const row = legalMoves[j].row;
-      const column = legalMoves[j].column;
-
-      if(redSquares[i].row === row && redSquares[i].column === column)
-        highlightedSquares[row][column] = 'red'
-    }
-  }
 }
 
 

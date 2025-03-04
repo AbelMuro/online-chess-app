@@ -9,14 +9,12 @@ import Queen from './Queen';
 import King from './King';
 import * as styles from './styles.module.css'
 
-//The Squares components is responsible for displaying the red or blue squares; 
-// red means that the square has a piece that can be taken
-// blue means that the square is a legal square that a certain piece can move into (check redux store for the pieceToBeMoved property)
+//The Squares components is responsible for determining if this square is a legal square where a piece can be moved
 // the child components of this component are the actual pieces, they are responsible for implementing the rules for 'moving' and 'taking' for each piece
 
 function Squares({row, column, colorOfSquare, id}) {
     const currentSquare = useSelector(state => state.chess.board[row][column]);
-    const highlightedSquare = useSelector(state => state.chess.highlighted_squares[row][column]);
+    const legalSquare = useSelector(state => state.chess.legal_squares[row][column]);
     const color = currentSquare.includes('white') ? 'white' : 'black';
     const piece = currentSquare.slice(6, currentSquare.length);
     const dispatch = useDispatch();
@@ -26,24 +24,15 @@ function Squares({row, column, colorOfSquare, id}) {
             handlerId: monitor.getHandlerId()
         }),
         canDrop: () => {
-            return !!highlightedSquare;
+            return legalSquare;
         },
         drop: () => {
             handleClick();
         }
     })
 
-    const handleStyles = () => {
-        if(highlightedSquare.includes('red'))
-            return {backgroundColor: 'rgba(255, 0, 0, 0.4)', cursor: 'pointer'}
-        else if(highlightedSquare.includes('blue'))
-            return {backgroundColor: 'rgba(77, 77, 255, 0.4)', cursor: 'pointer'}
-        else
-            return {};
-    }
-
     const handleClick = () => { 
-        if(!highlightedSquare) return;    
+        if(!legalSquare) return;    
            
         dispatch({type: 'MOVE_PIECE', payload: {square: {row, column}}});
         dispatch({type: 'CHANGE_TURN'})     
@@ -66,7 +55,6 @@ function Squares({row, column, colorOfSquare, id}) {
             ref={drop}
             data-handler-id={handlerId}
             className={styles.chess_board_square} 
-            style={handleStyles()}
             onClick={handleClick}> 
                 {piece.includes('pawn') && <Pawn color={color} row={row} column={column} pieceId={`${currentSquare}`}/>}
                 {piece.includes('queen') && <Queen color={color} row={row} column={column} pieceId={`${currentSquare}`}/>}

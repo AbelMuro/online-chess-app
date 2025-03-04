@@ -1,4 +1,4 @@
-import React, {useEffect, memo} from 'react';
+import React, {memo} from 'react';
 import SetPinnedPieces from '~/assets/Components/SetPinnedPieces';
 import CountLegalMoves from '~/assets/Components/CountLegalMoves';
 import {useDispatch, useSelector} from 'react-redux';
@@ -9,7 +9,8 @@ import * as styles from './styles.module.css';
 
 
 function Bishop({color, row, column, pieceId}) { 
-    const currentTurn = useSelector(state => state.chess.current_turn);        
+    const currentTurn = useSelector(state => state.chess.current_turn);   
+    const userColor = useSelector(state => state.chess.user_color)  
     const dispatch = useDispatch();
     const [{isDragging}, drag] = useDrag({
         type: 'piece',
@@ -21,7 +22,7 @@ function Bishop({color, row, column, pieceId}) {
             return row === square.row && column === square.column; 
         },
         canDrag: () => {                      
-            return currentTurn === color;            
+            return color === currentTurn && currentTurn === userColor;;            
         },
         collect: (monitor) => ({
             isDragging: monitor.isDragging()   
@@ -30,13 +31,14 @@ function Bishop({color, row, column, pieceId}) {
 
 
     const handleClick = () => {
-        if(currentTurn !== color) return;
-        dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
-        dispatch({type: 'REMOVE_ALL_HIGHLIGHTED_SQUARES'});
-        dispatch({type: 'HIGHLIGHT_NORTHWEST_SQUARES', payload: {square: {row, column, color}}});
-        dispatch({type: 'HIGHLIGHT_NORTHEAST_SQUARES', payload: {square: {row, column, color}}});
-        dispatch({type: 'HIGHLIGHT_SOUTHWEST_SQUARES', payload: {square: {row, column, color}}});
-        dispatch({type: 'HIGHLIGHT_SOUTHEAST_SQUARES', payload: {square: {row, column, color}}});
+        if(color === currentTurn && currentTurn === userColor){
+            dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
+            dispatch({type: 'REMOVE_ALL_LEGAL_SQUARES'});
+            dispatch({type: 'HIGHLIGHT_NORTHWEST_SQUARES', payload: {square: {row, column, color}}});
+            dispatch({type: 'HIGHLIGHT_NORTHEAST_SQUARES', payload: {square: {row, column, color}}});
+            dispatch({type: 'HIGHLIGHT_SOUTHWEST_SQUARES', payload: {square: {row, column, color}}});
+            dispatch({type: 'HIGHLIGHT_SOUTHEAST_SQUARES', payload: {square: {row, column, color}}});            
+        }
     }
 
     return (

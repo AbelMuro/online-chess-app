@@ -13,6 +13,15 @@
     gap: 20px;
 }
 
+.menu_title{
+    font-size: 1.6rem;
+    font-family: 'mulish';
+    font-weight: 800;
+    color: var(--text-color);
+    margin: 0px;
+}
+
+
 .menu_option{
     width: 100%;
     height: 45px;
@@ -31,6 +40,27 @@
 
 .menu_option:active{
     background-color: var(--menu-button-bg-active);
+}
+
+
+.menu_submit{
+    width: 100%;
+    height: 45px;
+    background-color: var(--menu-button-submit-bg);
+    color: var( --menu-button-text-color);
+    border-radius: 10px;
+    font-family: 'mulish';
+    font-size: 1.2rem;
+    border: none;
+    cursor: pointer;
+}
+
+.menu_submit:hover{
+    background-color: var(--menu-button-submit-hover);
+}
+
+.menu_submit:active{
+    background-color: var(--menu-button-submit-active)
 }
 
 @media(max-width: 530px){
