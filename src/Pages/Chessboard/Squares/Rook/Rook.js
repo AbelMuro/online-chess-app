@@ -40,6 +40,9 @@ function Rook({color, row, column, pieceId}) {
         }
     }
 
+
+
+
     return (
         <motion.div 
             className={styles.container} 
@@ -49,7 +52,7 @@ function Rook({color, row, column, pieceId}) {
             ref={drag}
             layoutId={pieceId}
             >
-                <img className={styles.piece} src={icons[`${color} rook`]}/>
+                <img className={styles.piece} src={icons[`${color} rook`]} />
                 <SetPinnedPieces row={row} column={column} color={color}/>
                 <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
         </motion.div>

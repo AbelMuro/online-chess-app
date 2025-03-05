@@ -4,7 +4,8 @@ import Squares from './Squares';
 import SideBar from './SideBar';
 import DeclareWinner from './DeclareWinner';
 import MobileDisplayTurn from './MobileDisplayTurn';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import {useLocation} from 'react-router-dom';
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import * as styles from './styles.module.css';
@@ -50,28 +51,51 @@ import * as styles from './styles.module.css';
 
 
 function Chessboard() {
+    const {state} = useLocation();
+    const game = state.game;
+    console.log(game);
     const columns = useRef(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']);
     const dispatch = useDispatch();
+    const userColor = useSelector(state => state.chess.user_color)
 
     const squares = useMemo(() => {
         const squares = [];
-        for (let row = 0; row <= 7; row++) { 
-            const alternate = row % 2 === 0
-            for (let column = 0; column <= 7; column++) { 
-                let square;
-                const currentColumn = columns.current[column];
-                const id = `${currentColumn}${row + 1}`
+        if(userColor === 'white')
+            for (let row = 0; row <= 7; row++) { 
+                const alternate = row % 2 === 0
+                for (let column = 0; column <= 7; column++) { 
+                    let square;
+                    const currentColumn = columns.current[column];
+                    const id = `${currentColumn}${row + 1}`
 
-                if(alternate)
-                    square = column % 2 === 0 ? 'lightSquare' : 'darkSquare';
-                else
-                    square = column % 2 !== 0 ? 'lightSquare' : 'darkSquare';
-                    
-                squares.push( 
-                    <Squares colorOfSquare={square} row={row} column={column} id={id} key={id}/>
-                ); 
-            }        
-        }
+                    if(alternate)
+                        square = column % 2 === 0 ? 'lightSquare' : 'darkSquare';
+                    else
+                        square = column % 2 !== 0 ? 'lightSquare' : 'darkSquare';
+                        
+                    squares.push( 
+                        <Squares colorOfSquare={square} row={row} column={column} id={id} key={id}/>
+                    ); 
+                }        
+            }
+        else
+            for (let row = 7; row >= 0; row--) { 
+                const alternate = row % 2 === 0
+                for (let column = 0; column <= 7; column++) { 
+                    let square;
+                    const currentColumn = columns.current[column];
+                    const id = `${currentColumn}${row + 1}`
+
+                    if(alternate)
+                        square = column % 2 === 0 ? 'lightSquare' : 'darkSquare';
+                    else
+                        square = column % 2 !== 0 ? 'lightSquare' : 'darkSquare';
+                        
+                    squares.push( 
+                        <Squares colorOfSquare={square} row={row} column={column} id={id} key={id}/>
+                    ); 
+                }        
+            }
         return squares;
     }, [])
 
@@ -91,7 +115,7 @@ function Chessboard() {
                 </div>
                 <SideBar/>
                 <DeclareWinner/>
-                <AI_Player/>
+                {game === 'ai' && <AI_Player/>}
             </section>
         </DndProvider>
     )

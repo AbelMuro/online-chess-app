@@ -5,6 +5,7 @@ function AI_Player() {
     const board = useSelector(state => state.chess.board);
     const opponentColor = useSelector(state => state.chess.opponent_color);
     const currentTurn = useSelector(state => state.chess.current_turn);
+    const difficulty = useSelector(state => state.chess.difficulty);
     const dispatch = useDispatch();
 
     const handleAImove = async () => {
@@ -15,7 +16,7 @@ function AI_Player() {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({board, AI_Color: 'black'})
+                body: JSON.stringify({board, AI_Color: opponentColor, difficulty})
             });
 
             if(response.status === 200){

@@ -42,8 +42,8 @@ function Pawn({color, row, column, pieceId}) {
             dispatch({type: 'REMOVE_ALL_LEGAL_SQUARES'});
             dispatch({type: 'HIGHLIGHT_PAWN_SQUARES', payload: {square: {row, column, color, twoSquareMoveAvailable}}});            
         }
-
     }
+
 
     useEffect(() => {
         if(promotion)
@@ -60,7 +60,7 @@ function Pawn({color, row, column, pieceId}) {
             layoutId={pieceId}
             ref={drag}
             >
-                <img className={styles.piece} src={icons[`${color} pawn`]} />  
+                <img className={styles.piece} src={icons[`${color} pawn`]}/>  
                 <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
                 <Dialog 
                     Content={({handleOpen}) => {

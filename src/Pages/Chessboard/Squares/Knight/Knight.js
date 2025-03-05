@@ -35,6 +35,9 @@ function Knight({color, row, column, pieceId}) {
         }
     }
 
+
+
+
     return (
         <motion.div             
             className={styles.container} 
@@ -42,7 +45,7 @@ function Knight({color, row, column, pieceId}) {
             onMouseDown={handleClick}
             ref={drag}
             layoutId={pieceId}>
-                <img className={styles.piece} src={icons[`${color} knight`]}/>
+                <img className={styles.piece} src={icons[`${color} knight`]} />
                 <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
         </motion.div>
     )

@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
 import * as styles from './styles.module.css';
 
 
@@ -6,6 +8,23 @@ import * as styles from './styles.module.css';
 function SelectOptions() {
     const [difficulty, setDifficulty] = useState('');
     const [color, setColor] = useState('');
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handlePlay = () => {
+        const opponentColor = color === 'white' ? 'black' : 'white';
+        let userColor;
+        if(color === 'random'){
+            const random = Math.ceil((Math.random() * 2));
+            userColor = random === 1 ? 'white' : 'black';
+        }
+        else 
+            userColor = color;
+
+
+        dispatch({type: 'SET_GAME_SETTINGS', payload: {user: userColor, opponent: opponentColor, difficulty}})
+        navigate('/chessboard', {state: {game: 'ai'}})
+    }
 
     const handleDifficulty = (option) => {
         setDifficulty(option)
@@ -51,7 +70,7 @@ function SelectOptions() {
             <button className={styles.menu_option} style={handleStylesForColor('random')} onClick={() => handleColor('random')}>
                 Random
             </button>
-            <button className={styles.menu_submit}>
+            <button className={styles.menu_submit} disabled={!color || !difficulty} onClick={handlePlay}>
                 Play
             </button>
         </section>

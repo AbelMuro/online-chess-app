@@ -43,6 +43,9 @@ function Queen({color, row, column, pieceId}) {
         }
     }
 
+
+
+
     
     return (
         <motion.div             
@@ -53,7 +56,7 @@ function Queen({color, row, column, pieceId}) {
             ref={drag}
             layoutId={pieceId}
             >
-                <img className={styles.piece} src={icons[`${color} queen`]}/>
+                <img className={styles.piece} src={icons[`${color} queen`]} />
                 <SetPinnedPieces row={row} column={column} color={color}/>
                 <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
         </motion.div>

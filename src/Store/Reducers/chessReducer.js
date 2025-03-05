@@ -10,11 +10,15 @@ import {implementCastleling} from '../Functions/Castleling'
 import {saveMove} from '../Functions/RecordMoves';
 import {IntepretAIMoves} from '../Functions/IntepretAIMoves';
 
+
+//i need to finish implementing the difficulty in the back end
+
 const movePiece = createAction('MOVE_PIECE');
 const movePieceWithAI = createAction('MOVE_PIECE_WITH_AI');
 const changeTurn = createAction('CHANGE_TURN');
 const pieceToBeMoved = createAction('PIECE_TO_BE_MOVED');
-const promotion = createAction('PROMOTION')
+const promotion = createAction('PROMOTION');
+const setGameSettings = createAction('SET_GAME_SETTINGS');
 const undo = createAction('UNDO');
 const redo = createAction('REDO');
 
@@ -82,6 +86,7 @@ const initialState = {
     opponent_color: 'black',
     current_turn: 'white',
     en_passant: null,
+    difficulty: '',
     pieceToBeMoved: {square: {row: null, column: null}},
   }
 
@@ -315,6 +320,15 @@ const chessReducer = createReducer(initialState, (builder) => {
       state.past.push(move);
       state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
       ResetProperties(state, initialState);
+    })
+    .addCase(setGameSettings, (state, action) => {
+      const difficulty = action.payload.difficulty;
+      const user = action.payload.user;
+      const opponent = action.payload.opponent;
+
+      state.difficulty = difficulty;
+      state.user_color = user;
+      state.opponent_color = opponent;
     })
     .addCase(highlightNorthSquares, (state, action) => {
       const currentSquare = action.payload.square;

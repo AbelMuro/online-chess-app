@@ -60,6 +60,8 @@ body{
     --menu-button-submit-hover: #b5b5c8;
     --menu-button-submit-active: #9c9cc9;
     --menu-button-text-color: #1f1f99;
+    --menu-button-disabled-bg: #d3d3d3;
+    --menu-button-text-disabled: #a9a9a9;
 
     --dialog-promotion-button-bg: rgb(1, 1, 148);
     --dialog-promotion-button-hover: rgb(11, 11, 172);

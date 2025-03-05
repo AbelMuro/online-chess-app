@@ -39,8 +39,9 @@ function King({color, row, column, pieceId}) {
 
 
     useEffect(() => {
-        if(currentTurn === userColor) return;
-        dispatch({type: 'IS_KING_IN_CHECK', payload: {square: {row, column, color}}})
+        if(currentTurn === userColor && color === currentTurn)
+            dispatch({type: 'IS_KING_IN_CHECK', payload: {square: {row, column, color}}})
+        
     }, [board])
 
     useEffect(() => {
@@ -55,7 +56,7 @@ function King({color, row, column, pieceId}) {
             style={isDragging ? {opacity: 0} : {opacity: 1}} 
             layoutId={pieceId}
             ref={drag}>
-                <img className={styles.piece} src={icons[`${color} king`]}/>
+                <img className={styles.piece} src={icons[`${color} king`]} />
                 <CheckStalemate row={row} column={column} color={color}/>
         </motion.div>
     )

@@ -63,6 +63,12 @@
     background-color: var(--menu-button-submit-active)
 }
 
+.menu_submit:disabled{
+    background-color: var(--menu-button-disabled-bg);
+    color: var(--menu-button-text-disabled);
+    cursor: not-allowed;
+}
+
 @media(max-width: 530px){
     .menu{
         width: 340px;
