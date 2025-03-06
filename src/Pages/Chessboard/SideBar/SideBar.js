@@ -1,5 +1,6 @@
 import React from 'react';
 import TakeBackButton from './TakeBackButton';
+import PiecesTaken from './PiecesTaken';
 import ShowMoves from './ShowMoves';
 import ResignButton from './ResignButton'
 import RedoButton from './RedoButton';
@@ -17,6 +18,7 @@ function SideBar(){
             <h1 className={styles.bar_title}>
                 {`${currentTurn} to move`}
             </h1>
+            <PiecesTaken/>
             <ShowMoves/>
             <div className={styles.bar_buttons}>
                 <ResignButton/>

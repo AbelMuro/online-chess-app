@@ -8,8 +8,6 @@ const checkEnPassant = (state, pieceToBeMoved, pieceToBeTaken) => {
     else return false;
 }
 
-//this is where i left off, i need to test out the promotion feature for the AI
-
 export const IntepretAIMoves = (state, bestMove) => {
     const columns = {
         a: 0,
@@ -57,6 +55,11 @@ export const IntepretAIMoves = (state, bestMove) => {
     const pieceToBeMoved = state.board[fromRow][fromColumn];
     const id = pieceToBeMoved[pieceToBeMoved.length - 1];
     const pieceToBeTaken = state.board[toRow][toColumn];
+    if(pieceToBeTaken){
+        const pieceColor = pieceToBeTaken.includes('white') ? 'white' : 'black';
+        state[`${pieceColor}_pieces_taken`]?.push(pieceToBeTaken);
+    }
+       
     const enPassant = checkEnPassant(pieceToBeMoved);
     const pieces = {
         'r': `${piece_color} rook ${uniqueId[id]}`,

@@ -12,16 +12,18 @@ function SelectOptions() {
     const navigate = useNavigate();
 
     const handlePlay = () => {
-        const opponentColor = color === 'white' ? 'black' : 'white';
         let userColor;
+        let opponentColor;
         if(color === 'random'){
             const random = Math.ceil((Math.random() * 2));
             userColor = random === 1 ? 'white' : 'black';
+            opponentColor = userColor === 'white' ? 'black' : 'white';
         }
-        else 
+        else{
             userColor = color;
-
-
+            opponentColor = color === 'white' ? 'black' : 'white';
+        } 
+            
         dispatch({type: 'SET_GAME_SETTINGS', payload: {user: userColor, opponent: opponentColor, difficulty}})
         navigate('/chessboard', {state: {game: 'ai'}})
     }

@@ -7,6 +7,9 @@ import icons from '~/assets/icons';
 import { useDrag } from "react-dnd"
 import * as styles from './styles.module.css';
 
+
+/* the bug is with framer-motion, layoutId might have something to do with the visual bugs that occur when i take back a move */
+/* if a white piece takes a black piece, i push the take-back button and undo this move, but the white piece is moved and the black piece doesnt get mounted*/
 function Pawn({color, row, column, pieceId}) {
     const userColor = useSelector(state => state.chess.user_color)
     const [twoSquareMoveAvailable,] = useState((row === 1 && color === 'black') || (row === 6 && color === 'white'));

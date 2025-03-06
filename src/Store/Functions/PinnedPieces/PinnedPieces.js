@@ -100,7 +100,7 @@ export const findPinnedPieces = (state, attacker, color) => {
             return false;
         }
         else if(state.board[row][i].includes(opposing_color)){
-            squaresBetweenKingAndAttacker.push({row: i, column})
+            squaresBetweenKingAndAttacker.push({row, column: i})
             return true;
         }
         else
@@ -130,7 +130,7 @@ export const findPinnedPieces = (state, attacker, color) => {
             return false;
         }
         else if(state.board[row][i].includes(opposing_color)){
-            squaresBetweenKingAndAttacker.push({row: i, column})
+            squaresBetweenKingAndAttacker.push({row, column: i})
             return true;
         }
         else
@@ -463,7 +463,5 @@ export const CheckForDoublePin = (state, king, color) => {
   
     stopSearching = findDoublePin('queen', 'bishop');
     if(stopSearching) return;
-
-
 
 }

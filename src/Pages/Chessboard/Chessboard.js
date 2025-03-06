@@ -28,11 +28,10 @@ import * as styles from './styles.module.css';
 
 //Each element is represented by a <Squares/> component that will either have a chess piece (queen, knight, pawn, etc...) or none at all
 //Each chess piece is a component that is either a <Queen/>, <Knight/>, <Pawn/> component that dispatches an action to the reducer when it is clicked on
-// the action will highlight certain squares on the board as blue or red, letting the player know that they can move the piece to that square
-// blue squares will be a legal move
-// red squares will be a legal 'take' move
+// the action will enable certain squares on the board to be used by a piece
 
-//When you click on one of the blue or red squares, then it will cause a change in the board state and move a piece from one square to another
+
+//When you click on one of these squares, then it will cause a change in the board state and move a piece from one square to another
 
 //Everytime there is a change to the board state, it will trigger a useEffect within the <King/> component, this useEffect will check if the king is in check
 //If the king is in check, then the useEffect will dispatch an action that will create an array of squares that is inbetween the king and the attacker
@@ -53,7 +52,6 @@ import * as styles from './styles.module.css';
 function Chessboard() {
     const {state} = useLocation();
     const game = state.game;
-    console.log(game);
     const columns = useRef(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']);
     const dispatch = useDispatch();
     const userColor = useSelector(state => state.chess.user_color)
@@ -102,7 +100,9 @@ function Chessboard() {
 
     useEffect(() => {
         return () => {
-            dispatch({type: 'RESET_STATE'});
+            setTimeout(() => {
+                dispatch({type: 'RESET_STATE'});
+            }, 500)
         }
     }, [])
 

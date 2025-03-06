@@ -6,6 +6,7 @@ function AI_Player() {
     const opponentColor = useSelector(state => state.chess.opponent_color);
     const currentTurn = useSelector(state => state.chess.current_turn);
     const difficulty = useSelector(state => state.chess.difficulty);
+    const timeTraveling = useSelector(state => state.chess.time_traveling);
     const dispatch = useDispatch();
 
     const handleAImove = async () => {
@@ -42,16 +43,14 @@ function AI_Player() {
     }
 
     useEffect(() => {
+        if(timeTraveling) return;
+
         if(currentTurn === opponentColor)
             handleAImove();
         
     }, [board, currentTurn])
 
-    return (
-        <button onClick={handleAImove}>
-            Make AI move
-        </button>
-    )
+    return null;
 }
 
 export default AI_Player;

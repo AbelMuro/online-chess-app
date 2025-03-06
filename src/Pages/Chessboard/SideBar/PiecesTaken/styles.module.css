@@ -1,0 +1,16 @@
+.pieces{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pieces_white{
+    display: flex;
+    gap: 7px;
+    align-items: center;
+}
+
+.pieces_white > img{
+    width: 5px;
+    object-fit: contain;
+}   
