@@ -11,10 +11,10 @@ import {saveMove} from '../Functions/RecordMoves';
 import {IntepretAIMoves} from '../Functions/IntepretAIMoves';
 
 
-//i need to finish implementing the difficulty in the back end
-
 /* 
 
+
+    this is where i left off, i need to test out the en passant move for the AI, then i can start implementing the online feature for the app
  [
       ['black rook a', 'black knight b', 'black bishop c', 'black queen d', 'black king e', 'black bishop f', 'black knight g', 'black rook h'],
       ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h'],      
@@ -285,8 +285,11 @@ const chessReducer = createReducer(initialState, (builder) => {
         state.board[from.row][from.column] = pieceToBeMoved;
         state.board[to.row][to.column] = pieceToBeTaken;
 
-        if(enPassant)
+        if(enPassant){
           state.board[enPassant.row][enPassant.column] = enPassant.pieceToBeTaken;
+          state.en_passant = null;
+        }
+          
 
         if(castleling){
           state.board[castleling.from.row][castleling.from.column] = castleling.piece;
@@ -326,9 +329,11 @@ const chessReducer = createReducer(initialState, (builder) => {
       state.board[from.row][from.column] = '';
       state.board[to.row][to.column] = pieceToBeMoved;     
       
-      if(enPassant)
+      if(enPassant){
         state.board[enPassant.row][enPassant.column] = '';
-
+        state.en_passant = {row: enPassant.row, column: enPassant.column};
+      }
+        
       if(castleling){
         state.board[castleling.from.row][castleling.from.column] = '';
         state.board[castleling.to.row][castleling.to.column] = castleling.piece;

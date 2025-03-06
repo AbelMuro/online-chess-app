@@ -55,6 +55,7 @@ function Queen({color, row, column, pieceId}) {
             style={isDragging ? {opacity: 0} : {opacity: 1}} 
             ref={drag}
             layoutId={pieceId}
+            key={pieceId}
             >
                 <img className={styles.piece} src={icons[`${color} queen`]} />
                 <SetPinnedPieces row={row} column={column} color={color}/>

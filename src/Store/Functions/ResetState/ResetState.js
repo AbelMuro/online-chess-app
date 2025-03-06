@@ -10,8 +10,8 @@ export const ResetProperties = (state, initialState) => {
     state.board = initialState.board;
     state.legal_squares = initialState.legal_squares;
     state.moves = initialState.moves;                  
-    state.movesAvailableForWhite = ['white pawn a', 'white pawn b', 'white pawn c', 'white pawn d', 'white pawn e', 'white pawn f', 'white pawn g', 'white pawn h', 'white knight b', 'white knight g'];
-    state.movesAvailableForBlack = ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h', 'black knight b', 'black knight g'];
+    state.movesAvailableForWhite = initialState.movesAvailableForWhite;
+    state.movesAvailableForBlack = initialState.movesAvailableForBlack;
     state.stalemate = initialState.stalemate;
     state.past = initialState.past;
     state.future =  initialState.future;
@@ -20,6 +20,9 @@ export const ResetProperties = (state, initialState) => {
 
     state.has_king_been_moved =  initialState.has_king_been_moved;
     state.has_rooks_been_moved = initialState.has_rooks_been_moved;
+    state.black_pieces_taken = initialState.black_pieces_taken,
+    state.white_pieces_taken = initialState.white_pieces_taken,
+    state.time_traveling = initialState.time_traveling;
     
     state.squares_between_king_and_attacker = initialState.squares_between_king_and_attacker;
     state.pinned_pieces = initialState.pinned_pieces;

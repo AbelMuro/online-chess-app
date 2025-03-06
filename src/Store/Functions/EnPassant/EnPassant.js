@@ -5,6 +5,16 @@ export const checkEnpassant = (state, initialRow, newRow, newColumn) => {
         state.en_passant = null;      
 }
 
+export const checkEnPassantForAI = (state, pieceToBeMoved, from, to) => {
+    if(!pieceToBeMoved.includes('pawn')) return;
+
+    if(from.row + 2 === to.row || from.row - 2 === to.row) 
+        state.en_passant = {row: to.row, column: to.column};
+    else
+        state.en_passant = null;     
+}
+
+
 export const implementEnPassant = (state, piece, oldRow, oldColumn, newRow, newColumn) => {
     if(!piece.includes('pawn') || !state.en_passant) {
         state.en_passant = null;

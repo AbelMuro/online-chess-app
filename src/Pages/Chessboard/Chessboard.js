@@ -52,6 +52,7 @@ import * as styles from './styles.module.css';
 function Chessboard() {
     const {state} = useLocation();
     const game = state.game;
+    console.log(game);
     const columns = useRef(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']);
     const dispatch = useDispatch();
     const userColor = useSelector(state => state.chess.user_color)

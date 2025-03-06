@@ -55,17 +55,21 @@ function Pawn({color, row, column, pieceId}) {
 
 
     return(
-        <motion.div 
-            className={styles.container} 
-            onClick={handleMove} 
-            onMouseDown={handleMove}
-            style={isDragging ? {opacity: 0} : {opacity: 1}} 
-            layoutId={pieceId}
-            ref={drag}
-            >
-                <img className={styles.piece} src={icons[`${color} pawn`]}/>  
-                <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
-                <Dialog 
+        <>
+            <motion.div 
+                className={styles.container} 
+                onClick={handleMove} 
+                onMouseDown={handleMove}
+                style={isDragging ? {opacity: 0} : {opacity: 1}} 
+                layoutId={pieceId}
+                key={pieceId}
+                ref={drag}
+                >
+                    <img className={styles.piece} src={icons[`${color} pawn`]}/>  
+                    <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
+                
+            </motion.div>         
+            <Dialog 
                     Content={({handleOpen}) => {
                         return (
                             <>
@@ -96,8 +100,8 @@ function Pawn({color, row, column, pieceId}) {
                         )
                     }}
                 />
-               
-        </motion.div> 
+        </>
+
     )
 }
 

@@ -55,6 +55,7 @@ function King({color, row, column, pieceId}) {
             onMouseDown={handleClick}
             style={isDragging ? {opacity: 0} : {opacity: 1}} 
             layoutId={pieceId}
+            key={pieceId}
             ref={drag}>
                 <img className={styles.piece} src={icons[`${color} king`]} />
                 <CheckStalemate row={row} column={column} color={color}/>

@@ -1,12 +1,6 @@
 import {saveMove} from '../RecordMoves';
-import { implementEnPassant } from '../EnPassant';
+import { implementEnPassant, checkEnPassantForAI } from '../EnPassant';
 
-const checkEnPassant = (state, pieceToBeMoved, pieceToBeTaken) => {
-    const enPassant = state.en_passant;
-
-    if(enPassant && pieceToBeMoved.includes('pawn') && pieceToBeTaken === '' ) return true;
-    else return false;
-}
 
 export const IntepretAIMoves = (state, bestMove) => {
     const columns = {
@@ -60,7 +54,8 @@ export const IntepretAIMoves = (state, bestMove) => {
         state[`${pieceColor}_pieces_taken`]?.push(pieceToBeTaken);
     }
        
-    const enPassant = checkEnPassant(pieceToBeMoved);
+    checkEnPassantForAI(state, pieceToBeMoved, from, to);
+    const enPassant = state.en_passant;
     const pieces = {
         'r': `${piece_color} rook ${uniqueId[id]}`,
         'b': `${piece_color} bishop ${uniqueId[id]}`,

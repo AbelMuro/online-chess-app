@@ -51,6 +51,7 @@ function Rook({color, row, column, pieceId}) {
             style={isDragging ? {opacity: 0} : {opacity: 1}}
             ref={drag}
             layoutId={pieceId}
+            key={pieceId}
             >
                 <img className={styles.piece} src={icons[`${color} rook`]} />
                 <SetPinnedPieces row={row} column={column} color={color}/>
