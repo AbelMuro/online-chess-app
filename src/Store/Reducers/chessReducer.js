@@ -13,8 +13,9 @@ import {IntepretAIMoves} from '../Functions/IntepretAIMoves';
 
 /* 
 
-    this is where i left off, i need to finish implementing the mobile feature for displaying all pieces taken
-    and i need to test out the en-passant move for the AI, then i can start implementing the online feature for the app
+    this is where i left off, i need to fix the issue with framer-motion that causes an animation when im dragging and dropping
+    and i also need to remove the background of the piece when im dragging and dropping
+     then i can start implementing the online feature for the app
  [
       ['black rook a', 'black knight b', 'black bishop c', 'black queen d', 'black king e', 'black bishop f', 'black knight g', 'black rook h'],
       ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h'],      
@@ -61,7 +62,7 @@ const setPinnedPieces = createAction('SET_PINNED_PIECES');
 const clearPinnedPieces = createAction('CLEAR_PINNED_PIECES');
 
 const initialState = { 
-    board: [
+    board:  [
       ['black rook a', 'black knight b', 'black bishop c', 'black queen d', 'black king e', 'black bishop f', 'black knight g', 'black rook h'],
       ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h'],      
       ['', '', '', '', '', '', '', '',],

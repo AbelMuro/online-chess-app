@@ -186,8 +186,8 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
   }
   
   export const checkSquaresForBlocks = (state, square, piece_color) => {
-     const row = square.row;
-     const column = square.column;
+     const row = square.row;        //the row of the square between the attacker and the king
+     const column = square.column;  //the column of the square between the attacker and the king
      let isBlockableOrTakable = false;
      const pinnedPieces = state.pinned_pieces;
   
@@ -199,9 +199,9 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
           isBlockableOrTakable = true;
           return false
         }
-        else if(state.board[i][column].includes(`black pawn`) && state[`black_king_in_check`] && (i === row - 1 || (i === row - 2 && row === 1))){
+        else if(piece_color === 'black' && state.board[i][column].includes(`black pawn`) && (i === row - 1 || (i === row - 2 && i === 1))){
           isBlockableOrTakable = true;
-          return false
+          return false;
         }
         else if(state.board[i][column] === '')
           return true;
@@ -218,7 +218,7 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
           isBlockableOrTakable = true;
           return false
         }
-        else if(state.board[i][column].includes(`white pawn`) && state[`white_king_in_check`] && (i === row + 1 || (i === row + 2 && row === 6))){
+        else if(piece_color === 'white' && state.board[i][column].includes(`white pawn`) && (i === row + 1 || (i === row + 2 && i === 6))){
           isBlockableOrTakable = true;
           return false
         }

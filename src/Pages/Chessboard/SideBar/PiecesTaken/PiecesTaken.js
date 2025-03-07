@@ -3,18 +3,18 @@ import {useSelector} from 'react-redux';
 import icons from '~/assets/icons'
 import * as styles from './styles.module.css';
 
-function PiecesTaken() {
+function PiecesTaken({mobile}) {
     const blackPiecesTaken = useSelector(state => state.chess.black_pieces_taken);
     const whitePiecesTaken = useSelector(state => state.chess.white_pieces_taken);
 
 
     return (blackPiecesTaken.length > 0 || whitePiecesTaken.length > 0) && 
         <section className={styles.pieces}>
+            {mobile && <h1 className={styles.pieces_title}> Pieces Taken </h1>}
             <div className={styles.pieces_white}>
                 {
                     whitePiecesTaken.map((piece) => {
                         const pieceImage = piece.split(' ')[1];
-                        console.log(pieceImage);
                         return (
                             <img src={icons[`white ${pieceImage}`]} key={piece}/>
                         )

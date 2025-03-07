@@ -1,5 +1,6 @@
 import React, {useMemo, useRef, useEffect} from 'react';
 import ShowMovesMobile from './SideBar/ShowMoves';
+import PiecesTakenMobile from './SideBar/PiecesTaken';
 import AI_Player from './AI_Player';
 import Squares from './Squares';
 import SideBar from './SideBar';
@@ -118,6 +119,7 @@ function Chessboard() {
                     {squares}
                 </div>
                 {mobile && <ShowMovesMobile/>}
+                {mobile && <PiecesTakenMobile mobile={mobile}/>}
                 <SideBar/>
                 <DeclareWinner/>
                 {game === 'ai' && <AI_Player/>}

@@ -1,6 +1,6 @@
 import {saveMove} from '../RecordMoves';
 import { implementEnPassant, checkEnPassantForAI } from '../EnPassant';
-
+import { UnpinPieces } from '../PinnedPieces';
 
 export const IntepretAIMoves = (state, bestMove) => {
     const columns = {
@@ -46,6 +46,7 @@ export const IntepretAIMoves = (state, bestMove) => {
     const fromRow = row[from[1]];
     const toColumn = columns[to[0]];
     const toRow = row[to[1]];
+    UnpinPieces(state, toRow, toColumn);
     const pieceToBeMoved = state.board[fromRow][fromColumn];
     const id = pieceToBeMoved[pieceToBeMoved.length - 1];
     const pieceToBeTaken = state.board[toRow][toColumn];

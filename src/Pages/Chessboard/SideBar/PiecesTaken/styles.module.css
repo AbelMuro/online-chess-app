@@ -5,7 +5,8 @@
     background-color: var(--background);
     padding: 10px;
     border-radius: 10px;
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
     scrollbar-width: thin;
     scrollbar-color: var(--scroll-bar-bg) transparent;
 }
@@ -18,6 +19,14 @@
 .pieces::-webkit-scrollbar-thumb{
     background-color: var(--scroll-bar-bg);
     border-radius: 10px;
+}
+
+.pieces_title{
+    font-family: 'mulish';
+    font-size: 1.2rem;
+    color: #CECECE;
+    margin: 0px;
+    text-align: center;
 }
 
 .pieces_white, .pieces_black{
@@ -35,5 +44,14 @@
     .pieces{
         grid-row: 2/3;
         grid-column: 1/2;
+    }
+}
+
+@media(max-width: 620px){
+    .pieces{
+        width: 100%;
+        height: 200px;
+        background-color: var(--mobile-container-background);
+        padding: 10px 25px;
     }
 }

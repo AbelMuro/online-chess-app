@@ -52,6 +52,8 @@ export const findPinnedPieces = (state, attacker, color) => {
       state.pinned_pieces.push({piece, square: squaresBetweenKingAndAttacker[0], legalPinnedMoves});
       return;
     }  
+    else if(kingExists && !squaresBetweenKingAndAttacker.length)
+      return;   
     else{
         squaresBetweenKingAndAttacker = [];
         legalPinnedMoves = [];      
@@ -82,6 +84,8 @@ export const findPinnedPieces = (state, attacker, color) => {
       state.pinned_pieces.push({piece, square: squaresBetweenKingAndAttacker[0], legalPinnedMoves});
       return;
     }  
+    else if(kingExists && !squaresBetweenKingAndAttacker.length)
+      return;  
     else{
         squaresBetweenKingAndAttacker = [];
         legalPinnedMoves = [];      
@@ -112,6 +116,8 @@ export const findPinnedPieces = (state, attacker, color) => {
       state.pinned_pieces.push({piece, square: squaresBetweenKingAndAttacker[0], legalPinnedMoves});
       return;
     }  
+    else if(kingExists && !squaresBetweenKingAndAttacker.length)
+      return;  
     else{
         squaresBetweenKingAndAttacker = [];
         legalPinnedMoves = [];      
@@ -142,6 +148,8 @@ export const findPinnedPieces = (state, attacker, color) => {
       state.pinned_pieces.push({piece, square: squaresBetweenKingAndAttacker[0], legalPinnedMoves});
       return;
     }  
+    else if(kingExists && !squaresBetweenKingAndAttacker.length)
+      return;  
     else{
         squaresBetweenKingAndAttacker = [];
         legalPinnedMoves = [];      
@@ -172,6 +180,8 @@ export const findPinnedPieces = (state, attacker, color) => {
       state.pinned_pieces.push({piece, square: squaresBetweenKingAndAttacker[0], legalPinnedMoves});
       return;
     }  
+    else if(kingExists && !squaresBetweenKingAndAttacker.length)
+      return;  
     else{
         squaresBetweenKingAndAttacker = [];
         legalPinnedMoves = [];      
@@ -202,6 +212,8 @@ export const findPinnedPieces = (state, attacker, color) => {
       state.pinned_pieces.push({piece, square: squaresBetweenKingAndAttacker[0], legalPinnedMoves});
       return;
     }  
+    else if(kingExists && !squaresBetweenKingAndAttacker.length)
+      return;  
     else{
         squaresBetweenKingAndAttacker = [];
         legalPinnedMoves = [];      
@@ -232,6 +244,8 @@ export const findPinnedPieces = (state, attacker, color) => {
       state.pinned_pieces.push({piece, square: squaresBetweenKingAndAttacker[0], legalPinnedMoves});
       return;
     }  
+    else if(kingExists && !squaresBetweenKingAndAttacker.length)
+      return;  
     else{
         squaresBetweenKingAndAttacker = [];
         legalPinnedMoves = [];      
@@ -262,11 +276,12 @@ export const findPinnedPieces = (state, attacker, color) => {
       state.pinned_pieces.push({piece, square: squaresBetweenKingAndAttacker[0], legalPinnedMoves});
       return;
     }  
+    else if(kingExists && !squaresBetweenKingAndAttacker.length)
+      return;  
     else{
         squaresBetweenKingAndAttacker = [];
         legalPinnedMoves = [];      
     }
-    
   }
 
 
