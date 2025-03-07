@@ -9,7 +9,8 @@ function ShowMoves() {
     const movesBox = useRef();
 
 
-    return(
+
+    return (
         <section className={styles.container}>
             <h2>
                 Moves

@@ -8,20 +8,30 @@ function PiecesTaken() {
     const whitePiecesTaken = useSelector(state => state.chess.white_pieces_taken);
 
 
-    return(
+    return (blackPiecesTaken.length > 0 || whitePiecesTaken.length > 0) && 
         <section className={styles.pieces}>
             <div className={styles.pieces_white}>
                 {
                     whitePiecesTaken.map((piece) => {
                         const pieceImage = piece.split(' ')[1];
+                        console.log(pieceImage);
                         return (
-                            <img src={icons[pieceImage]} key={piece}/>
+                            <img src={icons[`white ${pieceImage}`]} key={piece}/>
+                        )
+                    })
+                }
+            </div>
+            <div className={styles.pieces_black}>
+                {
+                    blackPiecesTaken.map((piece) => {
+                        const pieceImage = piece.split(' ')[1];
+                        return (
+                            <img src={icons[`black ${pieceImage}`]} key={piece}/>
                         )
                     })
                 }
             </div>
         </section>
-    )
 }
 
 export default PiecesTaken;

@@ -1,9 +1,11 @@
 import React, {useMemo, useRef, useEffect} from 'react';
+import ShowMovesMobile from './SideBar/ShowMoves';
 import AI_Player from './AI_Player';
 import Squares from './Squares';
 import SideBar from './SideBar';
 import DeclareWinner from './DeclareWinner';
 import MobileDisplayTurn from './MobileDisplayTurn';
+import {useMediaQuery} from '~/Hooks';
 import {useDispatch, useSelector} from 'react-redux';
 import {useLocation} from 'react-router-dom';
 import { DndProvider } from "react-dnd"
@@ -52,6 +54,7 @@ import * as styles from './styles.module.css';
 function Chessboard() {
     const {state} = useLocation();
     const game = state.game;
+    const [mobile] = useMediaQuery('(max-width: 620px)');
     console.log(game);
     const columns = useRef(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']);
     const dispatch = useDispatch();
@@ -114,6 +117,7 @@ function Chessboard() {
                 <div className={styles.chess_board}>
                     {squares}
                 </div>
+                {mobile && <ShowMovesMobile/>}
                 <SideBar/>
                 <DeclareWinner/>
                 {game === 'ai' && <AI_Player/>}

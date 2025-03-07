@@ -33,7 +33,7 @@ export const implementEnPassant = (state, piece, oldRow, oldColumn, newRow, newC
             state.board[row][column] = '';
             state.en_passant = null;
             const pieceColor = pieceToBeTaken.includes('white') ? 'white' : 'black';
-            state[`${pieceColor}_pieces_taken`]?.push(pieceToBeTaken);
+            state[`${pieceColor}_pieces_taken`]?.unshift(pieceToBeTaken);
             return {row, column, pieceToBeTaken};
         }   
     else

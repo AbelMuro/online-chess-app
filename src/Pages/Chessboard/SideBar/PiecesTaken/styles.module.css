@@ -2,15 +2,38 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    background-color: var(--background);
+    padding: 10px;
+    border-radius: 10px;
+    overflow: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scroll-bar-bg) transparent;
 }
 
-.pieces_white{
+.pieces::-webkit-scrollbar{
+    width: 10px;
+    background-color: transparent;
+}
+
+.pieces::-webkit-scrollbar-thumb{
+    background-color: var(--scroll-bar-bg);
+    border-radius: 10px;
+}
+
+.pieces_white, .pieces_black{
     display: flex;
     gap: 7px;
     align-items: center;
 }
 
-.pieces_white > img{
-    width: 5px;
+.pieces_white > img, .pieces_black > img{
+    width: 15px;
     object-fit: contain;
 }   
+
+@media(max-width: 1170px){
+    .pieces{
+        grid-row: 2/3;
+        grid-column: 1/2;
+    }
+}

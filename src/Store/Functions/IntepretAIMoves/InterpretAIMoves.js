@@ -51,7 +51,7 @@ export const IntepretAIMoves = (state, bestMove) => {
     const pieceToBeTaken = state.board[toRow][toColumn];
     if(pieceToBeTaken){
         const pieceColor = pieceToBeTaken.includes('white') ? 'white' : 'black';
-        state[`${pieceColor}_pieces_taken`]?.push(pieceToBeTaken);
+        state[`${pieceColor}_pieces_taken`]?.unshift(pieceToBeTaken);
     }
        
     checkEnPassantForAI(state, pieceToBeMoved, from, to);

@@ -5,9 +5,10 @@
     background-color: var(--container-background);
     border-radius: 10px;
     padding: 35px;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: auto;
     justify-content: space-between;
+    row-gap: 10px;
 }
 
 .bar_title{
@@ -32,8 +33,9 @@
     .bar{
         width: 600px;
         height: 200px;
-        flex-direction: row;
         padding: 20px 35px;
+        grid-template-columns: repeat(3, auto);
+        grid-template-rows: 65px 85px;
     }
 
     .bar_title{
@@ -46,5 +48,7 @@
         align-self: center;
         row-gap: 30px;
         column-gap: 10px;
+        grid-column: 3/4;
+        grid-row: 1/3;
     }
 }
