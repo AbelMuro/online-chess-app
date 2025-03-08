@@ -1,13 +1,47 @@
 import React from 'react';
+import {useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import Greeting from './Greeting';
 import * as styles from './styles.module.css';
 
 function Menu() {
     const navigate = useNavigate();
+    const board = useSelector(state => state.chess.board);
 
     const handleOptions = () => {
         navigate('/selectoptions')
+    }
+
+    const handleOnline = async () => {
+        const matchId = Array.from({length: 10}, () => null).reduce((acc) => {acc += Math.floor(Math.random() * 9); return acc}, '');
+
+        try{
+            const response = await fetch('http://localhost:4000/create_match', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({board, matchId})
+            })
+
+            if(response.status === 200){
+                const result = await response.text();
+                console.log(result);
+                navigate(`/chessboard/${matchId}`);
+            }
+
+            else{
+                const result = await response.text();
+                console.log(result)
+                alert('Internal Server Error, please try again later')
+            }
+
+        }
+        catch(error){
+            const message = error.message;
+            console.log(message);
+            alert('Server is offline, please try again later');
+        }
     }
 
     const handleLogOut = async () => {
@@ -41,7 +75,7 @@ function Menu() {
             <button className={styles.menu_option} onClick={handleOptions}>
                 Play against AI
             </button>
-            <button className={styles.menu_option} onClick={() => {}}>
+            <button className={styles.menu_option} onClick={handleOnline}>
                 Play online
             </button>
             <button className={styles.menu_option} onClick={handleLogOut}>

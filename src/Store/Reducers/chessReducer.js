@@ -11,12 +11,8 @@ import {saveMove} from '../Functions/RecordMoves';
 import {IntepretAIMoves} from '../Functions/IntepretAIMoves';
 
 
-/* 
-
-    this is where i left off, i need to fix the issue with framer-motion that causes an animation when im dragging and dropping
-    and i also need to remove the background of the piece when im dragging and dropping
-     then i can start implementing the online feature for the app
- [
+/* i need to finish the route /update_match in node.js
+  [
       ['black rook a', 'black knight b', 'black bishop c', 'black queen d', 'black king e', 'black bishop f', 'black knight g', 'black rook h'],
       ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h'],      
       ['', '', '', '', '', '', '', '',],
@@ -37,17 +33,17 @@ const setGameSettings = createAction('SET_GAME_SETTINGS');
 const undo = createAction('UNDO');
 const redo = createAction('REDO');
 
-const highlightNorthSquares = createAction('HIGHLIGHT_NORTH_SQUARES');
-const highlightSouthSquares = createAction('HIGHLIGHT_SOUTH_SQUARES');
-const highlightWestSquares = createAction('HIGHLIGHT_WEST_SQUARES');
-const highlightEastSquares = createAction('HIGHLIGHT_EAST_SQUARES');
-const highlightNorthWestSquares = createAction('HIGHLIGHT_NORTHWEST_SQUARES');
-const highlightNorthEastSquares = createAction('HIGHLIGHT_NORTHEAST_SQUARES');
-const highlightSouthWestSquares = createAction('HIGHLIGHT_SOUTHWEST_SQUARES');
-const highlightSouthEastSquares = createAction('HIGHLIGHT_SOUTHEAST_SQUARES');
-const highlightKnightSquares = createAction('HIGHLIGHT_KNIGHT_SQUARES');
-const highlightPawnSquares = createAction('HIGHLIGHT_PAWN_SQUARES');
-const highlightKingSquares = createAction('HIGHLIGHT_KING_SQUARES');
+const legalNorthSquares = createAction('LEGAL_NORTH_SQUARES');
+const legalSouthSquares = createAction('LEGAL_SOUTH_SQUARES');
+const legalWestSquares = createAction('LEGAL_WEST_SQUARES');
+const legalEastSquares = createAction('LEGAL_EAST_SQUARES');
+const legalNorthWestSquares = createAction('LEGAL_NORTHWEST_SQUARES');
+const legalNorthEastSquares = createAction('LEGAL_NORTHEAST_SQUARES');
+const legalSouthWestSquares = createAction('LEGAL_SOUTHWEST_SQUARES');
+const legalSouthEastSquares = createAction('LEGAL_SOUTHEAST_SQUARES');
+const legalKnightSquares = createAction('LEGAL_KNIGHT_SQUARES');
+const legalPawnSquares = createAction('LEGAL_PAWN_SQUARES');
+const legalKingSquares = createAction('LEGAL_KING_SQUARES');
 const removeAllLegalSquares = createAction('REMOVE_ALL_LEGAL_SQUARES');
 
 const isKingInCheck = createAction('IS_KING_IN_CHECK');
@@ -56,8 +52,8 @@ const countLegalMoves = createAction('COUNT_LEGAL_MOVES');
 const resetLegalMoves = createAction('RESET_LEGAL_MOVES');
 const checkStalemate = createAction('CHECK_STALEMATE');
 const resetState = createAction('RESET_STATE')
-const checkForDoublePins = createAction('CHECK_FOR_DOUBLE_PINS');
 
+const checkForDoublePins = createAction('CHECK_FOR_DOUBLE_PINS');
 const setPinnedPieces = createAction('SET_PINNED_PIECES');
 const clearPinnedPieces = createAction('CLEAR_PINNED_PIECES');
 
@@ -110,33 +106,33 @@ const initialState = {
 
 
 /* 
-    The reducer below has cases where it will highlight a group of squares, each highlighted square will tell the player they can move their piece to that square
+    The reducer below has cases where it will LEGAL a group of squares, each LEGALed square will tell the player they can move their piece to that square
     
     Everything starts with the user clicking on one of their pieces on their side of the board.
     This event will trigger a dispatch method that will call the appropriate cases
-        highlightNorthSquares
-        highlightSouthSquares
+        legalNorthSquares
+        legalSouthSquares
         etc.. 
 
     1) If the player clicks on the bishop, the position of the bishop will be recorded in the pieceToBeMoved property of the global state
 
     2) Then it will trigger the following cases
-          highlightNorthWestSquares
-          highlightNorthEastSquares
-          highlightSouthWestSquares
-          highlightSouthEastSquares
+          legalNorthWestSquares
+          legalNorthEastSquares
+          legalSouthWestSquares
+          legalSouthEastSquares
 
-    3) Before we highlight the squares, we check if the bishop is a pinned piece (ex: bishop may be in-between the opposing queen and its king)
+    3) Before we LEGAL the squares, we check if the bishop is a pinned piece (ex: bishop may be in-between the opposing queen and its king)
        If its a pinned piece, then there are only a few legal squares the bishop can move to. Thereby limiting the movement of the bishop
 
           (Keep in mind, that everytime a piece has been moved, it will dispatch an action 'SET_PINNED_PIECES' that will find a pinned piece and save it in the pinned-pieces array)
 
-    4) Before we highlight the squares, we also check if the king is in check. If the king is in check, the bishop will have a limited number
+    4) Before we LEGAL the squares, we also check if the king is in check. If the king is in check, the bishop will have a limited number
        of squares that it can move into. The bishop must either protect its king by blocking or taking the threat
 
-    5) If the bishop is not a pinned piece, and its king is NOT in check, then the bishop can move freely to any of its highlighted squares
+    5) If the bishop is not a pinned piece, and its king is NOT in check, then the bishop can move freely to any of its LEGALed squares
 
-    6) If the player clicks on one of the highlighted squares, the bishop can be moved to that square
+    6) If the player clicks on one of the LEGALed squares, the bishop can be moved to that square
 
     7) Before we actually move the bishop, we check if the new position of the bishop will unpin other pieces 
         (ex: bishop moves in-between black queen, white pawn, white king.... thereby unpinning the white pawn)
@@ -312,7 +308,6 @@ const chessReducer = createReducer(initialState, (builder) => {
         state.future.push(move);    
         state.current_turn = state.current_turn === 'white' ? 'black' : 'white';    
       }
-
       ResetProperties(state, initialState);
     })
     .addCase(redo, (state) => {
@@ -371,7 +366,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       state.user_color = user;
       state.opponent_color = opponent;
     })
-    .addCase(highlightNorthSquares, (state, action) => {
+    .addCase(legalNorthSquares, (state, action) => {
       const currentSquare = action.payload.square;
       const row = currentSquare.row;
       const column = currentSquare.column;
@@ -403,7 +398,7 @@ const chessReducer = createReducer(initialState, (builder) => {
           })
         }
     })
-    .addCase(highlightSouthSquares, (state, action) => {
+    .addCase(legalSouthSquares, (state, action) => {
       const currentSquare = action.payload.square;
       const row = currentSquare.row;
       const column = currentSquare.column;
@@ -437,7 +432,7 @@ const chessReducer = createReducer(initialState, (builder) => {
         })
       }
     })
-    .addCase(highlightWestSquares, (state, action) => {
+    .addCase(legalWestSquares, (state, action) => {
       const currentSquare = action.payload.square;
       const row = currentSquare.row;
       const column = currentSquare.column;
@@ -471,7 +466,7 @@ const chessReducer = createReducer(initialState, (builder) => {
         })
       }
     })
-    .addCase(highlightEastSquares, (state, action) => {
+    .addCase(legalEastSquares, (state, action) => {
       const currentSquare = action.payload.square;
       const row = currentSquare.row;
       const column = currentSquare.column;
@@ -504,7 +499,7 @@ const chessReducer = createReducer(initialState, (builder) => {
         })
       }
     })
-    .addCase(highlightNorthWestSquares, (state, action) => {
+    .addCase(legalNorthWestSquares, (state, action) => {
       const currentSquare = action.payload.square;
       const row = currentSquare.row;
       const column = currentSquare.column;
@@ -539,7 +534,7 @@ const chessReducer = createReducer(initialState, (builder) => {
         })
       }
     })
-    .addCase(highlightNorthEastSquares, (state, action) => {
+    .addCase(legalNorthEastSquares, (state, action) => {
       const currentSquare = action.payload.square;
       const row = currentSquare.row;
       const column = currentSquare.column;
@@ -574,7 +569,7 @@ const chessReducer = createReducer(initialState, (builder) => {
         })
       }
     })
-    .addCase(highlightSouthWestSquares, (state, action) => {
+    .addCase(legalSouthWestSquares, (state, action) => {
       const currentSquare = action.payload.square;
       const row = currentSquare.row;
       const column = currentSquare.column;
@@ -607,7 +602,7 @@ const chessReducer = createReducer(initialState, (builder) => {
         })
       }
     })
-    .addCase(highlightSouthEastSquares, (state, action) => {
+    .addCase(legalSouthEastSquares, (state, action) => {
       const currentSquare = action.payload.square;
       const row = currentSquare.row;
       const column = currentSquare.column;
@@ -638,7 +633,7 @@ const chessReducer = createReducer(initialState, (builder) => {
         })
       }
     })
-    .addCase(highlightKingSquares, (state, action) => {
+    .addCase(legalKingSquares, (state, action) => {
       const piece_color = action.payload.square.color;
       const row = action.payload.square.row;
       const column = action.payload.square.column;
@@ -664,7 +659,7 @@ const chessReducer = createReducer(initialState, (builder) => {
           state.legal_squares[square.row][square.column] = true;
       })
     })
-    .addCase(highlightKnightSquares, (state, action) => {
+    .addCase(legalKnightSquares, (state, action) => {
       const currentSquare = action.payload.square;
       const row = currentSquare.row;
       const column = currentSquare.column;
@@ -694,7 +689,7 @@ const chessReducer = createReducer(initialState, (builder) => {
         })
       }
     })
-    .addCase(highlightPawnSquares, (state, action) => {
+    .addCase(legalPawnSquares, (state, action) => {
       const currentSquare = action.payload.square;
       const row = currentSquare.row;
       const column = currentSquare.column;

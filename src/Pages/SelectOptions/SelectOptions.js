@@ -25,7 +25,7 @@ function SelectOptions() {
         } 
             
         dispatch({type: 'SET_GAME_SETTINGS', payload: {user: userColor, opponent: opponentColor, difficulty}})
-        navigate('/chessboard', {state: {game: 'ai'}})
+        navigate(`/chessboard/ai`)
     }
 
     const handleDifficulty = (option) => {

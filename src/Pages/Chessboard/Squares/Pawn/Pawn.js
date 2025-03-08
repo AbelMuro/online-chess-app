@@ -41,7 +41,7 @@ function Pawn({color, row, column, pieceId}) {
         if(color === currentTurn && currentTurn === userColor){
             dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
             dispatch({type: 'REMOVE_ALL_LEGAL_SQUARES'});
-            dispatch({type: 'HIGHLIGHT_PAWN_SQUARES', payload: {square: {row, column, color, twoSquareMoveAvailable}}});            
+            dispatch({type: 'LEGAL_PAWN_SQUARES', payload: {square: {row, column, color, twoSquareMoveAvailable}}});            
         }
     }
 
@@ -54,50 +54,62 @@ function Pawn({color, row, column, pieceId}) {
 
     return(
         <>
-            <motion.div 
-                className={styles.container} 
-                onClick={handleMove} 
-                onMouseDown={handleMove}
-                style={isDragging ? {opacity: 0} : {opacity: 1}} 
-                layoutId={pieceId}
-                key={pieceId}
-                ref={drag}
-                >
+        {
+            isDragging ?                 
+                <div 
+                    className={styles.container} 
+                    onClick={handleMove} 
+                    onMouseDown={handleMove}
+                    style={isDragging ? {opacity: 0} : {opacity: 1}} 
+                    ref={drag}
+                    >
                     <img className={styles.piece} src={icons[`${color} pawn`]}/>  
                     <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
-                
-            </motion.div>         
-            <Dialog 
-                    Content={({handleOpen}) => {
-                        return (
-                            <>
-                                <h1 className={styles.content_title}>
-                                    Select Piece
-                                </h1>
-                                <div className={styles.content_pieces}>
-                                    <button className={styles.content_piece} onClick={() => handlePromotion(handleOpen, 'queen')}>
-                                        <img src={icons[`${color} queen`]}/>
-                                    </button>
-                                    <button className={styles.content_piece} onClick={() => handlePromotion(handleOpen, 'rook')}>
-                                        <img src={icons[`${color} rook`]}/>
-                                    </button>
-                                    <button className={styles.content_piece} onClick={() => handlePromotion(handleOpen, 'bishop')}>
-                                        <img src={icons[`${color} bishop`]}/>
-                                    </button>
-                                    <button className={styles.content_piece} onClick={() => handlePromotion(handleOpen, 'knight')}>
-                                        <img src={icons[`${color} knight`]}/>
-                                    </button>
-                                </div>
-                            </>
-                        )
-                    }}
-                    Button={({handleOpen}) => {
-                        return(
-                            <button ref={buttonRef} className={styles.ignore} onClick={handleOpen}>
-                            </button>
-                        )
-                    }}
-                />
+                </div> :             
+                <motion.div 
+                    className={styles.container} 
+                    onClick={handleMove} 
+                    onMouseDown={handleMove}
+                    layoutId={pieceId}
+                    key={pieceId}
+                    ref={drag}
+                    >
+                        <img className={styles.piece} src={icons[`${color} pawn`]}/>  
+                        <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
+                    
+                </motion.div>    
+        }       
+        <Dialog 
+                Content={({handleOpen}) => {
+                    return (
+                        <>
+                            <h1 className={styles.content_title}>
+                                Select Piece
+                            </h1>
+                            <div className={styles.content_pieces}>
+                                <button className={styles.content_piece} onClick={() => handlePromotion(handleOpen, 'queen')}>
+                                    <img src={icons[`${color} queen`]}/>
+                                </button>
+                                <button className={styles.content_piece} onClick={() => handlePromotion(handleOpen, 'rook')}>
+                                    <img src={icons[`${color} rook`]}/>
+                                </button>
+                                <button className={styles.content_piece} onClick={() => handlePromotion(handleOpen, 'bishop')}>
+                                    <img src={icons[`${color} bishop`]}/>
+                                </button>
+                                <button className={styles.content_piece} onClick={() => handlePromotion(handleOpen, 'knight')}>
+                                    <img src={icons[`${color} knight`]}/>
+                                </button>
+                            </div>
+                        </>
+                    )
+                }}
+                Button={({handleOpen}) => {
+                    return(
+                        <button ref={buttonRef} className={styles.ignore} onClick={handleOpen}>
+                        </button>
+                    )
+                }}
+            />
         </>
 
     )

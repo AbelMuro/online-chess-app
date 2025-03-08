@@ -20,7 +20,7 @@ function App() {
                     <Route path='/register' element={<Register/>}/>
                     <Route path='/menu' element={<Menu/>}/>
                     <Route path='/selectoptions' element={<SelectOptions/>}/>
-                    <Route path='/chessboard' element={<Chessboard/>}/>
+                    <Route path='/chessboard/:gameId' element={<Chessboard/>}/>
                     <Route path='/forgotpassword' element={<ForgotPassword/>}/>
                     <Route path='/resetpassword/:token' element={<ResetPassword/>}/>
                 </Routes>

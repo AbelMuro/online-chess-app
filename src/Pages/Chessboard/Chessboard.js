@@ -1,5 +1,6 @@
 import React, {useMemo, useRef, useEffect} from 'react';
 import ShowMovesMobile from './SideBar/ShowMoves';
+import UpdateMatchInDatabase from './UpdateMatchInDatabase';
 import PiecesTakenMobile from './SideBar/PiecesTaken';
 import AI_Player from './AI_Player';
 import Squares from './Squares';
@@ -8,7 +9,7 @@ import DeclareWinner from './DeclareWinner';
 import MobileDisplayTurn from './MobileDisplayTurn';
 import {useMediaQuery} from '~/Hooks';
 import {useDispatch, useSelector} from 'react-redux';
-import {useLocation} from 'react-router-dom';
+import {useParams} from 'react-router-dom';
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import * as styles from './styles.module.css';
@@ -53,10 +54,8 @@ import * as styles from './styles.module.css';
 
 
 function Chessboard() {
-    const {state} = useLocation();
-    const game = state.game;
+    const {gameId} = useParams();
     const [mobile] = useMediaQuery('(max-width: 620px)');
-    console.log(game);
     const columns = useRef(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']);
     const dispatch = useDispatch();
     const userColor = useSelector(state => state.chess.user_color)
@@ -122,7 +121,8 @@ function Chessboard() {
                 {mobile && <PiecesTakenMobile mobile={mobile}/>}
                 <SideBar/>
                 <DeclareWinner/>
-                {game === 'ai' && <AI_Player/>}
+                {gameId === 'ai' && <AI_Player/>}
+                <UpdateMatchInDatabase gameId={gameId}/>
             </section>
         </DndProvider>
     )

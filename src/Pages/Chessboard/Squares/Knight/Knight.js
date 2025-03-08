@@ -20,7 +20,7 @@ function Knight({color, row, column, pieceId}) {
             return row === square.row && column === square.column; 
         },
         canDrag: () => {                      
-            return color === currentTurn && currentTurn === userColor;;            
+            return color === currentTurn && currentTurn === userColor;         
         },
         collect: (monitor) => ({
             isDragging: monitor.isDragging()   
@@ -31,14 +31,23 @@ function Knight({color, row, column, pieceId}) {
         if(color === currentTurn && currentTurn === userColor){
             dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
             dispatch({type: 'REMOVE_ALL_LEGAL_SQUARES'});
-            dispatch({type: 'HIGHLIGHT_KNIGHT_SQUARES', payload: {square: {row, column, color}}})            
+            dispatch({type: 'LEGAL_KNIGHT_SQUARES', payload: {square: {row, column, color}}})            
         }
     }
 
 
 
 
-    return (
+    return isDragging ?         
+        <div             
+            className={styles.container} 
+            onClick={handleClick}
+            style={isDragging ? {opacity: 0} : {}}
+            onMouseDown={handleClick}
+            ref={drag}>
+                <img className={styles.piece} src={icons[`${color} knight`]} />
+                <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
+        </div> : (
         <motion.div             
             className={styles.container} 
             onClick={handleClick}

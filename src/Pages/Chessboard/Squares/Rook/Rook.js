@@ -33,22 +33,29 @@ function Rook({color, row, column, pieceId}) {
         if(color === currentTurn && currentTurn === userColor){
             dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
             dispatch({type: 'REMOVE_ALL_LEGAL_SQUARES'});
-            dispatch({type: 'HIGHLIGHT_NORTH_SQUARES', payload: {square: {row, column, color}}});
-            dispatch({type: 'HIGHLIGHT_SOUTH_SQUARES', payload: {square: {row, column, color}}});
-            dispatch({type: 'HIGHLIGHT_WEST_SQUARES', payload: {square: {row, column, color}}});
-            dispatch({type: 'HIGHLIGHT_EAST_SQUARES', payload: {square: {row, column, color}}});            
+            dispatch({type: 'LEGAL_NORTH_SQUARES', payload: {square: {row, column, color}}});
+            dispatch({type: 'LEGAL_SOUTH_SQUARES', payload: {square: {row, column, color}}});
+            dispatch({type: 'LEGAL_WEST_SQUARES', payload: {square: {row, column, color}}});
+            dispatch({type: 'LEGAL_EAST_SQUARES', payload: {square: {row, column, color}}});            
         }
     }
 
-
-
-
-    return (
-        <motion.div 
+    return isDragging ?         
+        <div 
             className={styles.container} 
             onClick={handleClick} 
             onMouseDown={handleClick}
             style={isDragging ? {opacity: 0} : {opacity: 1}}
+            ref={drag}
+            >
+                <img className={styles.piece} src={icons[`${color} rook`]} />
+                <SetPinnedPieces row={row} column={column} color={color}/>
+                <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
+        </div> : (
+        <motion.div 
+            className={styles.container} 
+            onClick={handleClick} 
+            onMouseDown={handleClick}
             ref={drag}
             layoutId={pieceId}
             key={pieceId}

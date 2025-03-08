@@ -33,7 +33,7 @@ function King({color, row, column, pieceId}) {
         if(color === currentTurn && currentTurn === userColor){
             dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
             dispatch({type: 'REMOVE_ALL_LEGAL_SQUARES'});
-            dispatch({type: 'HIGHLIGHT_KING_SQUARES', payload: {square: {row, column, color}}})            
+            dispatch({type: 'LEGAL_KING_SQUARES', payload: {square: {row, column, color}}})            
         }
     }
 
@@ -48,12 +48,20 @@ function King({color, row, column, pieceId}) {
         dispatch({type: 'CHECK_FOR_DOUBLE_PINS', payload: {square: {row, column, color}}})
     }, [board])
 
-    return (
-        <motion.div             
+    return isDragging ?         
+        <div             
             className={styles.container} 
             onClick={handleClick}
             onMouseDown={handleClick}
             style={isDragging ? {opacity: 0} : {opacity: 1}} 
+            ref={drag}>
+                <img className={styles.piece} src={icons[`${color} king`]} />
+                <CheckStalemate row={row} column={column} color={color}/>
+        </div> : (
+        <motion.div             
+            className={styles.container} 
+            onClick={handleClick}
+            onMouseDown={handleClick}
             layoutId={pieceId}
             key={pieceId}
             ref={drag}>
