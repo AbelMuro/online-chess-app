@@ -32,6 +32,7 @@ const promotion = createAction('PROMOTION');
 const setGameSettings = createAction('SET_GAME_SETTINGS');
 const undo = createAction('UNDO');
 const redo = createAction('REDO');
+const syncStateWithDatabase = createAction('SYNC_STATE_WITH_DATABASE');
 
 const legalNorthSquares = createAction('LEGAL_NORTH_SQUARES');
 const legalSouthSquares = createAction('LEGAL_SOUTH_SQUARES');
@@ -261,6 +262,14 @@ const chessReducer = createReducer(initialState, (builder) => {
         }
 
         state.board[row][column] = `${color} ${piece} ${uniqueId[id]}` 
+    })
+    .addCase(syncStateWithDatabase, (state, action) => {
+      const newState = action.payload.result;
+      state.board = newState.chessboard;
+      state.moves = newState.allMoves;
+      state.current_turn = newState.currentTurn;
+      state.black_pieces_taken = newState.blackPiecesTaken;
+      state.white_pieces_taken = newState.whitePiecesTaken;
     })
     .addCase(undo, (state) => {
       const move = state.past.pop();    

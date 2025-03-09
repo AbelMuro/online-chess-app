@@ -21,7 +21,7 @@ function Rook({color, row, column, pieceId}) {
             return row === square.row && column === square.column; 
         },
         canDrag: () => {                      
-            return color === currentTurn && currentTurn === userColor;;            
+            return color === currentTurn && currentTurn === userColor;            
         },
         collect: (monitor) => ({
             isDragging: monitor.isDragging()   

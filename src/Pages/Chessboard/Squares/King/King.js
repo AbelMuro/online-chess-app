@@ -21,7 +21,7 @@ function King({color, row, column, pieceId}) {
             return row === square.row && column === square.column; 
         },
         canDrag: () => {                      
-            return color === currentTurn && currentTurn === userColor;;            
+            return color === currentTurn && currentTurn === userColor;            
         },
         collect: (monitor) => ({
             isDragging: monitor.isDragging()   
@@ -39,7 +39,7 @@ function King({color, row, column, pieceId}) {
 
 
     useEffect(() => {
-        if(currentTurn === userColor && color === currentTurn)
+        if(currentTurn === userColor && color === currentTurn && currentTurn === userColor)
             dispatch({type: 'IS_KING_IN_CHECK', payload: {square: {row, column, color}}})
         
     }, [board])

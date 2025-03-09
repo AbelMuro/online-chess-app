@@ -8,6 +8,7 @@ import ForgotPassword from './Pages/Authentication/ForgotPassword';
 import ResetPassword from './Pages/Authentication/ResetPassword';
 import Chessboard from './Pages/Chessboard';
 import SelectOptions from './Pages/SelectOptions';
+import FindPlayers from './Pages/FindPlayers';
 import Menu from './Pages/Menu'
 import './global.css';
 
@@ -20,7 +21,8 @@ function App() {
                     <Route path='/register' element={<Register/>}/>
                     <Route path='/menu' element={<Menu/>}/>
                     <Route path='/selectoptions' element={<SelectOptions/>}/>
-                    <Route path='/chessboard/:gameId' element={<Chessboard/>}/>
+                    <Route path='/findplayers' element={<FindPlayers/>}/>
+                    <Route path='/chessboard/:matchId' element={<Chessboard/>}/>
                     <Route path='/forgotpassword' element={<ForgotPassword/>}/>
                     <Route path='/resetpassword/:token' element={<ResetPassword/>}/>
                 </Routes>

@@ -54,7 +54,7 @@ import * as styles from './styles.module.css';
 
 
 function Chessboard() {
-    const {gameId} = useParams();
+    const {matchId} = useParams();
     const [mobile] = useMediaQuery('(max-width: 620px)');
     const columns = useRef(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']);
     const dispatch = useDispatch();
@@ -110,6 +110,41 @@ function Chessboard() {
         }
     }, [])
 
+    useEffect(() => {
+        if(matchId === 'ai') return;
+
+        const getMatch = async () => {
+            try{
+                const response = await fetch(`http://localhost:4000/get_match/${matchId}`, {
+                    method: 'GET'
+                });
+
+                if(response.status === 200){
+                    const result = await response.json();
+                    if(result.chessboard.length)
+                        dispatch({type: 'SYNC_STATE_WITH_DATABASE', payload: {result}})
+                }
+                else if(response.status === 404){
+                    const result = await response.text();
+                    console.log(result);
+                }
+                else {
+                    const result = await response.text();
+                    console.log(result);
+                    alert('Internal Server Error has occured, please try again later')
+                }                
+            } catch(error){
+                const message = error.message;
+                console.log(message);
+                alert('Server is offline, please try again later')
+            }
+
+
+        }
+
+        getMatch();
+    }, [])
+
     return(
         <DndProvider backend={HTML5Backend}> 
             <section className={styles.chess}> 
@@ -121,8 +156,8 @@ function Chessboard() {
                 {mobile && <PiecesTakenMobile mobile={mobile}/>}
                 <SideBar/>
                 <DeclareWinner/>
-                {gameId === 'ai' && <AI_Player/>}
-                <UpdateMatchInDatabase gameId={gameId}/>
+                {matchId === 'ai' && <AI_Player/>}
+                {matchId !== 'ai' && <UpdateMatchInDatabase matchId={matchId}/>}
             </section>
         </DndProvider>
     )
