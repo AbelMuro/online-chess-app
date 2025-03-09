@@ -31,6 +31,29 @@
     margin: 0px;
 }
 
+.queue_button{
+
+}
+
+.queue_button{
+    width: 100%;
+    height: 45px;
+    background-color: var(--menu-button-bg);
+    color: #CECECE;
+    border-radius: 10px;
+    font-family: 'mulish';
+    font-size: 1.2rem;
+    border: none;
+    cursor: pointer;
+}
+
+.queue_button:hover{
+    background-color: var(--menu-button-bg-hover);    
+}
+
+.queue_button:active{
+    background-color: var(--menu-button-bg-active);
+}
 
 @media(max-width: 530px){
     .queue{

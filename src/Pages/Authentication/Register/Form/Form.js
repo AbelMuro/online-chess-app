@@ -13,14 +13,13 @@ function Form(){
  
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if(password !== reEnterPassword) return;
         setError('');
         setLoading(true);
         const email = e.target.elements.email.value;
         const password = e.target.elements['register password'].value;
         const username = e.target.elements.username.value;
         const reEnterPassword = e.target.elements.password.value;
-
-        if(password !== reEnterPassword) return;
 
         try{
             const response = await fetch('http://localhost:4000/register', {
