@@ -7,6 +7,8 @@ import RegisterPassword from '~/assets/Components/RegisterPassword';
 import UploadImage from './UploadImage';
 import * as styles from './styles.module.css';
 
+
+//this is where i left off, i need to finish implementing the image upload feature of this component
 function Form(){
     const navigate = useNavigate();
     const [error, setError] = useState('');
