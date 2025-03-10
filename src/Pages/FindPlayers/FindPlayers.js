@@ -147,7 +147,13 @@ function FindPlayers() {
             <h2 className={styles.queue_desc}>
                 Looking for other players
             </h2>
-            <ClipLoader size={'35px'} color='#CECECE'/>
+            {queue.length === 0 ? <ClipLoader size={'35px'} color='#CECECE'/> : 
+                <div className={styles.queue_playername}>
+                    <h3>
+                        {queue[0]?.player}
+                    </h3>
+                </div>
+            }
             <button className={styles.queue_button} onClick={handleLeave}>
                 Leave Queue
             </button>

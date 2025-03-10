@@ -32,10 +32,6 @@
 }
 
 .queue_button{
-
-}
-
-.queue_button{
     width: 100%;
     height: 45px;
     background-color: var(--menu-button-bg);
@@ -53,6 +49,15 @@
 
 .queue_button:active{
     background-color: var(--menu-button-bg-active);
+}
+
+.queue_playername > h3{
+    font-size: 1rem;
+    font-family: 'mulish';
+    font-weight: 300;
+    color: var(--text-color);
+    margin: 0px;
+    text-align: center;
 }
 
 @media(max-width: 530px){
