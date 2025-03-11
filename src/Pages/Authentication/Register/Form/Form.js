@@ -8,7 +8,6 @@ import UploadImage from './UploadImage';
 import * as styles from './styles.module.css';
 
 
-//this is where i left off, i need to finish implementing the image upload feature of this component
 function Form(){
     const navigate = useNavigate();
     const [error, setError] = useState('');
@@ -49,6 +48,8 @@ function Form(){
                     setError('Username is already taken');
                 else if(message.includes('email'))
                     setError('Email is already taken')
+                else if(message.includes('image'))
+                    setError("Image can't be uploaded");
             }
                 
             else{
