@@ -1,15 +1,15 @@
 import React, {useState, useEffect} from 'react';
+import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js';
 import {useNavigate} from 'react-router-dom';
 import * as styles from './styles.module.css';
 
 
-//this is where i left off, i still dont fully understand the logic in receiving files from servers
 function Greeting(){
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [image, setImage] = useState('');
 
-    const getName = async () => {
+    const getInfo = async () => {
         try{
             const response = await fetch('http://localhost:4000/get_account', {
                 method: 'GET',
@@ -20,17 +20,11 @@ function Greeting(){
                 const account = await response.json();
                 const username = account.username;
                 const image = account.image;
+                const contentType = account.contentType;
 
                 if(image){
-                    const binaryData = atob(image);                             //decode base64 into binary string
-                    const byteArray = new Uint8Array(binaryData.length);
-
-                    for(let i = 0; i < binaryData.length; i++){
-                        byteArray[i] = binaryData.charCodeAt(i)
-                    }
-
-                    const blob = new Blob([byteArray], {type: account.contentType});
-                    setImage(URL.createObjectURL(blob));
+                    const url = convertBase64ToBlobURL(image, contentType);
+                    setImage(url);
                 }
                 setName(username);
             }
@@ -55,12 +49,9 @@ function Greeting(){
     }
 
     useEffect(() => {
-        getName();
+        getInfo();
     }, [])
 
-    useEffect(() => {
-        console.log(image);
-    }, [image])
 
     return(
         <section className={styles.container}>

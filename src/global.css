@@ -64,6 +64,8 @@ body{
     --menu-button-disabled-bg: #d3d3d3;
     --menu-button-text-disabled: #a9a9a9;
 
+    --queue-container-bg: rgb(1, 1, 206);
+
     --dialog-promotion-button-bg: rgb(1, 1, 148);
     --dialog-promotion-button-hover: rgb(11, 11, 172);
     --dialog-promotion-button-active: rgb(38, 38, 230);

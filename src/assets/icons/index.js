@@ -12,6 +12,8 @@ import whiteBishop from './white bishop.png';
 import whiteQueen from './white queen.png';
 import whiteKing from './white king.png';
 
+import emptyAvatar from './empty-avatar.jpg';
+
 export default {
     'black pawn' : blackPawn, 
     'black rook' : blackRook, 
@@ -24,5 +26,6 @@ export default {
     'white knight' : whiteKnight, 
     'white bishop' : whiteBishop, 
     'white queen' : whiteQueen, 
-    'white king' : whiteKing
+    'white king' : whiteKing,
+    'empty avatar': emptyAvatar,
 }

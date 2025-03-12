@@ -51,13 +51,36 @@
     background-color: var(--menu-button-bg-active);
 }
 
-.queue_playername > h3{
+.queue_player{
+    width: 212px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    padding: 10px;
+    background-color: var(--queue-container-bg);
+    border-radius: 15px;
+}
+
+.queue_player > h3{
     font-size: 1rem;
     font-family: 'mulish';
     font-weight: 300;
     color: var(--text-color);
     margin: 0px;
     text-align: center;
+}
+
+.queue_player_image{
+    width: 100px;
+    object-fit: contain;
+    border-radius: 100%;
+    align-self: center;
+}
+
+.queue_player > button{
+    height: 30px;
+    cursor: pointer;
 }
 
 @media(max-width: 530px){

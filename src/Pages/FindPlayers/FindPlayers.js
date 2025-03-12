@@ -1,16 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef, useMemo} from 'react';
 import {useSelector} from 'react-redux';
 import * as styles from './styles.module.css';
 import {useNavigate} from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
+import icons from '~/assets/icons';
+import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js';
 import connectToWebSocket from '~/assets/functions/connectToWebSocket.js';
 
-//this is where i left off, i need to get the data from the queue collection and create a UI that asks the user if they want to have a match with a specific person in the queue
-//i also need to create a route in node.js that removes the user from the queue if they decide to leave the queue
-//and dont forget to update notes on web sockets on mongoDB
+//this is where i left off, i need to call the leaveQueue() function when the user either leaves the session, closes the browser/tab or refreshes the page
 
 function FindPlayers() {
     const board = useSelector(state => state.chess.board);
+    const username = useRef('');
     const [queue, setQueue] = useState([]);
     const navigate = useNavigate();
 
@@ -48,7 +49,20 @@ function FindPlayers() {
 
     const detectQueueChanges = (event) => {
         const change = JSON.parse(event.data);
-        setQueue(change?.fullDocument); 
+        const operation = change?.operationType;
+
+        if(operation ===  'insert')
+            setQueue((queue) => {
+                return [...queue, change.fullDocument]
+            }); 
+        else{
+            const _id = change.documentKey._id;
+            setQueue((queue) => {
+                return queue.filter((player) => {
+                    return player._id === _id
+                })
+            })            
+        }    
     }
 
 
@@ -107,14 +121,21 @@ function FindPlayers() {
             });
 
             if(response.status === 200){
-                const result = await response.text();
-                console.log(result);
+                const result = await response.json();
+                const message = result.message;
+                const playername = result.username;
+                username.current = playername;
+                console.log(message);
             }
             else if(response.status === 403){
                 const result = await response.text();
                 console.log(result);
                 alert('Please enable third-party cookies in your browser to use this app')
                 navigate('/');
+            }
+            else if(response.status === 401){
+                const result = await response.text();
+                console.log(result);
             }
             else{
                 const result = await response.text();
@@ -127,8 +148,33 @@ function FindPlayers() {
             console.log(message);
             alert('Server is offline, please try again later');
         }
-        
     }
+
+    const availablePlayers = useMemo(() => {
+        return queue.map((player) => {
+            const currentPlayer = player.player;
+            if(username.current === currentPlayer) return;
+
+            const profileImage = player.profileImage;
+            const url = profileImage ? convertBase64ToBlobURL(profileImage) : icons['empty avatar'];
+
+            return (               
+                <div className={styles.queue_player} key={currentPlayer}>
+                    <img className={styles.queue_player_image} src={url}/>
+                    <h3>
+                        {currentPlayer}
+                    </h3>
+                    <button>
+                        Challenge
+                    </button>
+                    <button>
+                        Decline
+                    </button>
+                </div>
+            )            
+        })
+
+    }, [queue])
 
     useEffect(() => {
         putPlayerInQueue();
@@ -147,13 +193,7 @@ function FindPlayers() {
             <h2 className={styles.queue_desc}>
                 Looking for other players
             </h2>
-            {queue.length === 0 ? <ClipLoader size={'35px'} color='#CECECE'/> : 
-                <div className={styles.queue_playername}>
-                    <h3>
-                        {queue[0]?.player}
-                    </h3>
-                </div>
-            }
+            {availablePlayers.length === 0 ? <ClipLoader size={'35px'} color='#CECECE'/> : availablePlayers}
             <button className={styles.queue_button} onClick={handleLeave}>
                 Leave Queue
             </button>
