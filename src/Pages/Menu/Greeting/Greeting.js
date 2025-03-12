@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import * as styles from './styles.module.css';
 
+
+//this is where i left off, i still dont fully understand the logic in receiving files from servers
 function Greeting(){
     const navigate = useNavigate();
     const [name, setName] = useState('');
@@ -18,6 +20,7 @@ function Greeting(){
                 const account = await response.json();
                 const username = account.username;
                 const image = account.image;
+
                 if(image){
                     const binaryData = atob(image);                             //decode base64 into binary string
                     const byteArray = new Uint8Array(binaryData.length);
