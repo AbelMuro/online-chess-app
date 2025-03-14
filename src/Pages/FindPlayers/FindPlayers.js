@@ -8,6 +8,7 @@ import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js
 import connectToWebSocket from '~/assets/functions/connectToWebSocket.js';
 
 //this is where i left off, i need to call the leaveQueue() function when the user either leaves the session, closes the browser/tab or refreshes the page
+//leaveQueue() returns failed to fetch everytime i refresh page
 
 function FindPlayers() {
     const board = useSelector(state => state.chess.board);
@@ -182,7 +183,20 @@ function FindPlayers() {
 
     useEffect(() => {
         connectToWebSocket(detectQueueChanges);
-        return leaveQueue;
+    }, [])
+
+    useEffect(() => {
+
+        const unload = () => {
+            leaveQueue();
+        }
+
+        window.addEventListener('beforeunload', unload);
+
+        return () => {
+            window.removeEventListener('beforeunload', unload);
+            leaveQueue && leaveQueue();
+        }
     }, [])
 
     return(
