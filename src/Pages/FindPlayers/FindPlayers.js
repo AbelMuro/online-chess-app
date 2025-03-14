@@ -7,9 +7,9 @@ import icons from '~/assets/icons';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js';
 import connectToWebSocket from '~/assets/functions/connectToWebSocket.js';
 
-//this is where i left off, i need to call the leaveQueue() function when the user either leaves the session, closes the browser/tab or refreshes the page
-//leaveQueue() returns failed to fetch everytime i refresh page
-
+//this is where i left off, now i need to format the queue state object to make sure it doesnt display the current user as one of the available players to play against
+//then once the player selects another player to challenge, i need to find a way to connect both players in the same session and create a match between them
+ 
 function FindPlayers() {
     const board = useSelector(state => state.chess.board);
     const username = useRef('');
@@ -80,7 +80,7 @@ function FindPlayers() {
                 method: 'DELETE',
                 credentials: 'include'
             })
-
+            
             if(response.status === 200){
                 const result = await response.text();
                 console.log(result);
@@ -182,19 +182,23 @@ function FindPlayers() {
     }, [])
 
     useEffect(() => {
-        connectToWebSocket(detectQueueChanges);
+        connectToWebSocket(detectQueueChanges);        
     }, [])
 
     useEffect(() => {
 
-        const unload = () => {
-            leaveQueue();
+        const removePlayerFromQueue = () => {
+            fetch('http://localhost:4000/leave_queue', {
+                method: 'DELETE',
+                credentials: 'include',
+                keepalive: true
+            })
         }
 
-        window.addEventListener('beforeunload', unload);
+        window.addEventListener('beforeunload', removePlayerFromQueue);
 
         return () => {
-            window.removeEventListener('beforeunload', unload);
+            window.removeEventListener('beforeunload', removePlayerFromQueue);
             leaveQueue && leaveQueue();
         }
     }, [])
