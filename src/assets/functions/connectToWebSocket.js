@@ -1,5 +1,5 @@
 const connectToWebSocket = (onmessageFunction) => {
-    const socket = new WebSocket('ws://localhost:8000');
+    const socket = new WebSocket(process.env.WEBSOCKET_URL);
 
     socket.onopen = () => {
         console.log('Connected to WebSocket server');

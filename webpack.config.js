@@ -1,7 +1,7 @@
 const path = require('path');               //path is now a module that has access to pre defined methods that are built into Node.js
 const HtmlWebpackPlugin = require("html-webpack-plugin"); //to use a plugin with webpack, you must use require
 const CopyWebpackPlugin = require('copy-webpack-plugin');    //npm install copy-webpack-plugin -D         you will NEED this if you are planning on having a /public folder
-
+const dotenv = require('dotenv-webpack');
 
 module.exports = {
 
@@ -22,6 +22,7 @@ module.exports = {
         new CopyWebpackPlugin({
             patterns: [{ from: 'public', to: '' }],        //this will copy all the files from the public folder to the build directory
           }),
+        new dotenv(),
     ],
     devServer: {                              //configuration property for the development server
         port: 3000,                           //the devServer will start in port 3000
