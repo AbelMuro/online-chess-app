@@ -1,4 +1,5 @@
-import React, {useEffect, useState, useRef, useMemo} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
+import DisplayChallenger from './DisplayChallenger';
 import {useSelector} from 'react-redux';
 import * as styles from './styles.module.css';
 import {useNavigate} from 'react-router-dom';
@@ -12,7 +13,6 @@ import connectToWebSocket from '~/assets/functions/connectToWebSocket.js';
  
 function FindPlayers() {
     const board = useSelector(state => state.chess.board);
-    const username = useRef('');
     const [queue, setQueue] = useState([]);
     const navigate = useNavigate();
 
@@ -52,17 +52,16 @@ function FindPlayers() {
         const change = JSON.parse(event.data);
         const operation = change?.operationType;
 
-        if(operation ===  'insert')
-            setQueue((queue) => {
-                return [...queue, change.fullDocument]
-            }); 
+        if(operation ===  'insert'){
+            const _id = change?.fullDocument?._id;
+            const currentQueue = [change.fullDocument, ...queue];
+            const queueWithoutCurrentPlayer = currentQueue.filter((player) => player._id !== _id);
+            setQueue(queueWithoutCurrentPlayer);             
+        }
+
         else{
             const _id = change.documentKey._id;
-            setQueue((queue) => {
-                return queue.filter((player) => {
-                    return player._id === _id
-                })
-            })            
+            setQueue((queue) => queue.filter((player) => player._id !== _id))            
         }    
     }
 
@@ -105,7 +104,10 @@ function FindPlayers() {
         catch(error){
             const message = error.message;
             console.log(message);
-            alert('Server is offline, please try again later');
+            if(message.includes('Failed to fetch'))
+                console.log('Too many requests were made')
+            else
+                alert('Server is offline, please try again later');
         }
     }
 
@@ -124,8 +126,6 @@ function FindPlayers() {
             if(response.status === 200){
                 const result = await response.json();
                 const message = result.message;
-                const playername = result.username;
-                username.current = playername;
                 console.log(message);
             }
             else if(response.status === 403){
@@ -147,31 +147,23 @@ function FindPlayers() {
         catch(error){
             const message = error.message;
             console.log(message);
-            alert('Server is offline, please try again later');
+            if(message.includes('Failed to fetch'))
+                console.log('Too many requests were made')
+            else
+                alert('Server is offline, please try again later');
         }
     }
 
     const availablePlayers = useMemo(() => {
         return queue.map((player) => {
             const currentPlayer = player.player;
-            if(username.current === currentPlayer) return;
-
-            const profileImage = player.profileImage;
-            const url = profileImage ? convertBase64ToBlobURL(profileImage) : icons['empty avatar'];
+            const _id = player._id;
+            const profileImageBase64 = player.profileImageBase64;
+            const contentType = player.contentType;
+            const url = profileImageBase64 ? convertBase64ToBlobURL(profileImageBase64, contentType) : icons['empty avatar'];
 
             return (               
-                <div className={styles.queue_player} key={currentPlayer}>
-                    <img className={styles.queue_player_image} src={url}/>
-                    <h3>
-                        {currentPlayer}
-                    </h3>
-                    <button>
-                        Challenge
-                    </button>
-                    <button>
-                        Decline
-                    </button>
-                </div>
+                <DisplayChallenger currentPlayer={currentPlayer} image={url} playerId={_id}/>
             )            
         })
 
@@ -192,7 +184,7 @@ function FindPlayers() {
                 method: 'DELETE',
                 credentials: 'include',
                 keepalive: true
-            })
+            })                
         }
 
         window.addEventListener('beforeunload', removePlayerFromQueue);
@@ -203,14 +195,18 @@ function FindPlayers() {
         }
     }, [])
 
+    useEffect(() => {
+        console.log(queue)
+    }, [queue])
+
     return(
         <section className={styles.queue}>
             <h1 className={styles.queue_title}>
                 You have entered the queue
             </h1>
-            <h2 className={styles.queue_desc}>
+            {availablePlayers.length === 0 && <h2 className={styles.queue_desc}>
                 Looking for other players
-            </h2>
+            </h2>}
             {availablePlayers.length === 0 ? <ClipLoader size={'35px'} color='#CECECE'/> : availablePlayers}
             <button className={styles.queue_button} onClick={handleLeave}>
                 Leave Queue
