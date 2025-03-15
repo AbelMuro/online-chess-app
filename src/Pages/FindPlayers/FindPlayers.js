@@ -20,7 +20,7 @@ function FindPlayers() {
         const matchId = Array.from({length: 10}, () => null).reduce((acc) => {acc += Math.floor(Math.random() * 9); return acc}, '');
 
         try{
-            const response = await fetch('http://localhost:4000/create_match', {
+            const response = await fetch('https://world-class-chess-server.netlify.app/create_match', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -75,7 +75,7 @@ function FindPlayers() {
 
     const leaveQueue = async () => {
         try{
-            const response = await fetch('http://localhost:4000/leave_queue', {
+            const response = await fetch('https://world-class-chess-server.netlify.app/leave_queue', {
                 method: 'DELETE',
                 credentials: 'include'
             })
@@ -114,7 +114,7 @@ function FindPlayers() {
 
     const putPlayerInQueue = async () => {
         try{
-            const response = await fetch('http://localhost:4000/put_player_in_queue', {
+            const response = await fetch('https://world-class-chess-server.netlify.app/put_player_in_queue', {
                 method: 'POST',
                 header: {
                     'Content-Type': 'application/json'
@@ -180,7 +180,7 @@ function FindPlayers() {
     useEffect(() => {
 
         const removePlayerFromQueue = () => {
-            fetch('http://localhost:4000/leave_queue', {
+            fetch('https://world-class-chess-server.netlify.app/leave_queue', {
                 method: 'DELETE',
                 credentials: 'include',
                 keepalive: true

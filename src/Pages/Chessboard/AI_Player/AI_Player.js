@@ -12,7 +12,7 @@ function AI_Player() {
     const handleAImove = async () => {
 
         try{
-            const response = await fetch('http://localhost:4000/ai_move', {
+            const response = await fetch('https://world-class-chess-server.netlify.app/ai_move', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

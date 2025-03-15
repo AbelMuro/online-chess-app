@@ -15,7 +15,7 @@ function UpdateMatchInDatabase({matchId}) {
     useEffect(() => {
         const updateMatch = async () => {
             try{
-                const response = await fetch('http://localhost:4000/update_match', {
+                const response = await fetch('https://world-class-chess-server.netlify.app/update_match', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'

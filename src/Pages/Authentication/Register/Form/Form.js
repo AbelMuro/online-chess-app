@@ -31,7 +31,7 @@ function Form(){
         formData.append('image', image);
 
         try{
-            const response = await fetch('http://localhost:4000/register', {
+            const response = await fetch('https://world-class-chess-server.netlify.app/register', {
                 method: 'POST',
                 body: formData,
                 credentials: 'include'
