@@ -22,7 +22,7 @@ module.exports = {
         new CopyWebpackPlugin({
             patterns: [{ from: 'public', to: '' }],        //this will copy all the files from the public folder to the build directory
           }),
-        new dotenv(),
+        new dotenv({systemvars: true}),
     ],
     devServer: {                              //configuration property for the development server
         port: 3000,                           //the devServer will start in port 3000
