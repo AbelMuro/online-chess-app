@@ -13,6 +13,7 @@ import Menu from './Pages/Menu'
 import './global.css';
 
 function App() {
+
     return(
         <Provider store={store}>
             <BrowserRouter>
