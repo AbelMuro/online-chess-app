@@ -7,7 +7,7 @@ import Squares from './Squares';
 import SideBar from './SideBar';
 import DeclareWinner from './DeclareWinner';
 import MobileDisplayTurn from './MobileDisplayTurn';
-import {useMediaQuery} from '~/Hooks';
+import useMediaQuery from '~/Hooks/useMediaQuery';
 import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import { DndProvider } from "react-dnd"

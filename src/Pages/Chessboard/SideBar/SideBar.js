@@ -7,7 +7,7 @@ import RedoButton from './RedoButton';
 import {useSelector} from 'react-redux'
 import * as styles from './styles.module.css';
 import MobileBar from './MobileBar';
-import { useMediaQuery } from '~/Hooks';
+import useMediaQuery from '~/Hooks/useMediaQuery';
 
 function SideBar(){
     const currentTurn = useSelector(state => state.chess.current_turn);

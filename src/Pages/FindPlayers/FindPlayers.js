@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useMemo} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import DisplayChallenger from './DisplayChallenger';
 import {useSelector} from 'react-redux';
 import * as styles from './styles.module.css';
@@ -6,7 +6,7 @@ import {useNavigate} from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import icons from '~/assets/icons';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js';
-import useQueue from '~/assets/Hooks/useQueue';
+import useQueue from '~/Hooks/useQueue';
 
 function FindPlayers() {
     const board = useSelector(state => state.chess.board);

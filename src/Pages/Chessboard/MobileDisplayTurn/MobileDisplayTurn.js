@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {useMediaQuery} from '~/Hooks';
+import useMediaQuery from '~/Hooks/useMediaQuery';
 import * as styles from './styles.module.css';
 
 function MobileDisplayTurn() {

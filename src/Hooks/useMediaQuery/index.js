@@ -1,3 +1,3 @@
 import useMediaQuery from "./useMediaQuery.js";
 
-export {useMediaQuery}
+export default useMediaQuery
