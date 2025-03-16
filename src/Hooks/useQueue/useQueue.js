@@ -5,6 +5,7 @@ function useQueue() {
     const [queue, setQueue] = useState([]);
 
     useEffect(() => {
+        console.log(process.env.ABLY_API_KEY);
         const ably = new Ably.Realtime(process.env.ABLY_API_KEY); 
         const channel = ably.channels.get('queue-channel');
 
