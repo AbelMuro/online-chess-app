@@ -6,14 +6,11 @@ import {useNavigate} from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import icons from '~/assets/icons';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js';
-import connectToWebSocket from '~/assets/functions/connectToWebSocket.js';
+import useQueue from '~/assets/Hooks/useQueue';
 
-//this is where i left off, now i need to format the queue state object to make sure it doesnt display the current user as one of the available players to play against
-//then once the player selects another player to challenge, i need to find a way to connect both players in the same session and create a match between them
- 
 function FindPlayers() {
     const board = useSelector(state => state.chess.board);
-    const [queue, setQueue] = useState([]);
+    const [queue, setQueue] = useQueue();
     const navigate = useNavigate();
 
     const handleCreateMatch = async () => {
@@ -173,9 +170,6 @@ function FindPlayers() {
         putPlayerInQueue();
     }, [])
 
-    useEffect(() => {
-        connectToWebSocket(detectQueueChanges);        
-    }, [])
 
     useEffect(() => {
 
