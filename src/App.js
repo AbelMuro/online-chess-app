@@ -13,7 +13,6 @@ import Menu from './Pages/Menu'
 import './global.css';
 
 function App() {
-    console.log(process.env.WEBSOCKET_URL);
 
     return(
         <Provider store={store}>

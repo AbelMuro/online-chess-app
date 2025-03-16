@@ -1,5 +1,5 @@
 const connectToWebSocket = (onmessageFunction) => {
-    const socket = new WebSocket(process.env.WEBSOCKET_URL);
+    const socket = new WebSocket('wss://world-class-chess-server.netlify.app/ws');
 
     socket.onopen = () => {
         console.log('Connected to WebSocket server');
