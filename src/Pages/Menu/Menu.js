@@ -16,7 +16,7 @@ function Menu() {
 
     const handleLogOut = async () => {
         try{
-            const response = await fetch('https://world-class-chess-server.netlify.app/logout', {
+            const response = await fetch('https://world-class-chess-server-hcp9qz4vq-abelmuros-projects.vercel.app/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type' : 'application/json'

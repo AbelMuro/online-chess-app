@@ -14,7 +14,7 @@ function Form() {
         setLoading(true);
 
         try{
-            const response = await fetch('https://world-class-chess-server.netlify.app/forgotpassword', {
+            const response = await fetch('https://world-class-chess-server-hcp9qz4vq-abelmuros-projects.vercel.app/forgotpassword', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

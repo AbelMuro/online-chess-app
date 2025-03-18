@@ -11,7 +11,7 @@ function Greeting(){
 
     const getInfo = async () => {
         try{
-            const response = await fetch('https://world-class-chess-server.netlify.app/get_account', {
+            const response = await fetch('https://world-class-chess-server-hcp9qz4vq-abelmuros-projects.vercel.app/get_account', {
                 method: 'GET',
                 credentials: 'include'
             })
