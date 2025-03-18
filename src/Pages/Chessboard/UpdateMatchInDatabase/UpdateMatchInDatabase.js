@@ -15,7 +15,7 @@ function UpdateMatchInDatabase({matchId}) {
     useEffect(() => {
         const updateMatch = async () => {
             try{
-                const response = await fetch('https://world-class-chess-server-hcp9qz4vq-abelmuros-projects.vercel.app/update_match', {
+                const response = await fetch('https://world-class-chess-server.vercel.app/update_match', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'

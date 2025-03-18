@@ -7,7 +7,7 @@ function DisplayChallenger({currentPlayer, image, _id}) {
 
     const handleChallenge = async () => {
         try{
-            const response = await fetch('https://world-class-chess-server-hcp9qz4vq-abelmuros-projects.vercel.app/create_new_challenge', {
+            const response = await fetch('https://world-class-chess-server.vercel.app/create_new_challenge', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
