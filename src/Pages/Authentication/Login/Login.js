@@ -15,7 +15,7 @@ function Login() {
     const handleGuest = async () => {
         setLoading(true);
         try{
-            const response = await fetch('https://world-class-chess-server.vercel.app/guestlogin', {
+            const response = await fetch('https://world-class-chess-server.netlify.app/guestlogin', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

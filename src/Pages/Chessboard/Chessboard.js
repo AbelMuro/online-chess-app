@@ -115,7 +115,7 @@ function Chessboard() {
 
         const getMatch = async () => {
             try{
-                const response = await fetch(`https://world-class-chess-server.vercel.app/get_match/${matchId}`, {
+                const response = await fetch(`https://world-class-chess-server.netlify.app/get_match/${matchId}`, {
                     method: 'GET'
                 });
 
