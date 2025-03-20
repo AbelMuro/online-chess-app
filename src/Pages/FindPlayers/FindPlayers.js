@@ -74,7 +74,8 @@ function FindPlayers() {
         try{
             const response = await fetch('https://world-class-chess-server.netlify.app/leave_queue', {
                 method: 'DELETE',
-                credentials: 'include'
+                credentials: 'include',
+                keepalive: true,
             })
             
             if(response.status === 200){
