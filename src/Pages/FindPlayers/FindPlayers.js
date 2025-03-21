@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import DisplayChallenger from './DisplayChallenger';
 import {useSelector} from 'react-redux';
 import * as styles from './styles.module.css';
@@ -10,7 +10,7 @@ import useQueue from '~/Hooks/useQueue';
 
 function FindPlayers() {
     const board = useSelector(state => state.chess.board);
-    const [queue, setQueue] = useQueue();
+    const [queue, setQueue] = useState([]);
     const navigate = useNavigate();
 
     const handleCreateMatch = async () => {
@@ -190,9 +190,6 @@ function FindPlayers() {
         }
     }, [])
 
-    useEffect(() => {
-        console.log(queue)
-    }, [queue])
 
     return(
         <section className={styles.queue}>
