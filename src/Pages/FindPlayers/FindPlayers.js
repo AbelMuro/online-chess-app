@@ -10,7 +10,7 @@ import useQueue from '~/Hooks/useQueue';
 
 function FindPlayers() {
     const board = useSelector(state => state.chess.board);
-    const [queue, setQueue] = useState([]);
+    const [queue, setQueue] = useQueue();
     const navigate = useNavigate();
 
     const handleCreateMatch = async () => {
@@ -102,10 +102,7 @@ function FindPlayers() {
         catch(error){
             const message = error.message;
             console.log(message);
-            if(message.includes('Failed to fetch'))
-                console.log('Too many requests were made')
-            else
-                alert('Server is offline, please try again later');
+            alert('Server is offline, please try again later');
         }
     }
 
@@ -186,7 +183,6 @@ function FindPlayers() {
 
         return () => {
             window.removeEventListener('beforeunload', removePlayerFromQueue);
-            leaveQueue && leaveQueue();
         }
     }, [])
 
