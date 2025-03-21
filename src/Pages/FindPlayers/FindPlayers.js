@@ -169,20 +169,21 @@ function FindPlayers() {
     }, [])
 
 
+    const removePlayerFromQueue = () => {
+        fetch('https://world-class-chess-server.netlify.app/leave_queue', {
+            method: 'DELETE',
+            credentials: 'include',
+            keepalive: true
+        })                
+    }    
+
     useEffect(() => {
 
-        const removePlayerFromQueue = () => {
-            fetch('https://world-class-chess-server.netlify.app/leave_queue', {
-                method: 'DELETE',
-                credentials: 'include',
-                keepalive: true
-            })                
-        }
-
-       // window.addEventListener('beforeunload', removePlayerFromQueue);
+        window.addEventListener('beforeunload', removePlayerFromQueue);
 
         return () => {
-            //window.removeEventListener('beforeunload', removePlayerFromQueue);
+            window.removeEventListener('beforeunload', removePlayerFromQueue);
+            leaveQueue && leaveQueue();
         }
     }, [])
 
