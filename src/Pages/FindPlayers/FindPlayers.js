@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import DisplayChallenger from './DisplayChallenger';
 import {useSelector} from 'react-redux';
 import * as styles from './styles.module.css';
