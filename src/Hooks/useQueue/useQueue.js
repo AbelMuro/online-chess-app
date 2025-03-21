@@ -1,24 +1,33 @@
 import {useState, useEffect} from 'react';
-import Ably from 'ably';
+
+const WEBSOCKET_URL = 'wss//world-class-chess-server.netlify.app/'  
 
 function useQueue() {
     const [queue, setQueue] = useState([]);
 
     useEffect(() => {
-        const ably = new Ably.Realtime(process.env.ABLY_API_KEY); 
-        const channel = ably.channels.get('queue-channel');
+        const socket = new WebSocket(WEBSOCKET_URL);            	
 
-        channel.subscribe('queue-update', (message) => {
-            setQueue((prevUpdates) => [...prevUpdates, message.data]);
-        });
-
-        return () => {
-            channel.unsubscribe();
-            ably.close();
+        socket.onopen = () => {                                        
+            console.log('Connected to WebSocket server');
+        };
+    
+        socket.onmessage = (e) => {
+            const change = JSON.parse(e.data);
+            console.log(change);
+        };                        
+    
+        socket.onclose = () => {
+            console.log('Disconnected from WebSocket server');
+        };
+    
+        socket.onerror = (error) => {
+            console.error('WebSocket error:', error);
         };
     }, [])
 
     return [queue, setQueue];
 }
 
+    
 export default useQueue;

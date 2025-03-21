@@ -10,7 +10,7 @@ import useQueue from '~/Hooks/useQueue';
 
 function FindPlayers() {
     const board = useSelector(state => state.chess.board);
-    const [queue, setQueue] = useState([]);
+    const [queue, setQueue] = useQueue();
     const navigate = useNavigate();
 
     const handleCreateMatch = async () => {
