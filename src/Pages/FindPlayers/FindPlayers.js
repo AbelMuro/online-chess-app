@@ -179,10 +179,10 @@ function FindPlayers() {
             })                
         }
 
-        window.addEventListener('beforeunload', removePlayerFromQueue);
+       // window.addEventListener('beforeunload', removePlayerFromQueue);
 
         return () => {
-            window.removeEventListener('beforeunload', removePlayerFromQueue);
+            //window.removeEventListener('beforeunload', removePlayerFromQueue);
         }
     }, [])
 
