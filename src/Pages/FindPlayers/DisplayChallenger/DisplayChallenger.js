@@ -30,7 +30,7 @@ function DisplayChallenger({currentPlayer, image, _id}) {
         catch(error){
             const message = error.message;
             console.log(message);
-            alert('Server is offline, please try again later');
+            alert(message);
         }
     }
 

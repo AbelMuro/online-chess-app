@@ -41,7 +41,7 @@ function FindPlayers() {
         catch(error){
             const message = error.message;
             console.log(message);
-            alert('Server is offline, please try again later');
+            alert(message);
         }
     }
 
@@ -75,7 +75,6 @@ function FindPlayers() {
             const response = await fetch('https://world-class-chess-server.netlify.app/leave_queue', {
                 method: 'DELETE',
                 credentials: 'include',
-                keepalive: true,
             })
             
             if(response.status === 200){
@@ -102,7 +101,7 @@ function FindPlayers() {
         catch(error){
             const message = error.message;
             console.log(message);
-            alert('Server is offline, please try again later');
+            alert(message);
         }
     }
 
@@ -142,10 +141,7 @@ function FindPlayers() {
         catch(error){
             const message = error.message;
             console.log(message);
-            if(message.includes('Failed to fetch'))
-                console.log('Too many requests were made')
-            else
-                alert('Server is offline, please try again later');
+            alert(message);
         }
     }
 

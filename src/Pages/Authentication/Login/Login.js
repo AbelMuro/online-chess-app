@@ -31,7 +31,7 @@ function Login() {
         catch(error){
             const message = error.message;
             console.log(message);
-            alert('Server is offline, please try again later');
+            alert(message);
         }
         finally{
             setLoading && setLoading(false);
