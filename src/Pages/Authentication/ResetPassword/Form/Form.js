@@ -16,7 +16,7 @@ function Form({token}){
         setLoading(true);
 
         try{
-            const response = await fetch('https://world-class-chess-server.netlify.app/resetpassword', {
+            const response = await fetch('https://world-class-chess-server-image-880168737393.us-central1.run.app/resetpassword', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
