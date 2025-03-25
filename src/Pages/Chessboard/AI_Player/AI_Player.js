@@ -12,7 +12,7 @@ function AI_Player() {
     const handleAImove = async () => {
 
         try{
-            const response = await fetch('https://world-class-chess-server-image-880168737393.us-central1.run.app/ai_move', {
+            const response = await fetch('https://world-class-chess-server.com/ai_move', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

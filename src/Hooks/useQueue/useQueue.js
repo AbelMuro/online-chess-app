@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 
-const WEBSOCKET_URL = 'wss//world-class-chess-server-image-880168737393.us-central1.run.app/'  
+const WEBSOCKET_URL = 'wss//world-class-chess-server.com/'  
 
 function useQueue() {
     const [queue, setQueue] = useState([]);

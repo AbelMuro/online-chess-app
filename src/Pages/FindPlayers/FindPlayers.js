@@ -17,7 +17,7 @@ function FindPlayers() {
         const matchId = Array.from({length: 10}, () => null).reduce((acc) => {acc += Math.floor(Math.random() * 9); return acc}, '');
 
         try{
-            const response = await fetch('https://world-class-chess-server-image-880168737393.us-central1.run.app/create_match', {
+            const response = await fetch('https://world-class-chess-server.com/create_match', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -72,7 +72,7 @@ function FindPlayers() {
 
     const leaveQueue = async () => {
         try{
-            const response = await fetch('https://world-class-chess-server-image-880168737393.us-central1.run.app/leave_queue', {
+            const response = await fetch('https://world-class-chess-server.com/leave_queue', {
                 method: 'DELETE',
                 credentials: 'include',
             })
@@ -108,7 +108,7 @@ function FindPlayers() {
 
     const putPlayerInQueue = async () => {
         try{
-            const response = await fetch('https://world-class-chess-server-image-880168737393.us-central1.run.app/put_player_in_queue', {
+            const response = await fetch('https://world-class-chess-server.com/put_player_in_queue', {
                 method: 'POST',
                 header: {
                     'Content-Type': 'application/json'
@@ -166,7 +166,7 @@ function FindPlayers() {
 
 
     const removePlayerFromQueue = () => {
-        fetch('https://world-class-chess-server-image-880168737393.us-central1.run.app/leave_queue', {
+        fetch('https://world-class-chess-server.com/leave_queue', {
             method: 'DELETE',
             credentials: 'include',
             keepalive: true

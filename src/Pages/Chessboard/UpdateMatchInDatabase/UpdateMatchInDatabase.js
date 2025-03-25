@@ -15,7 +15,7 @@ function UpdateMatchInDatabase({matchId}) {
     useEffect(() => {
         const updateMatch = async () => {
             try{
-                const response = await fetch('https://world-class-chess-server-image-880168737393.us-central1.run.app/update_match', {
+                const response = await fetch('https://world-class-chess-server.com/update_match', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
