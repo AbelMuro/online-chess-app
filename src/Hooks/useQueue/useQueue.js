@@ -1,6 +1,5 @@
 import {useState, useEffect} from 'react';
 
-//this is where i left off, i still can't find the issue on why the front-end can't connect to the websocket from the back-end
 
 const WEBSOCKET_URL = 'wss://world-class-chess-server.com:443'  
 
@@ -15,7 +14,7 @@ function useQueue() {
         };
     
         socket.onmessage = (e) => {
-            const change = JSON.parse(e.data);
+            const change = JSON.parse(e.data);              //this is where i left off
             console.log(change);
         };                        
     
