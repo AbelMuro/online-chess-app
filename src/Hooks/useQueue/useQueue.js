@@ -23,6 +23,7 @@ function useQueue() {
     
         socket.onerror = (error) => {
             console.error('WebSocket error:', error);
+            console.error('Additional details:', socket.readyState, socket.url);
         };
 
         return () => {
