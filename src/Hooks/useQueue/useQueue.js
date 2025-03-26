@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 
-const WEBSOCKET_URL = 'wss://34.94.143.136:443'  
+const WEBSOCKET_URL = 'wss://world-class-chess-server.com:443'  
 
 function useQueue() {
     const [queue, setQueue] = useState([]);
