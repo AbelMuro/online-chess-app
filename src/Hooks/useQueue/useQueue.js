@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react';
 
-const WEBSOCKET_URL = 'wss://world-class-chess-server.com:443'  
+const WEBSOCKET_URL = 'wss://34.94.143.136'  
 
 function useQueue() {
     const [queue, setQueue] = useState([]);
@@ -23,7 +23,6 @@ function useQueue() {
     
         socket.onerror = (error) => {
             console.error('WebSocket error:', error);
-            console.error('Additional details:', socket.readyState, socket.url);
         };
 
         return () => {
