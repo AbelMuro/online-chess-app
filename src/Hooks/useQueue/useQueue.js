@@ -1,6 +1,5 @@
 import {useState, useEffect} from 'react';
 
-
 const WEBSOCKET_URL = 'wss://world-class-chess-server.com:443'  
 
 function useQueue() {
@@ -15,7 +14,18 @@ function useQueue() {
     
         socket.onmessage = (e) => {
             const change = JSON.parse(e.data);              //this is where i left off
-            console.log(change);
+            const operation = change.operation;
+            const _id = change.fullDocument._id;
+
+            if(operation ===  'insert'){
+                const currentQueue = [change.fullDocument, ...queue];
+                const queueWithoutCurrentPlayer = currentQueue.filter((player) => player._id !== _id);
+                setQueue(queueWithoutCurrentPlayer);             
+            }
+            else{
+                const _id = change.documentKey._id;
+                setQueue((queue) => queue.filter((player) => player._id !== _id))            
+            }    
         };                        
     
         socket.onclose = () => {
