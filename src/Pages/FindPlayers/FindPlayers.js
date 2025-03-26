@@ -45,23 +45,6 @@ function FindPlayers() {
         }
     }
 
-    const detectQueueChanges = (event) => {
-        const change = JSON.parse(event.data);
-        const operation = change?.operationType;
-
-        if(operation ===  'insert'){
-            const _id = change?.fullDocument?._id;
-            const currentQueue = [change.fullDocument, ...queue];
-            const queueWithoutCurrentPlayer = currentQueue.filter((player) => player._id !== _id);
-            setQueue(queueWithoutCurrentPlayer);             
-        }
-
-        else{
-            const _id = change.documentKey._id;
-            setQueue((queue) => queue.filter((player) => player._id !== _id))            
-        }    
-    }
-
 
     const handleLeave = () => {
         const choice = confirm('Are you sure you want to leave queue?');
