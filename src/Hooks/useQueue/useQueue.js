@@ -14,6 +14,8 @@ function useQueue() {
     
         socket.onmessage = (e) => {
             const documents = JSON.parse(e.data);              //this is where i left off
+            console.log(documents);
+            return;
 
             setQueue(documents)            
                 
