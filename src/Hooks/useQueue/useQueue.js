@@ -16,6 +16,7 @@ function useQueue() {
             const change = JSON.parse(e.data);              //this is where i left off
             const operation = change.operation;
             const _id = change.fullDocument._id;
+            console.log(change);
 
             if(operation ===  'insert'){
                 const currentQueue = [change.fullDocument, ...queue];
