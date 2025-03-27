@@ -13,18 +13,9 @@ function useQueue() {
         };
     
         socket.onmessage = (e) => {
-            const change = JSON.parse(e.data);              //this is where i left off
-            const operation = change.operation;
-            const _id = change.fullDocument._id;
-            console.log(change);
+            const documents = JSON.parse(e.data);              //this is where i left off
 
-            if(operation ===  'insert'){
-                const currentQueue = [change.fullDocument, ...queue];
-                const queueWithoutCurrentPlayer = currentQueue.filter((player) => player._id !== _id);
-                setQueue(queueWithoutCurrentPlayer);             
-            }
-            else
-                setQueue((queue) => queue.filter((player) => player._id !== _id))            
+            setQueue(documents)            
                 
         };                        
     
