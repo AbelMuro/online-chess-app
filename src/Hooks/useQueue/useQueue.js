@@ -14,8 +14,6 @@ function useQueue() {
     
         socket.onmessage = (e) => {
             const change = JSON.parse(e.data);              //this is where i left off
-            console.log(change);
-            return;
             const operation = change.operation;
             const _id = change.fullDocument._id;
 
@@ -24,10 +22,9 @@ function useQueue() {
                 const queueWithoutCurrentPlayer = currentQueue.filter((player) => player._id !== _id);
                 setQueue(queueWithoutCurrentPlayer);             
             }
-            else{
-                const _id = change.documentKey._id;
+            else
                 setQueue((queue) => queue.filter((player) => player._id !== _id))            
-            }    
+                
         };                        
     
         socket.onclose = () => {
