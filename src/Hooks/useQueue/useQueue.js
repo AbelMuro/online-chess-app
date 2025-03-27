@@ -14,6 +14,8 @@ function useQueue() {
     
         socket.onmessage = (e) => {
             const change = JSON.parse(e.data);              //this is where i left off
+            console.log(change);
+            return;
             const operation = change.operation;
             const _id = change.fullDocument._id;
 
