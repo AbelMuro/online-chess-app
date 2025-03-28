@@ -132,18 +132,21 @@ function FindPlayers() {
     }
 
     const availablePlayers = useMemo(() => {
-        return queue.map((player) => {
-            if(player.player === currentPlayer) return;
+        const newQueue = [];
+
+        for(let i = 0; i < queue.length; i++){
+            if(player.player === currentPlayer) continue;
+
             const playerInQueue = player.player;
             const _id = player._id;
             const profileImageBase64 = player.profileImageBase64;
             const contentType = player.contentType;
             const url = profileImageBase64 ? convertBase64ToBlobURL(profileImageBase64, contentType) : icons['empty avatar'];
 
-            return (               
-                <DisplayChallenger currentPlayer={playerInQueue} image={url} playerId={_id}/>
-            )            
-        })
+            newQueue.push(<DisplayChallenger currentPlayer={playerInQueue} image={url} playerId={_id}/>)                
+        }
+
+        return newQueue;
 
     }, [queue, currentPlayer])
 
