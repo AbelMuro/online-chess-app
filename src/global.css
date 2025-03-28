@@ -45,6 +45,10 @@ body{
     --menu-button-bg-hover: rgb(39, 39, 180);
     --menu-button-bg-active: rgb(54, 54, 228);
 
+    --challenge-button-bg: rgb(23, 23, 99);
+    --challenge-button-hover: rgb(34, 34, 151);
+    --challenge-button-active: rgb(48, 48, 202);
+
     --sidebar-button-bg: rgb(31, 31, 153);
     --sidebar-button-bg-hover: rgb(39, 39, 180);
     --sidebar-button-bg-active: rgb(54, 54, 228);
