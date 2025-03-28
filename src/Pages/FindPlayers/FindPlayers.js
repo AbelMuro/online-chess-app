@@ -138,12 +138,11 @@ function FindPlayers() {
             if(queue[i].player === currentPlayer) continue;
 
             const playerInQueue = queue[i].player;
-            const _id = queue[i]._id;
             const profileImageBase64 = queue[i].profileImageBase64;
             const contentType = queue[i].contentType;
             const url = profileImageBase64 ? convertBase64ToBlobURL(profileImageBase64, contentType) : icons['empty avatar'];
 
-            newQueue.push(<DisplayChallenger currentPlayer={playerInQueue} image={url} playerId={_id}/>)                
+            newQueue.push(<DisplayChallenger username={playerInQueue} image={url}/>)                
         }
 
         return newQueue;

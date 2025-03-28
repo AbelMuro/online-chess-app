@@ -1,9 +1,7 @@
 import React from 'react';
 import * as styles from './styles.module.css';
 
-
-//test out this component and the fetch request as well, look at the back end for more details
-function DisplayChallenger({currentPlayer, image, _id}) {
+function DisplayChallenger({username, image}) {
 
     const handleChallenge = async () => {
         try{
@@ -13,7 +11,7 @@ function DisplayChallenger({currentPlayer, image, _id}) {
                     'Content-Type': 'application/json'
                 },
                 credentials: 'include',
-                body: JSON.stringify({playerToBeChallenged: currentPlayer, playerId: _id})
+                body: JSON.stringify({playerToBeChallenged: username})
             })      
             
             if(response.status === 200){
@@ -42,9 +40,6 @@ function DisplayChallenger({currentPlayer, image, _id}) {
             </h3>
             <button onClick={handleChallenge}>
                 Challenge
-            </button>
-            <button>
-                Decline
             </button>
         </div>
     )
