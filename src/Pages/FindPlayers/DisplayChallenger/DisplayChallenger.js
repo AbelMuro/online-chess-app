@@ -7,7 +7,7 @@ function DisplayChallenger({username, image}) {
 
     const handleChallenge = async () => {
         try{
-            const response = await fetch('https://world-class-chess-server.com/create_new_challenge', {
+            const response = await fetch('https://world-class-chess-server.com/send_invitation', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
