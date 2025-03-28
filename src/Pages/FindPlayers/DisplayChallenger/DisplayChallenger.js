@@ -2,6 +2,7 @@ import React from 'react';
 import * as styles from './styles.module.css';
 
 //this is where i left off, i can finally proceed with implementing the challenger feature of the app
+
 function DisplayChallenger({username, image}) {
 
     const handleChallenge = async () => {
@@ -34,10 +35,10 @@ function DisplayChallenger({username, image}) {
     }
 
     return(               
-         <div className={styles.queue_player} key={currentPlayer}>
+         <div className={styles.queue_player} key={username}>
             <img className={styles.queue_player_image} src={image}/>
             <h3>
-                {currentPlayer}
+                {username}
             </h3>
             <button onClick={handleChallenge}>
                 Challenge
