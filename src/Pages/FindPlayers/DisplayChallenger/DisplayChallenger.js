@@ -1,6 +1,7 @@
 import React from 'react';
 import * as styles from './styles.module.css';
 
+//this is where i left off, i can finally proceed with implementing the challenger feature of the app
 function DisplayChallenger({username, image}) {
 
     const handleChallenge = async () => {
