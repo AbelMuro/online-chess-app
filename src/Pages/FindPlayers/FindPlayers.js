@@ -10,6 +10,7 @@ import useQueue from '~/Hooks/useQueue';
 
 function FindPlayers() {
     const board = useSelector(state => state.chess.board);
+    const [currentPlayer, setCurrentPlayer] = useState('');
     const [queue, setQueue] = useQueue();
     const navigate = useNavigate();
 
@@ -103,6 +104,8 @@ function FindPlayers() {
             if(response.status === 200){
                 const result = await response.json();
                 const message = result.message;
+                const username = result.username;
+                setCurrentPlayer(username);
                 console.log(message);
             }
             else if(response.status === 403){
@@ -130,14 +133,15 @@ function FindPlayers() {
 
     const availablePlayers = useMemo(() => {
         return queue.map((player) => {
-            const currentPlayer = player.player;
+            if(player.player === currentPlayer) return;
+            const playerInQueue = player.player;
             const _id = player._id;
             const profileImageBase64 = player.profileImageBase64;
             const contentType = player.contentType;
             const url = profileImageBase64 ? convertBase64ToBlobURL(profileImageBase64, contentType) : icons['empty avatar'];
 
             return (               
-                <DisplayChallenger currentPlayer={currentPlayer} image={url} playerId={_id}/>
+                <DisplayChallenger currentPlayer={playerInQueue} image={url} playerId={_id}/>
             )            
         })
 
