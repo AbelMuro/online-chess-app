@@ -40,7 +40,7 @@ function DisplayChallenger({username, image}) {
             <h3>
                 {username}
             </h3>
-            <button onClick={handleChallenge}>
+            <button onClick={handleChallenge} className={styles.queue_button}>
                 Challenge
             </button>
         </div>
