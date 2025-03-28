@@ -145,22 +145,20 @@ function FindPlayers() {
             )            
         })
 
-    }, [queue])
+    }, [queue, currentPlayer])
 
     useEffect(() => {
         putPlayerInQueue();
     }, [])
 
-
-    const removePlayerFromQueue = () => {
-        fetch('https://world-class-chess-server.com/leave_queue', {
-            method: 'DELETE',
-            credentials: 'include',
-            keepalive: true
-        })                
-    }    
-
     useEffect(() => {
+       const removePlayerFromQueue = () => {
+        fetch('https://world-class-chess-server.com/leave_queue', {
+                method: 'DELETE',
+                credentials: 'include',
+                keepalive: true
+            })                
+        }     
 
         window.addEventListener('beforeunload', removePlayerFromQueue);
 
