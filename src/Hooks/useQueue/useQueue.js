@@ -26,7 +26,7 @@ function useQueue() {
         };
 
         return () => {
-            socket?.close?.();
+            //socket?.close?.();
         }
     }, [])
 
