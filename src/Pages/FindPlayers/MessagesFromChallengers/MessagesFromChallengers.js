@@ -9,7 +9,6 @@ import * as styles from './styles.module.css';
 function MessagesFromChallengers(){
     const navigate = useNavigate();
     const username = sessionStorage.getItem('username');
-    console.log(username);
     if(!username) {
         navigate('/menu');
         return null;
@@ -18,6 +17,7 @@ function MessagesFromChallengers(){
         `wss://world-class-chess-server.com:443/${username}`, 
         (e) => {
             const challenger = JSON.parse(e.data);
+            console.log(challenger);
             setChallenge(challenger);
         }, null)
 
