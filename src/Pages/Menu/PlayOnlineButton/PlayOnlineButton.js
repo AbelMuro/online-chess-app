@@ -40,7 +40,7 @@ function PlayOnlineButton(){
 
 
     return(            
-        <button className={styles.menu_option} onClick={handleWebsockets}>
+        <button className={styles.play_button} onClick={handleWebsockets}>
             {loading ? <ClipLoader size='30px' color='rgb(206, 206, 206)'/> : 'Play online'}
         </button>
     )
