@@ -9,9 +9,9 @@ import * as styles from './styles.module.css';
 // i need to create a pop-up feature that displays the username and photo of a challenger
 // to do this, i need to connect to the independent websocket for the user
 
-function MessagesFromChallengers({currentPlayer}){
+function MessagesFromChallengers({username}){
     const [challenge, setChallenge] = useWebSocket(
-        `wss://world-class-chess-server.com:443/${currentPlayer}`, 
+        `wss://world-class-chess-server.com:443/${username}`, 
         (e) => {
             const challenger = JSON.parse(e.data);
             setChallenge(challenger);
@@ -41,7 +41,7 @@ function MessagesFromChallengers({currentPlayer}){
                 <div className={styles.display_challenger}>
                     <img src={loadImage()}/>
                     <h2>
-                        Jackson
+                        {username}
                     </h2>
                 </div>    
                 <button onClick={handleAccept}>
