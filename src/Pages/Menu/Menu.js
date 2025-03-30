@@ -1,6 +1,7 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
 import Greeting from './Greeting';
+import PlayOnlineButton from './PlayOnlineButton';
 import * as styles from './styles.module.css';
 
 function Menu() {
@@ -8,10 +9,6 @@ function Menu() {
 
     const handleOptions = () => {
         navigate('/selectoptions')
-    }
-
-    const handleOnline = async () => {
-        navigate('/findplayers')
     }
 
     const handleLogOut = async () => {
@@ -45,9 +42,7 @@ function Menu() {
             <button className={styles.menu_option} onClick={handleOptions}>
                 Play against AI
             </button>
-            <button className={styles.menu_option} onClick={handleOnline}>
-                Play online
-            </button>
+            <PlayOnlineButton/>
             <button className={styles.menu_option} onClick={handleLogOut}>
                 Log Out
             </button>
