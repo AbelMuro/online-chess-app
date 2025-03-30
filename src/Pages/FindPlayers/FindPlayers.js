@@ -163,18 +163,26 @@ function FindPlayers() {
 
     useEffect(() => {
        const removePlayerFromQueue = () => {
-        fetch('https://world-class-chess-server.com/leave_queue', {
+            fetch('https://world-class-chess-server.com/leave_queue', {
+                    method: 'DELETE',
+                    credentials: 'include',
+                    keepalive: true
+                })                
+        }    
+        
+        const deleteWebsockets = () => {
+            fetch('https://world-class-chess-server.com/delete_websockets', {
                 method: 'DELETE',
-                credentials: 'include',
                 keepalive: true
-            })                
-        }     
+            })
+        }
 
         window.addEventListener('beforeunload', removePlayerFromQueue);
 
         return () => {
             window.removeEventListener('beforeunload', removePlayerFromQueue);
             leaveQueue && leaveQueue();
+            deleteWebsockets && deleteWebsockets();
         }
     }, [])
 

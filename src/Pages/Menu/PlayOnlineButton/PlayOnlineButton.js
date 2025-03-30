@@ -22,6 +22,12 @@ function PlayOnlineButton(){
                 console.log(result);
                 navigate('/findplayers');
             }
+            else if(response.status === 403){
+                const result = await response.text();
+                console.log(result);
+                alert(result);
+                navigate('/')
+            }
             else{
                 const result = await response.text();
                 console.log(result);
