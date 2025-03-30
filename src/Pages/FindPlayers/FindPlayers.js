@@ -6,6 +6,7 @@ import {useNavigate} from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import icons from '~/assets/icons';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js';
+import MessagesFromChallengers from './MessagesFromChallengers';
 import useQueue from '~/Hooks/useQueue';
 
 function FindPlayers() {
@@ -172,18 +173,22 @@ function FindPlayers() {
 
 
     return(
-        <section className={styles.queue}>
-            <h1 className={styles.queue_title}>
-                You have entered the queue
-            </h1>
-            {availablePlayers.length === 0 && <h2 className={styles.queue_desc}>
-                Looking for other players
-            </h2>}
-            {availablePlayers.length === 0 ? <ClipLoader size={'35px'} color='#CECECE'/> : availablePlayers}
-            <button className={styles.queue_button} onClick={handleLeave}>
-                Leave Queue
-            </button>
-        </section>
+        <>
+            <MessagesFromChallengers/>
+            <section className={styles.queue}>
+                <h1 className={styles.queue_title}>
+                    You have entered the queue
+                </h1>
+                {availablePlayers.length === 0 && <h2 className={styles.queue_desc}>
+                    Looking for other players
+                </h2>}
+                {availablePlayers.length === 0 ? <ClipLoader size={'35px'} color='#CECECE'/> : availablePlayers}
+                <button className={styles.queue_button} onClick={handleLeave}>
+                    Leave Queue
+                </button>
+            </section>        
+        </>
+
     )
 }
 

@@ -14,7 +14,7 @@ function useQueue() {
     
         socket.onmessage = (e) => {
             const documents = JSON.parse(e.data);              //this is where i left off
-            setQueue(documents)            
+            setQueue(documents);            
         };                        
     
         socket.onclose = () => {
@@ -26,7 +26,7 @@ function useQueue() {
         };
 
         return () => {
-            //socket?.close?.();
+            socket?.close?.();
         }
     }, [])
 
