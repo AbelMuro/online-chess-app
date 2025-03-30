@@ -17,7 +17,7 @@ function FindPlayers() {
         (e) => {
             const documents = JSON.parse(e.data);             
             setQueue(documents);            
-        });
+        }, []);
     const navigate = useNavigate();
 
     const handleCreateMatch = async () => {

@@ -15,7 +15,7 @@ function MessagesFromChallengers({currentPlayer}){
         (e) => {
             const challenger = JSON.parse(e.data);
             setChallenge(challenger);
-        })
+        }, null)
 
     const handleAccept = async () => {
 
