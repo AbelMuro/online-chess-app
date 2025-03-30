@@ -179,7 +179,7 @@ function FindPlayers() {
 
     return(
         <>
-            <MessagesFromChallengers/>
+            <MessagesFromChallengers username={currentPlayer}/>
             <section className={styles.queue}>
                 <h1 className={styles.queue_title}>
                     You have entered the queue

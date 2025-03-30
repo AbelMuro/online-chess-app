@@ -1,0 +1,84 @@
+.overlay{
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: var(--closest);
+}
+
+.dialog{
+    width: 500px;
+    padding: 20px 30px 20px 30px;
+    background-color: var(--container-background);
+    border-radius: 10px;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.dialog > h1{
+    font-size: 1.6rem;
+    font-family: 'mulish';
+    font-weight: 800;
+    color: var(--text-color);
+    margin: 0px;
+    text-align: center;
+}
+
+.display_challenger{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.display_challenger > img{
+    width: 70px;
+    object-fit: contain;
+    border-radius: 100%;
+}
+
+.display_challenger > h2{
+    font-size: 1.3rem;
+    font-family: 'mulish';
+    font-weight: 400;
+    color: var(--text-color);
+    margin: 0px;
+    text-align: center;
+}
+
+.dialog > button{
+    width: 100%;
+    height: 35px;
+    border-radius: 10px;
+    font-family: 'mulish';
+    font-size: 1.2rem;
+    border: none;
+    background-color: var(--challenge-dialog-button-bg);
+    color: var(--challenge-dialog-button-text);
+    cursor: pointer;
+}
+
+.dialog > button:hover{
+    background-color: var(--challenge-dialog-button-bg-hover)
+}
+
+.dialog > button:active{
+    background-color: var(--challenge-dialog-button-bg-active)
+}
+
+@media(max-width: 620px){
+    .dialog{
+        width: 350px;
+    }
+
+    .dialog > h1{
+        font-size: 1.2rem;
+    }
+    
+}

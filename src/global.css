@@ -41,8 +41,13 @@ body{
     --login-guest-button-bg-active: rgb(145, 145, 145);
     --login-guest-button-text: rgb(0, 0, 161);
 
+    --challenge-dialog-button-bg: rgb(240, 240, 240);
+    --challenge-dialog-button-bg-hover: rgb(182, 182, 182);
+    --challenge-dialog-button-bg-active: rgb(145, 145, 145);
+    --challenge-dialog-button-text: rgb(0, 0, 161);
+
     --menu-button-bg: rgb(31, 31, 153);
-    --menu-button-bg-hover: rgb(39, 39, 180);
+    --menu-button-bg-hover: rgb(7, 7, 7);
     --menu-button-bg-active: rgb(54, 54, 228);
 
     --challenge-button-bg: rgb(23, 23, 99);
