@@ -10,7 +10,7 @@ function PlayOnlineButton(){
     const handleWebsockets = async () => {
         setLoading(true);
         try{
-            const response = await fetch('https://world-class-chess-server.com/create_websockets', {
+            const response = await fetch('https://world-class-chess-server.com/initialize_websockets', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: '',
