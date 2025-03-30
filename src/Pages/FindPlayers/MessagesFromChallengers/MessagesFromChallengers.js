@@ -9,6 +9,7 @@ import * as styles from './styles.module.css';
 function MessagesFromChallengers(){
     const navigate = useNavigate();
     const username = sessionStorage.getItem('username');
+    console.log(username);
     if(!username) {
         navigate('/menu');
         return null;
