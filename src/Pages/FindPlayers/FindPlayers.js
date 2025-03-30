@@ -7,12 +7,17 @@ import { ClipLoader } from 'react-spinners';
 import icons from '~/assets/icons';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js';
 import MessagesFromChallengers from './MessagesFromChallengers';
-import useQueue from '~/Hooks/useQueue';
+import useWebSocket from '~/Hooks/useWebSocket';
 
 function FindPlayers() {
     const board = useSelector(state => state.chess.board);
     const [currentPlayer, setCurrentPlayer] = useState('');
-    const [queue, setQueue] = useQueue();
+    const [queue, setQueue] = useWebSocket(
+        'wss://world-class-chess-server.com:443/queue', 
+        (e) => {
+            const documents = JSON.parse(e.data);             
+            setQueue(documents);            
+        });
     const navigate = useNavigate();
 
     const handleCreateMatch = async () => {
