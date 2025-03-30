@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import DisplayChallenger from './DisplayChallenger';
 import {useSelector} from 'react-redux';
 import * as styles from './styles.module.css';
@@ -11,7 +11,6 @@ import useWebSocket from '~/Hooks/useWebSocket';
 
 function FindPlayers() {
     const board = useSelector(state => state.chess.board);
-    const [currentPlayer, setCurrentPlayer] = useState('');
     const [queue, setQueue] = useWebSocket(
         'wss://world-class-chess-server.com:443/queue', 
         (e) => {
@@ -110,8 +109,6 @@ function FindPlayers() {
             if(response.status === 200){
                 const result = await response.json();
                 const message = result.message;
-                const username = result.username;
-                setCurrentPlayer(username);
                 console.log(message);
             }
             else if(response.status === 403){
@@ -141,6 +138,11 @@ function FindPlayers() {
         const newQueue = [];
 
         for(let i = 0; i < queue.length; i++){
+            const currentPlayer = sessionStorage.getItem('username');
+            if(!currentPlayer) {
+                navigate('/menu')
+                return;
+            }
             if(queue[i].player === currentPlayer) continue;
 
             const playerInQueue = queue[i].player;
@@ -153,7 +155,7 @@ function FindPlayers() {
 
         return newQueue;
 
-    }, [queue, currentPlayer])
+    }, [queue])
 
     useEffect(() => {
         putPlayerInQueue();
@@ -179,7 +181,7 @@ function FindPlayers() {
 
     return(
         <>
-            <MessagesFromChallengers username={currentPlayer}/>
+            <MessagesFromChallengers/>
             <section className={styles.queue}>
                 <h1 className={styles.queue_title}>
                     You have entered the queue

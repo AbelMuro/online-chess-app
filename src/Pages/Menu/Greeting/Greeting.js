@@ -27,6 +27,7 @@ function Greeting(){
                     setImage(url);
                 }
                 setName(username);
+                sessionStorage.setItem('username', username);
             }
             else if(response.status === 403){
                 const message = await response.text();

@@ -1,15 +1,18 @@
 import React from "react";
+import {useNavigate} from 'react-router-dom';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js'
 import icons from '~/assets/icons';
 import useWebSocket from "~/Hooks/useWebSocket/useWebSocket";
 import * as styles from './styles.module.css';
 
 
-// this is where i left off, 
-// i need to create a pop-up feature that displays the username and photo of a challenger
-// to do this, i need to connect to the independent websocket for the user
-
-function MessagesFromChallengers({username}){
+function MessagesFromChallengers(){
+    const navigate = useNavigate();
+    const username = sessionStorage.getItem('username');
+    if(!username) {
+        navigate('/menu');
+        return null;
+    } 
     const [challenge, setChallenge] = useWebSocket(
         `wss://world-class-chess-server.com:443/${username}`, 
         (e) => {
