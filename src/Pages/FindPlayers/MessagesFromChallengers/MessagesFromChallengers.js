@@ -5,6 +5,7 @@ import icons from '~/assets/icons';
 import useWebSocket from "~/Hooks/useWebSocket/useWebSocket";
 import * as styles from './styles.module.css';
 
+//this is where i left off, i need to find a way in the back-end to detect changes to the current users document in mongoDB, and display the changes here 
 
 function MessagesFromChallengers(){
     const navigate = useNavigate();
