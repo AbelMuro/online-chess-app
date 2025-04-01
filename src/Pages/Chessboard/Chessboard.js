@@ -138,8 +138,6 @@ function Chessboard() {
                 console.log(message);
                 alert(message)
             }
-
-
         }
 
         getMatch();

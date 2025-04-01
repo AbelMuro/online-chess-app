@@ -1,6 +1,5 @@
 import React, {useEffect, useMemo} from 'react';
 import DisplayChallenger from './DisplayChallenger';
-import {useSelector} from 'react-redux';
 import * as styles from './styles.module.css';
 import {useNavigate} from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
@@ -10,7 +9,6 @@ import MessagesFromChallengers from './MessagesFromChallengers';
 import useWebSocket from '~/Hooks/useWebSocket';
 
 function FindPlayers() {
-    const board = useSelector(state => state.chess.board);
     const [queue, setQueue] = useWebSocket(
         'wss://world-class-chess-server.com:443/queue', 
         (e) => {
@@ -18,39 +16,6 @@ function FindPlayers() {
             setQueue(documents);            
         }, []);
     const navigate = useNavigate();
-
-    const handleCreateMatch = async () => {
-        const matchId = Array.from({length: 10}, () => null).reduce((acc) => {acc += Math.floor(Math.random() * 9); return acc}, '');
-
-        try{
-            const response = await fetch('https://world-class-chess-server.com/create_match', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({board, matchId})
-            })
-
-            if(response.status === 200){
-                const result = await response.text();
-                console.log(result);
-                navigate(`/chessboard/${matchId}`);
-            }
-
-            else{
-                const result = await response.text();
-                console.log(result)
-                alert('Internal Server Error, please try again later')
-            }
-
-        }
-        catch(error){
-            const message = error.message;
-            console.log(message);
-            alert(message);
-        }
-    }
-
 
     const handleLeave = () => {
         const choice = confirm('Are you sure you want to leave queue?');

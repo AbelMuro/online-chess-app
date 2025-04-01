@@ -1,13 +1,14 @@
 import React from 'react';
 import * as styles from './styles.module.css';
 
-//this is where i left off, i can finally proceed with implementing the challenger feature of the app
+//this is where i left off, i need to create a websocket in the back end and then i need to connect to the websocket
+//in this component and in the MessagesFromChallengers component
 
 function DisplayChallenger({username, image}) {
 
     const handleChallenge = async () => {
         try{
-            const response = await fetch('https://world-class-chess-server.com/send_invitation', {
+            const response = await fetch('https://world-class-chess-server.com/create_challenge', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -20,6 +21,11 @@ function DisplayChallenger({username, image}) {
                 const result = await response.text();
                 console.log(result);
                 alert('Invite has been sent, please wait for their reply');
+            }
+            else if(response.status === 401){
+                const result = await response.text();
+                console.log(result);
+                alert('Player has already been challenged by someone else');
             }
             else{
                 const result = await response.text();

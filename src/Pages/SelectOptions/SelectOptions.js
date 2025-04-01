@@ -3,8 +3,6 @@ import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import * as styles from './styles.module.css';
 
-
-//this is where i left off, i will need to finish this component
 function SelectOptions() {
     const [difficulty, setDifficulty] = useState('');
     const [color, setColor] = useState('');
