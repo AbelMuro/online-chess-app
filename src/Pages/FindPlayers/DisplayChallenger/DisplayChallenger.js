@@ -1,8 +1,6 @@
 import React from 'react';
+import ConnectToWebSocket from '~/assets/functions/ConnectToWebSocket.js'
 import * as styles from './styles.module.css';
-
-//this is where i left off, i need to create a websocket in the back end and then i need to connect to the websocket
-//in this component and in the MessagesFromChallengers component
 
 function DisplayChallenger({username, image}) {
 
@@ -15,11 +13,21 @@ function DisplayChallenger({username, image}) {
                 },
                 credentials: 'include',
                 body: JSON.stringify({playerToBeChallenged: username})
-            })      
+            });      
             
             if(response.status === 200){
                 const result = await response.text();
-                console.log(result);
+                console.log(result.message);
+                const _id = result.challengeId;
+                ConnectToWebSocket(`wss://world-class-chess-server.com:443/${_id}`, (e) => {
+                    const result = JSON.parse(e.data);
+
+                    if(result === 'initiate match'){}
+                        //i may need to create a fetch request to create a match and navigate to the chessboard
+                    else if(result.decline){
+                        //i need to create a fetch request that destroys the websocket server and sends a message to THIS player that the other player declined
+                    }
+                })
                 alert('Invite has been sent, please wait for their reply');
             }
             else if(response.status === 401){

@@ -6,7 +6,9 @@ import icons from '~/assets/icons';
 import useWebSocket from "~/Hooks/useWebSocket/useWebSocket";
 import * as styles from './styles.module.css';
 
-//this is where i left off, i need to find a way in the back-end to detect changes to the current users document in mongoDB, and display the changes here 
+import ConnectToWebSocket from '~/assets/functions/ConnectToWebSocket.js'
+//i need to connect the challenged player to the websocket on the back end
+//most likely i will need to use the userWebSocket hook in this component to do that
 
 function MessagesFromChallengers(){
     const board = useSelector(state => state.chess.board);
