@@ -5,7 +5,6 @@ import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js
 import icons from '~/assets/icons';
 import useWebSocket from "~/Hooks/useWebSocket/useWebSocket";
 import * as styles from './styles.module.css';
-
 import ConnectToWebSocket from '~/assets/functions/ConnectToWebSocket.js'
 //i need to connect the challenged player to the websocket on the back end
 //most likely i will need to use the userWebSocket hook in this component to do that
@@ -22,7 +21,20 @@ function MessagesFromChallengers(){
         `wss://world-class-chess-server.com:443/${username}`, 
         (e) => {
             const challenger = JSON.parse(e.data);
+            const challengeId = challenger.challengeId;
             setChallenger(challenger);
+            ConnectToWebSocket(`wss://world-class-chess-server.com:443/${challengeId}`, (e) => {
+                const result = JSON.parse(e.data);
+
+                if(result === 'initiate match'){
+                    console.log('initiate match')
+                }
+                    //i may need to create a fetch request to create a match and navigate to the chessboard
+                else if(result.decline){
+                    console.log('declined')
+                    //i need to create a fetch request that destroys the websocket server and sends a message to THIS player that the other player declined
+                }
+            })
         }, null)
 
     const handleAccept = async () => {

@@ -22,9 +22,12 @@ function DisplayChallenger({username, image}) {
                 ConnectToWebSocket(`wss://world-class-chess-server.com:443/${_id}`, (e) => {
                     const result = JSON.parse(e.data);
 
-                    if(result === 'initiate match'){}
+                    if(result === 'initiate match'){
+                        console.log('initiate match')
+                    }
                         //i may need to create a fetch request to create a match and navigate to the chessboard
                     else if(result.decline){
+                        console.log('declined')
                         //i need to create a fetch request that destroys the websocket server and sends a message to THIS player that the other player declined
                     }
                 })
