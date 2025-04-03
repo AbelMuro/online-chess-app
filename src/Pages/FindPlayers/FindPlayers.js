@@ -12,17 +12,25 @@ import useWebSocket from '~/Hooks/useWebSocket';
 /* 
     We create a queue by using a collection in mongoDB, every player that joins the queue will have their username and other metadata in the collection.
 
-    When a player joins the queue, they will be connected to TWO websockets, the queue websocket and the account websocket.
+    When a player joins the queue, they will be connected to TWO websockets, the 'queue' websocket and the 'account' websocket.
     Everytime a new player joins the queue, the 'queue' websocket will automatically notify all other players that a new person joined the queue.
 
-    All players in the queue will have a dialog box that displays their username and image, as well as a challenge button
+    These are the steps that take place when one player challenges another player to a chess match
 
-    When a player clicks on the challenge button, it will create a Challenge document in the Challenges collection
-    The _id of the 'Challenge' document will be saved in the challenged players' account document, this will trigger the account websocket for the 
-    challenged player and they will receive the _id of the challenge document. When they receive
+    -Player A challenged Player B to a chess match
 
-    Then another websocket will be created that connects the player to the Challenge document, which will notify them if the other player as accepted the challenge
+    1) Player A clicks on the challenge button
 
+    2) The click event will create a 'Challenge' document, and another websocket that detects changes to that 'Challenge' document, Player A will be connected to that websocket
+
+    3) The 'hasBeenChallenged' property of Player B will then be updated with the username of Player A and the _id of the 'Challenge' document
+
+    4) When the 'hasBeenChallenged' property is updated, this will trigger the account websocket, and send the _id of the 'Challenge' document to Player B
+       At the same time, Player B will also be connected to the websocket for the 'Challenge' document
+
+    5) When the 'Challenge' document states that both players have agreed to the match, 
+       then the websocket will notify both Player A and Player B, and then navigate both players to the chessboard
+    
 
 */
 
