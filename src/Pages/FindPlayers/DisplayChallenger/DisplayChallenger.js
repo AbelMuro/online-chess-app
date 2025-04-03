@@ -16,7 +16,9 @@ function DisplayChallenger({username, image}) {
                 },
                 credentials: 'include',
                 body: JSON.stringify({playerToBeChallenged: username})
-            });      
+            });   
+            
+            console.log(`status: ${response.status}`)
             
             if(response.status === 200){
                 const result = await response.text();
