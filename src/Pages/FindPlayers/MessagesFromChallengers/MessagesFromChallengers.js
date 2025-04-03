@@ -40,7 +40,7 @@ function MessagesFromChallengers(){
 
     const handleAccept = async () => {
         try{
-            const response = await fetch('https://world-class-chess-server.com/accept_invitation', {
+            const response = await fetch('https://world-class-chess-server.com/handle_challenge', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 credentials: 'include',
