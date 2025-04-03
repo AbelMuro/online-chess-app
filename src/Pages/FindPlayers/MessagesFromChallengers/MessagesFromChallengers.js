@@ -28,11 +28,12 @@ function MessagesFromChallengers(){
 
                 if(result === 'initiate match'){
                     console.log('initiate match')
+                    // i need to navigate the challenged player to the chessboard here
                 }
-                    //i may need to create a fetch request to create a match and navigate to the chessboard
+                    
                 else if(result.decline){
                     console.log('declined')
-                    //i need to create a fetch request that destroys the websocket server and sends a message to THIS player that the other player declined
+                    //i need to disconnect the front-end from the websocket server here
                 }
             })
         }, null)

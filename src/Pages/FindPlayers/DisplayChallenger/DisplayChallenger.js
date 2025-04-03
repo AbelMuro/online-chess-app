@@ -27,11 +27,14 @@ function DisplayChallenger({username, image}) {
 
                     if(result === 'initiate match'){
                         console.log('initiate match')
+                        //i may need to create a fetch request to create a match, destroy the websocket server, and delete the Challenge document
+                        //then we can navigate the challenger to the chessboard
                     }
-                        //i may need to create a fetch request to create a match and navigate to the chessboard
+                        
                     else if(result.decline){
                         console.log('declined')
-                        //i need to create a fetch request that destroys the websocket server and sends a message to THIS player that the other player declined
+                        // i need to create a fetch request that destroys the websocket server, deletes the Challenge document
+                        // and then sends a message to the challenger that the other player declined
                     }
                 })
                 alert('Invite has been sent, please wait for their reply');
