@@ -21,7 +21,7 @@ function DisplayChallenger({username, image}) {
             console.log(`status: ${response.status}`)
             
             if(response.status === 200){
-                const result = await response.text();
+                const result = await response.json();
                 console.log(result.message);
                 const _id = result.challengeId;
                 ConnectToWebSocket(`wss://world-class-chess-server.com:443/${_id}`, (e) => {
