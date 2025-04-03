@@ -5,6 +5,19 @@ import * as styles from './styles.module.css';
 ///when the challenge button is clicked, this will create a Challenge document that keeps track of whether the users have both agreed to the challenge
 // Then a websocket will be created that keeps track of any updates to that document, the challenger will then be connected to that websocket
 
+/* 
+    This is where i left off, i need to implement the functionality for the 
+
+    if(result === 'initiate match'){}
+
+    else if(result.decline){}
+
+    and i also want to create dialogs for all the messages that i receive from the back-end
+
+    dont forget to finish the functionality for the <MessagesFromChallengers/> (clicking on accept or decline should close the dialog)
+
+*/
+
 function DisplayChallenger({username, image}) {
 
     const handleChallenge = async () => {
