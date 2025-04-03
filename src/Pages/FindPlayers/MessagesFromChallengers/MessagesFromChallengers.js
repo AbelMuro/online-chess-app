@@ -7,8 +7,7 @@ import useWebSocket from "~/Hooks/useWebSocket/useWebSocket";
 import * as styles from './styles.module.css';
 import ConnectToWebSocket from '~/assets/functions/ConnectToWebSocket.js'
 
-//i need to connect the challenged player to the websocket on the back end
-//most likely i will need to use the userWebSocket hook in this component to do that
+//when a player is challenged, they will be connected to a websocket that detects changes to a 'Challenge' document
 
 function MessagesFromChallengers(){
     const board = useSelector(state => state.chess.board);
@@ -38,13 +37,13 @@ function MessagesFromChallengers(){
             })
         }, null)
 
-    const handleAccept = async () => {
+    const handleChallenge = async (decision) => {
         try{
             const response = await fetch('https://world-class-chess-server.com/handle_challenge', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 credentials: 'include',
-                body: JSON.stringify({challenger: challenger.username, challengedPlayer: username, board, challengeId: challenger.challengeId})
+                body: JSON.stringify({challenger: challenger.username, challengedPlayer: username, board, challengeId: challenger.challengeId, decision})
             })
 
             if(response.status === 200){
@@ -64,45 +63,6 @@ function MessagesFromChallengers(){
         }
     }
 
-    const handleDecline = () => {
-
-    }
-
-
-/* 
-    const handleCreateMatch = async () => {
-        const matchId = Array.from({length: 10}, () => null).reduce((acc) => {acc += Math.floor(Math.random() * 9); return acc}, '');
-
-        try{
-            const response = await fetch('https://world-class-chess-server.com/create_match', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({board, matchId})
-            })
-
-            if(response.status === 200){
-                const result = await response.text();
-                console.log(result);
-                navigate(`/chessboard/${matchId}`);
-            }
-
-            else{
-                const result = await response.text();
-                console.log(result)
-                alert('Internal Server Error, please try again later')
-            }
-
-        }
-        catch(error){
-            const message = error.message;
-            console.log(message);
-            alert(message);
-        }
-    }
-
-*/
 
     const loadImage = () => {
         if(challenger.imageBase64)
@@ -110,6 +70,17 @@ function MessagesFromChallengers(){
         else
             return icons['empty avatar'];
     }
+
+    useEffect(() => {
+        const beforeUnload = () => {handleChallenge('decline')};
+
+        window.addEventListener('beforeunload', beforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', beforeUnload);
+            beforeUnload && beforeUnload()
+        }
+    }, [])
 
     return challenger && (
         <div className={styles.overlay}>
@@ -123,10 +94,10 @@ function MessagesFromChallengers(){
                         {challenger.username}
                     </h2>
                 </div>    
-                <button onClick={handleAccept}>
+                <button onClick={() => handleChallenge('accepted')}>
                     Accept
                 </button>     
-                <button onClick={handleDecline}>
+                <button onClick={() => handleChallenge('decline')}>
                     Decline
                 </button>          
             </dialog>

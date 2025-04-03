@@ -31,6 +31,8 @@ import useWebSocket from '~/Hooks/useWebSocket';
     5) When the 'Challenge' document states that both players have agreed to the match, 
        then the websocket will notify both Player A and Player B, and then navigate both players to the chessboard
     
+    The challenge button creates the 'Challenge' document and the websocket
+    The Accept or Decline button makes changes to the 'Challenge' document
 
 */
 
