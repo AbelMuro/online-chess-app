@@ -1,4 +1,4 @@
-const ConnectToWebsocket = (url, callback) =>  {
+const ConnectToWebSocket = (url, callback) =>  {
     const socket = new WebSocket(url);            	
 
     socket.onopen = () => {                                        
@@ -15,3 +15,5 @@ const ConnectToWebsocket = (url, callback) =>  {
         console.error('WebSocket error:', error);
     };
 }
+
+export default ConnectToWebSocket;
