@@ -51,8 +51,8 @@ function DisplayChallenger({username, image}) {
         }
         catch(error){
             const message = error.message;
-            console.log(`handleChallenge and /create_challenge${message}`);
-            alert(message);
+            console.log(message);
+            alert('Server is offline, please try again later');
         }
     }
 
