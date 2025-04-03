@@ -16,6 +16,7 @@ import * as styles from './styles.module.css';
 
     dont forget to finish the functionality for the <MessagesFromChallengers/> (clicking on accept or decline should close the dialog)
 
+    you may need to debug the app, when i navigate to previous page (menu component) i get the error that username is not defined
 */
 
 function DisplayChallenger({username, image}) {
