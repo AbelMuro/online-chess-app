@@ -51,7 +51,7 @@ function DisplayChallenger({username, image}) {
         }
         catch(error){
             const message = error.message;
-            console.log(message);
+            console.log(`handleChallenge and /create_challenge${message}`);
             alert(message);
         }
     }
