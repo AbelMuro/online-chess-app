@@ -6,6 +6,7 @@ import icons from '~/assets/icons';
 import useWebSocket from "~/Hooks/useWebSocket/useWebSocket";
 import * as styles from './styles.module.css';
 import ConnectToWebSocket from '~/assets/functions/ConnectToWebSocket.js'
+
 //i need to connect the challenged player to the websocket on the back end
 //most likely i will need to use the userWebSocket hook in this component to do that
 
@@ -43,7 +44,7 @@ function MessagesFromChallengers(){
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 credentials: 'include',
-                body: JSON.stringify({challenger: challenger.username, challengedPlayer: username, board})
+                body: JSON.stringify({challenger: challenger.username, challengedPlayer: username, board, challengeId: challenger.challengeId})
             })
 
             if(response.status === 200){

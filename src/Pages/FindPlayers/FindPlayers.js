@@ -8,6 +8,25 @@ import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js
 import MessagesFromChallengers from './MessagesFromChallengers';
 import useWebSocket from '~/Hooks/useWebSocket';
 
+
+/* 
+    We create a queue by using a collection in mongoDB, every player that joins the queue will have their username and other metadata in the collection.
+
+    When a player joins the queue, they will be connected to TWO websockets, the queue websocket and the account websocket.
+    Everytime a new player joins the queue, the 'queue' websocket will automatically notify all other players that a new person joined the queue.
+
+    All players in the queue will have a dialog box that displays their username and image, as well as a challenge button
+
+    When a player clicks on the challenge button, it will create a Challenge document in the Challenges collection
+    The _id of the 'Challenge' document will be saved in the challenged players' account document, this will trigger the account websocket for the 
+    challenged player and they will receive the _id of the challenge document. When they receive
+
+    Then another websocket will be created that connects the player to the Challenge document, which will notify them if the other player as accepted the challenge
+
+
+*/
+
+
 function FindPlayers() {
     const [queue, setQueue] = useWebSocket(
         'wss://world-class-chess-server.com:443/queue', 
