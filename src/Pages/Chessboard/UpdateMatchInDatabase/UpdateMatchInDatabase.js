@@ -34,13 +34,13 @@ function UpdateMatchInDatabase({matchId}) {
                 else{
                     const result = await response.text();
                     console.log(result);
-                    alert('Internal Server Error has occured, please try again later');
+                    dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later.'}})
                 }
             }
             catch(error){
                 const message = error.message;
                 console.log(message);
-                alert(message);
+                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
             }
         }
 

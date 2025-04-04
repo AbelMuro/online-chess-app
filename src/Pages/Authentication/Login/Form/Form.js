@@ -42,13 +42,13 @@ function Form() {
             
             else{
                 const message = await response.text();
-                alert('Internal Server Error has occurred, please try again later.')
+                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later.'}})
                 console.log(message);
             }
                 
         }
         catch(error){
-            alert('Server is offline, please try again later.')
+            dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later.'}})
             console.log(error.message);
         }
         finally{

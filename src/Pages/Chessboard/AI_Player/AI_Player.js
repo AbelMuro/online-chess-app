@@ -27,18 +27,18 @@ function AI_Player() {
             }
             else if(response.status === 400){
                 console.log('Failed to analyze position');
-                alert('Failed to analyze position');
+                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Failed to analyze position.'}})
             }
             else {
                 const message = await response.text();
                 console.log(message);
-                alert('Internal Server error has occurred, please try again later')
+                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later.'}})
             }
         }
         catch(error){
             const message = error.message;
             console.log(message);
-            alert(message);
+            dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later.'}})
         }
     }
 

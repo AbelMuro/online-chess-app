@@ -1,0 +1,43 @@
+.container{
+    width: 350px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: var(--display-message-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.message{
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'mulish';
+    color: var(--text-color);
+    margin: 0px;
+}
+
+.close{
+    width: 30px;
+    background-color: transparent;
+    border: none;
+    font-size: 2rem;
+    font-weight: 600;
+    font-family: 'mulish';
+    color: var(--text-color);
+    padding: 0px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.close:hover{
+    color: var(--display-message-text-hover);
+}
+
+.close:active{
+    color: var(--display-message-text-active);
+}

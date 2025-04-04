@@ -27,11 +27,14 @@ function Login() {
                 console.log('User has been logged in as guest');
                 navigate('/menu');
             }
+            else
+                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later.'}})
+            
         }
         catch(error){
             const message = error.message;
             console.log(message);
-            alert(message);
+            dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later.'}})
         }
         finally{
             setLoading && setLoading(false);

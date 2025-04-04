@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
+import {useDispatch} from 'react-redux';
 import EnterEmail from '~/assets/Components/EnterEmail';
 import { ClipLoader } from 'react-spinners';
 import * as styles from './styles.module.css';
 
 function Form() {
+    const dispatch = useDispatch();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -26,7 +28,7 @@ function Form() {
             
             if(response.status === 200){
                 console.log('Link has been sent');
-                alert('Email has been sent');
+                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Email has been sent'}})
             }
             
             else if(response.status === 401)
@@ -34,13 +36,13 @@ function Form() {
             
             else{
                 const message = await response.text();
-                alert('Internal Server Error has occurred, please try again later.')
+                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later.'}})
                 console.log(message);
             }
                 
         }
         catch(error){
-            alert('Server is offline, please try again later.')
+            dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later.'}})
             console.log(error.message);
         }
         finally{

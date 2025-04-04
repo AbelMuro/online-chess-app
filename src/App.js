@@ -9,7 +9,8 @@ import ResetPassword from './Pages/Authentication/ResetPassword';
 import Chessboard from './Pages/Chessboard';
 import SelectOptions from './Pages/SelectOptions';
 import FindPlayers from './Pages/FindPlayers';
-import Menu from './Pages/Menu'
+import Menu from './Pages/Menu';
+import DisplayMessage from './assets/Components/DisplayMessage';
 import './global.css';
 
 function App() {
@@ -17,7 +18,7 @@ function App() {
     return(
         <Provider store={store}>
             <BrowserRouter>
-            
+                <DisplayMessage/>
                 <Routes>
                     <Route path='/' element={<Login/>}/>
                     <Route path='/register' element={<Register/>}/>

@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-import {useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js'
 import icons from '~/assets/icons';
@@ -9,8 +8,28 @@ import ConnectToWebSocket from '~/assets/functions/ConnectToWebSocket.js'
 
 //when a player is challenged, they will be connected to a websocket that detects changes to a 'Challenge' document
 
+const callbackForChallengeWebSocket = function(navigate) {
+
+    return (e) => {
+        const result = JSON.parse(e.data);
+        const message = result.message;
+        const matchId = result.matchId;
+
+        if(message === 'initiate match'){
+            console.log('initiate match');
+            this.close();
+            navigate('/chessboard', {state: {matchId}});
+        }
+            
+        else if(message.includes('decline')){
+            console.log('declined')
+            //i need to disconnect the front-end from the websocket server here
+        }
+    }
+}
+
+
 function MessagesFromChallengers(){
-    const board = useSelector(state => state.chess.board);
     const navigate = useNavigate();
     const username = sessionStorage.getItem('username');
     if(!username) {
@@ -23,28 +42,16 @@ function MessagesFromChallengers(){
             const challenger = JSON.parse(e.data);
             const challengeId = challenger.challengeId;
             setChallenger(challenger);
-            ConnectToWebSocket(`wss://world-class-chess-server.com:443/${challengeId}`, (e) => {
-                const result = JSON.parse(e.data);
-
-                if(result === 'initiate match'){
-                    console.log('initiate match')
-                    // i need to navigate the challenged player to the chessboard here
-                }
-                    
-                else if(result.decline){
-                    console.log('declined')
-                    //i need to disconnect the front-end from the websocket server here
-                }
-            })
+            ConnectToWebSocket(`wss://world-class-chess-server.com:443/${challengeId}`, callbackForChallengeWebSocket(navigate))
         }, null)
 
     const handleChallenge = async (decision) => {
         try{
-            const response = await fetch('https://world-class-chess-server.com/handle_challenge', {
+            const response = await fetch('https://world-class-chess-server.com/handle_challenge', {    //if the challenged player accepts the challenge, then a new match will be created in the Match collection
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 credentials: 'include',
-                body: JSON.stringify({challenger: challenger.username, challengedPlayer: username, board, challengeId: challenger.challengeId, decision})
+                body: JSON.stringify({challengeId: challenger.challengeId, decision})
             })
 
             if(response.status === 200){
@@ -54,13 +61,13 @@ function MessagesFromChallengers(){
             else{
                 const result = await response.text();
                 console.log(result);
-                alert('Internal Server Error has occurred, please try again later');
+                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later.'}});
             }
         }
         catch(error){
             const message = error.message;
             console.log(message);
-            alert('Server is offline, please try again later');
+            dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later.'}});
         }
     }
 
@@ -79,7 +86,7 @@ function MessagesFromChallengers(){
 
         return () => {
             window.removeEventListener('beforeunload', beforeUnload);
-            beforeUnload && beforeUnload()
+            beforeUnload && beforeUnload();
         }
     }, [])
 

@@ -47,7 +47,7 @@ body{
     --challenge-dialog-button-text: rgb(0, 0, 161);
 
     --menu-button-bg: rgb(31, 31, 153);
-    --menu-button-bg-hover: rgb(7, 7, 7);
+    --menu-button-bg-hover: rgb(5, 61, 184);
     --menu-button-bg-active: rgb(54, 54, 228);
 
     --challenge-button-bg: rgb(23, 23, 99);
@@ -78,4 +78,8 @@ body{
     --dialog-promotion-button-bg: rgb(1, 1, 148);
     --dialog-promotion-button-hover: rgb(11, 11, 172);
     --dialog-promotion-button-active: rgb(38, 38, 230);
+
+    --display-message-bg: rgb(71, 71, 253);
+    --display-message-text-hover: rgb(131, 131, 131);
+    --display-message-text-active: rgb(71, 71, 71);
 }
