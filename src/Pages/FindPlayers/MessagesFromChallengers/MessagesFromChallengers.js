@@ -49,7 +49,10 @@ function MessagesFromChallengers(){
             ConnectToWebSocket(`wss://world-class-chess-server.com:443/${challengeId}`, callbackForChallengeWebSocket(navigate))    //challenge websocket
         }, null)
 
+
     const handleChallenge = async (decision) => {
+        if(!challenger) return;
+
         try{
             const response = await fetch('https://world-class-chess-server.com/handle_challenge', {    //if the challenged player accepts the challenge, then a new match will be created in the Match collection
                 method: 'POST',
