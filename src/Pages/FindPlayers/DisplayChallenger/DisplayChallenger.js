@@ -38,7 +38,7 @@ const callbackForChallengeWebSocket = (navigate, dispatch, challengeId) => {
                 if(response.status === 200){
                     const result = await response.text();
                     console.log(result)
-                    navigate('/chessboard', {state: {matchId}});
+                    navigate(`/chessboard/${matchId}`, {state: {matchId}});
                     dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Match has been created!'}});
                 }
                 else {

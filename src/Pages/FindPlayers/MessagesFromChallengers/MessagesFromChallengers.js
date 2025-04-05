@@ -19,7 +19,7 @@ const callbackForChallengeWebSocket = (navigate) => {
         if(message === 'initiate match'){
             console.log('initiate match');
             this.close();
-            navigate('/chessboard', {state: {matchId}});
+            navigate(`/chessboard/${matchId}`, {state: {matchId}});
         }
             
         else if(message.includes('decline')){
