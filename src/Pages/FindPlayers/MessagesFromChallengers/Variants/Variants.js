@@ -22,6 +22,11 @@ const dialogVariants = {
     },
     show: {
         scale: 1,
+        transition: {
+            type: 'spring',
+            damping: 12,                                                                            
+            stiffness: 170,            
+        }
     },
     exit: {
         scale: 0,
