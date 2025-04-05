@@ -10,7 +10,6 @@ import * as styles from './styles.module.css';
 /* 
     This is where i left off, i need to implement the functionality for the 
 
-    if(message === 'initiate match')            //this is where i left off, i need to finish implementing the /delete_challenge endpoint on the back end
 
     else if(result.decline){}
 
