@@ -1,11 +1,14 @@
-import React, {useEffect} from "react";
+import React, {useState, useEffect} from "react";
+import { ClipLoader } from "react-spinners";
 import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js'
 import icons from '~/assets/icons';
 import useWebSocket from "~/Hooks/useWebSocket/useWebSocket";
 import * as styles from './styles.module.css';
-import ConnectToWebSocket from '~/assets/functions/ConnectToWebSocket.js'
+import ConnectToWebSocket from '~/assets/functions/ConnectToWebSocket.js';
+import { overlayVariants, dialogVariants } from "./Variants/Variants";
+import {motion, AnimatePresence} from 'framer-motion';
 
 //when a player is challenged, they will be connected to a websocket that detects changes to a 'Challenge' document
 
@@ -32,6 +35,8 @@ const callbackForChallengeWebSocket = (navigate) => {
 
 
 function MessagesFromChallengers(){
+    const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const username = sessionStorage.getItem('username');
@@ -53,6 +58,7 @@ function MessagesFromChallengers(){
     const handleChallenge = async (decision) => {
         if(!challenger) return;
 
+        setLoading(true);
         try{
             const response = await fetch('https://world-class-chess-server.com/handle_challenge', {    //if the challenged player accepts the challenge, then a new match will be created in the Match collection
                 method: 'POST',
@@ -82,7 +88,8 @@ function MessagesFromChallengers(){
             dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later.'}});
         }
         finally{
-            setChallenger(null);
+            setLoading && setLoading(false);
+            setChallenger && setChallenger(null);
         }
     }
 
@@ -105,27 +112,40 @@ function MessagesFromChallengers(){
         }
     }, [])
 
-    return challenger && (
-        <div className={styles.overlay}>
-            <dialog className={styles.dialog} open={true}>
-                <h1>
-                    {`You have been challenged by: `}
-                </h1>
-                <div className={styles.display_challenger}>
-                    <img src={loadImage()}/>
-                    <h2>
-                        {challenger.username}
-                    </h2>
-                </div>    
-                <button onClick={() => handleChallenge('accepted')}>
-                    Accept
-                </button>     
-                <button onClick={() => handleChallenge('decline')}>
-                    Decline
-                </button>          
-            </dialog>
-        </div>
+
+    useEffect(() => {
+        if(challenger)
+            setOpen(true);
+        else 
+            setOpen(false);
+
+    }, [challenger])
+
+    return (
+        <AnimatePresence>
+            {open && 
+                <motion.div className={styles.overlay} initial='hidden' animate='show' exit='exit' variants={overlayVariants}>
+                    <motion.dialog className={styles.dialog} open={true} initial='hidden' animate='show' exit='exit' variants={dialogVariants}>
+                        <h1>
+                            {`You have been challenged by: `}
+                        </h1>
+                        <div className={styles.display_challenger}>
+                            <img src={loadImage()}/>
+                            <h2>
+                                {challenger.username}
+                            </h2>
+                        </div>    
+                        <button onClick={() => handleChallenge('accepted')}>
+                            {loading ? <ClipLoader size='30px' color='rgb(206, 206, 206)'/> : 'Accept'}
+                        </button>     
+                        <button onClick={() => handleChallenge('decline')}>
+                            Decline
+                        </button>          
+                    </motion.dialog>
+                </motion.div>}
+        </AnimatePresence>  
     )
+
 }
 
 export default MessagesFromChallengers;
