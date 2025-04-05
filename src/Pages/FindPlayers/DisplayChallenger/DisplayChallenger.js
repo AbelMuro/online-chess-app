@@ -23,6 +23,7 @@ const callbackForChallengeWebSocket = (navigate, dispatch, challengeId) => {
 
     return async function (e) {
         const result = JSON.parse(e.data);
+        if(!result) return;
         const message = result.message;
         const matchId = result.matchId;
 

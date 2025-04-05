@@ -13,6 +13,7 @@ const callbackForChallengeWebSocket = (navigate) => {
 
     return function (e) {
         const result = JSON.parse(e.data);
+        if(!result) return;
         const message = result.message;
         const matchId = result.matchId;
 
@@ -42,6 +43,7 @@ function MessagesFromChallengers(){
         `wss://world-class-chess-server.com:443/${username}`, 
         (e) => {
             const challenger = JSON.parse(e.data);
+            if(!challenger) return;
             const challengeId = challenger.challengeId;
             setChallenger(challenger);
             ConnectToWebSocket(`wss://world-class-chess-server.com:443/${challengeId}`, callbackForChallengeWebSocket(navigate))    //challenge websocket
