@@ -36,7 +36,6 @@ const callbackForChallengeWebSocket = (navigate, dispatch, challengeId) => {
                 })
 
                 if(response.status === 200){
-                    await response.json();
                     console.log('Challenge websocket and challenge document have been deleted');
                     navigate(`/chessboard/${matchId}`, {state: {matchId}});
                     dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Match has been created!'}});
