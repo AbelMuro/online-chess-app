@@ -26,14 +26,19 @@ import useWebSocket from '~/Hooks/useWebSocket';
 
     3) The 'hasBeenChallenged' property of Player B will then be updated with the username of Player A and the _id of the 'Challenge' document
 
-    4) When the 'hasBeenChallenged' property is updated, this will trigger the account websocket, and send the _id of the 'Challenge' document to Player B
+    4) When the 'hasBeenChallenged' property is updated, this will trigger the account websocket for Player B, and send the _id of the 'Challenge' document to Player B
        At the same time, Player B will also be connected to the websocket for the 'Challenge' document
 
-    5) When the 'Challenge' document states that both players have agreed to the match, 
-       then the websocket will notify both Player A and Player B, and then navigate both players to the chessboard
+    5) A dialog will then be displayed to Player B, asking them to accept or decline the challenge
+
+        -If they accept, then a new Match document will be created. The _id of the Match document will be saved in the 'matchId' of the Challenge document
+        -If they decline, then the Challenge document will be destroyed, as well as the websocket for the challenge document
+
+    6) When the 'matchId' of the Challenge document is updated, this will trigger the Challenge websocket for both players. 
+       In doing so, both players will have access to the _id of the Match document
+
+    7) Then we navigate to the chessboard with the _id of the Match document, any moves in the chessboard will be saved to the Match document
     
-    The challenge button creates the 'Challenge' document and the websocket
-    The Accept or Decline button makes changes to the 'Challenge' document
 
 */
 
