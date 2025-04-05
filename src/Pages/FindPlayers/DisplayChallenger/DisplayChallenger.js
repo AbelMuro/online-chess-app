@@ -36,13 +36,13 @@ const callbackForChallengeWebSocket = (navigate, dispatch, challengeId) => {
                 })
 
                 if(response.status === 200){
-                    const result = await result.text();
+                    const result = await response.text();
                     console.log(result)
                     navigate('/chessboard', {state: {matchId}});
                     dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Match has been created!'}});
                 }
                 else {
-                    const result = await result.text();
+                    const result = await response.text();
                     console.log(result);
                     dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later'}});
                 }
