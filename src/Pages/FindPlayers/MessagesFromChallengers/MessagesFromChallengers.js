@@ -39,7 +39,7 @@ function MessagesFromChallengers(){
         navigate('/menu');
         return null;
     } 
-    const [challenger, setChallenger] = useWebSocket(                   //user websocket
+    const [challenger, setChallenger] = useWebSocket(                                                                               //user websocket
         `wss://world-class-chess-server.com:443/${username}`, 
         (e) => {
             const challenger = JSON.parse(e.data);
