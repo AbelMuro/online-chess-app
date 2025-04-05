@@ -8,9 +8,9 @@ import ConnectToWebSocket from '~/assets/functions/ConnectToWebSocket.js'
 
 //when a player is challenged, they will be connected to a websocket that detects changes to a 'Challenge' document
 
-const callbackForChallengeWebSocket = function(navigate) {
+const callbackForChallengeWebSocket = (navigate) => {
 
-    return (e) => {
+    return function (e) {
         const result = JSON.parse(e.data);
         const message = result.message;
         const matchId = result.matchId;

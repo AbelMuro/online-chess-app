@@ -20,9 +20,9 @@ import * as styles from './styles.module.css';
     you may need to debug the app, when i navigate to previous page (menu component) i get the error that username is not defined
 */
 
-const callbackForChallengeWebSocket = function(navigate, dispatch, challengeId) {
+const callbackForChallengeWebSocket = (navigate, dispatch, challengeId) => {
 
-    return async (e) => {
+    return async function (e) {
         const result = JSON.parse(e.data);
         const message = result.message;
         const matchId = result.matchId;
