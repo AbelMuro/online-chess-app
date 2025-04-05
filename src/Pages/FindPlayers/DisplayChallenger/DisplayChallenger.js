@@ -1,6 +1,6 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux'; 
+import {useDispatch} from 'react-redux'; 
 import ConnectToWebSocket from '~/assets/functions/ConnectToWebSocket.js'
 import * as styles from './styles.module.css';
 
@@ -66,11 +66,10 @@ const callbackForChallengeWebSocket = (navigate, dispatch, challengeId) => {
 function DisplayChallenger({username, image}) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const board = useSelector(state => state.chess.board)
 
     const handleChallenge = async () => {
         try{
-            const response = await fetch('https://world-class-chess-server.com/create_challenge', {
+            const response = await fetch('https://world-class-chess-server.com/create_challenge', {     //we create the challenge websocket
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

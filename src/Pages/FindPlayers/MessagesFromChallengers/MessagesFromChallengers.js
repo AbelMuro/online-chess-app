@@ -1,5 +1,6 @@
 import React, {useEffect} from "react";
 import {useNavigate} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js'
 import icons from '~/assets/icons';
 import useWebSocket from "~/Hooks/useWebSocket/useWebSocket";
@@ -23,7 +24,7 @@ const callbackForChallengeWebSocket = (navigate) => {
             
         else if(message.includes('decline')){
             console.log('declined')
-            //i need to disconnect the front-end from the websocket server here
+            this.close();
         }
     }
 }
@@ -31,18 +32,19 @@ const callbackForChallengeWebSocket = (navigate) => {
 
 function MessagesFromChallengers(){
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const username = sessionStorage.getItem('username');
     if(!username) {
         navigate('/menu');
         return null;
     } 
-    const [challenger, setChallenger] = useWebSocket(
+    const [challenger, setChallenger] = useWebSocket(                   //user websocket
         `wss://world-class-chess-server.com:443/${username}`, 
         (e) => {
             const challenger = JSON.parse(e.data);
             const challengeId = challenger.challengeId;
             setChallenger(challenger);
-            ConnectToWebSocket(`wss://world-class-chess-server.com:443/${challengeId}`, callbackForChallengeWebSocket(navigate))
+            ConnectToWebSocket(`wss://world-class-chess-server.com:443/${challengeId}`, callbackForChallengeWebSocket(navigate))    //challenge websocket
         }, null)
 
     const handleChallenge = async (decision) => {
@@ -58,6 +60,11 @@ function MessagesFromChallengers(){
                 const result = await response.text();
                 console.log(result);
             }
+            else if(response.status === 404){
+                const result = await response.text();
+                console.log(result);
+                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Challenger left the queue'}});
+            }
             else{
                 const result = await response.text();
                 console.log(result);
@@ -68,6 +75,9 @@ function MessagesFromChallengers(){
             const message = error.message;
             console.log(message);
             dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later.'}});
+        }
+        finally{
+            setChallenger(null);
         }
     }
 
