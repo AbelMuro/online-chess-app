@@ -1,6 +1,7 @@
 import React, {useEffect, useMemo} from 'react';
 import DisplayChallenger from './DisplayChallenger';
 import * as styles from './styles.module.css';
+import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import icons from '~/assets/icons';
@@ -38,6 +39,7 @@ import useWebSocket from '~/Hooks/useWebSocket';
 
 
 function FindPlayers() {
+    const dispatch = useDispatch();
     const [queue, setQueue] = useWebSocket(
         'wss://world-class-chess-server.com:443/queue', 
         (e) => {
