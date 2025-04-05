@@ -36,8 +36,8 @@ const callbackForChallengeWebSocket = (navigate, dispatch, challengeId) => {
                 })
 
                 if(response.status === 200){
-                    const result = await response.text();
-                    console.log(result)
+                    await response.json();
+                    console.log('Challenge websocket and challenge document have been deleted');
                     navigate(`/chessboard/${matchId}`, {state: {matchId}});
                     dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Match has been created!'}});
                 }
@@ -49,9 +49,21 @@ const callbackForChallengeWebSocket = (navigate, dispatch, challengeId) => {
             }
                 
             else if(message.includes('decline')){
-                console.log('declined')
-                // i need to create a fetch request that destroys the websocket server, deletes the Challenge document
-                // and then sends a message to the challenger that the other player declined
+                console.log('declined');
+                this.close();
+                const response = await fetch(`https://world-class-chess-server.com/delete_challenge/${challengeId}`, {     //endpoint will delete Challenge document, destroy websocket server, and create match
+                    method: 'DELETE',
+                })
+
+                if(response.status === 200){
+                    const result = await response.json();
+                    dispatch({type: 'DISPLAY_MESSAGE', payload: {message: `${result.playerTwo} has declined`}});
+                }
+                else {
+                    const result = await response.text();
+                    console.log(result);
+                    dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later'}});
+                }
             }
             
         }
