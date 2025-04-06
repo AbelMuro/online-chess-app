@@ -127,10 +127,10 @@ function MessagesFromChallengers(){
                             </h2>
                         </div>    
                         <button onClick={() => {setLoading('accept'); handleChallenge('accepted')}}>
-                            {loading === 'accept' ? <ClipLoader size='30px' color='rgb(206, 206, 206)'/> : 'Accept'}
+                            {loading === 'accept' ? <ClipLoader size='30px' color='rgb(0, 0, 161)'/> : 'Accept'}
                         </button>     
                         <button onClick={() => {setLoading('decline'); handleChallenge('decline')}}>
-                            {loading === 'decline' ? <ClipLoader size='30px' color='rgb(206, 206, 206)'/> : 'Decline'}
+                            {loading === 'decline' ? <ClipLoader size='30px' color='rgb(0, 0, 161)'/> : 'Decline'}
                         </button>          
                     </motion.dialog>
                 </motion.div>}

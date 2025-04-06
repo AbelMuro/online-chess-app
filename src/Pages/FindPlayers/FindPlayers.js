@@ -122,7 +122,6 @@ function FindPlayers() {
             else if(response.status === 401){
                 const result = await response.text();
                 console.log(result);
-                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: result}})
             }
             else{
                 const result = await response.text();
