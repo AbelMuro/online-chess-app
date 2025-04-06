@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import DisplayChallenger from './DisplayChallenger';
 import WaitingForReply from './WaitingForReply';
 import * as styles from './styles.module.css';
@@ -45,7 +45,6 @@ import useWebSocket from '~/Hooks/useWebSocket';
 
 
 function FindPlayers() {
-    const [waitingForReply, setWaitingForReply] = useState(false);
     const dispatch = useDispatch();
     const [queue, setQueue] = useWebSocket(
         'wss://world-class-chess-server.com:443/queue', 
@@ -206,15 +205,10 @@ function FindPlayers() {
                 {availablePlayers.length === 0 && <h2 className={styles.queue_desc}>
                     Looking for other players
                 </h2>}
-                {
-                    waitingForReply ? <WaitingForReply/> : 
-                    <>
-                        {availablePlayers.length === 0 ? <ClipLoader size={'35px'} color='#CECECE'/> : availablePlayers}
-                        <button className={styles.queue_button} onClick={handleLeave}>
-                            Leave Queue
-                        </button>
-                    </>
-                }
+                {availablePlayers.length === 0 ? <ClipLoader size={'35px'} color='#CECECE'/> : availablePlayers}
+                <button className={styles.queue_button} onClick={handleLeave}>
+                    Leave Queue
+                </button>
             </section>  
         </>
     )

@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
+import WaitingForReply from './WaitingForReply';
 import {ClipLoader} from 'react-spinners';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux'; 
 import ConnectToWebSocket from '~/assets/functions/ConnectToWebSocket.js'
 import * as styles from './styles.module.css';
 
-const callbackForChallengeWebSocket = (navigate, dispatch, challengeId) => {
+const callbackForChallengeWebSocket = (navigate, dispatch, challengeId, setWaiting) => {
 
     return async function (e) {
         const result = JSON.parse(e.data);
@@ -35,6 +36,7 @@ const callbackForChallengeWebSocket = (navigate, dispatch, challengeId) => {
                 
             else if(message.includes('decline')){
                 console.log('declined');
+                setWaiting(false);
                 this.close();
                 const response = await fetch(`https://world-class-chess-server.com/delete_challenge/${challengeId}`, {     //endpoint will delete Challenge document, destroy websocket server, and create match
                     method: 'DELETE',
@@ -62,6 +64,7 @@ const callbackForChallengeWebSocket = (navigate, dispatch, challengeId) => {
 
 function DisplayChallenger({username, image}) {
     const [loading, setLoading] = useState(false);
+    const [waiting, setWaiting] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -81,8 +84,8 @@ function DisplayChallenger({username, image}) {
                 const result = await response.json();
                 console.log(result.message);
                 const _id = result.challengeId;
-                ConnectToWebSocket(`wss://world-class-chess-server.com:443/${_id}`, callbackForChallengeWebSocket(navigate, dispatch, _id))
-                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Invite has been sent, please wait for their reply.'}})
+                ConnectToWebSocket(`wss://world-class-chess-server.com:443/${_id}`, callbackForChallengeWebSocket(navigate, dispatch, _id, setWaiting))
+                setWaiting(_id);
             }
             else if(response.status === 401){
                 const result = await response.text();
@@ -105,16 +108,20 @@ function DisplayChallenger({username, image}) {
         }
     }
 
-    return(               
-         <div className={styles.queue_player} key={username}>
-            <img className={styles.queue_player_image} src={image}/>
-            <h3>
-                {username}
-            </h3>
-            <button onClick={handleChallenge} className={styles.queue_button}>
-                {loading ? <ClipLoader size='30px' color='#CECECE'/> : 'Challenge'}
-            </button>
-        </div>
+    return(    
+        <>
+            {true && <WaitingForReply challengeId={waiting}/>}
+            <div className={styles.queue_player} key={username}>
+                <img className={styles.queue_player_image} src={image}/>
+                <h3>
+                    {username}
+                </h3>
+                <button onClick={handleChallenge} className={styles.queue_button}>
+                    {loading ? <ClipLoader size='30px' color='#CECECE'/> : 'Challenge'}
+                </button>
+            </div>        
+        </>           
+
     )
 }
 
