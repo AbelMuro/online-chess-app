@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {ClipLoader} from 'react-spinners';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux'; 
 import ConnectToWebSocket from '~/assets/functions/ConnectToWebSocket.js'
@@ -60,11 +61,13 @@ const callbackForChallengeWebSocket = (navigate, dispatch, challengeId) => {
 }
 
 function DisplayChallenger({username, image}) {
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const handleChallenge = async () => {
         try{
+            setLoading(true);
             const response = await fetch('https://world-class-chess-server.com/create_challenge', {     //we create the challenge websocket
                 method: 'POST',
                 headers: {
@@ -97,6 +100,9 @@ function DisplayChallenger({username, image}) {
             console.log(message);
             dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later.'}})
         }
+        finally{
+            setLoading && setLoading(true);
+        }
     }
 
     return(               
@@ -106,7 +112,7 @@ function DisplayChallenger({username, image}) {
                 {username}
             </h3>
             <button onClick={handleChallenge} className={styles.queue_button}>
-                Challenge
+                {loading ? <ClipLoader size='30px' color='#CECECE'/> : 'Challenge'}
             </button>
         </div>
     )

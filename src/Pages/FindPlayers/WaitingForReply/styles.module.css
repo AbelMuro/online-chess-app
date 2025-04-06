@@ -1,0 +1,39 @@
+.container{
+    width: 212px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
+    padding: 10px;
+    background-color: var(--queue-container-bg);
+    border-radius: 15px;
+}
+
+.title{
+    font-size: 1.6rem;
+    font-family: 'mulish';
+    font-weight: 800;
+    color: var(--text-color);
+    margin: 0px;
+    text-align: center;
+}
+
+.cancel{
+    width: 100%;
+    height: 45px;
+    background-color: var(--challenge-button-bg);
+    color: #CECECE;
+    border-radius: 10px;
+    font-family: 'mulish';
+    font-size: 1.2rem;
+    border: none;
+    cursor: pointer;
+}
+
+.queue_button:hover{
+    background-color: var(--challenge-button-bg-hover);    
+}
+
+.queue_button:active{
+    background-color: var(--challenge-button-bg-active);
+}

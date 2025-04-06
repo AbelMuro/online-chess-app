@@ -29,49 +29,24 @@ body{
     --input-text-color: rgb(36, 36, 36);
     --error-text: rgb(160, 0, 0);
 
-    --login-button-bg: rgb(0, 0, 161);
-    --login-button-bg-hover: rgb(4, 4, 209);
-    --login-button-bg-active: rgb(3, 3, 253);
+    --button-bg: rgb(0, 0, 161);
+    --button-bg-hover: rgb(4, 4, 209);
+    --button-bg-active: rgb(3, 3, 253);
+
+    --button-2-bg: rgb(240, 240, 240);
+    --button-2-bg-hover: rgb(182, 182, 182);
+    --button-2-bg-active: rgb(145, 145, 145);
+    --button-2-bg-text: rgb(0, 0, 161);
 
     --link-text-color: rgb(14, 14, 255);
     --link-text-color-hover: rgb(51, 51, 255);
 
-    --login-guest-button-bg: rgb(240, 240, 240);
-    --login-guest-button-bg-hover: rgb(182, 182, 182);
-    --login-guest-button-bg-active: rgb(145, 145, 145);
-    --login-guest-button-text: rgb(0, 0, 161);
-
-    --challenge-dialog-button-bg: rgb(240, 240, 240);
-    --challenge-dialog-button-bg-hover: rgb(182, 182, 182);
-    --challenge-dialog-button-bg-active: rgb(145, 145, 145);
-    --challenge-dialog-button-text: rgb(0, 0, 161);
-
-    --menu-button-bg: rgb(31, 31, 153);
-    --menu-button-bg-hover: rgb(5, 61, 184);
-    --menu-button-bg-active: rgb(54, 54, 228);
-
-    --challenge-button-bg: rgb(23, 23, 99);
-    --challenge-button-hover: rgb(34, 34, 151);
-    --challenge-button-active: rgb(48, 48, 202);
-
-    --sidebar-button-bg: rgb(31, 31, 153);
-    --sidebar-button-bg-hover: rgb(39, 39, 180);
-    --sidebar-button-bg-active: rgb(54, 54, 228);
-
     --scroll-bar-bg: rgb(31, 31, 153);
 
     --dialog-bg: rgb(0, 0, 179);
-    --dialog-button-bg: rgb(0, 0, 61);
-    --dialog-button-bg-hover: rgb(0, 0, 104);
-    --dialog-button-bg-active: rgb(17, 17, 131);
 
-
-    --menu-button-submit-bg: #CECECE;
-    --menu-button-submit-hover: #b5b5c8;
-    --menu-button-submit-active: #9c9cc9;
-    --menu-button-text-color: #1f1f99;
-    --menu-button-disabled-bg: #d3d3d3;
-    --menu-button-text-disabled: #a9a9a9;
+    --button-bg-disabled: #d3d3d3;
+    --button-bg-text-disabled: #a9a9a9;
 
     --queue-container-bg: rgb(1, 1, 206);
 

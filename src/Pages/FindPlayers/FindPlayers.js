@@ -1,5 +1,6 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import DisplayChallenger from './DisplayChallenger';
+import WaitingForReply from './WaitingForReply';
 import * as styles from './styles.module.css';
 import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
@@ -31,7 +32,7 @@ import useWebSocket from '~/Hooks/useWebSocket';
 
     5) A dialog will then be displayed to Player B, asking them to accept or decline the challenge
 
-        -If they accept, then a new Match document will be created. The _id of the Match document will be saved in the 'matchId' of the Challenge document
+        -If they accept, then a new Match document will be created. The _id of the Match document will be saved in the 'matchId' property of the Challenge document
         -If they decline, then the Challenge document will be destroyed, as well as the websocket for the challenge document
 
     6) When the 'matchId' of the Challenge document is updated, this will trigger the Challenge websocket for both players. 
@@ -44,6 +45,7 @@ import useWebSocket from '~/Hooks/useWebSocket';
 
 
 function FindPlayers() {
+    const [waitingForReply, setWaitingForReply] = useState(false);
     const dispatch = useDispatch();
     const [queue, setQueue] = useWebSocket(
         'wss://world-class-chess-server.com:443/queue', 
@@ -95,7 +97,6 @@ function FindPlayers() {
             dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later.'}});
         }
     }
-
 
     const putPlayerInQueue = async () => {
         try{
@@ -164,25 +165,31 @@ function FindPlayers() {
     }, [])
 
     useEffect(() => {
+
        const removePlayerFromQueue = () => {
             fetch('https://world-class-chess-server.com/leave_queue', {
-                    method: 'DELETE',
-                    credentials: 'include',
-                    keepalive: true
-                })                
+                method: 'DELETE',
+                credentials: 'include',
+                keepalive: true
+            });                
         }    
         
         const deleteWebsockets = () => {
             fetch('https://world-class-chess-server.com/delete_websockets', {
                 method: 'DELETE',
                 keepalive: true
-            })
+            });
         }
 
-        window.addEventListener('beforeunload', removePlayerFromQueue);
+        const beforeUnload = () => {
+            removePlayerFromQueue();
+            deleteWebsockets();
+        }
+
+        window.addEventListener('beforeunload', beforeUnload);
 
         return () => {
-            window.removeEventListener('beforeunload', removePlayerFromQueue);
+            window.removeEventListener('beforeunload', beforeUnload);
             leaveQueue && leaveQueue();
             deleteWebsockets && deleteWebsockets();
         }
@@ -199,13 +206,17 @@ function FindPlayers() {
                 {availablePlayers.length === 0 && <h2 className={styles.queue_desc}>
                     Looking for other players
                 </h2>}
-                {availablePlayers.length === 0 ? <ClipLoader size={'35px'} color='#CECECE'/> : availablePlayers}
-                <button className={styles.queue_button} onClick={handleLeave}>
-                    Leave Queue
-                </button>
-            </section>        
+                {
+                    waitingForReply ? <WaitingForReply/> : 
+                    <>
+                        {availablePlayers.length === 0 ? <ClipLoader size={'35px'} color='#CECECE'/> : availablePlayers}
+                        <button className={styles.queue_button} onClick={handleLeave}>
+                            Leave Queue
+                        </button>
+                    </>
+                }
+            </section>  
         </>
-
     )
 }
 

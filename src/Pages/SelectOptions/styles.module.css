@@ -25,7 +25,7 @@
 .menu_option{
     width: 100%;
     height: 45px;
-    background-color: var(--menu-button-bg);
+    background-color: var(--button-bg-bg);
     color: #CECECE;
     border-radius: 10px;
     font-family: 'mulish';
@@ -35,19 +35,19 @@
 }
 
 .menu_option:hover{
-    background-color: var(--menu-button-bg-hover);    
+    background-color: var(--button-bg-bg-hover);    
 }
 
 .menu_option:active{
-    background-color: var(--menu-button-bg-active);
+    background-color: var(--button-bg-bg-active);
 }
 
 
 .menu_submit{
     width: 100%;
     height: 45px;
-    background-color: var(--menu-button-submit-bg);
-    color: var( --menu-button-text-color);
+    background-color: var(--button-bg-bg);
+    color: var( --text-color);
     border-radius: 10px;
     font-family: 'mulish';
     font-size: 1.2rem;
@@ -56,16 +56,16 @@
 }
 
 .menu_submit:hover{
-    background-color: var(--menu-button-submit-hover);
+    background-color: var(--button-bg-hover);
 }
 
 .menu_submit:active{
-    background-color: var(--menu-button-submit-active)
+    background-color: var(--button-bg-active)
 }
 
 .menu_submit:disabled{
-    background-color: var(--menu-button-disabled-bg);
-    color: var(--menu-button-text-disabled);
+    background-color: var(--button-bg-disabled);
+    color: var(--button-bg-text-disabled);
     cursor: not-allowed;
 }
 

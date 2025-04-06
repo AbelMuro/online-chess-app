@@ -59,17 +59,17 @@
     font-family: 'mulish';
     font-size: 1.2rem;
     border: none;
-    background-color: var(--challenge-dialog-button-bg);
-    color: var(--challenge-dialog-button-text);
+    background-color: var(--button-bg-bg);
+    color: var(--button-bg-text);
     cursor: pointer;
 }
 
 .dialog > button:hover{
-    background-color: var(--challenge-dialog-button-bg-hover)
+    background-color: var(--button-bg-bg-hover)
 }
 
 .dialog > button:active{
-    background-color: var(--challenge-dialog-button-bg-active)
+    background-color: var(--button-bg-bg-active)
 }
 
 @media(max-width: 620px){

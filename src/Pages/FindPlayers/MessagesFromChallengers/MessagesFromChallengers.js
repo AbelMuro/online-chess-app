@@ -102,18 +102,6 @@ function MessagesFromChallengers(){
             return icons['empty avatar'];
     }
 
-    useEffect(() => {
-        const beforeUnload = () => {handleChallenge('decline')};
-
-        window.addEventListener('beforeunload', beforeUnload);
-
-        return () => {
-            window.removeEventListener('beforeunload', beforeUnload);
-            beforeUnload && beforeUnload();
-        }
-    }, [])
-
-
 
     return (
         <AnimatePresence>
