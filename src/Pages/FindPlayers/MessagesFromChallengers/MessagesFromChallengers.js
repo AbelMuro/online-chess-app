@@ -35,7 +35,6 @@ const callbackForChallengeWebSocket = (navigate) => {
 
 
 function MessagesFromChallengers(){
-    const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -58,7 +57,6 @@ function MessagesFromChallengers(){
     const handleChallenge = async (decision) => {
         if(!challenger) return;
 
-        setLoading(true);
         try{
             const response = await fetch('https://world-class-chess-server.com/handle_challenge', {    //if the challenged player accepts the challenge, then a new match will be created in the Match collection
                 method: 'POST',
@@ -113,17 +111,10 @@ function MessagesFromChallengers(){
     }, [])
 
 
-    useEffect(() => {
-        if(challenger)
-            setOpen(true);
-        else 
-            setOpen(false);
-
-    }, [challenger])
 
     return (
         <AnimatePresence>
-            {open && 
+            {challenger && 
                 <motion.div className={styles.overlay} initial='hidden' animate='show' exit='exit' variants={overlayVariants}>
                     <motion.dialog className={styles.dialog} open={true} initial='hidden' animate='show' exit='exit' variants={dialogVariants}>
                         <h1>
@@ -135,11 +126,11 @@ function MessagesFromChallengers(){
                                 {challenger.username}
                             </h2>
                         </div>    
-                        <button onClick={() => handleChallenge('accepted')}>
-                            {loading ? <ClipLoader size='30px' color='rgb(206, 206, 206)'/> : 'Accept'}
+                        <button onClick={() => {setLoading('accept'); handleChallenge('accepted')}}>
+                            {loading === 'accept' ? <ClipLoader size='30px' color='rgb(206, 206, 206)'/> : 'Accept'}
                         </button>     
-                        <button onClick={() => handleChallenge('decline')}>
-                            Decline
+                        <button onClick={() => {setLoading('decline'); handleChallenge('decline')}}>
+                            {loading === 'decline' ? <ClipLoader size='30px' color='rgb(206, 206, 206)'/> : 'Decline'}
                         </button>          
                     </motion.dialog>
                 </motion.div>}
