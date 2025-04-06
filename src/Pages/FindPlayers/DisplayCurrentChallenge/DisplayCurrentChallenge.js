@@ -15,13 +15,15 @@ import {motion, AnimatePresence} from 'framer-motion';
 //if the challenged player leaves the queue, then i have to notify the challenger that the challenged player declined
 // leaving the queue means a few things here; closing the session, clicking the back button, closing the browser
 
-const callbackForChallengeWebSocket = (navigate) => {
+const callbackForChallengeWebSocket = (navigate, setChallenger) => {
 
     return function (e) {
         const result = JSON.parse(e.data);
         if(!result) return;
         const message = result.message;
         const matchId = result.matchId;
+        const playerWhoDeclined = result.playerWhoDeclined;
+        const username = sessionStorage.getItem('username');
 
         if(message === 'initiate match'){
             console.log('initiate match');
@@ -29,9 +31,12 @@ const callbackForChallengeWebSocket = (navigate) => {
             navigate(`/chessboard/${matchId}`, {state: {matchId}});
         }
             
-        else if(message.includes('decline')){
-            console.log('declined')
+        else if(message === 'decline match'){
+            console.log('declined');
+            if(playerWhoDeclined !== username)
+                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: `${playerWhoDeclined} has cancelled the challenge`}});
             this.close();
+            setChallenger(null);
         }
     }
 }
@@ -53,7 +58,7 @@ function DisplayCurrentChallenge(){
             if(!challenger) return;
             const challengeId = challenger.challengeId;
             setChallenger(challenger);
-            ConnectToWebSocket(`wss://world-class-chess-server.com:443/${challengeId}`, callbackForChallengeWebSocket(navigate))    //challenge websocket
+            ConnectToWebSocket(`wss://world-class-chess-server.com:443/${challengeId}`, callbackForChallengeWebSocket(navigate, setChallenger))    //challenge websocket
         }, null)
 
 
@@ -65,7 +70,7 @@ function DisplayCurrentChallenge(){
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 credentials: 'include',
-                body: JSON.stringify({challengeId: challenger.challengeId, decision})
+                body: JSON.stringify({challengeId: challenger.challengeId, decision, player: 'playerTwo'})
             })
 
             if(response.status === 200){

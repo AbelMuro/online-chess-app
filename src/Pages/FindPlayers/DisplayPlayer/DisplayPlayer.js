@@ -14,6 +14,8 @@ const callbackForChallengeWebSocket = (navigate, dispatch, challengeId, setWaiti
         if(!result) return;
         const message = result.message;
         const matchId = result.matchId;
+        const playerWhoDeclined = result.playerWhoDeclined;
+        const username = sessionStorage.getItem('username');
 
         try{
             if(message === 'initiate match'){
@@ -35,7 +37,7 @@ const callbackForChallengeWebSocket = (navigate, dispatch, challengeId, setWaiti
                 }
             }
                 
-            else if(message.includes('decline')){
+            else if(message === 'decline match'){
                 console.log('declined');
                 setWaiting(false);
                 this.close();
@@ -44,8 +46,11 @@ const callbackForChallengeWebSocket = (navigate, dispatch, challengeId, setWaiti
                 })
 
                 if(response.status === 200){
-                    const result = await response.json();
-                    dispatch({type: 'DISPLAY_MESSAGE', payload: {message: `${result.playerTwo} has declined`}});
+                    await response.json();
+                    if(playerWhoDeclined === username)
+                        dispatch({type: 'DISPLAY_MESSAGE', payload: {message: `Challenged has been cancelled`}});
+                    else
+                        dispatch({type: 'DISPLAY_MESSAGE', payload: {message: `${playerWhoDeclined} has declined`}});
                 }
                 else {
                     const result = await response.text();

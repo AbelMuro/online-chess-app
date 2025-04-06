@@ -16,7 +16,7 @@ function WaitingForReply({challengeId}) {
                     'Content-Type': 'application/json'
                 },
                 credentials: 'include',
-                body: JSON.stringify({challengeId, decision: 'decline'})
+                body: JSON.stringify({challengeId, decision: 'decline', player: 'playerOne'})
             })
             if(response.status === 200){
                 const result = await response.text();
