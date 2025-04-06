@@ -10,7 +10,10 @@ import ConnectToWebSocket from '~/assets/functions/ConnectToWebSocket.js';
 import { overlayVariants, dialogVariants } from "./Variants/Variants";
 import {motion, AnimatePresence} from 'framer-motion';
 
-//when a player is challenged, they will be connected to a websocket that detects changes to a 'Challenge' document
+//this is where i left off, i need to debug these components further
+//if the challenger leaves the queue unexpectedly, then i have to delete the challenge document and disconnect the websocket
+//if the challenged player leaves the queue, then i have to notify the challenger that the challenged player declined
+// leaving the queue means a few things here; closing the session, clicking the back button, closing the browser
 
 const callbackForChallengeWebSocket = (navigate) => {
 
