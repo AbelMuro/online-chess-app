@@ -105,7 +105,7 @@ function DisplayPlayer({username, image}) {
             dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later.'}})
         }
         finally{
-            setLoading && setLoading(true);
+            setLoading && setLoading(false);
         }
     }
 
