@@ -10,7 +10,7 @@ function WaitingForReply() {
             </h2>
             <ClipLoader size='30px' color='#CECECE'/>
             <button className={styles.cancel}>
-
+                Cancel
             </button>
         </div>
     )
