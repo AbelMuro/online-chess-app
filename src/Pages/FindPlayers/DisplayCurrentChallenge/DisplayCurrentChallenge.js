@@ -37,7 +37,7 @@ const callbackForChallengeWebSocket = (navigate) => {
 }
 
 
-function MessagesFromChallengers(){
+function DisplayCurrentChallenge(){
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -130,4 +130,4 @@ function MessagesFromChallengers(){
 
 }
 
-export default MessagesFromChallengers;
+export default DisplayCurrentChallenge;

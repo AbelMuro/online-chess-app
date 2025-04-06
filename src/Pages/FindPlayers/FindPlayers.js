@@ -6,7 +6,7 @@ import {useNavigate} from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import icons from '~/assets/icons';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js';
-import MessagesFromChallengers from './MessagesFromChallengers';
+import DisplayCurrentChallenge from './DisplayCurrentChallenge';
 import useWebSocket from '~/Hooks/useWebSocket';
 
 
@@ -196,7 +196,7 @@ function FindPlayers() {
 
     return(
         <>
-            <MessagesFromChallengers/>
+            <DisplayCurrentChallenge/>
             <section className={styles.container}>
                 <section className={styles.queue}>
                     <h1 className={styles.queue_title}>
