@@ -25,7 +25,7 @@
 .menu_option{
     width: 100%;
     height: 45px;
-    background-color: var(--button-bg-bg);
+    background-color: var(--button-bg);
     color: #CECECE;
     border-radius: 10px;
     font-family: 'mulish';
@@ -35,18 +35,18 @@
 }
 
 .menu_option:hover{
-    background-color: var(--button-bg-bg-hover);    
+    background-color: var(--button-bg-hover);    
 }
 
 .menu_option:active{
-    background-color: var(--button-bg-bg-active);
+    background-color: var(--button-bg-active);
 }
 
 
 .menu_submit{
     width: 100%;
     height: 45px;
-    background-color: var(--button-bg-bg);
+    background-color: var(--button-bg);
     color: var( --text-color);
     border-radius: 10px;
     font-family: 'mulish';

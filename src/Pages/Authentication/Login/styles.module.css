@@ -61,17 +61,17 @@
     font-family: 'mulish';
     font-size: 1.2rem;
     border: none;
-    background-color: var(--button-bg);
-    color: var(--login-guest-button-text);
+    background-color: var(--button-2-bg);
+    color: var(--button-2-bg-text);
     cursor: pointer;
 }
 
 .login_button:hover{
-    background-color: var(--button-bg-hover);
+    background-color: var(--button-2-bg-hover);
 }
 
 .login_button:active{
-    background-color: var(--button-bg-active);
+    background-color: var(--button-2-bg-active);
 }
 
 @media(max-width: 620px){
