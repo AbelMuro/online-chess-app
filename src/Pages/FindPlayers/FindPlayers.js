@@ -1,6 +1,5 @@
 import React, {useEffect, useMemo} from 'react';
 import DisplayChallenger from './DisplayChallenger';
-import WaitingForReply from './WaitingForReply';
 import * as styles from './styles.module.css';
 import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
