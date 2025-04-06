@@ -4,21 +4,6 @@ import {useDispatch} from 'react-redux';
 import ConnectToWebSocket from '~/assets/functions/ConnectToWebSocket.js'
 import * as styles from './styles.module.css';
 
-///when the challenge button is clicked, this will create a Challenge document that keeps track of whether the users have both agreed to the challenge
-// Then a websocket will be created that keeps track of any updates to that document, the challenger will then be connected to that websocket
-
-/* 
-    This is where i left off, i need to implement the functionality for the 
-
-
-    else if(result.decline){}
-
-
-    dont forget to finish the functionality for the <MessagesFromChallengers/> (clicking on accept or decline should close the dialog)
-
-    you may need to debug the app, when i navigate to previous page (menu component) i get the error that username is not defined
-*/
-
 const callbackForChallengeWebSocket = (navigate, dispatch, challengeId) => {
 
     return async function (e) {
