@@ -197,19 +197,22 @@ function FindPlayers() {
     return(
         <>
             <MessagesFromChallengers/>
-            <section className={styles.queue}>
-                <h1 className={styles.queue_title}>
-                    You have entered the queue
-                </h1>
-                {availablePlayers.length === 0 && <h2 className={styles.queue_desc}>
-                    Looking for other players
-                </h2>}
-                {availablePlayers.length === 0 ? <ClipLoader size={'35px'} color='#CECECE'/> : availablePlayers}
-                <button className={styles.queue_button} onClick={handleLeave}>
-                    Leave Queue
-                </button>
-            </section>  
+            <section className={styles.container}>
+                <section className={styles.queue}>
+                    <h1 className={styles.queue_title}>
+                        You have entered the queue
+                    </h1>
+                    {availablePlayers.length === 0 && <h2 className={styles.queue_desc}>
+                        Looking for other players
+                    </h2>}
+                    {availablePlayers.length === 0 ? <ClipLoader size={'35px'} color='#CECECE'/> : availablePlayers}
+                    <button className={styles.queue_button} onClick={handleLeave}>
+                        Leave Queue
+                    </button>
+                </section>  
+            </section>        
         </>
+
     )
 }
 

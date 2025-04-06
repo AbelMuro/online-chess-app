@@ -3,6 +3,7 @@ import WaitingForReply from './WaitingForReply';
 import {ClipLoader} from 'react-spinners';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux'; 
+import { AnimatePresence } from 'framer-motion';
 import ConnectToWebSocket from '~/assets/functions/ConnectToWebSocket.js'
 import * as styles from './styles.module.css';
 
@@ -110,7 +111,9 @@ function DisplayChallenger({username, image}) {
 
     return(    
         <>
-            {true && <WaitingForReply challengeId={waiting}/>}
+            <AnimatePresence>
+                {waiting && <WaitingForReply challengeId={waiting}/>}
+            </AnimatePresence>
             <div className={styles.queue_player} key={username}>
                 <img className={styles.queue_player_image} src={image}/>
                 <h3>

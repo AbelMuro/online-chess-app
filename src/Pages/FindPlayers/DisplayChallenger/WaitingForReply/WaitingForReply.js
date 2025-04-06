@@ -1,6 +1,8 @@
 import React from 'react';
+import {overlayVariant, dialogVariant} from './Variants';
 import {useDispatch} from 'react-redux';
 import {ClipLoader} from 'react-spinners';
+import {motion} from 'framer-motion';
 import * as styles from './styles.module.css';
 
 function WaitingForReply({challengeId}) {
@@ -42,8 +44,8 @@ function WaitingForReply({challengeId}) {
 
 
     return(
-        <div className={styles.overlay}>
-            <div className={styles.container}>
+        <motion.div className={styles.overlay} initial='hidden' animate='show' exit='exit' variants={overlayVariant}>
+            <motion.dialog open={true} className={styles.container} initial='hidden' animate='show' exit='exit' variants={dialogVariant}>
                 <h2 className={styles.title}>
                     {`Waiting for reply..`}
                 </h2>
@@ -51,8 +53,8 @@ function WaitingForReply({challengeId}) {
                 <button className={styles.cancel} onClick={handleCancel}>
                     Cancel
                 </button>
-            </div>
-        </div>
+            </motion.dialog>
+        </motion.div>
 
     )
 }
