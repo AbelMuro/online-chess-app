@@ -15,7 +15,7 @@ import {motion, AnimatePresence} from 'framer-motion';
 //if the challenged player leaves the queue, then i have to notify the challenger that the challenged player declined
 // leaving the queue means a few things here; closing the session, clicking the back button, closing the browser
 
-const callbackForChallengeWebSocket = (navigate, setChallenger) => {
+const callbackForChallengeWebSocket = (navigate, dispatch, setChallenger) => {
 
     return function (e) {
         const result = JSON.parse(e.data);
@@ -58,7 +58,7 @@ function DisplayCurrentChallenge(){
             if(!challenger) return;
             const challengeId = challenger.challengeId;
             setChallenger(challenger);
-            ConnectToWebSocket(`wss://world-class-chess-server.com:443/${challengeId}`, callbackForChallengeWebSocket(navigate, setChallenger))    //challenge websocket
+            ConnectToWebSocket(`wss://world-class-chess-server.com:443/${challengeId}`, callbackForChallengeWebSocket(navigate, dispatch ,setChallenger))    //challenge websocket
         }, null)
 
 
