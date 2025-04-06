@@ -63,7 +63,7 @@ const callbackForChallengeWebSocket = (navigate, dispatch, challengeId, setWaiti
     }
 }
 
-function DisplayChallenger({username, image}) {
+function DisplayPlayer({username, image}) {
     const [loading, setLoading] = useState(false);
     const [waiting, setWaiting] = useState(false);
     const navigate = useNavigate();
@@ -128,4 +128,4 @@ function DisplayChallenger({username, image}) {
     )
 }
 
-export default DisplayChallenger;
+export default DisplayPlayer;

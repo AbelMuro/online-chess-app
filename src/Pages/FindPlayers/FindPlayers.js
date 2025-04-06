@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo} from 'react';
-import DisplayChallenger from './DisplayChallenger';
+import DisplayPlayer from './DisplayPlayer';
 import * as styles from './styles.module.css';
 import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
@@ -151,7 +151,7 @@ function FindPlayers() {
             const contentType = queue[i].contentType;
             const url = profileImageBase64 ? convertBase64ToBlobURL(profileImageBase64, contentType) : icons['empty avatar'];
 
-            newQueue.push(<DisplayChallenger username={playerInQueue} image={url}/>)                
+            newQueue.push(<DisplayPlayer username={playerInQueue} image={url}/>)                
         }
 
         return newQueue;
