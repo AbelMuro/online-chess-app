@@ -6,7 +6,6 @@ import EnterEmail from '~/assets/Components/EnterEmail';
 import EnterPassword from '~/assets/Components/EnterPassword';
 import * as styles from './styles.module.css';
 
-//this is where i left off, i will need to set up a server with node.js and a database with mondoDB, and send the login credentials to the server
 
 function Form() {
     const dispatch = useDispatch();
