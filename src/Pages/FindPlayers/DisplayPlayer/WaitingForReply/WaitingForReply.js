@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {overlayVariant, dialogVariant} from './Variants';
 import {useDispatch} from 'react-redux';
 import {ClipLoader} from 'react-spinners';
@@ -7,11 +7,12 @@ import * as styles from './styles.module.css';
 
 function WaitingForReply({challengeId, waitingForPlayerUsername}) {
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
     const username = sessionStorage.getItem('username');
 
     const handleCancel = async () => {
-        console.log(username, waitingForPlayerUsername)
         try{
+            setLoading(true);
             const response = await fetch('https://world-class-chess-server.com/handle_challenge', {
                 method: 'POST',
                 headers: {
@@ -42,6 +43,9 @@ function WaitingForReply({challengeId, waitingForPlayerUsername}) {
             console.log(message);
             dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later.'}})
         }
+        finally{
+            setLoading && setLoading(false);
+        }
     }
 
 
@@ -53,7 +57,7 @@ function WaitingForReply({challengeId, waitingForPlayerUsername}) {
                 </h2>
                 <ClipLoader size='30px' color='#CECECE'/>
                 <button className={styles.cancel} onClick={handleCancel}>
-                    Cancel
+                    {loading ? <ClipLoader size='25px' color='#CECECE'/> : 'Cancel'}
                 </button>
             </motion.dialog>
         </motion.div>
