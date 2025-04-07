@@ -12,11 +12,12 @@ import {motion, AnimatePresence} from 'framer-motion';
 
 //this is where i left off, i need to debug these components further
 
-//if the challenger leaves the session, then i have to delete the challenge document and disconnect the websocket
+//if the challenger leaves the session, then i have to notify the challenged payer that the challenger has declined
 //if the challenged player leaves the queue, then i have to notify the challenger that the challenged player declined
 // leaving the queue means a few things here; closing the session, clicking the back button, closing the browser
 
 //i may also need to organize the code a bit here
+
 
 const callbackForChallengeWebSocket = (navigate, dispatch, setChallenger) => {
 

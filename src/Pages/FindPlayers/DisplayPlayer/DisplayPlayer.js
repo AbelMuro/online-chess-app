@@ -58,7 +58,6 @@ const callbackForChallengeWebSocket = (navigate, dispatch, challengeId, setWaiti
                     dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later'}});
                 }
             }
-            
         }
         catch(error){
             const message = error.message;
