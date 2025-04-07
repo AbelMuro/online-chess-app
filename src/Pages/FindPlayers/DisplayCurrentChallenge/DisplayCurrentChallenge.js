@@ -123,10 +123,10 @@ function DisplayCurrentChallenge(){
                             </h2>
                         </div>    
                         <button onClick={() => {setLoading('accept'); handleChallenge('accepted')}}>
-                            {loading === 'accept' ? <ClipLoader size='30px' color='rgb(0, 0, 161)'/> : 'Accept'}
+                            {loading === 'accept' ? <ClipLoader size='30px' color='#CECECE'/> : 'Accept'}
                         </button>     
                         <button onClick={() => {setLoading('decline'); handleChallenge('decline')}}>
-                            {loading === 'decline' ? <ClipLoader size='30px' color='rgb(0, 0, 161)'/> : 'Decline'}
+                            {loading === 'decline' ? <ClipLoader size='30px' color='#CECECE'/> : 'Decline'}
                         </button>          
                     </motion.dialog>
                 </motion.div>}
