@@ -25,6 +25,7 @@ import {motion, AnimatePresence} from 'framer-motion';
 // i may need to debug the challenge websocket somehow
 // i got a websocket error when i did the steps above before
 
+//also, look into WebRTC in react with socket.io
 
 const callbackForChallengeWebSocket = (navigate, dispatch, setChallenger) => {
 
