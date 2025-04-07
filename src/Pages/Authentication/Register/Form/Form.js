@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { ClipLoader } from 'react-spinners';
+import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom'
 import EnterEmail from '~/assets/Components/EnterEmail';
 import EnterUsername from '~/assets/Components/EnterUsername';
@@ -9,6 +10,7 @@ import * as styles from './styles.module.css';
 
 
 function Form(){
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
