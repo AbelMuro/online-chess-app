@@ -23,6 +23,7 @@ import {motion, AnimatePresence} from 'framer-motion';
 // then player B should decline
 // then make player A leave the queue and see if the queue is updated in Player B screen
 // i may need to debug the challenge websocket somehow
+// i got a websocket error when i did the steps above before
 
 
 const callbackForChallengeWebSocket = (navigate, dispatch, setChallenger) => {
