@@ -18,6 +18,12 @@ import {motion, AnimatePresence} from 'framer-motion';
 
 //i may also need to organize the code a bit here
 
+//also test out the app when player A sends a challenge to player B, 
+// player A should cancel the challenge
+// then player B should decline
+// then make player A leave the queue and see if the queue is updated in Player B screen
+// i may need to debug the challenge websocket somehow
+
 
 const callbackForChallengeWebSocket = (navigate, dispatch, setChallenger) => {
 
