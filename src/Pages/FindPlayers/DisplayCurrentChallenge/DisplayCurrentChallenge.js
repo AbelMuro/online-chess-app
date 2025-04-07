@@ -16,6 +16,8 @@ import {motion, AnimatePresence} from 'framer-motion';
 //if the challenged player leaves the queue, then i have to notify the challenger that the challenged player declined
 // leaving the queue means a few things here; closing the session, clicking the back button, closing the browser
 
+//i may also need to organize the code a bit here
+
 const callbackForChallengeWebSocket = (navigate, dispatch, setChallenger) => {
 
     return function (e) {
