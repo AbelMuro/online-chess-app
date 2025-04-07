@@ -6,7 +6,6 @@ import EnterEmail from '~/assets/Components/EnterEmail';
 import EnterPassword from '~/assets/Components/EnterPassword';
 import * as styles from './styles.module.css';
 
-
 function Form() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -49,8 +48,9 @@ function Form() {
                 
         }
         catch(error){
+            const message = error.message;
+            console.log(message);
             dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later.'}})
-            console.log(error.message);
         }
         finally{
             setLoading && setLoading(false);
