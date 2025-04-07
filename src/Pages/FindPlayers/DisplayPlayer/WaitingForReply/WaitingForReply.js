@@ -5,10 +5,12 @@ import {ClipLoader} from 'react-spinners';
 import {motion} from 'framer-motion';
 import * as styles from './styles.module.css';
 
-function WaitingForReply({challengeId}) {
+function WaitingForReply({challengeId, waitingForPlayerUsername}) {
     const dispatch = useDispatch();
+    const username = sessionStorage.getItem('username');
 
     const handleCancel = async () => {
+        console.log(username, waitingForPlayerUsername)
         try{
             const response = await fetch('https://world-class-chess-server.com/handle_challenge', {
                 method: 'POST',
@@ -16,7 +18,7 @@ function WaitingForReply({challengeId}) {
                     'Content-Type': 'application/json'
                 },
                 credentials: 'include',
-                body: JSON.stringify({challengeId, decision: 'decline', player: 'playerOne'})
+                body: JSON.stringify({challengeId, decision: 'decline', playerResponding: 'playerOne', playerOne: username, playerTwo: waitingForPlayerUsername})
             })
             if(response.status === 200){
                 const result = await response.text();

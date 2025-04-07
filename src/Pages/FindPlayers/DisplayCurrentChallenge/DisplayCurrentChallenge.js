@@ -70,7 +70,7 @@ function DisplayCurrentChallenge(){
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 credentials: 'include',
-                body: JSON.stringify({challengeId: challenger.challengeId, decision, player: 'playerTwo'})
+                body: JSON.stringify({challengeId: challenger.challengeId, decision, playerResponding: 'playerTwo', playerOne: challenger.username, playerTwo: username})
             })
 
             if(response.status === 200){

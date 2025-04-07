@@ -48,7 +48,7 @@ const callbackForChallengeWebSocket = (navigate, dispatch, challengeId, setWaiti
                 if(response.status === 200){
                     await response.json();
                     if(playerWhoDeclined === username)
-                        dispatch({type: 'DISPLAY_MESSAGE', payload: {message: `Challenged has been cancelled`}});
+                        dispatch({type: 'DISPLAY_MESSAGE', payload: {message: `Challenge has been cancelled`}});
                     else
                         dispatch({type: 'DISPLAY_MESSAGE', payload: {message: `${playerWhoDeclined} has declined`}});
                 }
@@ -117,7 +117,7 @@ function DisplayPlayer({username, image}) {
     return(    
         <>
             <AnimatePresence>
-                {waiting && <WaitingForReply challengeId={waiting}/>}
+                {waiting && <WaitingForReply challengeId={waiting} waitingForPlayerUsername={username}/>}
             </AnimatePresence>
             <div className={styles.queue_player} key={username}>
                 <img className={styles.queue_player_image} src={image}/>
