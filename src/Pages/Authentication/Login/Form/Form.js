@@ -20,7 +20,7 @@ function Form() {
         setLoading(true);
 
         try{
-            const response = await fetch('https://world-class-chess-server.com/login', {
+            const response = await fetch('https://34.94.143.136:443/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
