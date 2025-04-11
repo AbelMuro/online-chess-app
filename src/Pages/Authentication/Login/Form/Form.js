@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
 import { ClipLoader } from 'react-spinners';
 import EnterEmail from '~/assets/Components/EnterEmail';
 import EnterPassword from '~/assets/Components/EnterPassword';
 import * as styles from './styles.module.css';
 
-//this is where i left off, i will need to set up a server with node.js and a database with mondoDB, and send the login credentials to the server
-
 function Form() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -48,8 +48,9 @@ function Form() {
                 
         }
         catch(error){
+            const message = error.message;
+            console.log(message);
             dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later.'}})
-            console.log(error.message);
         }
         finally{
             setLoading && setLoading(false);

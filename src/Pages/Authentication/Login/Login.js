@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
 import {ClipLoader} from 'react-spinners';
+import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import Form from './Form'
 import * as styles from './styles.module.css';
 
 function Login() {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
 

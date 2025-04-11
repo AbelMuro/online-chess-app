@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
+import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import RegisterPassword from '~/assets/Components/RegisterPassword';
 import { ClipLoader } from 'react-spinners';
 import * as styles from './styles.module.css';
 
 function Form({token}){
+    const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
