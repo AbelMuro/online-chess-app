@@ -1,7 +1,6 @@
 import {useState, useEffect} from 'react';
 
 function useWebRTC(){
-    const [startConnection, setStartConnection] = useState();
     const [sendMessage, setSendMessage] = useState();
 
     useEffect(() => {
@@ -42,11 +41,13 @@ function useWebRTC(){
         };
         
         // Start connection
-        setStartConnection(async () => {
+        const startConnection = async () => {
             const offer = await peerConnection.createOffer();
             await peerConnection.setLocalDescription(offer);
             signalingServer.send(JSON.stringify({ type: 'offer', offer }));
-        })
+        }
+
+        startConnection();
     }, [])
 
 
