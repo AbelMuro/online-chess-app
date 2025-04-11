@@ -7,6 +7,10 @@
               {
                 "rootPathSuffix": "./src",             
                 "rootPathPrefix": "~/"                //  ~/ will now represent ./src    so you dont have to write ../../../../src
+              },
+              {
+                "rootPathSuffix": "./src/Pages/FindPlayers",
+                "rootPathPrefix": "`/"
               }
             ]
           }

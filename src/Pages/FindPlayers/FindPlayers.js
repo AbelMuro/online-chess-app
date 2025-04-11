@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo, createContext} from 'react';
 import DisplayPlayer from './DisplayPlayer';
 import * as styles from './styles.module.css';
 import {useDispatch} from 'react-redux';
@@ -8,6 +8,7 @@ import icons from '~/assets/icons';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js';
 import DisplayCurrentChallenge from './DisplayCurrentChallenge';
 import useWebSocket from '~/Hooks/useWebSocket';
+import useWebRTC from '~/Hooks/useWebRTC';
 
 
 /* 
@@ -43,8 +44,11 @@ import useWebSocket from '~/Hooks/useWebSocket';
 */
 
 
+export const PeerToPeerConnection = createContext();
+
 function FindPlayers() {
     const dispatch = useDispatch();
+    const [startConnection, sendMessage] = useWebRTC();
     const [queue, setQueue] = useWebSocket(
         'wss://world-class-chess-server.com:443/queue', 
         (e) => {
@@ -162,6 +166,7 @@ function FindPlayers() {
         putPlayerInQueue();
     }, [])
 
+
     useEffect(() => {
 
        const removePlayerFromQueue = () => {
@@ -195,7 +200,7 @@ function FindPlayers() {
 
 
     return(
-        <>
+        <PeerToPeerConnection.Provider value={{startConnection, sendMessage}}>
             <DisplayCurrentChallenge/>
             <section className={styles.container}>
                 <section className={styles.queue}>
@@ -211,8 +216,7 @@ function FindPlayers() {
                     </button>
                 </section>  
             </section>        
-        </>
-
+        </PeerToPeerConnection.Provider>
     )
 }
 
