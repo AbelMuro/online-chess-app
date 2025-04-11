@@ -75,10 +75,10 @@ function DisplayPlayer({username, image}) {
     const [waiting, setWaiting] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {startConnection} = useContext(PeerToPeerConnection);
+    const {sendMessage} = useContext(PeerToPeerConnection);
 
     const handleConnection = () => {
-        startConnection();    
+        sendMessage({});    
     }
 
 
