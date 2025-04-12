@@ -63,54 +63,10 @@ function DisplayCurrentChallenge(){
         navigate('/menu');
         return null;
     } 
-    const [challenger, setChallenger] = useWebSocket(                                                                               //user websocket
-        `wss://world-class-chess-server.com:443/${username}`, 
-        (e) => {
-            const challenger = JSON.parse(e.data);
-            if(!challenger) return;
-            const challengeId = challenger.challengeId;
-            setChallenger(challenger);
-            ConnectToWebSocket(`wss://world-class-chess-server.com:443/${challengeId}`, callbackForChallengeWebSocket(navigate, dispatch ,setChallenger))    //challenge websocket
-        }, null)
 
+    const handleDecision = (decision) => {
 
-    const handleChallenge = async (decision) => {
-        if(!challenger) return;
-
-        try{
-            const response = await fetch('https://world-class-chess-server.com/handle_challenge', {    //if the challenged player accepts the challenge, then a new match will be created in the Match collection
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                credentials: 'include',
-                body: JSON.stringify({challengeId: challenger.challengeId, decision, playerResponding: 'playerTwo', playerOne: challenger.username, playerTwo: username})
-            })
-
-            if(response.status === 200){
-                const result = await response.text();
-                console.log(result);
-            }
-            else if(response.status === 404){
-                const result = await response.text();
-                console.log(result);
-                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Challenger left the queue'}});
-            }
-            else{
-                const result = await response.text();
-                console.log(result);
-                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later.'}});
-            }
-        }
-        catch(error){
-            const message = error.message;
-            console.log(message);
-            dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later.'}});
-        }
-        finally{
-            setLoading && setLoading(false);
-            setChallenger && setChallenger(null);
-        }
     }
-
 
     const loadImage = () => {
         if(challenger.imageBase64)
@@ -134,10 +90,10 @@ function DisplayCurrentChallenge(){
                                 {challenger.username}
                             </h2>
                         </div>    
-                        <button onClick={() => {setLoading('accept'); handleChallenge('accepted')}}>
+                        <button onClick={() => {handleDecision('accept')}}>
                             {loading === 'accept' ? <ClipLoader size='30px' color='#CECECE'/> : 'Accept'}
                         </button>     
-                        <button onClick={() => {setLoading('decline'); handleChallenge('decline')}}>
+                        <button onClick={() => {handleDecision('decline')}}>
                             {loading === 'decline' ? <ClipLoader size='30px' color='#CECECE'/> : 'Decline'}
                         </button>          
                     </motion.dialog>

@@ -11,9 +11,13 @@ function useWebRTC(){
         dataChannel.onopen = () => console.log('Data channel open');
         dataChannel.onmessage = (e) => console.log('Received: ', e.data);
 
-        setSendMessage((message) => {
+        const sendMessage = (message) => {
             if(dataChannel.readyState === 'open') 
                 dataChannel.send(message);
+        }
+
+        setSendMessage(() => {
+            return sendMessage
         })
 
         signalingServer.onmessage = async (message) => {
