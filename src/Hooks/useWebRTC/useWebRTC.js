@@ -25,6 +25,7 @@ function useWebRTC(){
         dataChannel.onmessage = (e) => console.log('Received: ', e.data);
  
         peerConnection.onicecandidate = event => {
+            console.log('Ice Candidate: ', event.candidate);
             if(event.candidate) 
                 signalingServer.send(JSON.stringify({type: 'candidate', candidate: event.candidate}));
         };   
