@@ -11,11 +11,11 @@ function useWebRTC(){
         const signalingServer = new WebSocket('wss://world-class-chess-server.com:443/signal')
         const peerConnection = new RTCPeerConnection({
             iceServers: [
-                { urls: 'stun:global.stun.twilio.com:3478' },
+                { urls: 'stun:openrelay.metered.ca:80' },
                 { 
-                    urls: 'turn:global.turn.twilio.com:3478',
-                    username: 'ACb08700d9482f63263dc260014c810cfe',
-                    credential: '70c715dd11bc399181701d028213abda'
+                    urls: 'turn:openrelay.metered.ca:443',
+                    username: 'openrelayproject',
+                    credential: 'openrelaypassword'
                 }
             ]
         });
@@ -27,12 +27,8 @@ function useWebRTC(){
         // ICE Candidate handling       
         // (ICE candidate is a potential network path that webRTC can use to connect two clients, the client collects all possible connections and uses the best one)
         peerConnection.onicecandidate = event => {
-            if(event.candidate) {
-                console.log('ICE candidate: ', event.candidate);
+            if(event.candidate) 
                 signalingServer.send(JSON.stringify({type: 'candidate', candidate: event.candidate}));
-            }
-            else
-                console.log('ICE gathering complete.')
         };   
         
         peerConnection.oniceconnectionstatechange = () => console.log(`ICE state: ${peerConnection.iceConnectionState}`);
