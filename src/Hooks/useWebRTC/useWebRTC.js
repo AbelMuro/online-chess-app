@@ -18,7 +18,7 @@ function useWebRTC(){
                     credential: 'openrelaypassword'
                 }
             ],
-            iceTransportPolicy: 'all'
+            iceCandidatePoolSize: 0
         });
        
         const dataChannel = peerConnection.createDataChannel('chat');
