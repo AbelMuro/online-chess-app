@@ -1,7 +1,9 @@
 import {useState, useEffect} from 'react';
 
 function useWebRTC(){
-    const [sendMessage, setSendMessage] = useState();
+    const [sendMessageToClient, setSendMessageToClient] = useState();
+    const [sendOfferToClient, setSendOfferToClient] = useState();
+    const localClientUsername = sessionStorage.getItem('username');
 
     useEffect(() => {
         const signalingServer = new WebSocket('wss://world-class-chess-server.com:443/signal')
@@ -10,16 +12,14 @@ function useWebRTC(){
         const dataChannel = peerConnection.createDataChannel('chat');
         dataChannel.onopen = () => console.log('Data channel open');
         dataChannel.onmessage = (e) => console.log('Received: ', e.data);
-
-        const sendMessage = (message) => {
-            if(dataChannel.readyState === 'open') 
-                dataChannel.send(message);
-        }
-
-        setSendMessage(() => {
-            return sendMessage
-        })
-
+ 
+        // ICE Candidate handling       
+        // (ICE candidate is a potential network path that webRTC can use to connect two clients, the client collects all possible connections and uses the best one)
+        peerConnection.onicecandidate = event => {
+            if(event.candidate) 
+                signalingServer.send(JSON.stringify({ type: 'candidate', candidate: event.candidate }));
+        };     
+        
         signalingServer.onmessage = async (message) => {
             const data = JSON.parse(message.data);
             console.log(data);
@@ -38,24 +38,28 @@ function useWebRTC(){
 
         signalingServer.onopen = async () => {
             console.log('Connected to signaling websocket');
-            const offer = await peerConnection.createOffer();                   //creating an offer object that contains information about the client's session, connection, etc..
-            await peerConnection.setLocalDescription(offer);                    //we crete a local description of the offer (local description are connection settings for THIS peer)
-            signalingServer.send(JSON.stringify({ type: 'offer', offer }));     //we send the offer to the websocket
-        }
-        
-        // ICE Candidate handling       
-        // (ICE candidate is a potential network path that webRTC can use to connect two clients, the client collects all possible connections and uses the best one)
-        peerConnection.onicecandidate = event => {
-            if(event.candidate) 
-                signalingServer.send(JSON.stringify({ type: 'candidate', candidate: event.candidate }));
-        };
-        
-      
+        }        
+
+
+        setSendMessageToClient(() => ({
+            callback: (message) => {
+                if(dataChannel.readyState === 'open') 
+                    dataChannel.send(message);
+            }  
+        }))
+
+        setSendOfferToClient(() => ({
+            callback: async (remoteClientUsername) => {
+                const offer = await peerConnection.createOffer();                       //creating an offer object that contains information about the client's session, connection, etc..
+                await peerConnection.setLocalDescription(offer);                        //we crete a local description of the offer (local description are connection settings for THIS peer)
+                signalingServer.send(JSON.stringify({ type: 'offer', offer, username: remoteClientUsername}));
+            }
+        }));
     }, [])
 
 
 
-    return [sendMessage];
+    return [sendMessageToClient, sendOfferToClient];
 }
 
 export default useWebRTC;

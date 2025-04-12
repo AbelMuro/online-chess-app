@@ -13,10 +13,10 @@ function DisplayPlayer({username, image}) {
     const [waiting, setWaiting] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const {sendMessage} = useContext(PeerToPeerConnection);
+    const {sendOfferToClient} = useContext(PeerToPeerConnection);
 
     const handleConnection = () => {
-        sendMessage(JSON.stringify({challengedPlayer: username, image}));    
+        sendOfferToClient.callback(username);    
     }
 
 
