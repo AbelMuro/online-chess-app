@@ -11,14 +11,13 @@ function useWebRTC(){
         const signalingServer = new WebSocket('wss://world-class-chess-server.com:443/signal')
         const peerConnection = new RTCPeerConnection({
             iceServers: [
-                { urls: 'stun:openrelay.metered.ca:80' },
+                { urls: 'stun:stun.l.google.com:19302' },
                 { 
                     urls: 'turn:openrelay.metered.ca:80',
                     username: 'openrelayproject',
                     credential: 'openrelaypassword'
                 }
-            ],
-            iceCandidatePoolSize: 0
+            ]
         });
        
         const dataChannel = peerConnection.createDataChannel('chat');
