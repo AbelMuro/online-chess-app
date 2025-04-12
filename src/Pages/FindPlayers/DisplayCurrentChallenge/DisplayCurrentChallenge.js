@@ -27,32 +27,6 @@ import {motion, AnimatePresence} from 'framer-motion';
 
 //also, look into WebRTC in react and websockets in node.js
 
-const callbackForChallengeWebSocket = (navigate, dispatch, setChallenger) => {
-
-    return function (e) {
-        const result = JSON.parse(e.data);
-        if(!result) return;
-        const message = result.message;
-        const matchId = result.matchId;
-        const playerWhoDeclined = result.playerWhoDeclined;
-        const username = sessionStorage.getItem('username');
-
-        if(message === 'initiate match'){
-            console.log('initiate match');
-            this.close();
-            navigate(`/chessboard/${matchId}`, {state: {matchId}});
-        }
-            
-        else if(message === 'decline match'){
-            console.log('declined');
-            if(playerWhoDeclined !== username)
-                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: `${playerWhoDeclined} has cancelled the challenge`}});
-            this.close();
-            setChallenger(null);
-        }
-    }
-}
-
 
 function DisplayCurrentChallenge(){
     const [loading, setLoading] = useState(false);
