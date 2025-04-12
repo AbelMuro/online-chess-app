@@ -21,7 +21,6 @@ function useWebRTC(){
         };     
         
         signalingServer.onmessage = async (message) => {
-            console.log('signal from websocket', message);
             const data = JSON.parse(message.data);
         
             if(data.type === 'offer') {                                                            //we handle a connection here (when a remote client wants to connect to a local client)
@@ -52,7 +51,7 @@ function useWebRTC(){
             callback: async (remoteClientUsername) => {
                 const offer = await peerConnection.createOffer();                       //creating an offer object that contains information about the client's session, connection, etc..
                 await peerConnection.setLocalDescription(offer);                        //we crete a local description of the offer (local description are connection settings for THIS peer)
-                signalingServer.send(JSON.stringify({ type: 'offer', offer, username: remoteClientUsername}));
+                signalingServer.send(JSON.stringify({ type: 'offer', offer: {sdp: offer.sdp, type: offer.type}, username: remoteClientUsername}));
             }
         }));
     }, [])
