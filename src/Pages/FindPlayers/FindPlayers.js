@@ -182,7 +182,6 @@ function FindPlayers() {
         return () => {
             window.removeEventListener('beforeunload', removePlayerFromQueue);
             leaveQueue && leaveQueue();
-            deleteWebsockets && deleteWebsockets();
         }
     }, [])
 
