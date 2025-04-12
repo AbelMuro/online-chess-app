@@ -21,6 +21,7 @@ function useWebRTC(){
         };     
         
         signalingServer.onmessage = async (message) => {
+            console.log(message.data);
             const data = JSON.parse(message.data);
         
             if(data.type === 'offer') {                                                            //we handle a connection here (when a remote client wants to connect to a local client)
