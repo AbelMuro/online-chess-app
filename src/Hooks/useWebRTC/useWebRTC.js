@@ -17,7 +17,8 @@ function useWebRTC(){
                     username: 'openrelayproject',
                     credential: 'openrelaypassword'
                 }
-            ]
+            ],
+            iceTransportPolicy: "relay"
         });
        
         const dataChannel = peerConnection.createDataChannel('chat');
@@ -25,7 +26,6 @@ function useWebRTC(){
         dataChannel.onmessage = (e) => console.log('Received: ', e.data);
  
         peerConnection.onicecandidate = event => {
-            console.log('Ice Candidate: ', event.candidate);
             if(event.candidate) 
                 signalingServer.send(JSON.stringify({type: 'candidate', candidate: event.candidate}));
         };   
@@ -54,7 +54,6 @@ function useWebRTC(){
                 console.log(message);
                 dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Error trying to establish connection to remote client'}})
             }
-
         };
 
         signalingServer.onopen = async () => {
