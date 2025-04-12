@@ -201,7 +201,7 @@ function FindPlayers() {
 
     return(
         <PeerToPeerConnection.Provider value={{startConnection, sendMessage}}>
-            <DisplayCurrentChallenge/>
+            {/* <DisplayCurrentChallenge/> */}
             <section className={styles.container}>
                 <section className={styles.queue}>
                     <h1 className={styles.queue_title}>
