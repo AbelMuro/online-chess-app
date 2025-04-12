@@ -10,7 +10,14 @@ function useWebRTC(){
     useEffect(() => {
         const signalingServer = new WebSocket('wss://world-class-chess-server.com:443/signal')
         const peerConnection = new RTCPeerConnection({
-            iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+            iceServers: [
+                { urls: 'stun:global.stun.twilio.com:3478' },
+                { 
+                    urls: 'turn:global.turn.twilio.com:3478',
+                    username: 'ACb08700d9482f63263dc260014c810cfe',
+                    credential: '70c715dd11bc399181701d028213abda'
+                }
+            ]
         });
        
         const dataChannel = peerConnection.createDataChannel('chat');
