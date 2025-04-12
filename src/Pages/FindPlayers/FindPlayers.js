@@ -177,22 +177,10 @@ function FindPlayers() {
             });                
         }    
         
-        const deleteWebsockets = () => {
-            fetch('https://world-class-chess-server.com/delete_websockets', {
-                method: 'DELETE',
-                keepalive: true
-            });
-        }
-
-        const beforeUnload = () => {
-            removePlayerFromQueue();
-            deleteWebsockets();
-        }
-
-        window.addEventListener('beforeunload', beforeUnload);
+        window.addEventListener('beforeunload', removePlayerFromQueue);
 
         return () => {
-            window.removeEventListener('beforeunload', beforeUnload);
+            window.removeEventListener('beforeunload', removePlayerFromQueue);
             leaveQueue && leaveQueue();
             deleteWebsockets && deleteWebsockets();
         }
