@@ -17,7 +17,8 @@ function useWebRTC(){
                     username: 'openrelayproject',
                     credential: 'openrelaypassword'
                 }
-            ]
+            ],
+            iceTransportPolicy: 'all'
         });
        
         const dataChannel = peerConnection.createDataChannel('chat');
@@ -27,7 +28,6 @@ function useWebRTC(){
         // ICE Candidate handling       
         // (ICE candidate is a potential network path that webRTC can use to connect two clients, the client collects all possible connections and uses the best one)
         peerConnection.onicecandidate = event => {
-            console.log('ice candidate ', event.candidate);
             if(event.candidate) 
                 signalingServer.send(JSON.stringify({type: 'candidate', candidate: event.candidate}));
         };   
