@@ -24,8 +24,6 @@ function useWebRTC(){
         dataChannel.onopen = () => console.log('Data channel open');
         dataChannel.onmessage = (e) => console.log('Received: ', e.data);
  
-        // ICE Candidate handling       
-        // (ICE candidate is a potential network path that webRTC can use to connect two clients, the client collects all possible connections and uses the best one)
         peerConnection.onicecandidate = event => {
             if(event.candidate) 
                 signalingServer.send(JSON.stringify({type: 'candidate', candidate: event.candidate}));
