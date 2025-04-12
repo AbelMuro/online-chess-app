@@ -8,8 +8,8 @@ function useWebRTC(){
         const peerConnection = new RTCPeerConnection();
        
         const dataChannel = peerConnection.createDataChannel('chat');
-        dataChannel = onopen = () => console.log('Data channel open');
-        dataChannel = onmessage = () => console.log('Received: ', e.data);
+        dataChannel.onopen = () => console.log('Data channel open');
+        dataChannel.onmessage = (e) => console.log('Received: ', e.data);
 
         setSendMessage((message) => {
             if(dataChannel.readyState === 'open') 
