@@ -76,6 +76,10 @@ function useWebRTC(){
                 signalingServer.send(JSON.stringify({ type: 'offer', offer: {sdp: offer.sdp, type: offer.type}, username: remoteClientUsername}));
             }
         }));
+
+        return () => {
+            peerConnection.restartIce();
+        }
     }, [])
 
 
