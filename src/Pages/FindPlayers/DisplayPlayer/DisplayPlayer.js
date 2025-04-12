@@ -19,7 +19,6 @@ function DisplayPlayer({username, image}) {
         sendOfferToClient.callback(username);    
     }
 
-
     return(    
         <>
             <AnimatePresence>

@@ -4,26 +4,9 @@ import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js'
 import icons from '~/assets/icons';
-import useWebSocket from "~/Hooks/useWebSocket/useWebSocket";
 import * as styles from './styles.module.css';
-import ConnectToWebSocket from '~/assets/functions/ConnectToWebSocket.js';
 import { overlayVariants, dialogVariants } from "./Variants/Variants";
 import {motion, AnimatePresence} from 'framer-motion';
-
-//this is where i left off, i need to debug these components further
-
-//if the challenger leaves the session, then i have to notify the challenged payer that the challenger has declined
-//if the challenged player leaves the queue, then i have to notify the challenger that the challenged player declined
-// leaving the queue means a few things here; closing the session, clicking the back button, closing the browser
-
-//i may also need to organize the code a bit here
-
-//also test out the app when player A sends a challenge to player B, 
-// player A should cancel the challenge
-// then player B should decline
-// then make player A leave the queue and see if the queue is updated in Player B screen
-// i may need to debug the challenge websocket somehow
-// i got a websocket error when i did the steps above before
 
 //also, look into WebRTC in react and websockets in node.js
 
