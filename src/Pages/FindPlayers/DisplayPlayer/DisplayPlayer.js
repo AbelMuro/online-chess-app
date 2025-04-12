@@ -16,7 +16,7 @@ function DisplayPlayer({username, image}) {
     const {sendOfferToClient} = useContext(PeerToPeerConnection);
 
     const handleConnection = () => {
-        sendOfferToClient.callback(username);    
+        sendOfferToClient.callback(JSON.stringify(username));    
     }
 
     return(    
