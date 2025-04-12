@@ -38,15 +38,15 @@ function useWebRTC(){
                 const data = JSON.parse(text);
                 console.log(data);
             
-                if(data.type === 'offer') {                                                            //we handle a connection here (when a remote client wants to connect to a local client)
+                if(data.type === 'offer' && peerConnection.signalingState === 'stable') {                                                            //we handle a connection here (when a remote client wants to connect to a local client)
                     await peerConnection.setRemoteDescription(new RTCSessionDescription(data.offer));   //we create a remote description of the offer  (remote description are the connection settings of the OTHER peer)
                     const answer = await peerConnection.createAnswer();                                 //we create an answer in response to the offer
                     await peerConnection.setLocalDescription(answer);                                   //we create a local description of the answer we created
                     signalingServer.send(JSON.stringify({ type: 'answer', answer }));                   //we send the answer to the websocket
                 } 
-                else if(data.type === 'answer') 
+                else if(data.type === 'answer' && peerConnection.signalingState === 'have-local-offer') 
                     await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));  //we create a remote description of the answer from another peer
-                else if(data.type === 'candidate')
+                else if(data.type === 'candidate' && peerConnection.signalingState !== 'closed')
                     await peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
             }
             catch(error){
