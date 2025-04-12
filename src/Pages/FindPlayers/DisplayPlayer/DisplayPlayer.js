@@ -69,6 +69,9 @@ import * as styles from './styles.module.css';
     }
 */
 
+/* 
+    this is where i left off, i need to learn more about WebRTC and sending data between clients
+*/
 
 function DisplayPlayer({username, image}) {
     const [loading, setLoading] = useState(false);
