@@ -21,8 +21,9 @@ function useWebRTC(){
         };     
         
         signalingServer.onmessage = async (message) => {
-            console.log(message.data);
-            const data = JSON.parse(message.data);
+            const text = await message.data.text();
+            const data = JSON.parse(text);
+            console.log(data);
         
             if(data.type === 'offer') {                                                            //we handle a connection here (when a remote client wants to connect to a local client)
                 await peerConnection.setRemoteDescription(new RTCSessionDescription(data.offer));   //we create a remote description of the offer  (remote description are the connection settings of the OTHER peer)
