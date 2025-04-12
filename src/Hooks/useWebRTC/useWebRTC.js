@@ -78,7 +78,7 @@ function useWebRTC(){
         }));
 
         return () => {
-            peerConnection.restartIce();
+            dataChannel.close();
         }
     }, [])
 
