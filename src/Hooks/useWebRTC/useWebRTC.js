@@ -29,6 +29,8 @@ function useWebRTC(){
         peerConnection.onicecandidate = event => {
             if(event.candidate) 
                 signalingServer.send(JSON.stringify({ type: 'candidate', candidate: event.candidate }));
+            else
+                console.log('ICE gathering complete.')
         };   
         
         peerConnection.oniceconnectionstatechange = () => console.log(`ICE state: ${peerConnection.iceConnectionState}`);
