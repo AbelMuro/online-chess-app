@@ -16,7 +16,7 @@ function DisplayPlayer({username, image}) {
     const {sendMessage} = useContext(PeerToPeerConnection);
 
     const handleConnection = () => {
-        sendMessage({challengedPlayer: username, image});    
+        sendMessage(JSON.stringify({challengedPlayer: username, image}));    
     }
 
 
