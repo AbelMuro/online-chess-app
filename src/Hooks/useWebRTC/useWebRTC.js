@@ -50,6 +50,7 @@ function useWebRTC(){
 
         setSendOfferToClient(() => ({
             callback: async (remoteClientUsername) => {
+                console.log(remoteClientUsername);
                 const offer = await peerConnection.createOffer();                       //creating an offer object that contains information about the client's session, connection, etc..
                 await peerConnection.setLocalDescription(offer);                        //we crete a local description of the offer (local description are connection settings for THIS peer)
                 signalingServer.send(JSON.stringify({ type: 'offer', offer, username: remoteClientUsername}));
