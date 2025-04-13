@@ -16,26 +16,26 @@ function useWebRTC(){
     const dataChannel = useRef();
 
     const sendOfferToRemoteClient = async (remoteClientUsername) => {
-            peerConnection.current = new RTCPeerConnection({
-                iceServers: [
-                    { urls: 'stun:stun.l.google.com:19302' },
-                    {
-                        urls: process.env.TURN_SERVER,
-                        username: process.env.TURN_USERNAME,
-                        credential: process.env.TURN_CREDENTIAL
-                    }
-                ]
-            });
-            dataChannel.current = peerConnection.createDataChannel('chat');
+        peerConnection.current = new RTCPeerConnection({
+            iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' },
+                {
+                    urls: process.env.TURN_SERVER,
+                    username: process.env.TURN_USERNAME,
+                    credential: process.env.TURN_CREDENTIAL
+                }
+            ]
+        });
+        dataChannel.current = peerConnection.current.createDataChannel('chat');
 
-            const offer = await peerConnection.current.createOffer();                       //creating an offer object that contains information about the client's session, connection, etc..
-            await peerConnection.current.setLocalDescription(offer);                        //we create a local description of the offer (local description are connection settings for THIS peer)
-            signalingServer.send(JSON.stringify({ 
-                type: 'offer', 
-                offer: {sdp: offer.sdp, type: offer.type}, 
-                username: remoteClientUsername, 
-            }));
-        }
+        const offer = await peerConnection.current.createOffer();                       //creating an offer object that contains information about the client's session, connection, etc..
+        await peerConnection.current.setLocalDescription(offer);                        //we create a local description of the offer (local description are connection settings for THIS peer)
+        signalingServer.send(JSON.stringify({ 
+            type: 'offer', 
+            offer: {sdp: offer.sdp, type: offer.type}, 
+            username: remoteClientUsername, 
+        }));
+    }
     
 
     const sendMessageToRemoteClient = (message) => {
@@ -46,8 +46,7 @@ function useWebRTC(){
     const cancelConnection = () => {
         dataChannel.current.close();
         peerConnection.current.close();
-    }
-    
+    }  
 
     const onopenDataChannel = () => {
         console.log('Data channel open'); 
