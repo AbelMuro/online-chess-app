@@ -11,7 +11,7 @@ function useWebRTC(){
     const [localClient, setLocalClient] = useState();
     const dispatch = useDispatch();
     const localClientUsername = sessionStorage.getItem('username');
-    const signalingServer = new WebSocket('wss://world-class-chess-server.com:443/signal');;
+    const signalingServer = new WebSocket('wss://world-class-chess-server.com:443/signal');
     const peerConnection = useRef();
     const dataChannel = useRef();
 
@@ -106,18 +106,18 @@ function useWebRTC(){
     } 
 
     useEffect(() => {
-        dataChannel.onopen = onopenDataChannel;
-        dataChannel.onclose = oncloseDataChannel;        
-        dataChannel.onerror = onerrorDataChannel;
-        dataChannel.onmessage = onmessageFromRemoteClient;
-        peerConnection.onicecandidate = onicecandidate;
-        peerConnection.oniceconnectionstatechange = oniceconnectionstatechange;
+        dataChannel.current.onopen = onopenDataChannel;
+        dataChannel.current.onclose = oncloseDataChannel;        
+        dataChannel.current.onerror = onerrorDataChannel;
+        dataChannel.current.onmessage = onmessageFromRemoteClient;
+        peerConnection.current.onicecandidate = onicecandidate;
+        peerConnection.current.oniceconnectionstatechange = oniceconnectionstatechange;
         signalingServer.onmessage = onmessageFromWebSocket;
         signalingServer.onopen = onopenWebSocket;      
 
         return () => {
-            dataChannel.close();
-            peerConnection.close();
+            dataChannel.current.close();
+            peerConnection.current.close();
             signalingServer.close();
         }
     }, [])
