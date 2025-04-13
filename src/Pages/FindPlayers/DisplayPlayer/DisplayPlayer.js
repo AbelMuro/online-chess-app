@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import WaitingForReply from './WaitingForReply';
 import {ClipLoader} from 'react-spinners';
 import {useNavigate} from 'react-router-dom';
@@ -8,21 +8,29 @@ import { PeerToPeerConnection } from '`/FindPlayers';
 import * as styles from './styles.module.css';
 
 
-function DisplayPlayer({username, image}) {
-    const [loading, setLoading] = useState(false);
+function DisplayPlayer({username, image, profileImageBase64, contentType}) {
+    const {sendOfferToRemoteClient, sendMessageToRemoteClient, connection} = useContext(PeerToPeerConnection);    
     const [waiting, setWaiting] = useState(false);
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const {sendOfferToClient} = useContext(PeerToPeerConnection);
 
     const handleConnection = () => {
-        sendOfferToClient.callback(username);    
+        sendOfferToRemoteClient.callback(username);   
     }
+
+
+    useEffect(() => {
+        if(connection !== 'open') {
+            setWaiting(false);
+            return;
+        };
+
+        sendMessageToRemoteClient.callback({username, profileImageBase64, contentType})
+        setWaiting(true);
+    },[connection])
 
     return(    
         <>
             <AnimatePresence>
-                {waiting && <WaitingForReply challengeId={waiting} waitingForPlayerUsername={username}/>}
+                {waiting && <WaitingForReply/>}
             </AnimatePresence>
             <div className={styles.queue_player} key={username}>
                 <img className={styles.queue_player_image} src={image}/>
@@ -30,7 +38,7 @@ function DisplayPlayer({username, image}) {
                     {username}
                 </h3>
                 <button onClick={handleConnection} className={styles.queue_button}>
-                    {loading ? <ClipLoader size='30px' color='#CECECE'/> : 'Challenge'}
+                    Challenge
                 </button>
             </div>        
         </>           

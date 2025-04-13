@@ -8,8 +8,10 @@ import {useDispatch} from 'react-redux';
 
 
 function useWebRTC(){
-    const [sendMessageToClient, setSendMessageToClient] = useState();
-    const [sendOfferToClient, setSendOfferToClient] = useState();
+    const [sendMessageToRemoteClient, setSendMessageToRemoteClient] = useState();
+    const [sendOfferToRemoteClient, setSendOfferToRemoteClient] = useState();
+    const [receiveMessageFromRemoteClient, setReceiveMessageFromRemoteClient] = useState();
+    const [connection, setConnection] = useState('closed');
     const dispatch = useDispatch();
     const localClientUsername = sessionStorage.getItem('username');
 
@@ -27,13 +29,18 @@ function useWebRTC(){
         });
        
         const dataChannel = peerConnection.createDataChannel('chat');
-        dataChannel.onopen = () => console.log('Data channel open');
-        dataChannel.onmessage = (e) => console.log('Received: ', e.data);
-        dataChannel.onclose = () => {console.log('Data channel closed')}
+        dataChannel.onopen = () => {
+            console.log('Data channel open')
+            setConnection('open');
+        };
+        dataChannel.onmessage = (e) => {
+            setReceiveMessageFromRemoteClient(e.data);
+        };
+        dataChannel.onclose = () => console.log('Data channel closed');
  
-        peerConnection.onicecandidate = event => {
-            if(event.candidate) 
-                signalingServer.send(JSON.stringify({type: 'candidate', candidate: event.candidate}));
+        peerConnection.onicecandidate = e => {
+            if(e.candidate) 
+                signalingServer.send(JSON.stringify({type: 'candidate', candidate: e.candidate}));
             else
                 console.log('All ICE candidates have been collected');
         };   
@@ -72,18 +79,22 @@ function useWebRTC(){
         }        
 
 
-        setSendMessageToClient(() => ({
+        setSendMessageToRemoteClient(() => ({
             callback: (message) => {
                 if(dataChannel.readyState === 'open') 
-                    dataChannel.send(message);
+                    dataChannel.send(JSON.stringify(message));
             }  
         }))
 
-        setSendOfferToClient(() => ({
+        setSendOfferToRemoteClient(() => ({
             callback: async (remoteClientUsername) => {
                 const offer = await peerConnection.createOffer();                       //creating an offer object that contains information about the client's session, connection, etc..
-                await peerConnection.setLocalDescription(offer);                        //we crete a local description of the offer (local description are connection settings for THIS peer)
-                signalingServer.send(JSON.stringify({ type: 'offer', offer: {sdp: offer.sdp, type: offer.type}, username: remoteClientUsername}));
+                await peerConnection.setLocalDescription(offer);                        //we create a local description of the offer (local description are connection settings for THIS peer)
+                signalingServer.send(JSON.stringify({ 
+                    type: 'offer', 
+                    offer: {sdp: offer.sdp, type: offer.type}, 
+                    username: remoteClientUsername, 
+                }));
             }
         }));
 
@@ -95,7 +106,7 @@ function useWebRTC(){
 
 
 
-    return [sendMessageToClient, sendOfferToClient];
+    return [sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, connection];
 }
 
 export default useWebRTC;

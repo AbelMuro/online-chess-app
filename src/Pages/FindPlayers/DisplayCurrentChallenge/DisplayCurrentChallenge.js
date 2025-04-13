@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useContext, useEffect} from "react";
 import { ClipLoader } from "react-spinners";
 import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
@@ -7,11 +7,12 @@ import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 import { overlayVariants, dialogVariants } from "./Variants/Variants";
 import {motion, AnimatePresence} from 'framer-motion';
-
-//also, look into WebRTC in react and websockets in node.js
+import { PeerToPeerConnection } from "`/FindPlayers";
 
 
 function DisplayCurrentChallenge(){
+    const [challenger, setChallenger] = useState();
+    const {sendMessageToRemoteClient, receiveMessageFromRemoteClient} = useContext(PeerToPeerConnection);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -22,15 +23,27 @@ function DisplayCurrentChallenge(){
     } 
 
     const handleDecision = (decision) => {
-
+        sendMessageToRemoteClient.callback(JSON.stringify({message: decision}))
     }
 
     const loadImage = () => {
         if(challenger.imageBase64)
-            return convertBase64ToBlobURL(challenger.imageBase64, challenger.imageContentType);
+            return convertBase64ToBlobURL(challenger.imageBase64, challenger.contentType);
         else
             return icons['empty avatar'];
     }
+    
+
+    useEffect(() => {
+        if(!receiveMessageFromRemoteClient) return;
+
+        const username = receiveMessageFromRemoteClient.message.username;
+        const imageBase64 = receiveMessageFromRemoteClient.message.imageBase64;
+        const contentType = receiveMessageFromRemoteClient.message.contentType;
+
+        setChallenger({username, imageBase64, contentType})
+    }, [receiveMessageFromRemoteClient])
+
 
 
     return (
@@ -44,7 +57,7 @@ function DisplayCurrentChallenge(){
                         <div className={styles.display_challenger}>
                             <img src={loadImage()}/>
                             <h2>
-                                {challenger.username}
+                                {receiveMessageFromRemoteClient.username}
                             </h2>
                         </div>    
                         <button onClick={() => {handleDecision('accept')}}>
