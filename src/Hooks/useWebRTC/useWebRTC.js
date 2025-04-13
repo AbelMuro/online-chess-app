@@ -29,7 +29,11 @@ function useWebRTC(){
                 signalingServer.send(JSON.stringify({type: 'candidate', candidate: event.candidate}));
         };   
         
-        peerConnection.oniceconnectionstatechange = () => console.log(`ICE state: ${peerConnection.iceConnectionState}`);
+        peerConnection.oniceconnectionstatechange = () => {
+            console.log(`ICE state: ${peerConnection.iceConnectionState}`)
+            if(peerConnection.iceConnectionState === 'disconnected')
+                peerConnection.restartIce();
+        };
         
         signalingServer.onmessage = async (message) => {
             try{
