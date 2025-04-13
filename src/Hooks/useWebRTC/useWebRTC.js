@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, } from 'react';
 import {useDispatch} from 'react-redux';
 
 /* 
@@ -10,7 +10,7 @@ function useWebRTC(){
     const [sendOfferToRemoteClient, setSendOfferToRemoteClient] = useState();    
     const [sendMessageToRemoteClient, setSendMessageToRemoteClient] = useState();
     const [receiveMessageFromRemoteClient, setReceiveMessageFromRemoteClient] = useState();
-    const [localClient, setLocalClient] = useState('closed');
+    const [localClient, setLocalClient] = useState();
     const dispatch = useDispatch();
     const localClientUsername = sessionStorage.getItem('username');
 
