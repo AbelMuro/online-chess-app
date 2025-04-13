@@ -24,8 +24,7 @@ function useWebRTC(){
     });
     const dataChannel = peerConnection.createDataChannel('chat');
 
-    const sendOfferToRemoteClient = () => {
-        async (remoteClientUsername) => {
+    const sendOfferToRemoteClient = async (remoteClientUsername) => {
             const offer = await peerConnection.createOffer();                       //creating an offer object that contains information about the client's session, connection, etc..
             await peerConnection.setLocalDescription(offer);                        //we create a local description of the offer (local description are connection settings for THIS peer)
             signalingServer.send(JSON.stringify({ 
@@ -34,7 +33,7 @@ function useWebRTC(){
                 username: remoteClientUsername, 
             }));
         }
-    }
+    
 
     const sendMessageToRemoteClient = (message) => {
         if(dataChannel.readyState === 'open') 
