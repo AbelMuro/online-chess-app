@@ -6,9 +6,7 @@ import {useDispatch} from 'react-redux';
     now i need to test out the webRTC by sending messages between the clients
 */
 
-function useWebRTC(){
-    const [sendOfferToRemoteClient, setSendOfferToRemoteClient] = useState();    
-    const [sendMessageToRemoteClient, setSendMessageToRemoteClient] = useState();
+function useWebRTC(){  
     const [receiveMessageFromRemoteClient, setReceiveMessageFromRemoteClient] = useState();
     const [localClient, setLocalClient] = useState();
     const dispatch = useDispatch();
@@ -24,7 +22,25 @@ function useWebRTC(){
             }
         ]
     });
+    const dataChannel = peerConnection.createDataChannel('chat');
 
+    const sendOfferToRemoteClient = () => {
+        async (remoteClientUsername) => {
+            const offer = await peerConnection.createOffer();                       //creating an offer object that contains information about the client's session, connection, etc..
+            await peerConnection.setLocalDescription(offer);                        //we create a local description of the offer (local description are connection settings for THIS peer)
+            signalingServer.send(JSON.stringify({ 
+                type: 'offer', 
+                offer: {sdp: offer.sdp, type: offer.type}, 
+                username: remoteClientUsername, 
+            }));
+        }
+    }
+
+    const sendMessageToRemoteClient = (message) => {
+        if(dataChannel.readyState === 'open') 
+            dataChannel.send(JSON.stringify(message));
+    }  
+    
 
     const onopenDataChannel = () => {
         console.log('Data channel open'); 
@@ -84,7 +100,6 @@ function useWebRTC(){
     } 
 
     useEffect(() => {
-        const dataChannel = peerConnection.createDataChannel('chat');
         dataChannel.onopen = onopenDataChannel;
         dataChannel.onclose = oncloseDataChannel;        
         dataChannel.onerror = onerrorDataChannel;
@@ -93,25 +108,6 @@ function useWebRTC(){
         peerConnection.oniceconnectionstatechange = oniceconnectionstatechange;
         signalingServer.onmessage = onmessageFromWebSocket;
         signalingServer.onopen = onopenWebSocket;      
-
-        setSendMessageToRemoteClient({
-            callback: (message) => {
-                if(dataChannel.readyState === 'open') 
-                    dataChannel.send(JSON.stringify(message));
-            }  
-        })
-
-        setSendOfferToRemoteClient({
-            callback: async (remoteClientUsername) => {
-                const offer = await peerConnection.createOffer();                       //creating an offer object that contains information about the client's session, connection, etc..
-                await peerConnection.setLocalDescription(offer);                        //we create a local description of the offer (local description are connection settings for THIS peer)
-                signalingServer.send(JSON.stringify({ 
-                    type: 'offer', 
-                    offer: {sdp: offer.sdp, type: offer.type}, 
-                    username: remoteClientUsername, 
-                }));
-            }
-        });
 
         return () => {
             dataChannel.close();
