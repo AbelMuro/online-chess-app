@@ -12,6 +12,11 @@ function useWebRTC(){
         const peerConnection = new RTCPeerConnection({
             iceServers: [
                 { urls: 'stun:stun.l.google.com:19302' },
+                {
+                    urls: 'relay1.expressturn.com:3478',
+                    username: 'ef6ZO39APPIGIRE8OT',
+                    credentials: 'PfF18hhNvIRyDZYF'
+                }
             ]
         });
        
