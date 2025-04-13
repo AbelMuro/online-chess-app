@@ -28,7 +28,7 @@ function useWebRTC(){
 
     const onopenDataChannel = () => {
         console.log('Data channel open'); 
-        setLocalClient(peerConnection.localDescription)
+        setLocalClient(peerConnection?.localDescription?.type);
     };
 
     const oncloseDataChannel = () => {
