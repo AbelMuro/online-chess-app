@@ -32,7 +32,8 @@ function useWebRTC(){
     };
 
     const oncloseDataChannel = () => {
-        console.log('Data channel closed')
+        console.log('Data channel closed');
+        setLocalClient(false);
     }
 
     const onmessageFromRemoteClient = (e) => {

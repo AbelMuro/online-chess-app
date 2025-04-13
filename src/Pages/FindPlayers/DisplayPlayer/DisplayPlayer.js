@@ -17,10 +17,14 @@ function DisplayPlayer({username, image, profileImageBase64, contentType}) {
     }
 
     useEffect(() => {
-        if(!localClient) return;
+        if(!localClient) {
+            setWaiting(false);
+            return
+        };
 
         sendMessageToRemoteClient.callback({username, profileImageBase64, contentType})
-    }, [])
+        setWaiting(true);
+    }, [localClient])
 
 
     return(    
