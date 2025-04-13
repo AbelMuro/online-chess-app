@@ -84,6 +84,7 @@ function useWebRTC(){
 
         return () => {
             dataChannel.close();
+            peerConnection.close();
         }
     }, [])
 
