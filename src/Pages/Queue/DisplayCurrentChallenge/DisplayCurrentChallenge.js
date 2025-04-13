@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from "react";
+import React, {useState, useContext, useEffect, memo} from "react";
 import { ClipLoader } from "react-spinners";
 import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
@@ -73,4 +73,4 @@ function DisplayCurrentChallenge(){
 
 }
 
-export default DisplayCurrentChallenge;
+export default memo(DisplayCurrentChallenge);

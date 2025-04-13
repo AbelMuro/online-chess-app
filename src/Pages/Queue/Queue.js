@@ -93,49 +93,6 @@ function Queue() {
         }
     }
 
-    const putPlayerInQueue = async () => {
-        try{
-            const response = await fetch('https://world-class-chess-server.com/put_player_in_queue', {
-                method: 'POST',
-                header: {
-                    'Content-Type': 'application/json'
-                },
-                body: {},
-                credentials: 'include'
-            });
-
-            if(response.status === 200){
-                const result = await response.json();
-                const message = result.message;
-                console.log(message);
-            }
-            else if(response.status === 403){
-                const result = await response.text();
-                console.log(result);
-                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Please enable third-party cookies in your browser to use this app'}})
-                navigate('/');
-            }
-            else if(response.status === 401){
-                const result = await response.text();
-                console.log(result);
-            }
-            else{
-                const result = await response.text();
-                console.log(result);
-                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later.'}})
-            }
-        }
-        catch(error){
-            const message = error.message;
-            console.log(message);
-            dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
-        }
-    }
-
-
-    useEffect(() => {
-        putPlayerInQueue();
-    }, [])
 
 
     useEffect(() => {
