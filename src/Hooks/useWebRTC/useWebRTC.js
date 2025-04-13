@@ -11,12 +11,11 @@ function useWebRTC(){
     const [localClient, setLocalClient] = useState();
     const dispatch = useDispatch();
     const localClientUsername = sessionStorage.getItem('username');
-    const signalingServer = useRef();
+    const signalingServer = new WebSocket('wss://world-class-chess-server.com:443/signal');;
     const peerConnection = useRef();
     const dataChannel = useRef();
 
     const sendOfferToRemoteClient = async (remoteClientUsername) => {
-            signalingServer.current = new WebSocket('wss://world-class-chess-server.com:443/signal');
             peerConnection.current = new RTCPeerConnection({
                 iceServers: [
                     { urls: 'stun:stun.l.google.com:19302' },
@@ -31,7 +30,7 @@ function useWebRTC(){
 
             const offer = await peerConnection.current.createOffer();                       //creating an offer object that contains information about the client's session, connection, etc..
             await peerConnection.current.setLocalDescription(offer);                        //we create a local description of the offer (local description are connection settings for THIS peer)
-            signalingServer.current.send(JSON.stringify({ 
+            signalingServer.send(JSON.stringify({ 
                 type: 'offer', 
                 offer: {sdp: offer.sdp, type: offer.type}, 
                 username: remoteClientUsername, 
@@ -71,7 +70,7 @@ function useWebRTC(){
 
     const onicecandidate = (e) => {
         if(e.candidate) 
-            signalingServer.current.send(JSON.stringify({type: 'candidate', candidate: e.candidate}));
+            signalingServer.send(JSON.stringify({type: 'candidate', candidate: e.candidate}));
         else
             console.log('All ICE candidates have been collected');
     };
@@ -89,7 +88,7 @@ function useWebRTC(){
                 await peerConnection.current.setRemoteDescription(new RTCSessionDescription(data.offer));   //we create a remote description of the offer  (remote description are the connection settings of the OTHER peer)
                 const answer = await peerConnection.current.createAnswer();                                 //we create an answer in response to the offer
                 await peerConnection.current.setLocalDescription(answer);                                   //we create a local description of the answer we created
-                signalingServer.current.send(JSON.stringify({ type: 'answer', answer }));                   //we send the answer to the websocket
+                signalingServer.send(JSON.stringify({ type: 'answer', answer }));                   //we send the answer to the websocket
             } 
             else if(data.type === 'answer' && peerConnection.current.signalingState === 'have-local-offer') 
                 await peerConnection.current.setRemoteDescription(new RTCSessionDescription(data.answer));  //we create a remote description of the answer from another peer
