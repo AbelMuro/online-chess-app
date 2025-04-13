@@ -7,12 +7,12 @@ import * as styles from './styles.module.css';
 import { PeerToPeerConnection } from '`/Queue';
 
 function WaitingForReply() {
-    const {sendMessageToRemoteClient} = useContext(PeerToPeerConnection);
+    const {cancelConnection} = useContext(PeerToPeerConnection);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
 
     const handleCancel = async () => {
-        sendMessageToRemoteClient(JSON.stringify({message: 'cancel'}))
+        cancelConnection();
     }
 
 

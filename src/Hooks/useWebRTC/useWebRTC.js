@@ -1,4 +1,4 @@
-import {useState, useEffect, memo} from 'react';
+import {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 
 /* 
@@ -39,6 +39,11 @@ function useWebRTC(){
         if(dataChannel.readyState === 'open') 
             dataChannel.send(JSON.stringify(message));
     }  
+
+    const cancelConnection = () => {
+        dataChannel.close();
+        peerConnection.close();
+    }
     
 
     const onopenDataChannel = () => {
@@ -117,7 +122,7 @@ function useWebRTC(){
 
 
 
-    return [sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, localClient];
+    return [sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, localClient, cancelConnection];
 }
 
 export default useWebRTC;

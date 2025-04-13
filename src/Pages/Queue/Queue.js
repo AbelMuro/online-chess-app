@@ -1,54 +1,17 @@
-import React, {useEffect, useMemo, createContext} from 'react';
+import React, {useEffect, createContext} from 'react';
 import FindPlayers from './FindPlayers';
 import * as styles from './styles.module.css';
 import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
-import { ClipLoader } from 'react-spinners';
-import icons from '~/assets/icons';
-import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js';
 import DisplayCurrentChallenge from './DisplayCurrentChallenge';
-import useWebSocket from '~/Hooks/useWebSocket';
 import useWebRTC from '~/Hooks/useWebRTC';
-
-
-/* 
-    We create a queue by using a collection in mongoDB, every player that joins the queue will have their username and other metadata in the collection.
-
-    When a player joins the queue, they will be connected to TWO websockets, the 'queue' websocket and the 'account' websocket.
-    Everytime a new player joins the queue, the 'queue' websocket will automatically notify all other players that a new person joined the queue.
-
-    These are the steps that take place when one player challenges another player to a chess match
-
-    -Player A challenged Player B to a chess match
-
-    1) Player A clicks on the challenge button
-
-    2) The click event will create a 'Challenge' document, and another websocket that detects changes to that 'Challenge' document, Player A will be connected to that websocket
-
-    3) The 'hasBeenChallenged' property of Player B will then be updated with the username of Player A and the _id of the 'Challenge' document
-
-    4) When the 'hasBeenChallenged' property is updated, this will trigger the account websocket for Player B, and send the _id of the 'Challenge' document to Player B
-       At the same time, Player B will also be connected to the websocket for the 'Challenge' document
-
-    5) A dialog will then be displayed to Player B, asking them to accept or decline the challenge
-
-        -If they accept, then a new Match document will be created. The _id of the Match document will be saved in the 'matchId' property of the Challenge document
-        -If they decline, then the Challenge document will be destroyed, as well as the websocket for the challenge document
-
-    6) When the 'matchId' of the Challenge document is updated, this will trigger the Challenge websocket for both players. 
-       In doing so, both players will have access to the _id of the Match document
-
-    7) Then we navigate to the chessboard with the _id of the Match document, any moves in the chessboard will be saved to the Match document
-    
-
-*/
 
 export const PeerToPeerConnection = createContext();
 
 function Queue() {
     const dispatch = useDispatch();
     const navigate = useNavigate();    
-    const [sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, localClient] = useWebRTC();
+    const [sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, localClient, cancelConnection] = useWebRTC();
 
     const handleLeave = () => {
         const choice = confirm('Are you sure you want to leave queue?');
@@ -93,8 +56,6 @@ function Queue() {
         }
     }
 
-
-
     useEffect(() => {
        const removePlayerFromQueue = () => {
             fetch('https://world-class-chess-server.com/leave_queue', {
@@ -114,7 +75,7 @@ function Queue() {
 
 
     return(
-        <PeerToPeerConnection.Provider value={{sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, localClient}}>
+        <PeerToPeerConnection.Provider value={{sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, localClient, cancelConnection}}>
             <DisplayCurrentChallenge/>
             <section className={styles.container}>
                 <section className={styles.queue}>

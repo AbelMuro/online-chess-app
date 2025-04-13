@@ -6,6 +6,7 @@ import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js
 import DisplayPlayer from './DisplayPlayer';
 import useWebSocket from '~/Hooks/useWebSocket';
 import * as styles from './styles.module.css';
+import icons from '~/assets/icons'
 
 function FindPlayers() {
     const dispatch = useDispatch();
