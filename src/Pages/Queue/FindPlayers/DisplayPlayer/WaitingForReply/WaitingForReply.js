@@ -4,7 +4,7 @@ import {useDispatch} from 'react-redux';
 import {ClipLoader} from 'react-spinners';
 import {motion} from 'framer-motion';
 import * as styles from './styles.module.css';
-import { PeerToPeerConnection } from '`/FindPlayers';
+import { PeerToPeerConnection } from '`/Queue';
 
 function WaitingForReply() {
     const {sendMessageToRemoteClient} = useContext(PeerToPeerConnection);

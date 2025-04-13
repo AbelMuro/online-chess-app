@@ -4,7 +4,7 @@ import {ClipLoader} from 'react-spinners';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux'; 
 import { AnimatePresence } from 'framer-motion';
-import { PeerToPeerConnection } from '`/FindPlayers';
+import { PeerToPeerConnection } from '`/Queue';
 import * as styles from './styles.module.css';
 
 

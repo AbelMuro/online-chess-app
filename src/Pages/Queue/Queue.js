@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, createContext} from 'react';
-import DisplayPlayer from './DisplayPlayer';
+import FindPlayers from './FindPlayers';
 import * as styles from './styles.module.css';
 import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
@@ -43,19 +43,12 @@ import useWebRTC from '~/Hooks/useWebRTC';
 
 */
 
-
 export const PeerToPeerConnection = createContext();
 
-function FindPlayers() {
+function Queue() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();    
     const [sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, localClient] = useWebRTC();
-    const [queue, setQueue] = useWebSocket(
-        'wss://world-class-chess-server.com:443/queue', 
-        (e) => {
-            const documents = JSON.parse(e.data);             
-            setQueue(documents);            
-        }, []);
-    const navigate = useNavigate();
 
     const handleLeave = () => {
         const choice = confirm('Are you sure you want to leave queue?');
@@ -139,28 +132,6 @@ function FindPlayers() {
         }
     }
 
-    const availablePlayers = useMemo(() => {
-        const newQueue = [];
-
-        for(let i = 0; i < queue.length; i++){
-            const currentPlayer = sessionStorage.getItem('username');
-            if(!currentPlayer) {
-                navigate('/menu')
-                return;
-            }
-            if(queue[i].player === currentPlayer) continue;
-
-            const playerInQueue = queue[i].player;
-            const profileImageBase64 = queue[i].profileImageBase64;
-            const contentType = queue[i].contentType;
-            const url = profileImageBase64 ? convertBase64ToBlobURL(profileImageBase64, contentType) : icons['empty avatar'];
-
-            newQueue.push(<DisplayPlayer username={playerInQueue} image={url} profileImageBase64={profileImageBase64} contentType={contentType}/>)                
-        }
-
-        return newQueue;
-
-    }, [queue])
 
     useEffect(() => {
         putPlayerInQueue();
@@ -168,7 +139,6 @@ function FindPlayers() {
 
 
     useEffect(() => {
-
        const removePlayerFromQueue = () => {
             fetch('https://world-class-chess-server.com/leave_queue', {
                 method: 'DELETE',
@@ -194,10 +164,7 @@ function FindPlayers() {
                     <h1 className={styles.queue_title}>
                         You have entered the queue
                     </h1>
-                    {availablePlayers.length === 0 && <h2 className={styles.queue_desc}>
-                        Looking for other players
-                    </h2>}
-                    {availablePlayers.length === 0 ? <ClipLoader size={'35px'} color='#CECECE'/> : availablePlayers}
+                    <FindPlayers/>
                     <button className={styles.queue_button} onClick={handleLeave}>
                         Leave Queue
                     </button>
@@ -207,4 +174,4 @@ function FindPlayers() {
     )
 }
 
-export default FindPlayers;
+export default Queue;

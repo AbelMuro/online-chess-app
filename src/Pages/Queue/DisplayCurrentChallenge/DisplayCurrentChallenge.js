@@ -7,7 +7,7 @@ import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 import { overlayVariants, dialogVariants } from "./Variants/Variants";
 import {motion, AnimatePresence} from 'framer-motion';
-import { PeerToPeerConnection } from "`/FindPlayers";
+import { PeerToPeerConnection } from "`/Queue";
 
 
 function DisplayCurrentChallenge(){
