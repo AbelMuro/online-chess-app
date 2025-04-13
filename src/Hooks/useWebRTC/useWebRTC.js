@@ -6,12 +6,11 @@ import {useDispatch} from 'react-redux';
     now i need to test out the webRTC by sending messages between the clients
 */
 
-
 function useWebRTC(){
+    const [sendOfferToRemoteClient, setSendOfferToRemoteClient] = useState();    
     const [sendMessageToRemoteClient, setSendMessageToRemoteClient] = useState();
-    const [sendOfferToRemoteClient, setSendOfferToRemoteClient] = useState();
     const [receiveMessageFromRemoteClient, setReceiveMessageFromRemoteClient] = useState();
-    const [connection, setConnection] = useState('closed');
+    const [localClient, setLocalClient] = useState('closed');
     const dispatch = useDispatch();
     const localClientUsername = sessionStorage.getItem('username');
 
@@ -29,14 +28,9 @@ function useWebRTC(){
         });
        
         const dataChannel = peerConnection.createDataChannel('chat');
-        dataChannel.onopen = () => {
-            console.log('Data channel open')
-            setConnection('open');
-        };
-        dataChannel.onmessage = (e) => {
-            setReceiveMessageFromRemoteClient(e.data);
-        };
-        dataChannel.onclose = () => console.log('Data channel closed');
+        dataChannel.onopen = () => {console.log('Data channel open'); setLocalClient(peerConnection.localDescription)};
+        dataChannel.onclose = () => console.log('Data channel closed');        
+        dataChannel.onmessage = (e) => setReceiveMessageFromRemoteClient(e.data);
  
         peerConnection.onicecandidate = e => {
             if(e.candidate) 
@@ -45,11 +39,7 @@ function useWebRTC(){
                 console.log('All ICE candidates have been collected');
         };   
         
-        peerConnection.oniceconnectionstatechange = () => {
-            console.log(`ICE state: ${peerConnection.iceConnectionState}`)
-            if(peerConnection.iceConnectionState === 'disconnected')
-                peerConnection.restartIce();
-        };
+        peerConnection.oniceconnectionstatechange = () => console.log(`ICE state: ${peerConnection.iceConnectionState}`) ;
         
         signalingServer.onmessage = async (message) => {
             try{
@@ -79,14 +69,14 @@ function useWebRTC(){
         }        
 
 
-        setSendMessageToRemoteClient(() => ({
+        setSendMessageToRemoteClient({
             callback: (message) => {
                 if(dataChannel.readyState === 'open') 
                     dataChannel.send(JSON.stringify(message));
             }  
-        }))
+        })
 
-        setSendOfferToRemoteClient(() => ({
+        setSendOfferToRemoteClient({
             callback: async (remoteClientUsername) => {
                 const offer = await peerConnection.createOffer();                       //creating an offer object that contains information about the client's session, connection, etc..
                 await peerConnection.setLocalDescription(offer);                        //we create a local description of the offer (local description are connection settings for THIS peer)
@@ -96,7 +86,7 @@ function useWebRTC(){
                     username: remoteClientUsername, 
                 }));
             }
-        }));
+        });
 
         return () => {
             dataChannel.close();
@@ -106,7 +96,7 @@ function useWebRTC(){
 
 
 
-    return [sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, connection];
+    return [sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, localClient];
 }
 
 export default useWebRTC;

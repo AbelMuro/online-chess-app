@@ -9,23 +9,19 @@ import * as styles from './styles.module.css';
 
 
 function DisplayPlayer({username, image, profileImageBase64, contentType}) {
-    const {sendOfferToRemoteClient, sendMessageToRemoteClient, connection} = useContext(PeerToPeerConnection);    
+    const {sendOfferToRemoteClient, sendMessageToRemoteClient, localClient} = useContext(PeerToPeerConnection);    
     const [waiting, setWaiting] = useState(false);
 
     const handleConnection = () => {
         sendOfferToRemoteClient.callback(username);   
     }
 
-
     useEffect(() => {
-        if(connection !== 'open') {
-            setWaiting(false);
-            return;
-        };
+        if(!localClient) return;
 
         sendMessageToRemoteClient.callback({username, profileImageBase64, contentType})
-        setWaiting(true);
-    },[connection])
+    }, [])
+
 
     return(    
         <>

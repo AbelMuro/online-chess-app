@@ -48,7 +48,7 @@ export const PeerToPeerConnection = createContext();
 
 function FindPlayers() {
     const dispatch = useDispatch();
-    const [sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, connection] = useWebRTC();
+    const [sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, localClient] = useWebRTC();
     const [queue, setQueue] = useWebSocket(
         'wss://world-class-chess-server.com:443/queue', 
         (e) => {
@@ -187,7 +187,7 @@ function FindPlayers() {
 
 
     return(
-        <PeerToPeerConnection.Provider value={{sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, connection}}>
+        <PeerToPeerConnection.Provider value={{sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, localClient}}>
             <DisplayCurrentChallenge/>
             <section className={styles.container}>
                 <section className={styles.queue}>
