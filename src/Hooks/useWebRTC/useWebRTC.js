@@ -37,7 +37,8 @@ function useWebRTC(){
     }
 
     const onmessageFromRemoteClient = (e) => {
-        setReceiveMessageFromRemoteClient(e.data)
+        console.log('Received from Remote client')
+        setReceiveMessageFromRemoteClient(JSON.parse(e.data))
     };
 
     const onicecandidate = (e) => {
