@@ -36,6 +36,10 @@ function useWebRTC(){
         setLocalClient(false);
     }
 
+    const onerrorDataChannel = (error) => {
+        console.log('Data Channel Error: ', error)
+    }
+
     const onmessageFromRemoteClient = (e) => {
         console.log('Received from Remote client')
         setReceiveMessageFromRemoteClient(JSON.parse(e.data))
@@ -83,6 +87,7 @@ function useWebRTC(){
         const dataChannel = peerConnection.createDataChannel('chat');
         dataChannel.onopen = onopenDataChannel;
         dataChannel.onclose = oncloseDataChannel;        
+        dataChannel.onerror = onerrorDataChannel;
         dataChannel.onmessage = onmessageFromRemoteClient;
         peerConnection.onicecandidate = onicecandidate;
         peerConnection.oniceconnectionstatechange = oniceconnectionstatechange;
