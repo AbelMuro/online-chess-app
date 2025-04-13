@@ -17,8 +17,7 @@ function useWebRTC(){
                     username: 'openrelayproject',
                     credential: 'openrelaypassword'
                 }
-            ],
-            iceTransportPolicy: "relay"
+            ]
         });
        
         const dataChannel = peerConnection.createDataChannel('chat');
