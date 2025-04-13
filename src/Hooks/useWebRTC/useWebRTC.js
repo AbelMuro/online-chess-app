@@ -1,6 +1,12 @@
 import {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 
+/* 
+    this is where i left off, the webRTC seems to be working, i need to double check my env variables in here and in netlify to see if they work
+    now i need to test out the webRTC by sending messages between the clients
+*/
+
+
 function useWebRTC(){
     const [sendMessageToClient, setSendMessageToClient] = useState();
     const [sendOfferToClient, setSendOfferToClient] = useState();
@@ -13,9 +19,9 @@ function useWebRTC(){
             iceServers: [
                 { urls: 'stun:stun.l.google.com:19302' },
                 {
-                    urls: 'turn:relay1.expressturn.com:3478',
-                    username: 'ef6ZO39APPIGIRE8OT',
-                    credential: 'PfF18hhNvIRyDZYF'
+                    urls: process.env.TURN_SERVER,
+                    username: process.env.TURN_USERNAME,
+                    credential: process.env.TURN_CREDENTIAL
                 }
             ]
         });
