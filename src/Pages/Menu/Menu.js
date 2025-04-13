@@ -11,7 +11,7 @@ function Menu() {
     }
 
     const handleOnline = () => {
-        navigate('/findplayers');
+        navigate('/queue');
     }
 
     const handleLogOut = async () => {
