@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useMemo, memo} from 'react';
 import { ClipLoader } from 'react-spinners';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js';
 import DisplayPlayer from './DisplayPlayer';
@@ -48,4 +48,4 @@ function FindPlayers() {
 
 }
 
-export default FindPlayers;
+export default memo(FindPlayers);
