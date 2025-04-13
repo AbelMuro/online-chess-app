@@ -18,7 +18,7 @@ function DisplayPlayer({username, image, profileImageBase64, contentType}) {
 
     useEffect(() => {
         console.log(localClient);
-        if(!localClient) {
+        if(localClient !== 'offer') {
             setWaiting(false);
             return
         };
