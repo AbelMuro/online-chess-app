@@ -23,7 +23,7 @@ function DisplayCurrentChallenge(){
     } 
 
     const handleDecision = (decision) => {
-        sendMessageToRemoteClient.callback(JSON.stringify({message: decision}))
+        sendMessageToRemoteClient(JSON.stringify({message: decision}))
     }
 
     const loadImage = () => {

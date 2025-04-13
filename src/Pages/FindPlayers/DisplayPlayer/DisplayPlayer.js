@@ -13,7 +13,7 @@ function DisplayPlayer({username, image, profileImageBase64, contentType}) {
     const [waiting, setWaiting] = useState(false);
 
     const handleConnection = () => {
-        sendOfferToRemoteClient.callback(username);   
+        sendOfferToRemoteClient(username);   
     }
 
     useEffect(() => {
@@ -23,7 +23,7 @@ function DisplayPlayer({username, image, profileImageBase64, contentType}) {
             return
         };
 
-        sendMessageToRemoteClient.callback({username, profileImageBase64, contentType})
+        sendMessageToRemoteClient({username, profileImageBase64, contentType})
         setWaiting(true);
     }, [localClient])
 

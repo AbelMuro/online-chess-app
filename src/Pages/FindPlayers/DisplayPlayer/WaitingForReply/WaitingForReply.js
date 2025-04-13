@@ -12,7 +12,7 @@ function WaitingForReply() {
     const [loading, setLoading] = useState(false);
 
     const handleCancel = async () => {
-        sendMessageToRemoteClient.callback(JSON.stringify({message: 'cancel'}))
+        sendMessageToRemoteClient(JSON.stringify({message: 'cancel'}))
     }
 
 
