@@ -27,15 +27,8 @@ function useWebRTC(){
             ]
         })
         const dataChannel = peerConnection.createDataChannel('chat');
-        const offer = await peerConnection.createOffer();                       //creating an offer object that contains information about the client's session, connection, etc..
-        await peerConnection.setLocalDescription(offer);                        //we create a local description of the offer (local description are connection settings for THIS peer)
-        signalingServer.send(JSON.stringify({ 
-            type: 'offer', 
-            offer: {sdp: offer.sdp, type: offer.type}, 
-            username: remoteClientUsername, 
-        }));
         setPeerConnection(peerConnection);
-        setDataChannel(dataChannel);
+        setDataChannel(dataChannel);        
     }
     
 
@@ -80,6 +73,8 @@ function useWebRTC(){
     };
 
     const onmessageFromWebSocket = async (message) => {
+        if(!peerConnection) return;
+
         try{
             const text = await message.data.text();
             const data = JSON.parse(text);
@@ -106,42 +101,32 @@ function useWebRTC(){
         console.log('Connected to signaling websocket');
     } 
 
+
     useEffect(() => {
-        if(!peerConnection) return;
+        if(!peerConnection || !dataChannel) return;
 
         peerConnection.onicecandidate = onicecandidate;
         peerConnection.oniceconnectionstatechange = oniceconnectionstatechange; 
-
-        return () => {
-            peerConnection.close();
-        }
-    }, [peerConnection])
-
-    useEffect(() => {
-        if(!dataChannel) return;
-
         dataChannel.onopen = onopenDataChannel;
         dataChannel.onclose = oncloseDataChannel;        
         dataChannel.onerror = onerrorDataChannel;
         dataChannel.onmessage = onmessageFromRemoteClient;
-
-        return () => {
-            dataChannel.close();
-        }
-    }, [dataChannel])
-
-    useEffect(() => {
-        if(!signalingServer) return;
-
         signalingServer.onmessage = onmessageFromWebSocket;
-        signalingServer.onopen = onopenWebSocket;     
+        signalingServer.onopen = onopenWebSocket;    
 
-        return () => {
-            signalingServer.close();
+        const createOffer = async () => {
+            const offer = await peerConnection.createOffer();                       //creating an offer object that contains information about the client's session, connection, etc..
+            await peerConnection.setLocalDescription(offer);                        //we create a local description of the offer (local description are connection settings for THIS peer)
+            signalingServer.send(JSON.stringify({ 
+                type: 'offer', 
+                offer: {sdp: offer.sdp, type: offer.type}, 
+                username: remoteClientUsername, 
+            }));            
         }
 
-    }, [signalingServer])
+        createOffer();
 
+    }, [peerConnection, dataChannel])
 
 
     return [sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, localClient, cancelConnection];
