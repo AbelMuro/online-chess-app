@@ -95,7 +95,9 @@ function useWebRTC(){
 
         setSendMessageToRemoteClient(() => {
             return (message) => {
-                dataChannel.send(JSON.stringify(message));
+                console.log(dataChannel.readyState);
+                if(dataChannel.readyState === 'open')
+                    dataChannel.send(JSON.stringify(message));
             }
         })
 
