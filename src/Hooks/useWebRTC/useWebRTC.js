@@ -113,8 +113,11 @@ function useWebRTC(){
         dataChannel.onmessage = onmessageFromRemoteClient;
         
         peerConnection.createOffer()
-            .then(offer => peerConnection.setLocalDescription(offer))
-            .then(() => {
+            .then(offer => {
+                peerConnection.setLocalDescription(offer)
+                return Promise.resolve(offer)
+            })
+            .then((offer) => {
                 signalingServer.send(JSON.stringify({ 
                     type: 'offer', 
                     offer: {sdp: offer.sdp, type: offer.type}, 
