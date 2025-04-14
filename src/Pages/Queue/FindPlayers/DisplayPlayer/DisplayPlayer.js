@@ -8,7 +8,11 @@ import { PeerToPeerConnection } from '`/Queue';
 import * as styles from './styles.module.css';
 
 
-function DisplayPlayer({username, image, profileImageBase64, contentType}) {
+//this is where i left off, there is a limit to the size of the data that i can send in WebRTC, i can only send the username for now
+//the connection works now, i can send data now, but the remote client is not receiving the data
+//also, try to find a way to refactor the useWebRTC hook and test out the peerConnection.ondatachannel()
+
+function DisplayPlayer({username, image}) {
     const {sendOfferToRemoteClient, sendMessageToRemoteClient, localClient} = useContext(PeerToPeerConnection);    
     const [waiting, setWaiting] = useState(false);
 
@@ -17,7 +21,6 @@ function DisplayPlayer({username, image, profileImageBase64, contentType}) {
     }
 
     useEffect(() => {
-        console.log(localClient);
         if(localClient !== 'offer') {
             setWaiting(false);
             return

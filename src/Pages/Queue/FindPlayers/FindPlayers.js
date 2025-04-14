@@ -73,7 +73,7 @@ function FindPlayers() {
             const contentType = players[i].contentType;
             const url = profileImageBase64 ? convertBase64ToBlobURL(profileImageBase64, contentType) : icons['empty avatar'];
 
-            currentPlayers.push(<DisplayPlayer username={playerInQueue} image={url} profileImageBase64={profileImageBase64} contentType={contentType}/>)                
+            currentPlayers.push(<DisplayPlayer username={playerInQueue} image={url}/>)                
         }
 
         return currentPlayers;

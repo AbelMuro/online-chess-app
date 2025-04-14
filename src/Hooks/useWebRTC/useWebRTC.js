@@ -1,10 +1,6 @@
 import {useState, useEffect, useRef} from 'react';
 import {useDispatch} from 'react-redux';
 
-/* 
-    this is where i left off, the webRTC seems to be working, i need to double check my env variables in here and in netlify to see if they work
-    now i need to test out the webRTC by sending messages between the clients
-*/
 
 function useWebRTC(){  
     const [receiveMessageFromRemoteClient, setReceiveMessageFromRemoteClient] = useState();
@@ -64,21 +60,36 @@ function useWebRTC(){
         peerConnection.oniceconnectionstatechange = () => {
             console.log(`ICE state: ${peerConnection.iceConnectionState}`)
         };
+
+        peerConnection.ondatachannel = (e) => {                 //remote client
+            const receivedChannel = e.channel;
+
+            receivedChannel.onmessage = (e) => {
+                console.log('Received message from remote client')
+                setReceiveMessageFromRemoteClient(JSON.parse(e.data))
+            }
+            receivedChannel.onopen = () => {
+                console.log("Remote data channel is open!");
+            };
+        
+            receivedChannel.onclose = () => {
+                console.log("Remote data channel closed!");
+            };
+        }
     ; 
         dataChannel.onopen = () => {
-            console.log('Data channel open'); 
+            console.log('Local data channel open'); 
             setLocalClient(peerConnection?.localDescription?.type);
         };
         dataChannel.onclose = () => {
-            console.log('Data channel closed');
+            console.log('Local data channel closed');
             setLocalClient(false);
         };        
         dataChannel.onerror = (error) => {
-            console.log('Data Channel Error: ', error)
+            console.log('Local data channel error: ', error)
         };
-        dataChannel.onmessage = (e) => {
-            console.log('Received from Remote client')
-            setReceiveMessageFromRemoteClient(JSON.parse(e.data))
+        dataChannel.onmessage = (e) => {                        //local client
+            console.log('Received from remote client')
         };
 
         setSendOfferToRemoteClient(() => {
