@@ -112,20 +112,18 @@ function useWebRTC(){
         dataChannel.onerror = onerrorDataChannel;
         dataChannel.onmessage = onmessageFromRemoteClient;
         signalingServer.onmessage = onmessageFromWebSocket;
-        signalingServer.onopen = onopenWebSocket;    
-
-        const createOffer = async () => {
-            const offer = await peerConnection.createOffer();                       //creating an offer object that contains information about the client's session, connection, etc..
-            await peerConnection.setLocalDescription(offer);                        //we create a local description of the offer (local description are connection settings for THIS peer)
-            signalingServer.send(JSON.stringify({ 
-                type: 'offer', 
-                offer: {sdp: offer.sdp, type: offer.type}, 
-                username: remoteClientUsername, 
-            }));            
-        }
-
-        createOffer();
-
+        signalingServer.onopen = onopenWebSocket;  
+        
+        peerConnection.createOffer()
+            .then(offer => peerConnection.setLocalDescription(offer))
+            .then(() => {
+                signalingServer.send(JSON.stringify({ 
+                    type: 'offer', 
+                    offer: {sdp: offer.sdp, type: offer.type}, 
+                    username: remoteClientUsername, 
+                }))
+            });
+                
     }, [peerConnection, dataChannel])
 
 
