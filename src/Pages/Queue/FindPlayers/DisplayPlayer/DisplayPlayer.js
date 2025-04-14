@@ -11,6 +11,7 @@ import * as styles from './styles.module.css';
 //this is where i left off, there is a limit to the size of the data that i can send in WebRTC, i can only send the username for now
 //the connection works now, i can send data now, but the remote client is not receiving the data
 //also, try to find a way to refactor the useWebRTC hook and test out the peerConnection.ondatachannel()
+//DONT FORGET TO UPDATE NOTES FOR WEBRTC IN NODE.JS SECTION OF YOUR NOTES REPOSITORY
 
 function DisplayPlayer({username, image}) {
     const {sendOfferToRemoteClient, sendMessageToRemoteClient, localClient} = useContext(PeerToPeerConnection);    
