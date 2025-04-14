@@ -23,7 +23,7 @@ function DisplayPlayer({username, image, profileImageBase64, contentType}) {
             return
         };
 
-        sendMessageToRemoteClient({username, profileImageBase64, contentType})
+        sendMessageToRemoteClient({username})
         setWaiting(true);
     }, [localClient])
 
