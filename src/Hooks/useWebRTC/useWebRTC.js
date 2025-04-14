@@ -10,10 +10,11 @@ function useWebRTC(){
     const [peerConnection, setPeerConnection] = useState();
     const [dataChannel, setDataChannel] = useState();
     const [receiveMessageFromRemoteClient, setReceiveMessageFromRemoteClient] = useState();
+    const [remoteClientUsername, setRemoteClientUsername] = useState();    
+    const localClientUsername = sessionStorage.getItem('username');    
     const [localClient, setLocalClient] = useState();
+    const [signalingServer, setSignalingServer] = useState();
     const dispatch = useDispatch();
-    const localClientUsername = sessionStorage.getItem('username');
-    const signalingServer = new WebSocket('wss://world-class-chess-server.com:443/signal');
 
     const sendOfferToRemoteClient = async (remoteClientUsername) => {
         const peerConnection = new RTCPeerConnection({
@@ -28,7 +29,8 @@ function useWebRTC(){
         })
         const dataChannel = peerConnection.createDataChannel('chat');
         setPeerConnection(peerConnection);
-        setDataChannel(dataChannel);        
+        setDataChannel(dataChannel);     
+        setRemoteClientUsername(remoteClientUsername);   
     }
     
 
@@ -73,8 +75,6 @@ function useWebRTC(){
     };
 
     const onmessageFromWebSocket = async (message) => {
-        if(!peerConnection) return;
-
         try{
             const text = await message.data.text();
             const data = JSON.parse(text);
@@ -111,8 +111,6 @@ function useWebRTC(){
         dataChannel.onclose = oncloseDataChannel;        
         dataChannel.onerror = onerrorDataChannel;
         dataChannel.onmessage = onmessageFromRemoteClient;
-        signalingServer.onmessage = onmessageFromWebSocket;
-        signalingServer.onopen = onopenWebSocket;  
         
         peerConnection.createOffer()
             .then(offer => peerConnection.setLocalDescription(offer))
@@ -123,8 +121,25 @@ function useWebRTC(){
                     username: remoteClientUsername, 
                 }))
             });
+
+        return () => {
+            peerConnection.close();
+            dataChannel.close();
+        }
                 
     }, [peerConnection, dataChannel])
+
+    useEffect(() => {
+        const signalingServer = new WebSocket('wss://world-class-chess-server.com:443/signal');
+        signalingServer.onmessage = onmessageFromWebSocket;
+        signalingServer.onopen = onopenWebSocket;  
+
+        setSignalingServer(signalingServer);
+
+        return () => {
+            signalingServer.close();
+        }
+    }, [])
 
 
     return [sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, localClient, cancelConnection];
