@@ -11,7 +11,7 @@ export const PeerToPeerConnection = createContext();
 function Queue() {
     const dispatch = useDispatch();
     const navigate = useNavigate();    
-    const [receiveResponseFromRemoteClient, sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, localClient, cancelConnection] = useWebRTC();
+    const [sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, localClient, cancelConnection] = useWebRTC();
 
     const handleLeave = () => {
         const choice = confirm('Are you sure you want to leave queue?');
@@ -76,7 +76,6 @@ function Queue() {
 
     return(
         <PeerToPeerConnection.Provider value={{
-                receiveResponseFromRemoteClient,
                 sendMessageToRemoteClient, 
                 sendOfferToRemoteClient, 
                 receiveMessageFromRemoteClient, 
