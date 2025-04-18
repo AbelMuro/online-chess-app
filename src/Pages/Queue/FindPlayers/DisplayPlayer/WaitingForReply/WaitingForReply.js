@@ -1,4 +1,5 @@
 import React, {useState, useContext} from 'react';
+import {useNavigate} from 'react-router-dom';
 import {overlayVariant, dialogVariant} from './Variants';
 import {useDispatch} from 'react-redux';
 import {ClipLoader} from 'react-spinners';
@@ -8,14 +9,30 @@ import { PeerToPeerConnection } from '`/Queue';
 
 //local client
 
-function WaitingForReply() {
-    const {cancelConnection} = useContext(PeerToPeerConnection);
+function WaitingForReply({setWaiting}) {
+    const navigate = useNavigate();
+    const {cancelConnection, receiveResponseFromRemoteClient} = useContext(PeerToPeerConnection);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
 
     const handleCancel = async () => {
         cancelConnection();
     }
+
+    useEffect(() => {
+        if(!receiveResponseFromRemoteClient) return;
+
+        const decision = receiveResponseFromRemoteClient.decision;
+
+        if(decision === 'decline'){
+            handleCancel();
+            setWaiting(false);
+        }
+        else{
+            console.log('now we create a match in a fetch request')
+        }
+            
+    }, [receiveResponseFromRemoteClient])
 
 
     return(

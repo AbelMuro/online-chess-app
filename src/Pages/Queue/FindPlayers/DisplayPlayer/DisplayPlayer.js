@@ -18,6 +18,7 @@ import * as styles from './styles.module.css';
 function DisplayPlayer({username, image}) {
     const {sendOfferToRemoteClient, sendMessageToRemoteClient, localClient} = useContext(PeerToPeerConnection);    
     const [waiting, setWaiting] = useState(false);
+    const clientUsername = sessionStorage.getItem('username');
 
     const handleConnection = () => {
         sendOfferToRemoteClient(username);   
@@ -29,7 +30,7 @@ function DisplayPlayer({username, image}) {
             return
         };
 
-        sendMessageToRemoteClient({username})
+        sendMessageToRemoteClient({challenger: clientUsername, challengedPlayer: username})
         setWaiting(true);
     }, [localClient])
 
@@ -37,7 +38,7 @@ function DisplayPlayer({username, image}) {
     return(    
         <>
             <AnimatePresence>
-                {waiting && <WaitingForReply/>}
+                {waiting && <WaitingForReply setWaiting={setWaiting}/>}
             </AnimatePresence>
             <div className={styles.queue_player} key={username}>
                 <img className={styles.queue_player_image} src={image}/>

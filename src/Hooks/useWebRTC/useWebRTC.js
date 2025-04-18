@@ -3,8 +3,8 @@ import {useDispatch} from 'react-redux';
 
 
 function useWebRTC(){  
-    const [createConnection, setCreateConnection] = useState();
     const [receiveMessageFromRemoteClient, setReceiveMessageFromRemoteClient] = useState();
+    const [receiveResponseFromRemoteClient, setReceiveResponseFromRemoteClient] = useState();
     const [sendMessageToRemoteClient, setSendMessageToRemoteClient] = useState();
     const [sendOfferToRemoteClient, setSendOfferToRemoteClient] = useState();
     const [cancelConnection, setCancelConnection] = useState();
@@ -68,7 +68,7 @@ function useWebRTC(){
             receivedChannel.onmessage = (e) => {
                 console.log('Received message from remote client')
                 const data = JSON.parse(e.data);
-                setReceiveMessageFromRemoteClient({username: data.username})
+                setReceiveMessageFromRemoteClient({challenger: data.challenger, challengedPlayer: data.challengedPlayer})
             }
             receivedChannel.onopen = () => {
                 console.log("Remote data channel is open!");
@@ -91,6 +91,8 @@ function useWebRTC(){
             console.log('Local data channel error: ', error)
         };
         dataChannel.onmessage = (e) => {                        //local client
+            const data = JSON.parse(e.data);
+            setReceiveResponseFromRemoteClient({decision: data.decision});
             console.log('Received from remote client')
         };
 
@@ -108,7 +110,6 @@ function useWebRTC(){
 
         setSendMessageToRemoteClient(() => {
             return (message) => {
-                console.log(dataChannel.readyState);
                 if(dataChannel.readyState === 'open')
                     dataChannel.send(JSON.stringify(message));
             }
@@ -129,7 +130,7 @@ function useWebRTC(){
     }, [])
 
 
-    return [sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, localClient, cancelConnection];
+    return [receiveResponseFromRemoteClient, sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, localClient, cancelConnection];
 }
 
 export default useWebRTC;

@@ -12,7 +12,7 @@ import { PeerToPeerConnection } from "`/Queue";
 //remote client
 
 function DisplayCurrentChallenge(){
-    const [challenger, setChallenger] = useState();
+    const [challenge, setChallenge] = useState();
     const {sendMessageToRemoteClient, receiveMessageFromRemoteClient} = useContext(PeerToPeerConnection);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -24,12 +24,18 @@ function DisplayCurrentChallenge(){
     } 
 
     const handleDecision = (decision) => {
-        sendMessageToRemoteClient(JSON.stringify({message: decision}))
+        sendMessageToRemoteClient(JSON.stringify({decision}))
+
+        if(decision === 'accept'){
+            console.log('i need to receive the match id from the remote client here')
+        }
+        else
+            setChallenge(null);
     }
 
     const loadImage = () => {
-        if(challenger.imageBase64)
-            return convertBase64ToBlobURL(challenger.imageBase64, challenger.contentType);
+        if(challenge.imageBase64)
+            return convertBase64ToBlobURL(challenge.imageBase64, challenge.contentType);
         else
             return icons['empty avatar'];
     }
@@ -38,16 +44,17 @@ function DisplayCurrentChallenge(){
     useEffect(() => {
         if(!receiveMessageFromRemoteClient) return;
 
-        const username = receiveMessageFromRemoteClient.username;
+        const challenger = receiveMessageFromRemoteClient.challenger;
+        const challengedPlayer = receiveMessageFromRemoteClient.challengedPlayer;
 
-        setChallenger({username})
+        setChallenge({challenger, challengedPlayer});
     }, [receiveMessageFromRemoteClient])
 
 
 
     return (
         <AnimatePresence>
-            {challenger && 
+            {challenge && 
                 <motion.div className={styles.overlay} initial='hidden' animate='show' exit='exit' variants={overlayVariants}>
                     <motion.dialog className={styles.dialog} open={true} initial='hidden' animate='show' exit='exit' variants={dialogVariants}>
                         <h1>
@@ -56,7 +63,7 @@ function DisplayCurrentChallenge(){
                         <div className={styles.display_challenger}>
                             {/* <img src={loadImage()}/> */}
                             <h2>
-                                {challenger.username}
+                                {challenge.challenger}
                             </h2>
                         </div>    
                         <button onClick={() => {handleDecision('accept')}}>
