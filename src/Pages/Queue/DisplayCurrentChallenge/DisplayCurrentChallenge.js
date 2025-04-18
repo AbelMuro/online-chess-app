@@ -38,7 +38,7 @@ function DisplayCurrentChallenge(){
     useEffect(() => {
         if(!receiveMessageFromRemoteClient) return;
 
-        const username = receiveMessageFromRemoteClient.message.username;
+        const username = receiveMessageFromRemoteClient.username;
 
         setChallenger({username})
     }, [receiveMessageFromRemoteClient])
@@ -56,7 +56,7 @@ function DisplayCurrentChallenge(){
                         <div className={styles.display_challenger}>
                             {/* <img src={loadImage()}/> */}
                             <h2>
-                                {receiveMessageFromRemoteClient.username}
+                                {challenger.username}
                             </h2>
                         </div>    
                         <button onClick={() => {handleDecision('accept')}}>
