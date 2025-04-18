@@ -93,6 +93,9 @@ function useWebRTC(){
         dataChannel.onerror = (error) => {
             console.log('Local data channel error: ', error)
         };
+        dataChannel.onmessage = () => {
+            console.log('Local data channel message')
+        }
 
         setSendOfferToRemoteClient(() => {
             return async (remoteClientUsername) => {
@@ -128,7 +131,7 @@ function useWebRTC(){
     }, [])
 
 
-    return [sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, localClient, cancelConnection];
+    return [receiveResponseFromRemoteClient, sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, localClient, cancelConnection];
 }
 
 export default useWebRTC;
