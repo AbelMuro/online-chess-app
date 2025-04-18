@@ -3,6 +3,7 @@ import {useDispatch} from 'react-redux';
 
 
 function useWebRTC(){  
+    const [createConnection, setCreateConnection] = useState();
     const [receiveMessageFromRemoteClient, setReceiveMessageFromRemoteClient] = useState();
     const [sendMessageToRemoteClient, setSendMessageToRemoteClient] = useState();
     const [sendOfferToRemoteClient, setSendOfferToRemoteClient] = useState();
@@ -67,7 +68,7 @@ function useWebRTC(){
             receivedChannel.onmessage = (e) => {
                 console.log('Received message from remote client')
                 const data = JSON.parse(e.data);
-                setReceiveMessageFromRemoteClient({message: data.username})
+                setReceiveMessageFromRemoteClient({username: data.username})
             }
             receivedChannel.onopen = () => {
                 console.log("Remote data channel is open!");
