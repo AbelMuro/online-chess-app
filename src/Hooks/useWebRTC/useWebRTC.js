@@ -66,14 +66,15 @@ function useWebRTC(){
 
             receivedChannel.onmessage = (e) => {
                 console.log('Received message from remote client')
-                setReceiveMessageFromRemoteClient(JSON.parse(e.data))
+                const data = JSON.parse(e.data);
+                setReceiveMessageFromRemoteClient({message: data.username})
             }
             receivedChannel.onopen = () => {
                 console.log("Remote data channel is open!");
             };
         
             receivedChannel.onclose = () => {
-                console.log("Remote data channel closed!");
+                console.log("Remote data channel closed");
             };
         }
     ; 

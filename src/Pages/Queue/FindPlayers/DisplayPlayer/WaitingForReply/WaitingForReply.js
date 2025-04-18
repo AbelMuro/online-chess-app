@@ -6,6 +6,8 @@ import {motion} from 'framer-motion';
 import * as styles from './styles.module.css';
 import { PeerToPeerConnection } from '`/Queue';
 
+//local client
+
 function WaitingForReply() {
     const {cancelConnection} = useContext(PeerToPeerConnection);
     const dispatch = useDispatch();

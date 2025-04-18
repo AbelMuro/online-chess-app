@@ -9,6 +9,7 @@ import { overlayVariants, dialogVariants } from "./Variants/Variants";
 import {motion, AnimatePresence} from 'framer-motion';
 import { PeerToPeerConnection } from "`/Queue";
 
+//remote client
 
 function DisplayCurrentChallenge(){
     const [challenger, setChallenger] = useState();
@@ -38,10 +39,8 @@ function DisplayCurrentChallenge(){
         if(!receiveMessageFromRemoteClient) return;
 
         const username = receiveMessageFromRemoteClient.message.username;
-        const imageBase64 = receiveMessageFromRemoteClient.message.imageBase64;
-        const contentType = receiveMessageFromRemoteClient.message.contentType;
 
-        setChallenger({username, imageBase64, contentType})
+        setChallenger({username})
     }, [receiveMessageFromRemoteClient])
 
 
@@ -55,7 +54,7 @@ function DisplayCurrentChallenge(){
                             {`You have been challenged by: `}
                         </h1>
                         <div className={styles.display_challenger}>
-                            <img src={loadImage()}/>
+                            {/* <img src={loadImage()}/> */}
                             <h2>
                                 {receiveMessageFromRemoteClient.username}
                             </h2>
