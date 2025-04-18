@@ -15,6 +15,8 @@ import * as styles from './styles.module.css';
 //also, try to find a way to refactor the useWebRTC hook and test out the peerConnection.ondatachannel()
 //DONT FORGET TO UPDATE NOTES FOR WEBRTC IN NODE.JS SECTION OF YOUR NOTES REPOSITORY
 
+//everything should work, just test everything out
+
 function DisplayPlayer({username, image}) {
     const {sendOfferToRemoteClient, sendMessageToRemoteClient, localClient} = useContext(PeerToPeerConnection);    
     const [waiting, setWaiting] = useState(false);
