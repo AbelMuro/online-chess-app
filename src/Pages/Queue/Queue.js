@@ -12,10 +12,10 @@ function Queue() {
     const dispatch = useDispatch();
     const navigate = useNavigate();    
     const [
+        receiveMessageFromRemoteClient,
+        receiveResponseFromRemoteClient, 
         sendMessageToRemoteClient, 
         sendOfferToRemoteClient, 
-        receiveMessageFromRemoteClient, 
-        receiveResponseFromRemoteClient,
         localClient, 
         cancelConnection
     ] = useWebRTC();
@@ -83,10 +83,10 @@ function Queue() {
 
     return(
         <PeerToPeerConnection.Provider value={{
-                receiveResponseFromRemoteClient,
+                receiveMessageFromRemoteClient,
+                receiveResponseFromRemoteClient, 
                 sendMessageToRemoteClient, 
                 sendOfferToRemoteClient, 
-                receiveMessageFromRemoteClient, 
                 localClient, 
                 cancelConnection}}>
             <DisplayCurrentChallenge/>

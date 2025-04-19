@@ -70,9 +70,9 @@ function useWebRTC(){
                 const data = JSON.parse(e.data);
 
                 if(data.decision)
-                    setReceiveResponseFromRemoteClient(data);
+                    setReceiveResponseFromRemoteClient(data);           //local client
                 else if(data.challenger)
-                    setReceiveMessageFromRemoteClient(data);
+                    setReceiveMessageFromRemoteClient(data);            //remote client
             }
             receivedChannel.onopen = () => {
                 console.log("Remote data channel is open!");
@@ -132,7 +132,14 @@ function useWebRTC(){
     }, [])
 
 
-    return [receiveResponseFromRemoteClient, sendMessageToRemoteClient, sendOfferToRemoteClient, receiveMessageFromRemoteClient, localClient, cancelConnection];
+    return [
+        receiveMessageFromRemoteClient,
+        receiveResponseFromRemoteClient, 
+        sendMessageToRemoteClient, 
+        sendOfferToRemoteClient, 
+        localClient, 
+        cancelConnection
+    ];
 }
 
 export default useWebRTC;
