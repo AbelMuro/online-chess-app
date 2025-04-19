@@ -29,7 +29,7 @@ function WaitingForReply({setWaiting}) {
             setWaiting(false);
         }
         else{
-            console.log('now we create a match in a fetch request')
+            console.log('now we create a match in a fetch request');
         }
             
     }, [receiveResponseFromRemoteClient])

@@ -23,18 +23,22 @@ function DisplayPlayer({username, image}) {
     const clientUsername = sessionStorage.getItem('username');
 
     const handleConnection = () => {
-        sendOfferToRemoteClient(username);   
+        sendOfferToRemoteClient(username)
     }
 
+    
     useEffect(() => {
         if(localClient !== 'offer') {
             setWaiting(false);
-            return
+            return;
         };
 
         sendMessageToRemoteClient({challenger: clientUsername, challengedPlayer: username})
         setWaiting(true);
-    }, [localClient])
+    }, [localClient])    
+    
+
+
 
 
     return(    
