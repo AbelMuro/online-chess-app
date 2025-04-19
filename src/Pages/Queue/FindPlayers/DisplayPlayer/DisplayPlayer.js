@@ -26,7 +26,6 @@ function DisplayPlayer({username, image}) {
         sendOfferToRemoteClient(username)
     }
 
-    
     useEffect(() => {
         if(localClient !== 'offer') {
             setWaiting(false);
@@ -37,8 +36,6 @@ function DisplayPlayer({username, image}) {
         setWaiting(true);
     }, [localClient])    
     
-
-
 
 
     return(    
