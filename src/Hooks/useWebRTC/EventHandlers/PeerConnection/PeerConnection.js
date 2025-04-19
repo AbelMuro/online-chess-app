@@ -26,12 +26,12 @@ const onDataChannel = (setReceiveResponseFromRemoteClient, setReceiveMessageFrom
         }
         receivedChannel.onopen = () => {
             console.log("Remote data channel is open!");
-            setConnected(true);
+            setConnected('connected');
         };
     
         receivedChannel.onclose = () => {
             console.log("Remote data channel closed");
-            setConnected(false);
+            setConnected('disconnected');
         };
     }
 }

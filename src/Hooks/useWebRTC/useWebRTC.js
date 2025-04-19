@@ -10,7 +10,7 @@ function useWebRTC(){
     const dataChannel = useRef();
     const [receiveMessageFromRemoteClient, setReceiveMessageFromRemoteClient] = useState();
     const [receiveResponseFromRemoteClient, setReceiveResponseFromRemoteClient] = useState();
-    const [connected, setConnected] = useState(false);
+    const [connected, setConnected] = useState('not initialized');
     const [localClient, setLocalClient] = useState();
     //const localClientUsername = sessionStorage.getItem('username');    
     const dispatch = useDispatch();

@@ -20,7 +20,7 @@ function WaitingForReply({setWaiting}) {
     }
 
     useEffect(() => {
-        if(connected) return;
+        if(connected !== 'disconnected') return;
 
         setWaiting(false);
         dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player declined'}});

@@ -50,8 +50,7 @@ function DisplayCurrentChallenge(){
 
 
     useEffect(() => {
-        if(connected) return;
-
+        if(connected !== 'disconnected') return;
         setChallenge(null);
     }, [connected])
 
