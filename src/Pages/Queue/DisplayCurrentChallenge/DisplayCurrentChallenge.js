@@ -24,7 +24,7 @@ function DisplayCurrentChallenge(){
     } 
 
     const handleDecision = (decision) => {
-        sendMessageToRemoteClient(JSON.stringify({decision}))
+        sendMessageToRemoteClient({decision})
 
         if(decision === 'accept'){
             console.log('i need to receive the match id from the remote client here')

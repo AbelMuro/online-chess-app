@@ -66,12 +66,12 @@ function useWebRTC(){
             const receivedChannel = e.channel;
 
             receivedChannel.onmessage = (e) => {
-                console.log('Received message from remote client')
+                console.log('Received message from remote client ', e.data);
                 const data = JSON.parse(e.data);
 
                 if(data.decision)
                     setReceiveResponseFromRemoteClient(data);           //local client
-                else if(data.challenger)
+                else
                     setReceiveMessageFromRemoteClient(data);            //remote client
             }
             receivedChannel.onopen = () => {
