@@ -4,7 +4,6 @@ import { onIceCandidate, onIceConnectionStateChange, onDataChannel } from './Eve
 import { dataChannelOnOpen, dataChannelOnClose, dataChannelOnError, dataChannelOnMessage } from './EventHandlers/DataChannel';
 import {useDispatch} from 'react-redux';
 
-
 function useWebRTC(){  
     const signalingServer = useMemo(() => new WebSocket('wss://world-class-chess-server.com:443/signal'), [])
     const [peerConnection, dataChannel] = useMemo(() => {
@@ -30,7 +29,7 @@ function useWebRTC(){
     const sendOfferToRemoteClient = async (remoteClientUsername) => {
         try{
             const offer = await peerConnection.createOffer()
-            peerConnection.setLocalDescription(offer);
+            await peerConnection.setLocalDescription(offer);
             signalingServer.send(JSON.stringify({ 
                 type: 'offer', 
                 offer: {sdp: offer.sdp, type: offer.type}, 
