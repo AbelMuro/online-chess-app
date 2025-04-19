@@ -59,7 +59,7 @@ function useWebRTC(){
         peerConnection.current.onicecandidate = onIceCandidate(signalingServer.current)                         //returns a callback
         peerConnection.current.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection.current);
         peerConnection.current.ondatachannel = onDataChannel(setReceiveResponseFromRemoteClient, setReceiveMessageFromRemoteClient);
-        dataChannel.current.onopen = dataChannelOnOpen(peerConnection.current);                         //setLocalClient will be set within the dataChannelOnOpen() function
+        dataChannel.current.onopen = dataChannelOnOpen(peerConnection.current, setLocalClient);                //setLocalClient will be set within the dataChannelOnOpen() function
         dataChannel.current.onclose = dataChannelOnClose(setLocalClient);        
         dataChannel.current.onerror = dataChannelOnError();
         dataChannel.current.onmessage = dataChannelOnMessage();
