@@ -43,11 +43,8 @@ function DisplayCurrentChallenge(){
 
     useEffect(() => {
         if(!receiveMessageFromRemoteClient) return;
-
-        console.log(receiveMessageFromRemoteClient)
         const challenger = receiveMessageFromRemoteClient.challenger;
         const challengedPlayer = receiveMessageFromRemoteClient.challengedPlayer;
-
         setChallenge({challenger, challengedPlayer});
     }, [receiveMessageFromRemoteClient])
 

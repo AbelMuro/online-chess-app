@@ -11,7 +11,7 @@ import { PeerToPeerConnection } from '`/Queue';
 
 function WaitingForReply({setWaiting}) {
     const navigate = useNavigate();
-    const {cancelConnection, receiveResponseFromRemoteClient} = useContext(PeerToPeerConnection);
+    const {cancelConnection, receiveResponseFromRemoteClient, connected} = useContext(PeerToPeerConnection);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
 
@@ -19,7 +19,14 @@ function WaitingForReply({setWaiting}) {
         cancelConnection();
     }
 
-    
+    useEffect(() => {
+        if(connected) return;
+
+        setWaiting(false);
+        dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player declined'}});
+    }, [connected])
+
+
 
     useEffect(() => {
         if(!receiveResponseFromRemoteClient) return;
@@ -33,9 +40,6 @@ function WaitingForReply({setWaiting}) {
         else{
             console.log('now we create a match in a fetch request');
         }
-            
-        
-            
     }, [receiveResponseFromRemoteClient])
 
 
