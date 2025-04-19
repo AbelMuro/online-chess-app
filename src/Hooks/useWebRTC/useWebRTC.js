@@ -54,7 +54,7 @@ function useWebRTC(){
             ]
         });
         dataChannel.current = peerConnection.current.createDataChannel('chat');
-        signalingServer.current.onmessage = signalingServerOnMessage(peerConnection.current, dispatch);         //returns a callback
+        signalingServer.current.onmessage = signalingServerOnMessage(peerConnection.current, dispatch, signalingServer.current);         //returns a callback
         signalingServer.current.onopen = signalingServerOnOpen();
         peerConnection.current.onicecandidate = onIceCandidate(signalingServer.current)                         //returns a callback
         peerConnection.current.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection.current);

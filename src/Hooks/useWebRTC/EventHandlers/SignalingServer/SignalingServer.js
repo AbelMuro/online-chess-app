@@ -1,4 +1,4 @@
-const signalingServerOnMessage = (peerConnection, dispatch) => {
+const signalingServerOnMessage = (peerConnection, dispatch, signalingServer) => {
 
     return async (message) => {
         try{
