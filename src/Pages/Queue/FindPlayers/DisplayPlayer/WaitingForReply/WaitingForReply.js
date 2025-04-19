@@ -37,9 +37,9 @@ function WaitingForReply({setWaiting}) {
             setWaiting(false);
             dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player declined'}});
         }
-        else{
+        else
             console.log('now we create a match in a fetch request');
-        }
+        
     }, [receiveResponseFromRemoteClient])
 
 
