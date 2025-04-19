@@ -44,7 +44,7 @@ function DisplayCurrentChallenge(){
     useEffect(() => {
         if(!receiveMessageFromRemoteClient) return;
 
-        console.log('helle world')
+        console.log(receiveMessageFromRemoteClient)
         const challenger = receiveMessageFromRemoteClient.challenger;
         const challengedPlayer = receiveMessageFromRemoteClient.challengedPlayer;
 
