@@ -20,7 +20,7 @@ function useWebRTC(){
         });
         const dataChannel = peerConnection.createDataChannel('chat');
         return [peerConnection, dataChannel]
-    })
+    }, [])
     const [receiveMessageFromRemoteClient, setReceiveMessageFromRemoteClient] = useState();
     const [receiveResponseFromRemoteClient, setReceiveResponseFromRemoteClient] = useState();
     const [localClient, setLocalClient] = useState();
