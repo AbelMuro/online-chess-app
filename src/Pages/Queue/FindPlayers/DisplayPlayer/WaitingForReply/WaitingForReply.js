@@ -19,18 +19,22 @@ function WaitingForReply({setWaiting}) {
         cancelConnection();
     }
 
+    
+
     useEffect(() => {
         if(!receiveResponseFromRemoteClient) return;
-
         const decision = receiveResponseFromRemoteClient.decision;
 
         if(decision === 'decline'){
             handleCancel();
             setWaiting(false);
+            dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player declined'}});
         }
         else{
             console.log('now we create a match in a fetch request');
         }
+            
+        
             
     }, [receiveResponseFromRemoteClient])
 

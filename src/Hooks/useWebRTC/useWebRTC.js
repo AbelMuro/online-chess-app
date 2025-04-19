@@ -36,7 +36,6 @@ function useWebRTC(){
     }
     
     const cancelConnection = () => {
-        dataChannel.current?.close();
         peerConnection.current?.close();
     }
 
