@@ -32,7 +32,7 @@ function WaitingForReply({setWaiting}) {
         if(connected !== 'disconnected') return;
 
         setWaiting(false);
-        dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player declined'}});
+        dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player was disconnected'}});
     }, [connected])
 
 
