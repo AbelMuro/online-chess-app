@@ -65,10 +65,10 @@ function useWebRTC(){
     useEffect(() => {
         if(!signalingServer || !peerConnection || !dataChannel) return;
 
-        signalingServer.current.onmessage = signalingServerOnMessage(peerConnection, dispatch, signalingServer.current);         //returns a callback
+        signalingServer.onmessage = signalingServerOnMessage(peerConnection, dispatch, signalingServer);         //returns a callback
         signalingServer.onopen = () => {
             console.log('Connected to signaling server');
-            peerConnection.onicecandidate = onIceCandidate(signalingServer.current)                                                  //returns a callback
+            peerConnection.onicecandidate = onIceCandidate(signalingServer)                                                  //returns a callback
             peerConnection.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection, setConnected);
             peerConnection.ondatachannel = onDataChannel(setMessage);
             dataChannel.onopen = () => {
