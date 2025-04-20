@@ -1,13 +1,13 @@
 import {useState, useEffect, useRef} from 'react';
-import { signalingServerOnMessage, signalingServerOnOpen} from './EventHandlers/SignalingServer';
+import { signalingServerOnMessage} from './EventHandlers/SignalingServer';
 import { onIceCandidate, onIceConnectionStateChange, onDataChannel } from './EventHandlers/PeerConnection';
-import { dataChannelOnOpen, dataChannelOnClose, dataChannelOnError, dataChannelOnMessage } from './EventHandlers/DataChannel';
+import {dataChannelOnClose, dataChannelOnError, dataChannelOnMessage } from './EventHandlers/DataChannel';
 import {useDispatch} from 'react-redux';
 
 function useWebRTC(){  
     const [peerConnection, setPeerConnection] = useState();
     const [dataChannel, setDataChannel] = useState();
-    const signalingServer = useRef(new WebSocket('wss://world-class-chess-server.com:443/signal'));
+    const [signalingServer, setSignalingServer] = useState();
     const remoteClientUsername = useRef();
     const [message, setMessage] = useState();
     const [connected, setConnected] = useState('not initialized');
@@ -16,6 +16,7 @@ function useWebRTC(){
     const dispatch = useDispatch();
 
     const initializeConnection = (remoteUsername) => {
+        const signalingServer = new WebSocket('wss://world-class-chess-server.com:443/signal');
         const peerConnection = new RTCPeerConnection({
             iceServers: [
                 { urls: 'stun:stun.l.google.com:19302' },
@@ -28,6 +29,7 @@ function useWebRTC(){
         });
         const dataChannel = peerConnection.createDataChannel('chat');
         remoteClientUsername.current = remoteUsername;
+        setSignalingServer(signalingServer);
         setPeerConnection(peerConnection);
         setDataChannel(dataChannel);
     }
@@ -58,22 +60,29 @@ function useWebRTC(){
         if(dataChannel?.readyState === 'open')
             dataChannel?.send(JSON.stringify(message));
     }
-    
+
 
     useEffect(() => {
-        if(!peerConnection || !dataChannel) return; 
+        if(!signalingServer || !peerConnection || !dataChannel) return;
 
         signalingServer.current.onmessage = signalingServerOnMessage(peerConnection, dispatch, signalingServer.current);         //returns a callback
-        signalingServer.current.onopen = signalingServerOnOpen();
-        peerConnection.onicecandidate = onIceCandidate(signalingServer.current)                                                  //returns a callback
-        peerConnection.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection, setConnected);
-        peerConnection.ondatachannel = onDataChannel(setMessage);
-        dataChannel.onopen = dataChannelOnOpen(peerConnection, setLocalClient, sendOfferToRemoteClient);         
-        dataChannel.onclose = dataChannelOnClose(setLocalClient);        
-        dataChannel.onerror = dataChannelOnError();
-        dataChannel.onmessage = dataChannelOnMessage();
+        signalingServer.onopen = () => {
+            console.log('Connected to signaling server');
+            peerConnection.onicecandidate = onIceCandidate(signalingServer.current)                                                  //returns a callback
+            peerConnection.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection, setConnected);
+            peerConnection.ondatachannel = onDataChannel(setMessage);
+            dataChannel.onopen = () => {
+                console.log('Local data channel open'); 
+                setLocalClient(peerConnection?.localDescription?.type);     
+                sendOfferToRemoteClient();   
+            }       
+            dataChannel.onclose = dataChannelOnClose(setLocalClient);        
+            dataChannel.onerror = dataChannelOnError();
+            dataChannel.onmessage = dataChannelOnMessage();
+        }
 
-    }, [peerConnection, dataChannel])
+    }, [signalingServer, peerConnection, dataChannel])
+    
 
     useEffect(() => {
         return () => {

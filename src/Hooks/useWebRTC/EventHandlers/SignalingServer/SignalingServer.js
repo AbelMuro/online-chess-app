@@ -25,8 +25,4 @@ const signalingServerOnMessage = (peerConnection, dispatch, signalingServer) => 
     }
 }
 
-const signalingServerOnOpen = () => {
-    console.log('Connected to signaling websocket')    
-}
-
-export {signalingServerOnMessage, signalingServerOnOpen};
+export {signalingServerOnMessage};
