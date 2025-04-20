@@ -14,6 +14,19 @@ function useWebRTC(){
     //const localClientUsername = sessionStorage.getItem('username');    
     const dispatch = useDispatch();
 
+    const createDataChannel = (remoteClientUsername) => {
+        if(!peerConnection.current) return;
+        if(dataChannel.current) dataChannel.current.close();
+        
+
+        dataChannel.current = peerConnection.current.createDataChannel('chat');
+        dataChannel.current.onopen = dataChannelOnOpen(peerConnection.current, setLocalClient);
+        dataChannel.current.onclose = dataChannelOnClose(setLocalClient);        
+        dataChannel.current.onerror = dataChannelOnError();
+        dataChannel.current.onmessage = dataChannelOnMessage();
+        sendOfferToRemoteClient(remoteClientUsername);
+    }
+
     const sendOfferToRemoteClient = async (remoteClientUsername) => {
         try{
             const offer = await peerConnection.current.createOffer()
@@ -37,7 +50,6 @@ function useWebRTC(){
     
     const cancelConnection = () => {
         dataChannel.current?.close();
-        setDataChannel(null);
     }
 
 
@@ -53,26 +65,20 @@ function useWebRTC(){
                 }
             ]
         });
-        const dataChannel = peerConnection.current.createDataChannel('chat');
         signalingServer.current.onmessage = signalingServerOnMessage(peerConnection.current, dispatch, signalingServer.current);         //returns a callback
         signalingServer.current.onopen = signalingServerOnOpen();
         peerConnection.current.onicecandidate = onIceCandidate(signalingServer.current)                                                  //returns a callback
         peerConnection.current.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection.current, setConnected);
         peerConnection.current.ondatachannel = onDataChannel(setMessage);
-        dataChannel.current.onopen = dataChannelOnOpen(peerConnection.current, setLocalClient);
-        dataChannel.current.onclose = dataChannelOnClose(setLocalClient);        
-        dataChannel.current.onerror = dataChannelOnError();
-        dataChannel.current.onmessage = dataChannelOnMessage();
 
         return () => {
             signalingServer.current?.close();
             peerConnection.current?.close();
-            dataChannel.current?.close();
         }
     }, [])
 
     return [
-        sendOfferToRemoteClient,
+        createDataChannel,
         sendMessageToRemoteClient,
         message,
         localClient, 
