@@ -7,6 +7,7 @@ import {useDispatch} from 'react-redux';
 function useWebRTC(){  
     const signalingServer = useRef();
     const peerConnection = useRef();
+    const remoteClientUsername = useRef();
     const [dataChannel, setDataChannel] = useState();
     const [message, setMessage] = useState();
     const [connected, setConnected] = useState('not initialized');
@@ -14,19 +15,20 @@ function useWebRTC(){
     //const localClientUsername = sessionStorage.getItem('username');    
     const dispatch = useDispatch();
 
-    const createConnection = () => {
+    const createConnection = (username) => {
         const dataChannel = peerConnection.current.createDataChannel('chat');
         setDataChannel(dataChannel);
+        remoteClientUsername.current = username;
     }
 
-    const sendOfferToRemoteClient = async (remoteClientUsername) => {
+    const sendOfferToRemoteClient = async () => {
         try{
             const offer = await peerConnection.current.createOffer()
             await peerConnection.current.setLocalDescription(offer);
             signalingServer.current.send(JSON.stringify({ 
                 type: 'offer', 
                 offer: {sdp: offer.sdp, type: offer.type}, 
-                username: remoteClientUsername, 
+                username: remoteClientUsername.current, 
             }))            
         }
         catch(error){
