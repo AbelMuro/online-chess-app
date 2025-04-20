@@ -26,6 +26,7 @@ function WaitingForReply({setWaiting}) {
     const handleCancel = async () => {
         sendMessageToRemoteClient({message: {from: clientUsername, action: 'cancel', data: {decision: 'decline'}}});
         setWaiting(false);
+        cancelConnection();
     }
 
     useEffect(() => {
