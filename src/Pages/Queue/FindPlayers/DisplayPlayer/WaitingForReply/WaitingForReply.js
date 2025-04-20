@@ -11,6 +11,7 @@ import { PeerToPeerConnection } from '`/Queue';
 
 //this is where i left off, i will need to display a message to the challenger when the challengedplayer declines, 
 //but not when the challenger cancels the match
+//then i will need to make a fetch request to a route that will create a match, i need to pass the match id to the remote client from <WaitingForReply/>
 //DONT FORGET TO UPDATE NOTES FOR WEBRTC IN NODE.JS SECTION OF YOUR NOTES REPOSITORY
 
 //everything works now, i refactored the useWebRTC hook
