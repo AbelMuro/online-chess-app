@@ -18,12 +18,13 @@ import { PeerToPeerConnection } from '`/Queue';
 
 function WaitingForReply({setWaiting}) {
     const navigate = useNavigate();
-    const {cancelConnection, receiveMessageFromRemoteClient, connected} = useContext(PeerToPeerConnection);
+    const {cancelConnection, message, sendMessageToRemoteClient, connected} = useContext(PeerToPeerConnection);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
+    const clientUsername = sessionStorage.getItem('username');
 
     const handleCancel = async () => {
-        cancelConnection();
+        sendMessageToRemoteClient({message: {from: clientUsername, action: 'cancel', data: {decision: 'decline'}}});
     }
 
     useEffect(() => {
@@ -36,8 +37,12 @@ function WaitingForReply({setWaiting}) {
 
 
     useEffect(() => {
-        if(!receiveMessageFromRemoteClient || !receiveMessageFromRemoteClient.decision) return;
-        const decision = receiveMessageFromRemoteClient.decision;
+        if(!message) return;
+        if(message.from === clientUsername) return;
+        if(message.action !== 'decision') return;
+
+        const data = message.data;
+        const decision = data.decision;
 
         if(decision === 'decline'){
             handleCancel();
@@ -47,7 +52,7 @@ function WaitingForReply({setWaiting}) {
         else
             console.log('now we create a match in a fetch request');
         
-    }, [receiveMessageFromRemoteClient])
+    }, [message])
 
 
     return(

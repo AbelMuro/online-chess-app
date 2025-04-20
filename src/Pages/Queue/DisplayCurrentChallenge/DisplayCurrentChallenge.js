@@ -13,7 +13,7 @@ import { PeerToPeerConnection } from "`/Queue";
 
 function DisplayCurrentChallenge(){
     const [challenge, setChallenge] = useState();
-    const {sendMessageToRemoteClient, receiveMessageFromRemoteClient, connected} = useContext(PeerToPeerConnection);
+    const {sendMessageToRemoteClient, message, connected} = useContext(PeerToPeerConnection);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -24,7 +24,7 @@ function DisplayCurrentChallenge(){
     } 
 
     const handleDecision = (decision) => {
-        sendMessageToRemoteClient({message: {from: clientUsername, data: {decision}}})
+        sendMessageToRemoteClient({message: {from: clientUsername, action: 'decision', data: {decision}}})
 
         if(decision === 'accept'){
             console.log('i need to receive the match id from the remote client here')
@@ -42,10 +42,26 @@ function DisplayCurrentChallenge(){
     
 
     useEffect(() => {
-        if(!receiveMessageFromRemoteClient || !receiveMessageFromRemoteClient.challenger) return;
-        const challenger = receiveMessageFromRemoteClient.challenger;
+        if(!message) return;
+        if(message.from === clientUsername) return;
+        if(message.action !== 'challenge') return;
+
+        const data = message.data;
+        const challenger = data.challenger;
         setChallenge({challenger});
-    }, [receiveMessageFromRemoteClient])
+
+    }, [message])
+
+
+    useEffect(() => {
+        if(!message) return;
+        if(message.from === clientUsername) return;
+        if(message.action !== 'cancel') return;
+
+        setChallenge(null);
+        dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player has canceled the challenge'}});
+
+    }, [message])
 
 
     useEffect(() => {

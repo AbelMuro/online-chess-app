@@ -26,7 +26,7 @@ function DisplayPlayer({username, image}) {
             return;
         };
 
-        sendMessageToRemoteClient({message: {from: clientUsername, data: {challenger: clientUsername}}})
+        sendMessageToRemoteClient({message: {from: clientUsername, action: 'challenge', data: {challenger: clientUsername}}})
         setWaiting(true);
     }, [localClient])    
 

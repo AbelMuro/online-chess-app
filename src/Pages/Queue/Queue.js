@@ -14,7 +14,7 @@ function Queue() {
     const [
         sendOfferToRemoteClient,
         sendMessageToRemoteClient,
-        receiveMessageFromRemoteClient,
+        message,
         localClient, 
         cancelConnection,
         connected
@@ -85,7 +85,7 @@ function Queue() {
         <PeerToPeerConnection.Provider value={{
                 sendOfferToRemoteClient,
                 sendMessageToRemoteClient,
-                receiveMessageFromRemoteClient,
+                message,
                 localClient, 
                 cancelConnection,
                 connected}}>
