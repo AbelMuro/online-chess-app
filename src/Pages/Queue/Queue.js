@@ -12,7 +12,7 @@ function Queue() {
     const dispatch = useDispatch();
     const navigate = useNavigate();    
     const [
-        sendOfferToRemoteClient,
+        initializeConnection,
         sendMessageToRemoteClient,
         message,
         localClient, 
@@ -83,7 +83,7 @@ function Queue() {
 
     return(
         <PeerToPeerConnection.Provider value={{
-                sendOfferToRemoteClient,
+                initializeConnection,
                 sendMessageToRemoteClient,
                 message,
                 localClient, 

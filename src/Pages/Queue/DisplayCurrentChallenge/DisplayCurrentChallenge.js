@@ -66,6 +66,7 @@ function DisplayCurrentChallenge(){
 
     useEffect(() => {
         if(connected !== 'disconnected') return;
+        
         dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Challenger was disconnected'}});
         setChallenge(null);
     }, [connected])

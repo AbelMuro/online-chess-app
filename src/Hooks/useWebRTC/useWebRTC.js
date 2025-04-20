@@ -5,44 +5,19 @@ import { dataChannelOnOpen, dataChannelOnClose, dataChannelOnError, dataChannelO
 import {useDispatch} from 'react-redux';
 
 function useWebRTC(){  
-    const signalingServer = useRef();
-    const peerConnection = useRef();
-    const dataChannel = useRef();
+    const [signalingServer, setSignalingServer] = useState();
+    const [peerConnection, setPeerConnection] = useState();
+    const [dataChannel, setDataChannel] = useState();
+    const remoteClientUsername = useRef();
     const [message, setMessage] = useState();
     const [connected, setConnected] = useState('not initialized');
     const [localClient, setLocalClient] = useState();
     //const localClientUsername = sessionStorage.getItem('username');    
     const dispatch = useDispatch();
 
-    const sendOfferToRemoteClient = async (remoteClientUsername) => {
-        try{
-            const offer = await peerConnection.current.createOffer()
-            await peerConnection.current.setLocalDescription(offer);
-            signalingServer.current.send(JSON.stringify({ 
-                type: 'offer', 
-                offer: {sdp: offer.sdp, type: offer.type}, 
-                username: remoteClientUsername, 
-            }))            
-        }
-        catch(error){
-            const message = error.message;
-            console.log(message);
-        }
-    }
-
-    const sendMessageToRemoteClient = (message) => {
-        if(dataChannel.current?.readyState === 'open')
-            dataChannel.current?.send(JSON.stringify(message));
-    }
-    
-    const cancelConnection = () => {
-        peerConnection.current?.close();
-    }
-
-
-    useEffect(() => {
-        signalingServer.current = new WebSocket('wss://world-class-chess-server.com:443/signal');
-        peerConnection.current = new RTCPeerConnection({
+    const initializeConnection = (remoteUsername) => {
+        const signalingServer = new WebSocket('wss://world-class-chess-server.com:443/signal');
+        const peerConnection = new RTCPeerConnection({
             iceServers: [
                 { urls: 'stun:stun.l.google.com:19302' },
                 {
@@ -52,27 +27,63 @@ function useWebRTC(){
                 }
             ]
         });
-        dataChannel.current = peerConnection.current.createDataChannel('chat');
-        signalingServer.current.onmessage = signalingServerOnMessage(peerConnection.current, dispatch, signalingServer.current);         //returns a callback
-        signalingServer.current.onopen = signalingServerOnOpen();
-        peerConnection.current.onicecandidate = onIceCandidate(signalingServer.current)                                                  //returns a callback
-        peerConnection.current.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection.current, setConnected);
-        peerConnection.current.ondatachannel = onDataChannel(setMessage);
-        dataChannel.current.onopen = dataChannelOnOpen(peerConnection.current, setLocalClient);                //setLocalClient will be set within the dataChannelOnOpen() function
-        dataChannel.current.onclose = dataChannelOnClose(setLocalClient);        
-        dataChannel.current.onerror = dataChannelOnError();
-        dataChannel.current.onmessage = dataChannelOnMessage();
+        const dataChannel = peerConnection.createDataChannel('chat');
+        remoteClientUsername.current = remoteUsername;
+        setSignalingServer(signalingServer);
+        setPeerConnection(peerConnection);
+        setDataChannel(dataChannel);
+    }
+
+    const sendOfferToRemoteClient = async () => {
+        try{
+            const offer = await peerConnection.createOffer()
+            await peerConnection.setLocalDescription(offer);
+            signalingServer.send(JSON.stringify({ 
+                type: 'offer', 
+                offer: {sdp: offer.sdp, type: offer.type}, 
+                username: remoteClientUsername.current, 
+            }))            
+        }
+        catch(error){
+            const message = error.message;
+            console.log(message);
+        }
+    }
+
+    const sendMessageToRemoteClient = (message) => {
+        if(dataChannel?.readyState === 'open')
+            dataChannel?.send(JSON.stringify(message));
+    }
+    
+    const cancelConnection = () => {
+        peerConnection?.close();
+    }
+
+
+    useEffect(() => {
+        if(!signalingServer || !peerConnection || !dataChannel) return; 
+
+        signalingServer.onmessage = signalingServerOnMessage(peerConnection, dispatch, signalingServer);         //returns a callback
+        signalingServer.onopen = signalingServerOnOpen();
+        peerConnection.onicecandidate = onIceCandidate(signalingServer)                                                  //returns a callback
+        peerConnection.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection, setConnected);
+        peerConnection.ondatachannel = onDataChannel(setMessage);
+        dataChannel.onopen = dataChannelOnOpen(peerConnection, setLocalClient);                //setLocalClient will be set within the dataChannelOnOpen() function
+        dataChannel.onclose = dataChannelOnClose(setLocalClient);        
+        dataChannel.onerror = dataChannelOnError();
+        dataChannel.onmessage = dataChannelOnMessage();
+        sendOfferToRemoteClient();
 
         return () => {
-            signalingServer.current?.close();
-            peerConnection.current?.close();
-            dataChannel.current?.close();
+            signalingServer?.close();
+            peerConnection?.close();
+            dataChannel?.close();
         }
-    }, [])
+    }, [signalingServer, peerConnection, dataChannel])
 
 
     return [
-        sendOfferToRemoteClient,
+        initializeConnection,
         sendMessageToRemoteClient,
         message,
         localClient, 
