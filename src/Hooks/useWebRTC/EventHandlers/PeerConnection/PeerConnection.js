@@ -7,11 +7,20 @@ const onIceCandidate = (signalingServer) => {
     };
 }
 
-const onIceConnectionStateChange = (peerConnection) => {
-    return () => console.log(`ICE state: ${peerConnection.iceConnectionState}`)
+const onIceConnectionStateChange = (peerConnection, setConnected) => {
+    return () => {
+        const state = peerConnection.iceConnectionState;
+        console.log(`ICE state: ${state}`)
+        
+
+        if(state === 'disconnected' || state === 'failed' || state === 'closed')
+            setConnected('disconnected')
+        else if(state === 'connected')
+            setConnected('connected')
+    }
 }
 
-const onDataChannel = (setMessage, setConnected) => {
+const onDataChannel = (setMessage) => {
     return (e) => {
         const receivedChannel = e.channel;
 
@@ -23,17 +32,14 @@ const onDataChannel = (setMessage, setConnected) => {
         }
         receivedChannel.onopen = () => {
             console.log("Remote data channel is open!");
-            setConnected('connected');
         };
     
         receivedChannel.onclose = () => {
             console.log("Remote data channel closed");
-            setConnected('not initialized');
         };
 
-        receivedChannel.onerror = (e) => {
-            console.log('Remote data channel error: ', e.error);
-            setConnected('disconnected');
+        receivedChannel.onerror = (error) => {
+            console.log('Remote data channel error: ', error);
         }
     }
 }
