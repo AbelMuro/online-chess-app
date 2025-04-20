@@ -47,7 +47,6 @@ function WaitingForReply({setWaiting}) {
         const decision = data.decision;
 
         if(decision === 'decline'){
-            handleCancel();
             setWaiting(false);
             dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player declined'}});
         }
