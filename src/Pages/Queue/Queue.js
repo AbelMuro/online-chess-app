@@ -12,7 +12,7 @@ function Queue() {
     const dispatch = useDispatch();
     const navigate = useNavigate();    
     const [
-        createDataChannel,
+        sendOfferToRemoteClient,
         sendMessageToRemoteClient,
         message,
         localClient, 
@@ -83,7 +83,7 @@ function Queue() {
 
     return(
         <PeerToPeerConnection.Provider value={{
-                createDataChannel,
+                sendOfferToRemoteClient,
                 sendMessageToRemoteClient,
                 message,
                 localClient, 

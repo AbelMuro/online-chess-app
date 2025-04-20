@@ -12,12 +12,12 @@ import * as styles from './styles.module.css';
 
 
 function DisplayPlayer({username, image}) {
-    const {createDataChannel, sendMessageToRemoteClient, localClient} = useContext(PeerToPeerConnection);    
+    const {sendOfferToRemoteClient, sendMessageToRemoteClient, localClient} = useContext(PeerToPeerConnection);    
     const [waiting, setWaiting] = useState(false);
     const clientUsername = sessionStorage.getItem('username');
 
     const handleConnection = () => {
-        createDataChannel(username)
+        sendOfferToRemoteClient(username)
     }
 
     useEffect(() => {

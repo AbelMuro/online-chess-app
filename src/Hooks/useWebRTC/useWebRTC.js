@@ -14,21 +14,6 @@ function useWebRTC(){
     //const localClientUsername = sessionStorage.getItem('username');    
     const dispatch = useDispatch();
 
-    const createDataChannel = (remoteClientUsername) => {
-        if(!peerConnection.current) return;
-        if(dataChannel.current) {
-            sendOfferToRemoteClient(remoteClientUsername);
-        }
-        else{
-            dataChannel.current = peerConnection.current.createDataChannel('chat');
-            dataChannel.current.onopen = dataChannelOnOpen(peerConnection.current, setLocalClient, setConnected);
-            dataChannel.current.onclose = dataChannelOnClose(setLocalClient, setConnected);        
-            dataChannel.current.onerror = dataChannelOnError();
-            dataChannel.current.onmessage = dataChannelOnMessage();    
-            sendOfferToRemoteClient(remoteClientUsername);        
-        }
-    }
-
     const sendOfferToRemoteClient = async (remoteClientUsername) => {
         try{
             const offer = await peerConnection.current.createOffer()
@@ -52,9 +37,12 @@ function useWebRTC(){
     
     const cancelConnection = () => {
         dataChannel.current?.close();
-        dataChannel.current = null;
+        dataChannel.current = peerConnection.current.createDataChannel('chat');
+        dataChannel.current.onopen = dataChannelOnOpen(peerConnection.current, setLocalClient, setConnected);
+        dataChannel.current.onclose = dataChannelOnClose(setLocalClient, setConnected);        
+        dataChannel.current.onerror = dataChannelOnError();
+        dataChannel.current.onmessage = dataChannelOnMessage();   
     }
-
 
     useEffect(() => {
         signalingServer.current = new WebSocket('wss://world-class-chess-server.com:443/signal');
@@ -86,7 +74,7 @@ function useWebRTC(){
     }, [])
 
     return [
-        createDataChannel,
+        sendOfferToRemoteClient,
         sendMessageToRemoteClient,
         message,
         localClient, 
