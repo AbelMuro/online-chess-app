@@ -42,7 +42,7 @@ function DisplayCurrentChallenge(){
     
 
     useEffect(() => {
-        if(receiveMessageFromRemoteClient && !receiveMessageFromRemoteClient.challenger) return;
+        if(!receiveMessageFromRemoteClient || !receiveMessageFromRemoteClient.challenger) return;
         const challenger = receiveMessageFromRemoteClient.challenger;
         setChallenge({challenger});
     }, [receiveMessageFromRemoteClient])

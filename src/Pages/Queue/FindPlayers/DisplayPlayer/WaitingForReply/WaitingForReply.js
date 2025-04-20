@@ -29,7 +29,7 @@ function WaitingForReply({setWaiting}) {
 
 
     useEffect(() => {
-        if(receiveMessageFromRemoteClient && !receiveMessageFromRemoteClient.decision) return;
+        if(!receiveMessageFromRemoteClient || !receiveMessageFromRemoteClient.decision) return;
         const decision = receiveMessageFromRemoteClient.decision;
 
         if(decision === 'decline'){
