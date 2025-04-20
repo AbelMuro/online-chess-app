@@ -1,34 +1,27 @@
 import {useState, useEffect, useRef} from 'react';
 import { signalingServerOnMessage, signalingServerOnOpen} from './EventHandlers/SignalingServer';
 import { onIceCandidate, onIceConnectionStateChange, onDataChannel } from './EventHandlers/PeerConnection';
-import { dataChannelOnClose, dataChannelOnError, dataChannelOnMessage } from './EventHandlers/DataChannel';
+import { dataChannelOnOpen, dataChannelOnClose, dataChannelOnError, dataChannelOnMessage } from './EventHandlers/DataChannel';
 import {useDispatch} from 'react-redux';
 
 function useWebRTC(){  
     const signalingServer = useRef();
     const peerConnection = useRef();
-    const remoteClientUsername = useRef();
-    const [dataChannel, setDataChannel] = useState();
+    const dataChannel = useRef();
     const [message, setMessage] = useState();
     const [connected, setConnected] = useState('not initialized');
     const [localClient, setLocalClient] = useState();
     //const localClientUsername = sessionStorage.getItem('username');    
     const dispatch = useDispatch();
 
-    const createConnection = (username) => {
-        const dataChannel = peerConnection.current.createDataChannel('chat');
-        setDataChannel(dataChannel);
-        remoteClientUsername.current = username;
-    }
-
-    const sendOfferToRemoteClient = async () => {
+    const sendOfferToRemoteClient = async (remoteClientUsername) => {
         try{
             const offer = await peerConnection.current.createOffer()
             await peerConnection.current.setLocalDescription(offer);
             signalingServer.current.send(JSON.stringify({ 
                 type: 'offer', 
                 offer: {sdp: offer.sdp, type: offer.type}, 
-                username: remoteClientUsername.current, 
+                username: remoteClientUsername, 
             }))            
         }
         catch(error){
@@ -60,36 +53,26 @@ function useWebRTC(){
                 }
             ]
         });
-        
+        const dataChannel = peerConnection.current.createDataChannel('chat');
         signalingServer.current.onmessage = signalingServerOnMessage(peerConnection.current, dispatch, signalingServer.current);         //returns a callback
         signalingServer.current.onopen = signalingServerOnOpen();
         peerConnection.current.onicecandidate = onIceCandidate(signalingServer.current)                                                  //returns a callback
         peerConnection.current.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection.current, setConnected);
         peerConnection.current.ondatachannel = onDataChannel(setMessage);
+        dataChannel.current.onopen = dataChannelOnOpen(peerConnection.current, setLocalClient);
+        dataChannel.current.onclose = dataChannelOnClose(setLocalClient);        
+        dataChannel.current.onerror = dataChannelOnError();
+        dataChannel.current.onmessage = dataChannelOnMessage();
 
         return () => {
             signalingServer.current?.close();
             peerConnection.current?.close();
+            dataChannel.current?.close();
         }
     }, [])
 
-    useEffect(() => {
-        if(!dataChannel) return;
-
-        dataChannel.onopen = () => {
-            console.log('Local channel is open');
-            setLocalClient(peerConnection.current?.localDescription?.type)
-        }
-        dataChannel.onclose = dataChannelOnClose(setLocalClient);        
-        dataChannel.onerror = dataChannelOnError();
-        dataChannel.onmessage = dataChannelOnMessage();
-        sendOfferToRemoteClient();
-
-    }, [dataChannel])
-
-
     return [
-        createConnection,
+        sendOfferToRemoteClient,
         sendMessageToRemoteClient,
         message,
         localClient, 

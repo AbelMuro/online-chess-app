@@ -83,7 +83,7 @@ function Queue() {
 
     return(
         <PeerToPeerConnection.Provider value={{
-                createConnection,
+                sendOfferToRemoteClient,
                 sendMessageToRemoteClient,
                 message,
                 localClient, 

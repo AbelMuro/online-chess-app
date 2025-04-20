@@ -1,3 +1,9 @@
+const dataChannelOnOpen = (peerConnection, setLocalClient) => {
+    return () => {
+        console.log('Local data channel open'); 
+        setLocalClient(peerConnection?.localDescription?.type);        
+    }
+};
 
 const dataChannelOnClose = (setLocalClient) => {
     return () => {
@@ -15,4 +21,4 @@ const dataChannelOnMessage = () => {
     return (e) => console.log('Local data channel message ', e.data);
 }
 
-export {dataChannelOnClose, dataChannelOnError, dataChannelOnMessage};
+export {dataChannelOnOpen, dataChannelOnClose, dataChannelOnError, dataChannelOnMessage};
