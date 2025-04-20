@@ -12,8 +12,6 @@ const onIceConnectionStateChange = (peerConnection) => {
 }
 
 const onDataChannel = (setMessage, setConnected) => {
-    const clientUsername = sessionStorage.getItem('username');
-
     return (e) => {
         const receivedChannel = e.channel;
 
@@ -30,8 +28,12 @@ const onDataChannel = (setMessage, setConnected) => {
     
         receivedChannel.onclose = () => {
             console.log("Remote data channel closed");
-            setConnected('disconnected');
         };
+
+        receivedChannel.onerror = (e) => {
+            console.log('Remote data channel error: ', e.error);
+            setConnected('disconnected');
+        }
     }
 }
 
