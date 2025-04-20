@@ -61,7 +61,7 @@ function useWebRTC(){
     
 
     useEffect(() => {
-        if(!signalingServer.current || !peerConnection || !dataChannel) return; 
+        if(!peerConnection || !dataChannel) return; 
 
         signalingServer.current.onmessage = signalingServerOnMessage(peerConnection, dispatch, signalingServer.current);         //returns a callback
         signalingServer.current.onopen = signalingServerOnOpen();
@@ -74,7 +74,7 @@ function useWebRTC(){
         dataChannel.onmessage = dataChannelOnMessage();
         sendOfferToRemoteClient();
 
-    }, [signalingServer, peerConnection, dataChannel])
+    }, [peerConnection, dataChannel])
 
     useEffect(() => {
         return () => {
