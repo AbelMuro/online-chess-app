@@ -4,7 +4,7 @@ const signalingServerOnMessage = (peerConnection, dispatch, signalingServer) => 
         try{
             const text = await message.data.text();
             const data = JSON.parse(text);
-            console.log(data.type);
+            console.log(data.type, peerConnection.signalingState);
         
             if(data.type === 'offer' && peerConnection.signalingState === 'stable') {                                                            //we handle a connection here (when a remote client wants to connect to a local client)
                 await peerConnection.setRemoteDescription(new RTCSessionDescription(data.offer));   //we create a remote description of the offer  (remote description are the connection settings of the OTHER peer)
