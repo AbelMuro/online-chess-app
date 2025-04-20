@@ -32,11 +32,9 @@ function DisplayPlayer({username, image}) {
             return;
         };
 
-        sendMessageToRemoteClient({challenger: clientUsername, challengedPlayer: username})
+        sendMessageToRemoteClient({challenger: clientUsername})
         setWaiting(true);
     }, [localClient])    
-    
-
 
     return(    
         <>

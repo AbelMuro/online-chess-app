@@ -16,13 +16,16 @@ const onDataChannel = (setReceiveResponseFromRemoteClient, setReceiveMessageFrom
         const receivedChannel = e.channel;
 
         receivedChannel.onmessage = (e) => {
-            console.log('Received message from remote client ', e.data);
             const data = JSON.parse(e.data);
+            console.log('Received message from remote client ', data);
 
+            setReceiveMessageFromRemoteClient(data);
+            /*
             if(data.decision)
                 setReceiveResponseFromRemoteClient(data);           //local client
             else
                 setReceiveMessageFromRemoteClient(data);            //remote client
+            */
         }
         receivedChannel.onopen = () => {
             console.log("Remote data channel is open!");
