@@ -49,6 +49,7 @@ function WaitingForReply({setWaiting}) {
         if(decision === 'decline'){
             setWaiting(false);
             dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player declined'}});
+            cancelConnection();
         }
         else
             console.log('now we create a match in a fetch request');

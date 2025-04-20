@@ -18,7 +18,6 @@ function useWebRTC(){
         if(!peerConnection.current) return;
         if(dataChannel.current) dataChannel.current.close();
         
-
         dataChannel.current = peerConnection.current.createDataChannel('chat');
         dataChannel.current.onopen = dataChannelOnOpen(peerConnection.current, setLocalClient, setConnected);
         dataChannel.current.onclose = dataChannelOnClose(setLocalClient, setConnected);        
