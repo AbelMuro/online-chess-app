@@ -77,11 +77,11 @@ function useWebRTC(){
         dataChannel.onopen = () => {
             console.log('Local channel is open');
             setLocalClient(peerConnection.current?.localDescription?.type)
-            sendOfferToRemoteClient();
         }
         dataChannel.onclose = dataChannelOnClose(setLocalClient);        
         dataChannel.onerror = dataChannelOnError();
         dataChannel.onmessage = dataChannelOnMessage();
+        sendOfferToRemoteClient();
 
     }, [dataChannel])
 
