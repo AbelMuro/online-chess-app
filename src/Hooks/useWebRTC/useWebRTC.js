@@ -83,9 +83,6 @@ function useWebRTC(){
         dataChannel.onerror = dataChannelOnError();
         dataChannel.onmessage = dataChannelOnMessage();
 
-        return () => {
-            dataChannel.close();
-        }
     }, [dataChannel])
 
 
