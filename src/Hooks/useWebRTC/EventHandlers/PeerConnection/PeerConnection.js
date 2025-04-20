@@ -28,6 +28,7 @@ const onDataChannel = (setMessage, setConnected) => {
     
         receivedChannel.onclose = () => {
             console.log("Remote data channel closed");
+            setConnected('not initialized');
         };
 
         receivedChannel.onerror = (e) => {
