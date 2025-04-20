@@ -20,8 +20,8 @@ function useWebRTC(){
         
 
         dataChannel.current = peerConnection.current.createDataChannel('chat');
-        dataChannel.current.onopen = dataChannelOnOpen(peerConnection.current, setLocalClient);
-        dataChannel.current.onclose = dataChannelOnClose(setLocalClient);        
+        dataChannel.current.onopen = dataChannelOnOpen(peerConnection.current, setLocalClient, setConnected);
+        dataChannel.current.onclose = dataChannelOnClose(setLocalClient, setConnected);        
         dataChannel.current.onerror = dataChannelOnError();
         dataChannel.current.onmessage = dataChannelOnMessage();
         sendOfferToRemoteClient(remoteClientUsername);
@@ -68,7 +68,7 @@ function useWebRTC(){
         signalingServer.current.onmessage = signalingServerOnMessage(peerConnection.current, dispatch, signalingServer.current);         //returns a callback
         signalingServer.current.onopen = signalingServerOnOpen();
         peerConnection.current.onicecandidate = onIceCandidate(signalingServer.current)                                                  //returns a callback
-        peerConnection.current.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection.current, setConnected);
+        peerConnection.current.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection.current);
         peerConnection.current.ondatachannel = onDataChannel(setMessage);
 
         return () => {

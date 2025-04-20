@@ -1,6 +1,7 @@
-const dataChannelOnOpen = (peerConnection, setLocalClient) => {
+const dataChannelOnOpen = (peerConnection, setLocalClient, setConnected) => {
     return () => {
         console.log('Local data channel open'); 
+        setConnected('connected');
         setLocalClient(peerConnection?.localDescription?.type);        
     }
 };
@@ -9,6 +10,7 @@ const dataChannelOnClose = (setLocalClient) => {
     return () => {
         console.log('Local data channel closed');
         setLocalClient(false);
+        setConnected('disconnected');
     }
 }
 
