@@ -64,14 +64,15 @@ function useWebRTC(){
         if(!peerConnection || !dataChannel) return; 
 
         signalingServer.current.onmessage = signalingServerOnMessage(peerConnection, dispatch, signalingServer.current);         //returns a callback
-        signalingServer.current.onopen = signalingServerOnOpen(sendOfferToRemoteClient);
+        signalingServer.current.onopen = signalingServerOnOpen();
         peerConnection.onicecandidate = onIceCandidate(signalingServer.current)                                                  //returns a callback
         peerConnection.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection, setConnected);
         peerConnection.ondatachannel = onDataChannel(setMessage);
-        dataChannel.onopen = dataChannelOnOpen(peerConnection, setLocalClient);                                                  //setLocalClient will be set within the dataChannelOnOpen() function
+        dataChannel.onopen = dataChannelOnOpen(peerConnection, setLocalClient, sendOfferToRemoteClient);         
         dataChannel.onclose = dataChannelOnClose(setLocalClient);        
         dataChannel.onerror = dataChannelOnError();
         dataChannel.onmessage = dataChannelOnMessage();
+
     }, [peerConnection, dataChannel])
 
     useEffect(() => {

@@ -1,7 +1,8 @@
-const dataChannelOnOpen = (peerConnection, setLocalClient) => {
+const dataChannelOnOpen = (peerConnection, setLocalClient, sendOfferToRemoteClient) => {
     return () => {
         console.log('Local data channel open'); 
-        setLocalClient(peerConnection?.localDescription?.type);        
+        setLocalClient(peerConnection?.localDescription?.type);     
+        sendOfferToRemoteClient();   
     }
 };
 
