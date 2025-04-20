@@ -17,14 +17,14 @@ function DisplayCurrentChallenge(){
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const username = sessionStorage.getItem('username');
-    if(!username) {
+    const clientUsername = sessionStorage.getItem('username');
+    if(!clientUsername) {
         navigate('/menu');
         return null;
     } 
 
     const handleDecision = (decision) => {
-        sendMessageToRemoteClient({decision})
+        sendMessageToRemoteClient({message: {from: clientUsername, data: {decision}}})
 
         if(decision === 'accept'){
             console.log('i need to receive the match id from the remote client here')
@@ -42,7 +42,7 @@ function DisplayCurrentChallenge(){
     
 
     useEffect(() => {
-        if(!receiveMessageFromRemoteClient) return;
+        if(!receiveMessageFromRemoteClient.challenger) return;
         const challenger = receiveMessageFromRemoteClient.challenger;
         setChallenge({challenger});
     }, [receiveMessageFromRemoteClient])

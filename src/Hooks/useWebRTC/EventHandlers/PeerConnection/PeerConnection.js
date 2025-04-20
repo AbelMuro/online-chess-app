@@ -11,21 +11,18 @@ const onIceConnectionStateChange = (peerConnection) => {
     return () => console.log(`ICE state: ${peerConnection.iceConnectionState}`)
 }
 
-const onDataChannel = (setReceiveResponseFromRemoteClient, setReceiveMessageFromRemoteClient, setConnected) => {
+const onDataChannel = (setReceiveMessageFromRemoteClient, setConnected) => {
+    const clientUsername = sessionStorage.getItem('username');
+
     return (e) => {
         const receivedChannel = e.channel;
 
         receivedChannel.onmessage = (e) => {
             const data = JSON.parse(e.data);
             console.log('Received message from remote client ', data);
-
-            setReceiveMessageFromRemoteClient(data);
-            /*
-            if(data.decision)
-                setReceiveResponseFromRemoteClient(data);           //local client
-            else
-                setReceiveMessageFromRemoteClient(data);            //remote client
-            */
+            const remoteClientUsername = data.message.from;
+            const dataReceived = data.message.data;
+            setReceiveMessageFromRemoteClient(dataReceived);
         }
         receivedChannel.onopen = () => {
             console.log("Remote data channel is open!");

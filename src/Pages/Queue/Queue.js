@@ -15,7 +15,6 @@ function Queue() {
         sendOfferToRemoteClient,
         sendMessageToRemoteClient,
         receiveMessageFromRemoteClient,
-        receiveResponseFromRemoteClient, 
         localClient, 
         cancelConnection,
         connected
@@ -87,7 +86,6 @@ function Queue() {
                 sendOfferToRemoteClient,
                 sendMessageToRemoteClient,
                 receiveMessageFromRemoteClient,
-                receiveResponseFromRemoteClient, 
                 localClient, 
                 cancelConnection,
                 connected}}>

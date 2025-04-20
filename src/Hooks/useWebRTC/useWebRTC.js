@@ -9,7 +9,6 @@ function useWebRTC(){
     const peerConnection = useRef();
     const dataChannel = useRef();
     const [receiveMessageFromRemoteClient, setReceiveMessageFromRemoteClient] = useState();
-    const [receiveResponseFromRemoteClient, setReceiveResponseFromRemoteClient] = useState();
     const [connected, setConnected] = useState('not initialized');
     const [localClient, setLocalClient] = useState();
     //const localClientUsername = sessionStorage.getItem('username');    
@@ -58,7 +57,7 @@ function useWebRTC(){
         signalingServer.current.onopen = signalingServerOnOpen();
         peerConnection.current.onicecandidate = onIceCandidate(signalingServer.current)                         //returns a callback
         peerConnection.current.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection.current);
-        peerConnection.current.ondatachannel = onDataChannel(setReceiveResponseFromRemoteClient, setReceiveMessageFromRemoteClient, setConnected);
+        peerConnection.current.ondatachannel = onDataChannel(setReceiveMessageFromRemoteClient, setConnected);
         dataChannel.current.onopen = dataChannelOnOpen(peerConnection.current, setLocalClient);                //setLocalClient will be set within the dataChannelOnOpen() function
         dataChannel.current.onclose = dataChannelOnClose(setLocalClient);        
         dataChannel.current.onerror = dataChannelOnError();
@@ -76,7 +75,6 @@ function useWebRTC(){
         sendOfferToRemoteClient,
         sendMessageToRemoteClient,
         receiveMessageFromRemoteClient,
-        receiveResponseFromRemoteClient, 
         localClient, 
         cancelConnection,
         connected

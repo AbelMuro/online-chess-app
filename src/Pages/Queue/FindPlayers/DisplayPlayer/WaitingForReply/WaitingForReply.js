@@ -11,7 +11,7 @@ import { PeerToPeerConnection } from '`/Queue';
 
 function WaitingForReply({setWaiting}) {
     const navigate = useNavigate();
-    const {cancelConnection, receiveResponseFromRemoteClient, receiveMessageFromRemoteClient, connected} = useContext(PeerToPeerConnection);
+    const {cancelConnection, receiveMessageFromRemoteClient, connected} = useContext(PeerToPeerConnection);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
 
@@ -29,7 +29,7 @@ function WaitingForReply({setWaiting}) {
 
 
     useEffect(() => {
-        if(!receiveMessageFromRemoteClient) return;
+        if(!receiveMessageFromRemoteClient.decision) return;
         const decision = receiveMessageFromRemoteClient.decision;
 
         if(decision === 'decline'){
