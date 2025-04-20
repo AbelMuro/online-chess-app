@@ -1,3 +1,3 @@
-import {signalingServerOnMessage} from './SignalingServer.js';
+import {signalingServerOnMessage, signalingServerOnOpen} from './SignalingServer.js';
 
-export {signalingServerOnMessage};
+export {signalingServerOnMessage, signalingServerOnOpen};
