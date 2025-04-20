@@ -13,7 +13,7 @@ import { PeerToPeerConnection } from "`/Queue";
 
 function DisplayCurrentChallenge(){
     const [challenge, setChallenge] = useState();
-    const {sendMessageToRemoteClient, message, connected} = useContext(PeerToPeerConnection);
+    const {sendMessageToRemoteClient, message, connected, cancelConnection} = useContext(PeerToPeerConnection);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -29,8 +29,11 @@ function DisplayCurrentChallenge(){
         if(decision === 'accept'){
             console.log('i need to receive the match id from the remote client here')
         }
-        else
+        else{
             setChallenge(null);
+            cancelConnection();
+        }
+            
     }
 
     const loadImage = () => {
@@ -66,7 +69,7 @@ function DisplayCurrentChallenge(){
 
     useEffect(() => {
         if(connected !== 'disconnected') return;
-        
+
         dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Challenger was disconnected'}});
         setChallenge(null);
     }, [connected])
