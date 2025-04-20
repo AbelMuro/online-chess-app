@@ -9,6 +9,12 @@ import { PeerToPeerConnection } from '`/Queue';
 
 //local client
 
+//this is where i left off, i will need to display a message to the challenger when the challengedplayer declines, 
+//but not when the challenger cancels the match
+//DONT FORGET TO UPDATE NOTES FOR WEBRTC IN NODE.JS SECTION OF YOUR NOTES REPOSITORY
+
+//everything works now, i refactored the useWebRTC hook
+
 function WaitingForReply({setWaiting}) {
     const navigate = useNavigate();
     const {cancelConnection, receiveMessageFromRemoteClient, connected} = useContext(PeerToPeerConnection);
