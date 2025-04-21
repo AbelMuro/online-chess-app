@@ -14,7 +14,7 @@ const onIceConnectionStateChange = (peerConnection) => {
     }
 }
 
-const onDataChannel = (setMessage) => {
+const onDataChannel = (setMessage, setConnection) => {
     return (e) => {
         const receivedChannel = e.channel;
 
@@ -26,6 +26,7 @@ const onDataChannel = (setMessage) => {
         }
         receivedChannel.onopen = () => {
             console.log("Remote data channel is open!");
+            setConnection('connected')
         };
     
         receivedChannel.onclose = () => {
