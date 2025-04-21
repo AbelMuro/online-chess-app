@@ -18,17 +18,9 @@ function DisplayPlayer({username, image}) {
 
     const handleConnection = () => {
         sendOfferToRemoteClient(username)
+        setWaiting(true);
     }
 
-    useEffect(() => {
-        if(localClient !== 'offer') {
-            setWaiting(false);
-            return;
-        };
-
-        sendMessageToRemoteClient({message: {from: clientUsername, action: 'challenge', data: {challenger: clientUsername}}})
-        setWaiting(true);
-    }, [localClient])    
 
     return(    
         <>

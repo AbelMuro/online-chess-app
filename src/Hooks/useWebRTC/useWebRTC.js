@@ -11,8 +11,12 @@ function useWebRTC(){
     const [message, setMessage] = useState();
     const [connected, setConnected] = useState('not initialized');
     const [localClient, setLocalClient] = useState();
-    //const localClientUsername = sessionStorage.getItem('username');    
+    const localClientUsername = sessionStorage.getItem('username');    
     const dispatch = useDispatch();
+
+    const connectToNewClient = (remoteClientUsername) => {
+
+    }
 
     const sendOfferToRemoteClient = async (remoteClientUsername) => {
         try{
@@ -45,10 +49,14 @@ function useWebRTC(){
         dataChannel.current.onclose = null;
         dataChannel.current.onerror = null;
         dataChannel.current.onmessage = null;
-        setLocalClient(null);
         dataChannel.current?.close();
         dataChannel.current = peerConnection.current.createDataChannel('chat');
-        dataChannel.current.onopen = dataChannelOnOpen(peerConnection.current, setLocalClient, setConnected);
+        dataChannel.current.onopen = () => {
+            console.log('Local data channel open'); 
+            const localClientInfo = peerConnection.current?.localDescription?.type;
+            if(localClientInfo === 'offer')
+                sendMessageToRemoteClient({message: {from: localClientUsername, action: 'challenge', data: {challenger: localClientUsername}}})
+        }
         dataChannel.current.onclose = dataChannelOnClose(setLocalClient, setConnected);        
         dataChannel.current.onerror = dataChannelOnError();
         dataChannel.current.onmessage = dataChannelOnMessage();   
