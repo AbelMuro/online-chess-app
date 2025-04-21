@@ -10,8 +10,6 @@ import * as styles from './styles.module.css';
 
 //local client
 
-//this is where i left off
-
 
 function DisplayPlayer({username, image}) {
     const {sendOfferToRemoteClient, sendMessageToRemoteClient, connected} = useContext(PeerToPeerConnection);    

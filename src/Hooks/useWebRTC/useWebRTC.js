@@ -4,6 +4,10 @@ import { onIceCandidate, onIceConnectionStateChange, onDataChannel } from './Eve
 import { dataChannelOnOpen, dataChannelOnClose, dataChannelOnError, dataChannelOnMessage } from './EventHandlers/DataChannel';
 import {useDispatch} from 'react-redux';
 
+
+//this is where i left off, i need to find a way to close both remote and local data channels of the clients and reconnect again
+//also, update notes on WebRTC.js in github
+
 function useWebRTC(){  
     const signalingServer = useRef();
     const peerConnection = useRef();
@@ -17,6 +21,19 @@ function useWebRTC(){
         try{
             const offer = await peerConnection.current.createOffer()
             await peerConnection.current.setLocalDescription(offer);
+            
+            dataChannel.current = peerConnection.current.createDataChannel('chat');
+            dataChannel.current.onopen = () => {
+                console.log('Local data channel open');  
+                setConnected(true);    
+            }
+            dataChannel.current.onclose = () => {
+                console.log('Local data channel is closed');
+                setConnected(false);
+            }     
+            dataChannel.current.onerror = dataChannelOnError();
+            dataChannel.current.onmessage = dataChannelOnMessage();  
+
             signalingServer.current.send(JSON.stringify({ 
                 type: 'offer', 
                 offer: {sdp: offer.sdp, type: offer.type}, 
@@ -39,18 +56,7 @@ function useWebRTC(){
             console.log('peer connection not initialized');
             return;
         };
-        dataChannel.current?.close();
-        dataChannel.current = peerConnection.current.createDataChannel('chat');
-        dataChannel.current.onopen = () => {
-            console.log('Local data channel open');  
-            setConnected(true);    
-        }
-        dataChannel.current.onclose = () => {
-            console.log('Local data channel is closed');
-            setConnected(false);
-        }     
-        dataChannel.current.onerror = dataChannelOnError();
-        dataChannel.current.onmessage = dataChannelOnMessage();   
+        dataChannel.current?.close(); 
         signalingServer.current.send(JSON.stringify({ 
             type: 'disconnect', 
         })) 
@@ -75,7 +81,28 @@ function useWebRTC(){
         signalingServer.current.onopen = signalingServerOnOpen();
         peerConnection.current.onicecandidate = onIceCandidate(signalingServer.current)                                                  //returns a callback
         peerConnection.current.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection.current);
-        peerConnection.current.ondatachannel = onDataChannel(setMessage);
+        peerConnection.current.ondatachannel = (e) => {
+            const receivedChannel = e.channel;
+            dataChannel.current = receivedChannel;
+            
+            receivedChannel.onmessage = (e) => {
+                const data = JSON.parse(e.data);
+                console.log('Received message from remote client ', data);
+                const message = data.message;
+                setMessage(message);
+            }
+            receivedChannel.onopen = () => {
+                console.log("Remote data channel is open!");
+            };
+        
+            receivedChannel.onclose = () => {
+                console.log("Remote data channel closed");
+            };
+    
+            receivedChannel.onerror = (error) => {
+                console.log('Remote data channel error: ', error);
+            }
+        }
         dataChannel.current.onopen = () => {
             console.log('Local data channel open');  
             setConnected(true);    
