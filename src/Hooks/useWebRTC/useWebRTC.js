@@ -44,11 +44,6 @@ function useWebRTC(){
             console.log('peer connection not initialized');
             return;
         };
-
-        dataChannel.current.onopen = null;
-        dataChannel.current.onclose = null;
-        dataChannel.current.onerror = null;
-        dataChannel.current.onmessage = null;
         dataChannel.current?.close();
         dataChannel.current = peerConnection.current.createDataChannel('chat');
         dataChannel.current.onopen = () => {
