@@ -1,3 +1,3 @@
-import {dataChannelOnOpen, dataChannelOnClose, dataChannelOnError, dataChannelOnMessage} from './DataChannel.js';
+import {dataChannelOnClose, dataChannelOnError, dataChannelOnMessage} from './DataChannel.js';
 
-export {dataChannelOnOpen, dataChannelOnClose, dataChannelOnError, dataChannelOnMessage};
+export {dataChannelOnClose, dataChannelOnError, dataChannelOnMessage};

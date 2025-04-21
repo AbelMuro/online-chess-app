@@ -80,7 +80,12 @@ function useWebRTC(){
         peerConnection.current.onicecandidate = onIceCandidate(signalingServer.current)                                                  //returns a callback
         peerConnection.current.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection.current);
         peerConnection.current.ondatachannel = onDataChannel(setMessage);
-        dataChannel.current.onopen = dataChannelOnOpen(peerConnection.current, setLocalClient, setConnected);
+        dataChannel.current.onopen = () => {
+            console.log('Local data channel open'); 
+            const localClientInfo = peerConnection.current?.localDescription?.type;
+            if(localClientInfo === 'offer')
+                sendMessageToRemoteClient({message: {from: localClientUsername, action: 'challenge', data: {challenger: localClientUsername}}})
+        };
         dataChannel.current.onclose = dataChannelOnClose(setLocalClient, setConnected);        
         dataChannel.current.onerror = dataChannelOnError();
         dataChannel.current.onmessage = dataChannelOnMessage();
