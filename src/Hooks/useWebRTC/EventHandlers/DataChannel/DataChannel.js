@@ -1,3 +1,8 @@
+const dataChannelOnOpen = () => {
+    return () => {
+        console.log('Local data channel open');        
+    }
+};
 
 const dataChannelOnClose = (setLocalClient, setConnected) => {
     return () => {
@@ -16,4 +21,4 @@ const dataChannelOnMessage = () => {
     return (e) => console.log('Local data channel message ', e.data);
 }
 
-export {dataChannelOnClose, dataChannelOnError, dataChannelOnMessage};
+export {dataChannelOnOpen, dataChannelOnClose, dataChannelOnError, dataChannelOnMessage};

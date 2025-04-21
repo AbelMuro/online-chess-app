@@ -15,7 +15,6 @@ function Queue() {
         sendOfferToRemoteClient,
         sendMessageToRemoteClient,
         message,
-        localClient, 
         cancelConnection,
         connected
     ] = useWebRTC();
@@ -86,7 +85,6 @@ function Queue() {
                 sendOfferToRemoteClient,
                 sendMessageToRemoteClient,
                 message,
-                localClient, 
                 cancelConnection,
                 connected}}>
             <DisplayCurrentChallenge/>

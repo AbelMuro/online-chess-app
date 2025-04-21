@@ -10,9 +10,11 @@ import * as styles from './styles.module.css';
 
 //local client
 
+//this is where i left off
+
 
 function DisplayPlayer({username, image}) {
-    const {sendOfferToRemoteClient, sendMessageToRemoteClient, localClient} = useContext(PeerToPeerConnection);    
+    const {sendOfferToRemoteClient, sendMessageToRemoteClient, connected} = useContext(PeerToPeerConnection);    
     const [waiting, setWaiting] = useState(false);
     const clientUsername = sessionStorage.getItem('username');
 
@@ -20,6 +22,12 @@ function DisplayPlayer({username, image}) {
         sendOfferToRemoteClient(username)
         setWaiting(true);
     }
+
+    useEffect(() => {
+        if(!waiting) return;
+        if(!connected) return;
+        sendMessageToRemoteClient({message: {from: clientUsername, action: 'challenge', data: {challenger: clientUsername}}})
+    }, [waiting, connected])
 
 
     return(    

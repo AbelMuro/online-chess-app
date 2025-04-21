@@ -12,8 +12,10 @@ const signalingServerOnMessage = (peerConnection, dispatch, signalingServer) => 
                 await peerConnection.setLocalDescription(answer);                                   //we create a local description of the answer we created
                 signalingServer.send(JSON.stringify({ type: 'answer', answer }));                   //we send the answer to the websocket
             } 
-            else if(data.type === 'answer' && peerConnection.signalingState === 'have-local-offer') 
+            else if(data.type === 'answer' && peerConnection.signalingState === 'have-local-offer'){
                 await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));  //we create a remote description of the answer from another peer
+            } 
+                
             else if(data.type === 'candidate' && peerConnection.signalingState !== 'closed')
                 await peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
         }
