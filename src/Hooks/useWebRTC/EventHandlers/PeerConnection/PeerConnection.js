@@ -17,6 +17,7 @@ const onIceConnectionStateChange = (peerConnection) => {
 const onDataChannel = (setMessage) => {
     return (e) => {
         const receivedChannel = e.channel;
+        
 
         receivedChannel.onmessage = (e) => {
             const data = JSON.parse(e.data);

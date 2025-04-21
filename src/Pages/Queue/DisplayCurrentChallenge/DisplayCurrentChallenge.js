@@ -31,7 +31,6 @@ function DisplayCurrentChallenge(){
         }
         else{
             setChallenge(null);
-            cancelConnection();
         }
             
     }

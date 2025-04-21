@@ -1,4 +1,4 @@
-const signalingServerOnMessage = (peerConnection, dispatch, signalingServer) => {
+const signalingServerOnMessage = (peerConnection, dispatch, signalingServer, dataChannel) => {
 
     return async (message) => {
         try{
@@ -18,6 +18,11 @@ const signalingServerOnMessage = (peerConnection, dispatch, signalingServer) => 
                 
             else if(data.type === 'candidate' && peerConnection.signalingState !== 'closed')
                 await peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate));
+            else if(data.type === 'disconnect'){
+                console.log('Remote client requested to disconnect')
+                dataChannel?.close();
+            }
+                
         }
         catch(error){
             const message = error.message;

@@ -4,10 +4,9 @@ const dataChannelOnOpen = () => {
     }
 };
 
-const dataChannelOnClose = (setLocalClient, setConnected) => {
+const dataChannelOnClose = (setConnected) => {
     return () => {
         console.log('Local data channel closed');
-        setLocalClient(false);
         setConnected('disconnected');
     }
 }

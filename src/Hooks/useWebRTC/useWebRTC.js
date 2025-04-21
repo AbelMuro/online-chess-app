@@ -51,6 +51,9 @@ function useWebRTC(){
         }     
         dataChannel.current.onerror = dataChannelOnError();
         dataChannel.current.onmessage = dataChannelOnMessage();   
+        signalingServer.current.send(JSON.stringify({ 
+            type: 'disconnect', 
+        })) 
     }
 
     useEffect(() => {
@@ -68,7 +71,7 @@ function useWebRTC(){
 
         // peerConnection.current?.localDescription?.type        this will return either offer or answer
         dataChannel.current = peerConnection.current.createDataChannel('chat');        
-        signalingServer.current.onmessage = signalingServerOnMessage(peerConnection.current, dispatch, signalingServer.current);         //returns a callback
+        signalingServer.current.onmessage = signalingServerOnMessage(peerConnection.current, dispatch, signalingServer.current, dataChannel.current);         //returns a callback
         signalingServer.current.onopen = signalingServerOnOpen();
         peerConnection.current.onicecandidate = onIceCandidate(signalingServer.current)                                                  //returns a callback
         peerConnection.current.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection.current);
