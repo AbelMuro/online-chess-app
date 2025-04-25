@@ -1,13 +1,14 @@
-const dataChannelOnOpen = () => {
+const dataChannelOnOpen = (setDataChannelOpen) => {
     return () => {
-        console.log('Local data channel open');        
+        console.log('Local data channel open');    
+        setDataChannelOpen(true);    
     }
 };
 
-const dataChannelOnClose = (setConnected) => {
+const dataChannelOnClose = (setDataChannelOpen) => {
     return () => {
         console.log('Local data channel closed');
-        setConnected('disconnected');
+        setDataChannelOpen(false);
     }
 }
 

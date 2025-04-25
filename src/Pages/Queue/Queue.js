@@ -16,7 +16,8 @@ function Queue() {
         sendMessageToRemoteClient,
         message,
         cancelConnection,
-        connected
+        connected,
+        dataChannelOpen
     ] = useWebRTC();
 
     const handleLeave = () => {
@@ -86,7 +87,8 @@ function Queue() {
                 sendMessageToRemoteClient,
                 message,
                 cancelConnection,
-                connected}}>
+                connected,
+                dataChannelOpen}}>
             <DisplayCurrentChallenge/>
             <section className={styles.container}>
                 <section className={styles.queue}>

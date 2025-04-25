@@ -12,7 +12,7 @@ import * as styles from './styles.module.css';
 
 
 function DisplayPlayer({username, image}) {
-    const {sendOfferToRemoteClient, sendMessageToRemoteClient, connected} = useContext(PeerToPeerConnection);    
+    const {sendOfferToRemoteClient, sendMessageToRemoteClient, dataChannelOpen} = useContext(PeerToPeerConnection);    
     const [waiting, setWaiting] = useState(false);
     const clientUsername = sessionStorage.getItem('username');
 
@@ -23,9 +23,9 @@ function DisplayPlayer({username, image}) {
 
     useEffect(() => {
         if(!waiting) return;
-        if(connected !== 'connected') return;
+        if(!dataChannelOpen) return;
         sendMessageToRemoteClient({message: {from: clientUsername, action: 'challenge', data: {challenger: clientUsername}}})
-    }, [waiting, connected])
+    }, [waiting, dataChannelOpen])
 
 
     return(    

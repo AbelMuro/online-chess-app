@@ -16,14 +16,15 @@ function useWebRTC(){
     const dataChannel = useRef();
     const [message, setMessage] = useState();
     const [connected, setConnected] = useState('not initialized');
+    const [dataChannelOpen, setDataChannelOpen] = useState(false);
     const localClientUsername = sessionStorage.getItem('username');    
     const dispatch = useDispatch();
 
     const sendOfferToRemoteClient = async (remoteClientUsername) => {
         try{
             dataChannel.current = peerConnection.current.createDataChannel('chat');             //event handlers for client
-            dataChannel.current.onopen = dataChannelOnOpen();
-            dataChannel.current.onclose = dataChannelOnClose();  
+            dataChannel.current.onopen = dataChannelOnOpen(setDataChannelOpen);
+            dataChannel.current.onclose = dataChannelOnClose(setDataChannelOpen);  
             dataChannel.current.onerror = dataChannelOnError();
             dataChannel.current.onmessage = dataChannelOnMessage(setMessage);  
 
@@ -107,7 +108,8 @@ function useWebRTC(){
         sendMessageToRemoteClient,
         message,
         cancelConnection,
-        connected
+        connected,
+        dataChannelOpen
     ];
 }
 
