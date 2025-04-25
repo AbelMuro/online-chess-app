@@ -16,7 +16,7 @@ import { PeerToPeerConnection } from '`/Queue';
 
 function WaitingForReply({setWaiting}) {
     const navigate = useNavigate();
-    const {cancelConnection, message, sendMessageToRemoteClient, connected} = useContext(PeerToPeerConnection);
+    const {cancelConnection, message, sendMessageToRemoteClient, connection} = useContext(PeerToPeerConnection);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const clientUsername = sessionStorage.getItem('username');
@@ -28,11 +28,11 @@ function WaitingForReply({setWaiting}) {
     }
 
     useEffect(() => {
-        if(connected !== 'disconnected') return;
+        if(connection !== 'disconnected') return;
 
         setWaiting(false);
         dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player was disconnected'}});
-    }, [connected])    
+    }, [connection])    
 
 
 
