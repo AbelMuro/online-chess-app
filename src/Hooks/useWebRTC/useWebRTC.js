@@ -101,6 +101,7 @@ function useWebRTC(){
         return () => {
             signalingServer.current?.close();
             peerConnection.current?.close();
+            dataChannel.current?.close();
         }
     }, [])
 
