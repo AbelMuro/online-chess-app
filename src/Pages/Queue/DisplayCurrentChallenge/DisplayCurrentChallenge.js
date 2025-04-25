@@ -13,7 +13,7 @@ import { PeerToPeerConnection } from "`/Queue";
 
 function DisplayCurrentChallenge(){
     const [challenge, setChallenge] = useState();
-    const {sendMessageToRemoteClient, message, connected, cancelConnection} = useContext(PeerToPeerConnection);
+    const {sendMessageToRemoteClient, message, connection, cancelConnection} = useContext(PeerToPeerConnection);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -67,11 +67,11 @@ function DisplayCurrentChallenge(){
 
 
     useEffect(() => {
-        if(connected !== 'disconnected') return;
+        if(connection !== 'disconnected') return;
 
         dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Challenger was disconnected'}});
         setChallenge(null);
-    }, [connected])    
+    }, [connection])    
 
 
     return (

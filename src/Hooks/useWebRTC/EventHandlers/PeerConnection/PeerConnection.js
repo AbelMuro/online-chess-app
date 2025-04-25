@@ -7,14 +7,14 @@ const onIceCandidate = (signalingServer) => {
     };
 }
 
-const onIceConnectionStateChange = (peerConnection, setConnected) => {
+const onIceConnectionStateChange = (peerConnection, setConnection) => {
     return () => {
         const state = peerConnection.iceConnectionState;
         console.log(`ICE state: ${state}`)
         if(state === 'disconnected' || state === 'failed' || state === 'closed')
-            setConnected('disconnected');
+            setConnection('disconnected');
         else if(state === 'connected');
-            setConnected('connected')
+            setConnection('connected')
     }
 }
 

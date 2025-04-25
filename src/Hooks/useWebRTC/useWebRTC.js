@@ -15,7 +15,7 @@ function useWebRTC(){
     const peerConnection = useRef();
     const dataChannel = useRef();
     const [message, setMessage] = useState();
-    const [connected, setConnected] = useState('not initialized');
+    const [connection, setConnection] = useState(false);
     const [dataChannelOpen, setDataChannelOpen] = useState(false);
     const localClientUsername = sessionStorage.getItem('username');    
     const dispatch = useDispatch();
@@ -73,7 +73,7 @@ function useWebRTC(){
         signalingServer.current.onmessage = signalingServerOnMessage(peerConnection.current, dispatch, signalingServer.current);         //returns a callback
         signalingServer.current.onopen = signalingServerOnOpen();
         peerConnection.current.onicecandidate = onIceCandidate(signalingServer.current)                                                  //returns a callback
-        peerConnection.current.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection.current, setConnected);
+        peerConnection.current.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection.current, setConnection);
         peerConnection.current.ondatachannel = (e) => {
             const receivedChannel = e.channel;
             dataChannel.current = receivedChannel;

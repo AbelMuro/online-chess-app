@@ -7,9 +7,7 @@ import { AnimatePresence } from 'framer-motion';
 import { PeerToPeerConnection } from '`/Queue';
 import * as styles from './styles.module.css';
 
-
 //local client
-
 
 function DisplayPlayer({username, image}) {
     const {sendOfferToRemoteClient, sendMessageToRemoteClient, dataChannelOpen} = useContext(PeerToPeerConnection);    

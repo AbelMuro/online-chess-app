@@ -16,7 +16,7 @@ function Queue() {
         sendMessageToRemoteClient,
         message,
         cancelConnection,
-        connected,
+        connection,
         dataChannelOpen
     ] = useWebRTC();
 
@@ -87,7 +87,7 @@ function Queue() {
                 sendMessageToRemoteClient,
                 message,
                 cancelConnection,
-                connected,
+                connection,
                 dataChannelOpen}}>
             <DisplayCurrentChallenge/>
             <section className={styles.container}>
