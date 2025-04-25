@@ -44,6 +44,7 @@ function DisplayCurrentChallenge(){
     
 
     useEffect(() => {
+        console.log(message);
         if(!message) return;
         if(message.from === clientUsername) return;
         if(message.action !== 'challenge') return;
@@ -56,6 +57,7 @@ function DisplayCurrentChallenge(){
 
 
     useEffect(() => {
+        console.log(message);
         if(!message) return;
         if(message.from === clientUsername) return;
         if(message.action !== 'cancel') return;

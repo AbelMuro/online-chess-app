@@ -1,3 +1,3 @@
-import {onIceCandidate, onIceConnectionStateChange, onDataChannel} from './PeerConnection.js';
+import {onIceCandidate, onIceConnectionStateChange} from './PeerConnection.js';
 
-export {onIceCandidate, onIceConnectionStateChange, onDataChannel};
+export {onIceCandidate, onIceConnectionStateChange};

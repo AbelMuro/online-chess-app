@@ -14,30 +14,5 @@ const onIceConnectionStateChange = (peerConnection) => {
     }
 }
 
-const onDataChannel = (setMessage) => {
-    return (e) => {
-        const receivedChannel = e.channel;
-        
 
-        receivedChannel.onmessage = (e) => {
-            const data = JSON.parse(e.data);
-            console.log('Received message from remote client ', data);
-            const message = data.message;
-            setMessage(message);
-        }
-        receivedChannel.onopen = () => {
-            console.log("Remote data channel is open!");
-        };
-    
-        receivedChannel.onclose = () => {
-            console.log("Remote data channel closed");
-        };
-
-        receivedChannel.onerror = (error) => {
-            console.log('Remote data channel error: ', error);
-        }
-    }
-}
-
-
-export {onIceCandidate, onIceConnectionStateChange, onDataChannel};
+export {onIceCandidate, onIceConnectionStateChange};

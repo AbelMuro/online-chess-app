@@ -21,9 +21,6 @@ function useWebRTC(){
 
     const sendOfferToRemoteClient = async (remoteClientUsername) => {
         try{
-            const offer = await peerConnection.current.createOffer()
-            await peerConnection.current.setLocalDescription(offer);
-            
             dataChannel.current = peerConnection.current.createDataChannel('chat');             //event handlers for client
             dataChannel.current.onopen = () => {
                 console.log('Local data channel open');  
@@ -35,7 +32,9 @@ function useWebRTC(){
             }     
             dataChannel.current.onerror = dataChannelOnError();
             dataChannel.current.onmessage = dataChannelOnMessage();  
-
+            
+            const offer = await peerConnection.current.createOffer()
+            await peerConnection.current.setLocalDescription(offer);
             signalingServer.current.send(JSON.stringify({ 
                 type: 'offer', 
                 offer: {sdp: offer.sdp, type: offer.type}, 
