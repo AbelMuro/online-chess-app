@@ -58,6 +58,7 @@ function useWebRTC(){
             return;
         };
         dataChannel.current?.close();  
+        setMessage(null);                           //removing any lingering past messages from the previous channel
     }
 
     useEffect(() => {

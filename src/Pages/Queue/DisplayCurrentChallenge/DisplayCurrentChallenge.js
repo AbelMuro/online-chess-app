@@ -29,10 +29,8 @@ function DisplayCurrentChallenge(){
         if(decision === 'accept'){
             console.log('i need to receive the match id from the remote client here')
         }
-        else{
+        else
             setChallenge(null);
-        }
-            
     }
 
     const loadImage = () => {
