@@ -31,8 +31,8 @@ function useWebRTC(){
                 setConnected(false);
             }     
             dataChannel.current.onerror = dataChannelOnError();
-            dataChannel.current.onmessage = dataChannelOnMessage();  
-            
+            dataChannel.current.onmessage = dataChannelOnMessage(setMessage);  
+
             const offer = await peerConnection.current.createOffer()
             await peerConnection.current.setLocalDescription(offer);
             signalingServer.current.send(JSON.stringify({ 
