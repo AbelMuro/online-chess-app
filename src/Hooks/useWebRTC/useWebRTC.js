@@ -108,7 +108,7 @@ function useWebRTC(){
         sendMessageToRemoteClient,
         message,
         cancelConnection,
-        connected,
+        connection,
         dataChannelOpen
     ];
 }
