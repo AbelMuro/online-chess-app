@@ -27,14 +27,13 @@ function WaitingForReply({setWaiting}) {
         cancelConnection();
     }
 
-    /* 
-        useEffect(() => {
-            if(connected !== 'disconnected') return;
+    useEffect(() => {
+        if(connected !== 'disconnected') return;
 
-            setWaiting(false);
-            dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player was disconnected'}});
-        }, [connected])    
-    */
+        setWaiting(false);
+        dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player was disconnected'}});
+    }, [connected])    
+
 
 
 

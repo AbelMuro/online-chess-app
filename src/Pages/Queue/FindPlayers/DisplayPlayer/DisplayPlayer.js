@@ -23,7 +23,7 @@ function DisplayPlayer({username, image}) {
 
     useEffect(() => {
         if(!waiting) return;
-        if(!connected) return;
+        if(connected !== 'connected') return;
         sendMessageToRemoteClient({message: {from: clientUsername, action: 'challenge', data: {challenger: clientUsername}}})
     }, [waiting, connected])
 

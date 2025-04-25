@@ -22,14 +22,8 @@ function useWebRTC(){
     const sendOfferToRemoteClient = async (remoteClientUsername) => {
         try{
             dataChannel.current = peerConnection.current.createDataChannel('chat');             //event handlers for client
-            dataChannel.current.onopen = () => {
-                console.log('Local data channel open');  
-                setConnected(true);    
-            }
-            dataChannel.current.onclose = () => {
-                console.log('Local data channel is closed');
-                setConnected(false);
-            }     
+            dataChannel.current.onopen = dataChannelOnOpen();
+            dataChannel.current.onclose = dataChannelOnClose();  
             dataChannel.current.onerror = dataChannelOnError();
             dataChannel.current.onmessage = dataChannelOnMessage(setMessage);  
 
@@ -78,7 +72,7 @@ function useWebRTC(){
         signalingServer.current.onmessage = signalingServerOnMessage(peerConnection.current, dispatch, signalingServer.current);         //returns a callback
         signalingServer.current.onopen = signalingServerOnOpen();
         peerConnection.current.onicecandidate = onIceCandidate(signalingServer.current)                                                  //returns a callback
-        peerConnection.current.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection.current);
+        peerConnection.current.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection.current, setConnected);
         peerConnection.current.ondatachannel = (e) => {
             const receivedChannel = e.channel;
             dataChannel.current = receivedChannel;
