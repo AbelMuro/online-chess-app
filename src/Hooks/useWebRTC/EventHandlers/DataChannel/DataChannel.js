@@ -13,8 +13,11 @@ const dataChannelOnClose = (setDataChannelOpen) => {
 }
 
 
-const dataChannelOnError = () => {
-  return (error) => console.log('Local data channel error: ', error)  
+const dataChannelOnError = (setConnection) => {
+  return (error) => {
+        console.log('Local data channel error: ', error);
+        setConnection('disconnected');
+    }  
 }
 
 const dataChannelOnMessage = (setMessage) => {

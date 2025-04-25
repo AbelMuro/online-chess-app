@@ -25,7 +25,7 @@ function useWebRTC(){
             dataChannel.current = peerConnection.current.createDataChannel('chat');             //event handlers for client
             dataChannel.current.onopen = dataChannelOnOpen(setDataChannelOpen);
             dataChannel.current.onclose = dataChannelOnClose(setDataChannelOpen);  
-            dataChannel.current.onerror = dataChannelOnError();
+            dataChannel.current.onerror = dataChannelOnError(setConnection);
             dataChannel.current.onmessage = dataChannelOnMessage(setMessage);  
 
             const offer = await peerConnection.current.createOffer()
@@ -94,6 +94,7 @@ function useWebRTC(){
     
             receivedChannel.onerror = (error) => {
                 console.log('Remote data channel error: ', error);
+                setConnection('disconnected');
             }
         }
 
