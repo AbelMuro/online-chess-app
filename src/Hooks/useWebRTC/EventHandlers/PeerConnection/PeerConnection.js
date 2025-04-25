@@ -13,8 +13,8 @@ const onIceConnectionStateChange = (peerConnection, setConnection) => {
         console.log(`ICE state: ${state}`)
         if(state === 'disconnected' || state === 'failed' || state === 'closed')
             setConnection('disconnected');
-        else if(state === 'connected');
-            setConnection('connected')
+        else if(state === 'connected')
+            setConnection('connected');
     }
 }
 
