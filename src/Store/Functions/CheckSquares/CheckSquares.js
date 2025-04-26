@@ -11,7 +11,7 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
     northSquares((i) => {
       squaresBetweenKingAndAttacker.push({row: i, column});
       if(state.board[i][column].includes(`${opposing_color} queen`) || state.board[i][column].includes(`${opposing_color} rook`)){
-        state[`${piece_color}_king_in_check`] = true;
+        state.checkmate.king_in_check = true;
         return false;
       }
       else if(state.board[i][column].includes(opposing_color) || state.board[i][column].includes(piece_color))
@@ -20,8 +20,8 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
         return true;
     }, row)
   
-    if(state[`${piece_color}_king_in_check`]) {
-      state.squares_between_king_and_attacker = squaresBetweenKingAndAttacker;
+    if(state.checkmate.king_in_check) {
+      state.checkmate.squares_between_king_and_attacker = squaresBetweenKingAndAttacker;
       return;
     }
     else squaresBetweenKingAndAttacker = [];
@@ -29,7 +29,7 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
     southSquares((i) => {
       squaresBetweenKingAndAttacker.push({row: i, column});
       if(state.board[i][column].includes(`${opposing_color} queen`) || state.board[i][column].includes(`${opposing_color} rook`)){
-        state[`${piece_color}_king_in_check`] = true;
+        state.checkmate.king_in_check = true;
         return false;
       }
       else if(state.board[i][column].includes(opposing_color) || state.board[i][column].includes(piece_color))
@@ -38,8 +38,8 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
         return true;
     }, row)
   
-    if(state[`${piece_color}_king_in_check`]) {
-      state.squares_between_king_and_attacker = squaresBetweenKingAndAttacker;
+    if(state.checkmate.king_in_check) {
+      state.checkmate.squares_between_king_and_attacker = squaresBetweenKingAndAttacker;
       return;
     }
     else squaresBetweenKingAndAttacker = [];
@@ -47,7 +47,7 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
     westSquares((i) => {
       squaresBetweenKingAndAttacker.push({row, column: i});
       if(state.board[row][i].includes(`${opposing_color} queen`) || state.board[row][i].includes(`${opposing_color} rook`)){
-        state[`${piece_color}_king_in_check`] = true;
+        state.checkmate.king_in_check = true;
         return false;
       }
       else if(state.board[row][i].includes(opposing_color) || state.board[row][i].includes(piece_color))
@@ -56,8 +56,8 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
         return true;
     }, column)
   
-    if(state[`${piece_color}_king_in_check`]) {
-      state.squares_between_king_and_attacker = squaresBetweenKingAndAttacker;
+    if(state.checkmate.king_in_check) {
+      state.checkmate.squares_between_king_and_attacker = squaresBetweenKingAndAttacker;
       return;
     }
     else squaresBetweenKingAndAttacker = [];
@@ -65,7 +65,7 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
     eastSquares((i) => {
       squaresBetweenKingAndAttacker.push({row, column: i});
       if(state.board[row][i].includes(`${opposing_color} queen`) || state.board[row][i].includes(`${opposing_color} rook`)){
-        state[`${piece_color}_king_in_check`] = true;
+        state.checkmate.king_in_check = true;
         return false;
       }
       else if(state.board[row][i].includes(opposing_color) || state.board[row][i].includes(piece_color))
@@ -74,8 +74,8 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
         return true;
     }, column)
   
-    if(state[`${piece_color}_king_in_check`]) {
-      state.squares_between_king_and_attacker = squaresBetweenKingAndAttacker;
+    if(state.checkmate.king_in_check) {
+      state.checkmate.squares_between_king_and_attacker = squaresBetweenKingAndAttacker;
       return;
     }
     else squaresBetweenKingAndAttacker = [];
@@ -83,12 +83,12 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
     northWestSquares((i, j) => {
       squaresBetweenKingAndAttacker.push({row: i, column: j});
       if(state.board[i][j].includes(`${opposing_color} queen`) || state.board[i][j].includes(`${opposing_color} bishop`)){
-        state[`${piece_color}_king_in_check`] = true;
+        state.checkmate.king_in_check = true;
         return false;
       }
   
       else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === row - 1 && j === column - 1)){
-        state[`${piece_color}_king_in_check`] = true;
+        state.checkmate.king_in_check = true;
         return false;
       }
       else if(state.board[i][j].includes(opposing_color) || state.board[i][j].includes(piece_color))
@@ -97,8 +97,8 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
         return true;
     }, row, column)
   
-    if(state[`${piece_color}_king_in_check`]) {
-      state.squares_between_king_and_attacker = squaresBetweenKingAndAttacker;
+    if(state.checkmate.king_in_check) {
+      state.checkmate.squares_between_king_and_attacker = squaresBetweenKingAndAttacker;
       return;
     }
     else squaresBetweenKingAndAttacker = [];
@@ -106,11 +106,11 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
     northEastSquares((i, j) => {
       squaresBetweenKingAndAttacker.push({row: i, column: j});
       if(state.board[i][j].includes(`${opposing_color} queen`) || state.board[i][j].includes(`${opposing_color} bishop`)){
-        state[`${piece_color}_king_in_check`] = true;
+        state.checkmate.king_in_check = true;
         return false;
       }
       else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === row - 1 && j === column + 1)){
-        state[`${piece_color}_king_in_check`] = true;
+        state.checkmate.king_in_check = true;
         return false;
       }
       else if(state.board[i][j].includes(opposing_color) || state.board[i][j].includes(piece_color))
@@ -119,8 +119,8 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
         return true;
     }, row, column)
   
-    if(state[`${piece_color}_king_in_check`]) {
-      state.squares_between_king_and_attacker = squaresBetweenKingAndAttacker;
+    if(state.checkmate.king_in_check) {
+      state.checkmate.squares_between_king_and_attacker = squaresBetweenKingAndAttacker;
       return;
     }
     else squaresBetweenKingAndAttacker = [];
@@ -128,11 +128,11 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
     southWestSquares((i, j) => {
       squaresBetweenKingAndAttacker.push({row: i, column: j});
       if(state.board[i][j].includes(`${opposing_color} queen`) || state.board[i][j].includes(`${opposing_color} bishop`)){
-        state[`${piece_color}_king_in_check`] = true;
+        state.checkmate.king_in_check = true;
         return false;
       }
       else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === row + 1 && j === column - 1)){
-        state[`${piece_color}_king_in_check`] = true;
+        state.checkmate.king_in_check = true;
         return false;
       }
       else if(state.board[i][j].includes(opposing_color) || state.board[i][j].includes(piece_color))
@@ -141,8 +141,8 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
         return true;
     }, row, column)
   
-    if(state[`${piece_color}_king_in_check`]) {
-      state.squares_between_king_and_attacker = squaresBetweenKingAndAttacker;
+    if(state.checkmate.king_in_check) {
+      state.checkmate.squares_between_king_and_attacker = squaresBetweenKingAndAttacker;
       return;
     }
     else squaresBetweenKingAndAttacker = [];
@@ -150,11 +150,11 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
     southEastSquares((i, j) => {
       squaresBetweenKingAndAttacker.push({row: i, column: j});
       if(state.board[i][j].includes(`${opposing_color} queen`) || state.board[i][j].includes(`${opposing_color} bishop`)){
-        state[`${piece_color}_king_in_check`] = true;
+        state.checkmate.king_in_check = true;
         return false;
       }
       else if(state.board[i][j].includes(`${opposing_color} pawn`) && (i === row + 1 && j === column + 1)){
-        state[`${piece_color}_king_in_check`] = true;
+        state.checkmate.king_in_check = true;
         return false;
       }
       else if(state.board[i][j].includes(opposing_color) || state.board[i][j].includes(piece_color))
@@ -162,8 +162,8 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
       else
         return true;
     }, row, column)
-    if(state[`${piece_color}_king_in_check`]) {
-      state.squares_between_king_and_attacker = squaresBetweenKingAndAttacker;
+    if(state.checkmate.king_in_check) {
+      state.checkmate.squares_between_king_and_attacker = squaresBetweenKingAndAttacker;
       return;
     }
     else
@@ -171,7 +171,7 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
   
     knightSquares((squares) => {
       if(state.board[squares.row]?.[squares.column]?.includes(`${opposing_color} knight`)){
-        state[`${piece_color}_king_in_check`] = true;
+        state.checkmate.king_in_check = true;
         squaresBetweenKingAndAttacker.push({row: squares.row, column: squares.column})
         return false;
       }
@@ -179,8 +179,8 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
         return true;
       }, row, column)
   
-    if(state[`${piece_color}_king_in_check`]) {
-      state.squares_between_king_and_attacker = squaresBetweenKingAndAttacker;
+    if(state.checkmate.king_in_check) {
+      state.checkmate.squares_between_king_and_attacker = squaresBetweenKingAndAttacker;
       return;
     }
   }

@@ -45,7 +45,7 @@ function King({color, row, column, pieceId}) {
 
 
     useEffect(() => {
-        if(currentTurn === userColor && color === currentTurn && currentTurn === userColor)
+        if(currentTurn === userColor && color === currentTurn)
             dispatch({type: 'IS_KING_IN_CHECK', payload: {square: {row, column, color}}})
         
     }, [board])

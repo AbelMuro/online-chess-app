@@ -103,25 +103,14 @@ const initialState = {
           game_over: false
       }
     */
-    
-    checkmate: false,
-    black_king_in_check: false,
-    white_king_in_check: false,
-    squares_between_king_and_attacker: [],
-    /* 
-      checkmate: {
-        black_king_in_check: false,
-        white_king_in_check: false,
-        squares_between_king_and_attacker: [],
-        game_over: false
-      },        
-    */
 
-    /* 
-      past: [],
-      future: [],
-      time_traveling: false,    
-    */
+    checkmate: {
+      king_in_check: false,
+      squares_between_king_and_attacker: [],
+      game_over: false
+    },        
+    
+
     time_traveling: {
         past: [],
         future: [],
@@ -467,7 +456,7 @@ const chessReducer = createReducer(initialState, (builder) => {
         
         if(pinnedPiece)
             findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, legalSquares);
-        else if(state.squares_between_king_and_attacker.length)
+        else if(state.checkmate.squares_between_king_and_attacker.length)
             createLegalSquaresWhileInCheck(state, legalSquares);
         else{
           legalSquares.forEach((square) => {
@@ -496,12 +485,12 @@ const chessReducer = createReducer(initialState, (builder) => {
           return false
       }, row)
 
-      const pinnedPiece = state.pinned_pieces.filter(piece => piece.square.row === row && piece.square.column === column)[0];   //we check to see if the current piece is a pinned piece//we check to see if the current piece is a pinned piece
+      const pinnedPiece = state.pinned_pieces.filter(piece => piece.square.row === row && piece.square.column === column)[0];   //we check to see if the current piece is a pinned piece
       
       if(pinnedPiece)
           findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, legalSquares, legalSquares);
 
-      else if(state.squares_between_king_and_attacker.length)
+      else if(state.checkmate.squares_between_king_and_attacker.length)
           createLegalSquaresWhileInCheck(state, legalSquares, legalSquares);
       else{
         legalSquares.forEach((square) => {
@@ -535,7 +524,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       if(pinnedPiece)
           findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, legalSquares, legalSquares);
 
-      else if(state.squares_between_king_and_attacker.length)
+      else if(state.checkmate.squares_between_king_and_attacker.length)
           createLegalSquaresWhileInCheck(state, legalSquares, legalSquares);
       else{
         legalSquares.forEach((square) => {
@@ -568,7 +557,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       if(pinnedPiece)
           findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, legalSquares, legalSquares);
 
-      else if(state.squares_between_king_and_attacker.length)
+      else if(state.checkmate.squares_between_king_and_attacker.length)
           createLegalSquaresWhileInCheck(state, legalSquares, legalSquares);
       else{
         legalSquares.forEach((square) => {
@@ -603,7 +592,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       if(pinnedPiece)
           findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, legalSquares, legalSquares);
 
-      else if(state.squares_between_king_and_attacker.length)
+      else if(state.checkmate.squares_between_king_and_attacker.length)
           createLegalSquaresWhileInCheck(state, legalSquares, legalSquares);
       else{
         legalSquares.forEach((square) => {
@@ -638,7 +627,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       if(pinnedPiece)
           findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, legalSquares, legalSquares);
 
-      else if(state.squares_between_king_and_attacker.length)
+      else if(state.checkmate.squares_between_king_and_attacker.length)
           createLegalSquaresWhileInCheck(state, legalSquares, legalSquares);
       else{
         legalSquares.forEach((square) => {
@@ -671,7 +660,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       if(pinnedPiece)
           findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, legalSquares, legalSquares);
 
-      else if(state.squares_between_king_and_attacker.length)
+      else if(state.checkmate.squares_between_king_and_attacker.length)
           createLegalSquaresWhileInCheck(state, legalSquares, legalSquares);
       else{
         legalSquares.forEach((square) => {
@@ -702,7 +691,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       const pinnedPiece = state.pinned_pieces.filter(piece => piece.square.row === row && piece.square.column === column)[0];     //we check to see if the current piece is a pinned piece
       if(pinnedPiece)
           findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, legalSquares, legalSquares);
-      else if(state.squares_between_king_and_attacker.length)
+      else if(state.checkmate.squares_between_king_and_attacker.length)
           createLegalSquaresWhileInCheck(state, legalSquares, legalSquares);
       else{
         legalSquares.forEach((square) => {
@@ -758,7 +747,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       if(pinnedPiece)
           findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, legalSquares, legalSquares);
 
-      else if(state.squares_between_king_and_attacker.length)
+      else if(state.checkmate.squares_between_king_and_attacker.length)
           createLegalSquaresWhileInCheck(state, legalSquares, legalSquares);
       else{
         legalSquares.forEach((square) => {
@@ -779,7 +768,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       
       if(pinnedPiece)
           findLegalMovesForPinnedPiece(state, pinnedPiece.legalPinnedMoves, legalSquares, legalSquares);
-      else if(state.squares_between_king_and_attacker.length)
+      else if(state.checkmate.squares_between_king_and_attacker.length)
           createLegalSquaresWhileInCheck(state, legalSquares, legalSquares);
       else{
         legalSquares.forEach((square) => {
@@ -797,21 +786,22 @@ const chessReducer = createReducer(initialState, (builder) => {
       const opposing_color = piece_color === 'white' ? 'black' : 'white';
       
       checkSquaresForCheck(state, row, column, piece_color)     //this function will check if the king is currently in check by traversing through the squares north, west, east, south and diagonally for threats
+      const squares_between_king_and_attacker = state.checkmate.squares_between_king_and_attacker
     
-      if(!state[`${piece_color}_king_in_check`]) return;
+      if(!state.checkmate.king_in_check) return;
 
       let isSquareBlockable = false;
-      for(let i = 0; i < state.squares_between_king_and_attacker.length; i++){
-        isSquareBlockable = checkSquaresForBlocks(state, state.squares_between_king_and_attacker[i], piece_color);
+      for(let i = 0; i < squares_between_king_and_attacker.length; i++){
+        isSquareBlockable = checkSquaresForBlocks(state, squares_between_king_and_attacker[i], piece_color);
         if(isSquareBlockable)
           return; 
       }
-      const attacker = state.squares_between_king_and_attacker[state.squares_between_king_and_attacker.length - 1]; 
+      const attacker = squares_between_king_and_attacker[squares_between_king_and_attacker.length - 1]; 
       const attackerIsUnderThreat = checkSquaresForThreats(state, attacker, piece_color);
       const legalMoves = createLegalSquaresForKing(state, row, column, piece_color);
       
       if(!legalMoves.length && !attackerIsUnderThreat)
-        state.checkmate = opposing_color;
+        state.checkmate.game_over = opposing_color;
     })
     .addCase(changeTurn, (state) => {
       state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
@@ -873,7 +863,7 @@ const chessReducer = createReducer(initialState, (builder) => {
         const column = action.payload.square.column;      
         const movesAvailable = action.payload.movesAvailable;
         const legalSquaresForKing = createLegalSquaresForKing(state, row, column, color);
-        const kingInCheck = state[`${color}_king_in_check`];
+        const kingInCheck = state.checkmate.king_in_check;
 
         if(legalSquaresForKing.length === 0 && !kingInCheck && movesAvailable.length === 0)
           state.stalemate = true;

@@ -11,7 +11,7 @@ export const createSquaresForCastleling = (state, row, column, color, legalSquar
     const hasQueenSideRookMoved = state.castleling.has_rooks_been_moved[0];
     const hasKingSideRookMoved = state.castleling.has_rooks_been_moved[1];
 
-    if(hasKingBeenMoved || state[`${color}_king_in_check`]) return;
+    if(hasKingBeenMoved || state.checkmate.king_in_check) return;
     const opposing_color = color === 'white' ? 'black' : 'white';
 
     if((state.board[row]?.[column + 1] === '' && !checkSquaresForThreats(state, {row, column: column + 1}, opposing_color)) && 
@@ -32,7 +32,7 @@ export const createSquaresForCastleling = (state, row, column, color, legalSquar
 }
 
 export const createLegalSquaresWhileInCheck = (state, legalSquares) => {
-  const squaresBetweenKingAndAttacker = state.squares_between_king_and_attacker;
+  const squaresBetweenKingAndAttacker = state.checkmate.squares_between_king_and_attacker;
 
   for(let i = 0; i < legalSquares.length; i++){
     for(let j = 0; j < squaresBetweenKingAndAttacker.length; j++){

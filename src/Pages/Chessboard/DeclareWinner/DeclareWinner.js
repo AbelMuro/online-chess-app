@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux';
 import * as styles from './styles.module.css';
 
 function DeclareWinner() {
-    const checkmate = useSelector(state => state.chess.checkmate);
+    const checkmate = useSelector(state => state.chess.checkmate.game_over);
     const stalemate = useSelector(state => state.chess.stalemate);
     const resigns = useSelector(state => state.chess.resigns);
     const buttonRef = useRef();
