@@ -48,6 +48,8 @@ const legalKingSquares = createAction('LEGAL_KING_SQUARES');
 const removeAllLegalSquares = createAction('REMOVE_ALL_LEGAL_SQUARES');
 
 const isKingInCheck = createAction('IS_KING_IN_CHECK');
+const hasKingBeenMoved = createAction('HAS_KING_BEEN_MOVED');
+const hasRooksBeenMoved = createAction('HAS_ROOKS_BEEN_MOVED')
 const resigns = createAction('RESIGNS');
 const countLegalMoves = createAction('COUNT_LEGAL_MOVES');
 const resetLegalMoves = createAction('RESET_LEGAL_MOVES');
@@ -80,26 +82,78 @@ const initialState = {
       ['', '', '', '', '', '', '', '',],
     ],
     moves: [],                    //this property is for the component that keeps track of all the moves (pawn to b3, etc...)
-    movesAvailableForWhite: ['white pawn a', 'white pawn b', 'white pawn c', 'white pawn d', 'white pawn e', 'white pawn f', 'white pawn g', 'white pawn h', 'white knight b', 'white knight g'],
-    movesAvailableForBlack: ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h', 'black knight b', 'black knight g'], 
     black_pieces_taken: [],
     white_pieces_taken: [],
+    /* 
+      moves: {
+        all: [],
+        black_pieces_taken: [],
+        white_pieces_taken: [],
+      }
+    */
+
+
     stalemate: false,
+    movesAvailableForWhite: ['white pawn a', 'white pawn b', 'white pawn c', 'white pawn d', 'white pawn e', 'white pawn f', 'white pawn g', 'white pawn h', 'white knight b', 'white knight g'],
+    movesAvailableForBlack: ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h', 'black knight b', 'black knight g'],
+    /* 
+      stalemate: {
+          movesAvailableForWhite: ['white pawn a', 'white pawn b', 'white pawn c', 'white pawn d', 'white pawn e', 'white pawn f', 'white pawn g', 'white pawn h', 'white knight b', 'white knight g'],
+          movesAvailableForBlack: ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h', 'black knight b', 'black knight g'],
+          game_over: false
+      }
+    */
+    
+    checkmate: false,
+    black_king_in_check: false,
+    white_king_in_check: false,
+    squares_between_king_and_attacker: [],
+    /* 
+      checkmate: {
+        black_king_in_check: false,
+        white_king_in_check: false,
+        squares_between_king_and_attacker: [],
+        game_over: false
+      },        
+    */
+
     past: [],
     future: [],
     time_traveling: false,
-    black_king_in_check: false,
-    white_king_in_check: false,
-    has_king_been_moved: false,
-    has_rooks_been_moved: [false, false],
-    squares_between_king_and_attacker: [],
-    pinned_pieces: [],
-    resigns: false,
-    checkmate: false,
+    /* 
+      time_traveling: {
+          past: [],
+          future: [],
+          stop_moves: false,
+      }
+    */
+
+    castleling: {
+      has_king_been_moved: false,
+      has_rooks_been_moved: [false, false]
+    },    
+
     user_color: 'white',
     opponent_color: 'black',
     current_turn: 'white',
+    /* 
+      players: {
+        user_color: 'white',
+        opponent_color: 'black',
+        current_turn: 'white'
+      }
+    */
+
     en_passant: null,
+    /* 
+      en_passant: {
+        last_move: null,
+        current_move: null
+      }
+    */
+
+    resigns: false,
+    pinned_pieces: [],
     difficulty: '',
     pieceToBeMoved: {square: {row: null, column: null}},
   }
@@ -107,6 +161,9 @@ const initialState = {
 
 
 /* 
+
+    need to refactor castleling, en passant and the pinning feature
+
     The reducer below has cases where it will LEGAL a group of squares, each LEGALed square will tell the player they can move their piece to that square
     
     Everything starts with the user clicking on one of their pieces on their side of the board.
@@ -185,6 +242,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       const pieceToBeMoved = state.board[oldRow][oldColumn];
       const pieceToBeTaken = state.board[newRow][newColumn];
       const piece_color = pieceToBeMoved.includes('white') ? 'white' : 'black';
+      //we record the piece that was taken
       if(pieceToBeTaken){
         const pieceColor = pieceToBeTaken.includes('white') ? 'white' : 'black';
         state[`${pieceColor}_pieces_taken`]?.unshift(pieceToBeTaken); 
@@ -199,17 +257,14 @@ const chessReducer = createReducer(initialState, (builder) => {
       UnpinPieces(state, newRow, newColumn);                
 
       //we record the first time the king has been moved
-      if(pieceToBeMoved.includes(`king`) && !state[`has_king_been_moved`]){
-        state[`has_king_been_moved`] = true;
+      if(pieceToBeMoved.includes(`king`) && !state.castleling.has_king_been_moved)
         kingHasBeenMovedForFirstTime = true;
-      }
+      
 
       //we record the first time the rooks have been moved
-      if(pieceToBeMoved.includes('rook') && !state[`has_rooks_been_moved`][pieceToBeMoved[11] === 'a' ? 0 : 1]){
-        state[`has_rooks_been_moved`][pieceToBeMoved[11] === 'a' ? 0 : 1] = true;
+      if(pieceToBeMoved.includes('rook') && !state.castleling[`has_rooks_been_moved`][pieceToBeMoved[11] === 'a' ? 0 : 1])
         rookHasBeenMovedForFirstTime = true;
-      }
-        
+      
       //castling:    we move the rook to the right position
       if(pieceToBeMoved.includes('king') && (oldColumn + 2 === newColumn || oldColumn - 2 === newColumn))
         rookToBeCastled = implementCastleling(state, oldRow, oldColumn, newRow, newColumn, piece_color);
@@ -304,15 +359,15 @@ const chessReducer = createReducer(initialState, (builder) => {
         if(castleling){
           state.board[castleling.from.row][castleling.from.column] = castleling.piece;
           state.board[castleling.to.row][castleling.to.column] = ''
-          state[`has_king_been_moved`] = false;
-          state[`has_rooks_been_moved`][pieceToBeMoved[11] === 'a' ? 0 : 1] = false
+          state.castleling[`has_king_been_moved`] = false;
+          state.castleling[`has_rooks_been_moved`][pieceToBeMoved[11] === 'a' ? 0 : 1] = false
         }
 
         if(rookHasBeenMovedForFirstTime)
-          state[`has_rooks_been_moved`][pieceToBeMoved[11] === 'a' ? 0 : 1] = false;
+          state.castleling[`has_rooks_been_moved`][pieceToBeMoved[11] === 'a' ? 0 : 1] = false;
       
         if(kingHasBeenMovedForFirstTime)
-          state[`has_king_been_moved`] = false;
+          state.castleling[`has_king_been_moved`] = false;
         
         state.future.push(move);    
         state.current_turn = state.current_turn === 'white' ? 'black' : 'white';    
@@ -352,15 +407,15 @@ const chessReducer = createReducer(initialState, (builder) => {
       if(castleling){
         state.board[castleling.from.row][castleling.from.column] = '';
         state.board[castleling.to.row][castleling.to.column] = castleling.piece;
-        state[`has_king_been_moved`] = true;
-        state[`has_rooks_been_moved`][pieceToBeMoved[11] === 'a' ? 0 : 1] = true
+        state.castleling[`has_king_been_moved`] = true;
+        state.castleling[`has_rooks_been_moved`][pieceToBeMoved[11] === 'a' ? 0 : 1] = true
       }
 
       if(rookHasBeenMovedForFirstTime)
-          state[`has_rooks_been_moved`][pieceToBeMoved[11] === 'a' ? 0 : 1] = true
+          state.castleling[`has_rooks_been_moved`][pieceToBeMoved[11] === 'a' ? 0 : 1] = true
     
       if(kingHasBeenMovedForFirstTime)
-          state[`has_king_been_moved`] = true;
+          state.castleling[`has_king_been_moved`] = true;
       
       state.past.push(move);
       state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
@@ -374,6 +429,18 @@ const chessReducer = createReducer(initialState, (builder) => {
       state.difficulty = difficulty;
       state.user_color = user;
       state.opponent_color = opponent;
+    })
+    .addCase(hasKingBeenMoved, (state, action) => {
+      state.castleling.has_king_been_moved = action.payload.moved;
+    })
+    .addCase(hasRooksBeenMoved, (state, action) => {
+      const whichRook = action.payload.whichRook;
+      const moved = action.payload.moved;
+
+      if(whichRook === 'king-side')
+        state.castleling.has_rooks_been_moved[1] = moved;
+      else
+        state.castleling.has_rooks_been_moved[0] = moved;
     })
     .addCase(legalNorthSquares, (state, action) => {
       const currentSquare = action.payload.square;

@@ -7,13 +7,17 @@ import { checkSquaresForThreats } from '../CheckSquares';
 
 
 export const createSquaresForCastleling = (state, row, column, color, legalSquares) => {
-    if(state[`has_king_been_moved`] || state[`${color}_king_in_check`]) return;
+    const hasKingBeenMoved = state.castleling.has_king_been_moved;
+    const hasQueenSideRookMoved = state.castleling.has_rooks_been_moved[0];
+    const hasKingSideRookMoved = state.castleling.has_rooks_been_moved[1];
+
+    if(hasKingBeenMoved || state[`${color}_king_in_check`]) return;
     const opposing_color = color === 'white' ? 'black' : 'white';
 
     if((state.board[row]?.[column + 1] === '' && !checkSquaresForThreats(state, {row, column: column + 1}, opposing_color)) && 
       (state.board[row]?.[column + 2] === '' && !checkSquaresForThreats(state, {row, column: column + 2}, opposing_color)) &&
       state.board[row]?.[column + 3].includes(`${color} rook`) && 
-      !state[`has_rooks_been_moved`][1]){
+      !hasKingSideRookMoved){
           legalSquares.push({row, column: column + 2})
     }
         
@@ -21,7 +25,7 @@ export const createSquaresForCastleling = (state, row, column, color, legalSquar
       (state.board[row]?.[column - 2] === '' && !checkSquaresForThreats(state, {row, column: column - 2}, opposing_color)) && 
       (state.board[row]?.[column - 3] === '' && !checkSquaresForThreats(state, {row, column: column - 3}, opposing_color)) &&
       state.board[row]?.[column - 4].includes(`${color} rook`) &&
-      !state[`has_rooks_been_moved`][0]){
+      !hasQueenSideRookMoved){
           legalSquares.push({row, column: column - 2})
       }
       

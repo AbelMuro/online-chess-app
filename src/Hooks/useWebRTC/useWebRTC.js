@@ -5,11 +5,6 @@ import { dataChannelOnOpen, dataChannelOnClose, dataChannelOnError, dataChannelO
 import {useDispatch} from 'react-redux';
 
 
-//this is where i left off, i need to find a way to close both remote and local data channels of the clients and reconnect again
-// only the local client should create a dataChannel() , the remote client should rely on ondatachannel() to gain access to the same channel as the local client
-//i sort of applied the logic above, i need to test everything out
-//also, update notes on WebRTC.js in github
-
 function useWebRTC(){  
     const signalingServer = useRef();
     const peerConnection = useRef();
