@@ -8,8 +8,8 @@ function UpdateMatchInDatabase({matchId}) {
     const blackPiecesTaken = useSelector(state => state.chess.black_pieces_taken);
     const whitePiecesTaken = useSelector(state => state.chess.white_pieces_taken);
     const moves = useSelector(state => state.chess.moves);
-    const hasKingBeenMoved = useSelector(state => state.chess.has_king_been_moved);
-    const hasRooksBeenMoved = useSelector(state => state.chess.has_rooks_been_moved);
+    const hasKingBeenMoved = useSelector(state => state.chess.castleling.has_king_been_moved);
+    const hasRooksBeenMoved = useSelector(state => state.chess.castleling.has_rooks_been_moved);
     const navigate = useNavigate();
 
     useEffect(() => {

@@ -18,8 +18,8 @@ export const ResetProperties = (state, initialState) => {
     state.black_king_in_check = initialState.black_king_in_check;
     state.white_king_in_check = initialState.white_king_in_check;
 
-    state.has_king_been_moved =  initialState.has_king_been_moved;
-    state.has_rooks_been_moved = initialState.has_rooks_been_moved;
+    state.castleling.has_king_been_moved =  initialState.castleling.has_king_been_moved;
+    state.castleling.has_rooks_been_moved = initialState.castleling.has_rooks_been_moved;
     state.black_pieces_taken = initialState.black_pieces_taken,
     state.white_pieces_taken = initialState.white_pieces_taken,
     state.time_traveling = initialState.time_traveling;

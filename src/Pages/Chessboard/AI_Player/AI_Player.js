@@ -10,7 +10,6 @@ function AI_Player() {
     const dispatch = useDispatch();
 
     const handleAImove = async () => {
-
         try{
             const response = await fetch('https://world-class-chess-server.com/ai_move', {
                 method: 'POST',
