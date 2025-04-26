@@ -55,7 +55,8 @@ function King({color, row, column, pieceId}) {
     }, [board])
 
     useEffect(() => {
-        console.log(userColor, row, column);
+        if(userColor !== color) return;
+
         if(userColor === 'white' && (row !== 7 || column !== 4))
             dispatch({type: 'HAS_KING_BEEN_MOVED', payload: {moved: true}})
         else if(userColor === 'black' && (row !== 0 || column !== 4))
