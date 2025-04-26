@@ -45,7 +45,7 @@ import * as styles from './styles.module.css';
 //Everytime there is a change to the board state, it will trigger a useEffect within all <Queen/>, <Knight/>, <Pawn/>, etc... components, 
 // this useEffect will dispatch an action that will count the number of available moves for that specific piece
 //if there are no available moves for that piece, then the piece will be removed from the 'state.availableMovesForBlack' array
-//if the 'state.availableMovesForBlack' array is empty and the king has no legal squares and it is NOT in check, then it will be a stalemate
+//if the 'state.availableMovesForBlack' array is empty and the king has no legal squares and it is NOT in check, then it will be a stalemate.game_over
 
 //Everytime there is a change to the board state, it will trigger a useEffect within the <Queen/>, <Rook/>, <Bishop/> components that 
 // will dispatch an action to see if a piece has been pinned

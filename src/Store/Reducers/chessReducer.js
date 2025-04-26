@@ -91,18 +91,13 @@ const initialState = {
         white_pieces_taken: [],
       }
     */
-
-
-    stalemate: false,
-    movesAvailableForWhite: ['white pawn a', 'white pawn b', 'white pawn c', 'white pawn d', 'white pawn e', 'white pawn f', 'white pawn g', 'white pawn h', 'white knight b', 'white knight g'],
-    movesAvailableForBlack: ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h', 'black knight b', 'black knight g'],
-    /* 
-      stalemate: {
-          movesAvailableForWhite: ['white pawn a', 'white pawn b', 'white pawn c', 'white pawn d', 'white pawn e', 'white pawn f', 'white pawn g', 'white pawn h', 'white knight b', 'white knight g'],
-          movesAvailableForBlack: ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h', 'black knight b', 'black knight g'],
-          game_over: false
-      }
-    */
+  
+    stalemate: {
+        movesAvailableForWhite: ['white pawn a', 'white pawn b', 'white pawn c', 'white pawn d', 'white pawn e', 'white pawn f', 'white pawn g', 'white pawn h', 'white knight b', 'white knight g'],
+        movesAvailableForBlack: ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h', 'black knight b', 'black knight g'],
+        game_over: false
+    },
+    
 
     checkmate: {
       king_in_check: false,
@@ -866,7 +861,7 @@ const chessReducer = createReducer(initialState, (builder) => {
         const kingInCheck = state.checkmate.king_in_check;
 
         if(legalSquaresForKing.length === 0 && !kingInCheck && movesAvailable.length === 0)
-          state.stalemate = true;
+          state.stalemate.game_over = true;
     })
     .addCase(resetState, (state) => {
       ResetState(state, initialState);

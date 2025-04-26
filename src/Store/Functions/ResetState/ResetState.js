@@ -9,9 +9,9 @@ export const ResetProperties = (state, initialState) => {
     state.board = initialState.board;
     state.legal_squares = initialState.legal_squares;
     state.moves = initialState.moves;                  
-    state.movesAvailableForWhite = initialState.movesAvailableForWhite;
-    state.movesAvailableForBlack = initialState.movesAvailableForBlack;
-    state.stalemate = initialState.stalemate;
+    state.stalemate.stalemate.movesAvailableForWhite = initialState.stalemate.stalemate.movesAvailableForWhite;
+    state.stalemate.stalemate.movesAvailableForBlack = initialState.stalemate.stalemate.movesAvailableForBlack;
+    state.stalemate.game_over = initialState.stalemate.game_over;
     state.time_traveling.past = initialState.time_traveling.past;
     state.time_traveling.future =  initialState.time_traveling.future;
     state.time_traveling.stop_moves = initialState.time_traveling.stop_moves
