@@ -2,8 +2,7 @@ export const ResetProperties = (state, initialState) => {
     state.pieceToBeMoved = initialState.pieceToBeMoved;
     state.legal_squares = initialState.legal_squares;
     state.checkmate.squares_between_king_and_attacker = initialState.checkmate.squares_between_king_and_attacker;
-    state.checkmate.black_king_in_check = initialState.checkmate.black_king_in_check;
-    state.checkmate.white_king_in_check = initialState.checkmate.white_king_in_check;
+    state.checkmate.king_in_check = initialState.checkmate.king_in_check;
   }
 
   export const ResetState = (state, initialState) => {
