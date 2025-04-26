@@ -117,16 +117,17 @@ const initialState = {
       },        
     */
 
-    past: [],
-    future: [],
-    time_traveling: false,
     /* 
-      time_traveling: {
-          past: [],
-          future: [],
-          stop_moves: false,
-      }
+      past: [],
+      future: [],
+      time_traveling: false,    
     */
+    time_traveling: {
+        past: [],
+        future: [],
+        stop_moves: false,
+    },
+  
 
     castleling: {
       has_king_been_moved: false,
@@ -234,7 +235,7 @@ const initialState = {
 const chessReducer = createReducer(initialState, (builder) => {      
   builder
     .addCase(movePiece, (state, action) => {    
-      state.time_traveling = false;
+      state.time_traveling.stop_moves = false;
       const oldRow = state.pieceToBeMoved.square.row;
       const oldColumn = state.pieceToBeMoved.square.column; 
       const newRow = action.payload.square.row;
@@ -334,7 +335,7 @@ const chessReducer = createReducer(initialState, (builder) => {
         state.current_turn = 'white';
       }
       else{
-        state.time_traveling = true;
+        state.time_traveling.stop_moves = true;
         const from = move.from;
         const to = move.to;
         const enPassant = move.enPassant;
@@ -369,18 +370,18 @@ const chessReducer = createReducer(initialState, (builder) => {
         if(kingHasBeenMovedForFirstTime)
           state.castleling[`has_king_been_moved`] = false;
         
-        state.future.push(move);    
+        state.time_traveling.future.push(move);    
         state.current_turn = state.current_turn === 'white' ? 'black' : 'white';    
       }
       ResetProperties(state, initialState);
     })
     .addCase(redo, (state) => {
-      const move = state.future.pop();
+      const move = state.time_traveling.future.pop();
       if(!move) {
-        state.time_traveling = false;
+        state.time_traveling.stop_moves = false;
         return;
       }
-      state.time_traveling = true;
+      state.time_traveling.stop_moves = true;
       state.moves.unshift(move);
       const from = move.from;
       const to = move.to;
@@ -417,7 +418,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       if(kingHasBeenMovedForFirstTime)
           state.castleling[`has_king_been_moved`] = true;
       
-      state.past.push(move);
+      state.time_traveling.past.push(move);
       state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
       ResetProperties(state, initialState);
     })

@@ -49,6 +49,8 @@ function Rook({color, row, column, pieceId}) {
     }
 
         useEffect(() => {
+            if(userColor !== color) return;
+
             if(userColor === 'white' && pieceId === 'a' && (row !== 7 || column !== 0))
                 dispatch({type: 'HAS_ROOKS_BEEN_MOVED', payload: {moved: true, whichRook: 'queen-side'}})
             else if(userColor === 'white' && pieceId === 'h' && (row !== 7 || column !== 7))

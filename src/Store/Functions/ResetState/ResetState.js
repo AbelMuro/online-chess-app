@@ -13,8 +13,9 @@ export const ResetProperties = (state, initialState) => {
     state.movesAvailableForWhite = initialState.movesAvailableForWhite;
     state.movesAvailableForBlack = initialState.movesAvailableForBlack;
     state.stalemate = initialState.stalemate;
-    state.past = initialState.past;
-    state.future =  initialState.future;
+    state.time_traveling.past = initialState.time_traveling.past;
+    state.time_traveling.future =  initialState.time_traveling.future;
+    state.time_traveling.stop_moves = initialState.time_traveling.stop_moves
     state.black_king_in_check = initialState.black_king_in_check;
     state.white_king_in_check = initialState.white_king_in_check;
 
@@ -22,7 +23,6 @@ export const ResetProperties = (state, initialState) => {
     state.castleling.has_rooks_been_moved = initialState.castleling.has_rooks_been_moved;
     state.black_pieces_taken = initialState.black_pieces_taken,
     state.white_pieces_taken = initialState.white_pieces_taken,
-    state.time_traveling = initialState.time_traveling;
     
     state.squares_between_king_and_attacker = initialState.squares_between_king_and_attacker;
     state.pinned_pieces = initialState.pinned_pieces;
