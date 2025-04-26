@@ -328,7 +328,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       state.white_pieces_taken = newState.whitePiecesTaken;
     })
     .addCase(undo, (state) => {
-      const move = state.past.pop();    
+      const move = state.time_traveling.past.pop();    
       state.moves.shift();
       if(!move){
         state.board = initialState.board;
