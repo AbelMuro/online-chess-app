@@ -60,6 +60,11 @@ const checkForDoublePins = createAction('CHECK_FOR_DOUBLE_PINS');
 const setPinnedPieces = createAction('SET_PINNED_PIECES');
 const clearPinnedPieces = createAction('CLEAR_PINNED_PIECES');
 
+
+/* 
+  this is where i left off, i am almost done refactoring the global state,
+  now i need to refactor the movePiece case of the reducer
+*/
 const initialState = { 
     board:  [
       ['black rook a', 'black knight b', 'black bishop c', 'black queen d', 'black king e', 'black bishop f', 'black knight g', 'black rook h'],
@@ -91,34 +96,25 @@ const initialState = {
         movesAvailableForBlack: ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h', 'black knight b', 'black knight g'],
         game_over: false
     },
-    
-
     checkmate: {
       king_in_check: false,
       squares_between_king_and_attacker: [],
       game_over: false
     },        
-    
-
     time_traveling: {
         past: [],
         future: [],
         stop_moves: false,
     },
-  
-
     castleling: {
       has_king_been_moved: false,
       has_rooks_been_moved: [false, false]
     },    
-
     players: {
       user_color: 'white',
       opponent_color: 'black',
       current_turn: 'white'
     },
-    
-
     en_passant: null,
     /* 
       en_passant: {
