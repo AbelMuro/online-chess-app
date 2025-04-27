@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useDrop } from "react-dnd"
 import {useSelector, useDispatch} from 'react-redux';
 import Pawn from './Pawn';
@@ -32,10 +32,14 @@ function Squares({row, column, colorOfSquare, id}) {
     })
 
     const handleClick = () => { 
-        if(!legalSquare) return;    
-           
-        dispatch({type: 'MOVE_PIECE', payload: {square: {row, column}}});
-        dispatch({type: 'CHANGE_TURN'})     
+        if(!legalSquare) return; 
+
+        if(legalSquare === 'kingSide' || legalSquare === 'queenSide')                                             
+            dispatch({type: 'IMPLEMENT_CASTLELING', payload: {castleling: legalSquare}})     
+        else
+            dispatch({type: 'MOVE_PIECE', payload: {square: {row, column}}});
+        
+        dispatch({type: 'CHANGE_TURN'});     
     }
 
     useEffect(() => {

@@ -18,7 +18,7 @@ export const createSquaresForCastleling = (state, row, column, color, legalSquar
       (state.board[row]?.[column + 2] === '' && !checkSquaresForThreats(state, {row, column: column + 2}, opposing_color)) &&
       state.board[row]?.[column + 3].includes(`${color} rook`) && 
       !hasKingSideRookMoved){
-          legalSquares.push({row, column: column + 2})
+          legalSquares.push({row, column: column + 2, castleling: 'kingSide'})
     }
         
     if((state.board[row]?.[column - 1] === '' && !checkSquaresForThreats(state, {row, column: column - 1}, opposing_color)) &&
@@ -26,7 +26,7 @@ export const createSquaresForCastleling = (state, row, column, color, legalSquar
       (state.board[row]?.[column - 3] === '' && !checkSquaresForThreats(state, {row, column: column - 3}, opposing_color)) &&
       state.board[row]?.[column - 4].includes(`${color} rook`) &&
       !hasQueenSideRookMoved){
-          legalSquares.push({row, column: column - 2})
+          legalSquares.push({row, column: column - 2, castleling: 'queenSide'})
       }
       
 }

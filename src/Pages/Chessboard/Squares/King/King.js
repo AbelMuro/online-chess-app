@@ -6,16 +6,11 @@ import { useDrag } from "react-dnd"
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
-/* 
-    one thing that i can try here is implement a useEffect that checks if the king has been moved here,
-    if the king is not in its initial position, then we can assume that the king has been moved
-    we can dispatch an action to the reducer and record that the king has been moved
-*/
-
 function King({color, row, column, pieceId}) {
     const currentTurn = useSelector(state => state.chess.players.current_turn);    
     const userColor = useSelector(state => state.chess.players.user_color); 
     const board = useSelector(state => state.chess.board);   
+    const castleling = useSelector(state => state.chess.castleling);
     const dispatch = useDispatch();
     const [{isDragging}, drag] = useDrag({
         type: 'piece',

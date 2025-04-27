@@ -6,7 +6,7 @@ import { UnpinPieces, findPinnedPieces, findLegalMovesForPinnedPiece, CheckForDo
 import { implementEnPassant } from '../Functions/EnPassant';
 import { legalMovesExist} from '../Functions/Stalemate';
 import { ResetState, ResetProperties} from '../Functions/ResetState';
-import {implementCastleling} from '../Functions/Castleling'
+/*import {implementCastleling} from '../Functions/Castleling'*/
 import {saveMove} from '../Functions/RecordMoves';
 import {IntepretAIMoves} from '../Functions/IntepretAIMoves';
 
@@ -25,6 +25,7 @@ import {IntepretAIMoves} from '../Functions/IntepretAIMoves';
 */
 
 const movePiece = createAction('MOVE_PIECE');
+const implementCastleling = createAction('IMPLEMENENT_CASTLELING')
 const movePieceWithAI = createAction('MOVE_PIECE_WITH_AI');
 const changeTurn = createAction('CHANGE_TURN');
 const pieceToBeMoved = createAction('PIECE_TO_BE_MOVED');
@@ -101,7 +102,7 @@ const initialState = {
       squares_between_king_and_attacker: [],
       game_over: false
     },        
-    time_traveling: {
+    time_traveling: {         //used for redoing and undoing moves
         past: [],
         future: [],
         stop_moves: false,
@@ -220,7 +221,6 @@ const chessReducer = createReducer(initialState, (builder) => {
       }
              
       let pieceTakenByEnPassant = null;
-      let rookToBeCastled = false;
       let rookHasBeenMovedForFirstTime = false;
       let kingHasBeenMovedForFirstTime = false;
 
@@ -231,14 +231,9 @@ const chessReducer = createReducer(initialState, (builder) => {
       if(pieceToBeMoved.includes(`king`) && !state.castleling.has_king_been_moved)
         kingHasBeenMovedForFirstTime = true;
       
-
       //we record the first time the rooks have been moved
       if(pieceToBeMoved.includes('rook') && !state.castleling[`has_rooks_been_moved`][pieceToBeMoved[11] === 'a' ? 0 : 1])
         rookHasBeenMovedForFirstTime = true;
-      
-      //castling:    we move the rook to the right position
-      if(pieceToBeMoved.includes('king') && (oldColumn + 2 === newColumn || oldColumn - 2 === newColumn))
-        rookToBeCastled = implementCastleling(state, oldRow, oldColumn, newRow, newColumn, piece_color);
       
       //en-passant:    we enable or disabled en passant, if its already enabled, then we check if the player decided to take away the opposing pawn with en-passant
       if(pieceToBeMoved.includes('pawn') && (oldRow + 2 === newRow || oldRow - 2 === newRow))
@@ -257,7 +252,6 @@ const chessReducer = createReducer(initialState, (builder) => {
           pieceToBeTaken: pieceTakenByEnPassant ? '' : pieceToBeTaken, 
           pieceToBeMoved,
           enPassant: pieceTakenByEnPassant,
-          castleling: rookToBeCastled,
           rookHasBeenMovedForFirstTime,
           kingHasBeenMovedForFirstTime
         }
@@ -267,6 +261,49 @@ const chessReducer = createReducer(initialState, (builder) => {
     .addCase(movePieceWithAI, (state, action) => {
       const {bestMove} = action.payload.bestmove;
       IntepretAIMoves(state, bestMove);
+      ResetProperties(state, initialState);
+    })
+    .addCase(implementCastleling, (state, action) => {
+      const castlelingSide = action.payload.castleling;
+      const kingPosition = state.pieceToBeMoved.square;
+      let newKingPosition;
+      let pieceToBeMoved;
+      let rookToBeCastled;
+
+      if(castlelingSide === 'kingSide'){
+        const kingPiece = state.board[kingPosition.row][kingPosition.column];   
+        state.board[kingPosition.row][kingPosition.column] = '';                       
+        state.board[kingPosition.row][kingPosition.column + 2] = kingPiece;
+        newKingPosition = {row: kingPosition.row, column: kingPosition.column + 2};
+        pieceToBeMoved = kingPiece;
+
+        const rookPiece = state.board[kingPosition.row][7];
+        state.board[kingPosition.row][7] = '';
+        state.board[kingPosition.row][5] = rookPiece;
+        rookToBeCastled = {from: {row: kingPosition.row, column: 7}, to: {row: kingPosition.row, column: 5}}
+      }
+      else{
+        const kingPiece = state.board[kingPosition.row][kingPosition.column];   
+        state.board[kingPosition.row][kingPosition.column] = '';                       
+        state.board[kingPosition.row][kingPosition.column - 2] = kingPiece;
+        newKingPosition = {row: kingPosition.row, column: kingPosition.column - 2};
+        pieceToBeMoved = kingPiece;
+
+        const rookPiece = state.board[kingPosition.row][0];
+        state.board[kingPosition.row][0] = '';
+        state.board[kingPosition.row][3] = rookPiece;
+        rookToBeCastled = {from: {row: kingPosition.row, column: 0}, to: {row: kingPosition.row, column: 3}}
+      }
+
+      saveMove(state, {
+        from: {row: kingPosition.row, column: kingPosition.column}, 
+        to: {row: newKingPosition.row, column: newKingPosition.column}, 
+        pieceToBeTaken: null, 
+        pieceToBeMoved,
+        castleling: rookToBeCastled,
+        rookHasBeenMovedForFirstTime: true,
+        kingHasBeenMovedForFirstTime: true
+      })
       ResetProperties(state, initialState);
     })
     .addCase(promotion, (state, action) => {
@@ -699,9 +736,9 @@ const chessReducer = createReducer(initialState, (builder) => {
       createSquaresForCastleling(state, row, column, piece_color, legalSquares);
 
       legalSquares.forEach((square) => {
-        const castle = square.castle;
-        if(castle)
-          state.legal_squares[square.row][square.column] = 'castle';
+        const castleling = square.castleling;
+        if(castleling)
+          state.legal_squares[square.row][square.column] = castleling;
         else
           state.legal_squares[square.row][square.column] = true;
       })
