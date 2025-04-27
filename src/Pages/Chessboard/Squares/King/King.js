@@ -63,27 +63,30 @@ function King({color, row, column, pieceId}) {
             dispatch({type: 'HAS_KING_BEEN_MOVED', payload: {moved: true}})
     }, [])
 
-    return isDragging ?         
-        <div             
-            className={styles.container} 
-            onClick={handleClick}
-            onMouseDown={handleClick}
-            style={isDragging ? {opacity: 0} : {opacity: 1}} 
-            ref={drag}>
-                <img className={styles.piece} src={icons[`${color} king`]} />
-                <CheckStalemate row={row} column={column} color={color}/>
-        </div> : (
-        <motion.div             
-            className={styles.container} 
-            onClick={handleClick}
-            onMouseDown={handleClick}
-            layoutId={pieceId}
-            key={pieceId}
-            ref={drag}>
-                <img className={styles.piece} src={icons[`${color} king`]} />
-                <CheckStalemate row={row} column={column} color={color}/>
-        </motion.div>
-    )
+    return <>
+        {
+        isDragging ?         
+                <div             
+                    className={styles.container} 
+                    onClick={handleClick}
+                    onMouseDown={handleClick}
+                    style={isDragging ? {opacity: 0} : {opacity: 1}} 
+                    ref={drag}>
+                        <img className={styles.piece} src={icons[`${color} king`]} />
+                </div> : 
+                <motion.div             
+                    className={styles.container} 
+                    onClick={handleClick}
+                    onMouseDown={handleClick}
+                    layoutId={pieceId}
+                    key={pieceId}
+                    ref={drag}>
+                        <img className={styles.piece} src={icons[`${color} king`]} />
+                </motion.div>
+        }
+        <CheckStalemate row={row} column={column} color={color}/>
+    </>
+    
 }
 
 export default memo(King);

@@ -47,30 +47,32 @@ function Queen({color, row, column, pieceId}) {
 
 
     
-    return isDragging ?         
-        <div             
-            className={styles.container} 
-            onMouseDown={handleClick}
-            onClick={handleClick}
-            style={isDragging ? {opacity: 0} : {opacity: 1}} 
-            ref={drag}
-            >
+    return (
+        <>
+        {isDragging ?         
+            <div             
+                className={styles.container} 
+                onMouseDown={handleClick}
+                onClick={handleClick}
+                style={isDragging ? {opacity: 0} : {opacity: 1}} 
+                ref={drag}
+                >
+                    <img className={styles.piece} src={icons[`${color} queen`]} />
+            </div> : 
+            <motion.div             
+                className={styles.container} 
+                onMouseDown={handleClick}
+                onClick={handleClick}
+                ref={drag}
+                layoutId={pieceId}
+                key={pieceId}
+                >
                 <img className={styles.piece} src={icons[`${color} queen`]} />
-                <SetPinnedPieces row={row} column={column} color={color}/>
-                <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
-        </div> : (
-        <motion.div             
-            className={styles.container} 
-            onMouseDown={handleClick}
-            onClick={handleClick}
-            ref={drag}
-            layoutId={pieceId}
-            key={pieceId}
-            >
-            <img className={styles.piece} src={icons[`${color} queen`]} />
+            </motion.div>}   
             <SetPinnedPieces row={row} column={column} color={color}/>
-            <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
-        </motion.div>
+            <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>     
+        </>
+
     )
 }
 

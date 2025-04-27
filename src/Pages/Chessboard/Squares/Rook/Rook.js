@@ -61,31 +61,31 @@ function Rook({color, row, column, pieceId}) {
                 dispatch({type: 'HAS_ROOKS_BEEN_MOVED', payload: {moved: true, whichRook: 'king-side'}})
         }, [])
 
-    return isDragging ?         
-        <div 
-            className={styles.container} 
-            onClick={handleClick} 
-            onMouseDown={handleClick}
-            style={isDragging ? {opacity: 0} : {opacity: 1}}
-            ref={drag}
-            >
-                <img className={styles.piece} src={icons[`${color} rook`]} />
-                <SetPinnedPieces row={row} column={column} color={color}/>
-                <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
-        </div> : (
-        <motion.div 
-            className={styles.container} 
-            onClick={handleClick} 
-            onMouseDown={handleClick}
-            ref={drag}
-            layoutId={pieceId}
-            key={pieceId}
-            >
-                <img className={styles.piece} src={icons[`${color} rook`]} />
-                <SetPinnedPieces row={row} column={column} color={color}/>
-                <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
-        </motion.div>
-    )
+    return <>
+        {isDragging ?         
+            <div 
+                className={styles.container} 
+                onClick={handleClick} 
+                onMouseDown={handleClick}
+                style={isDragging ? {opacity: 0} : {opacity: 1}}
+                ref={drag}
+                >
+                    <img className={styles.piece} src={icons[`${color} rook`]} />
+            </div> : 
+            <motion.div 
+                className={styles.container} 
+                onClick={handleClick} 
+                onMouseDown={handleClick}
+                ref={drag}
+                layoutId={pieceId}
+                key={pieceId}
+                >
+                    <img className={styles.piece} src={icons[`${color} rook`]} />
+            </motion.div>   
+        }
+        <SetPinnedPieces row={row} column={column} color={color}/>
+        <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
+    </>
 }
 
 export default Rook;

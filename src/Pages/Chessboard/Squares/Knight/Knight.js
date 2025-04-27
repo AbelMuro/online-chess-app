@@ -38,27 +38,30 @@ function Knight({color, row, column, pieceId}) {
 
 
 
-    return isDragging ?         
-        <div             
-            className={styles.container} 
-            onClick={handleClick}
-            style={isDragging ? {opacity: 0} : {}}
-            onMouseDown={handleClick}
-            ref={drag}>
-                <img className={styles.piece} src={icons[`${color} knight`]} />
-                <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
-        </div> : (
-        <motion.div             
-            className={styles.container} 
-            onClick={handleClick}
-            onMouseDown={handleClick}
-            ref={drag}
-            layoutId={pieceId}
-            key={pieceId}>
-                <img className={styles.piece} src={icons[`${color} knight`]} />
-                <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
-        </motion.div>
-    )
+    return <>
+        {
+        isDragging ?         
+            <div             
+                className={styles.container} 
+                onClick={handleClick}
+                style={isDragging ? {opacity: 0} : {}}
+                onMouseDown={handleClick}
+                ref={drag}>
+                    <img className={styles.piece} src={icons[`${color} knight`]} />
+            </div> : 
+            <motion.div             
+                className={styles.container} 
+                onClick={handleClick}
+                onMouseDown={handleClick}
+                ref={drag}
+                layoutId={pieceId}
+                key={pieceId}>
+                    <img className={styles.piece} src={icons[`${color} knight`]} />
+            </motion.div>
+        }
+        <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
+    </>
+    
 }
 
 export default memo(Knight);

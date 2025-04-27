@@ -41,31 +41,33 @@ function Bishop({color, row, column, pieceId}) {
         }
     }
 
-    return isDragging ?        
-        <div             
-            className={styles.container} 
-            onMouseDown={handleClick}
-            onClick={handleClick}
-            style={isDragging ? {opacity: 0} : {opacity: 1}} 
-            ref={drag}
-            >
-                <img className={styles.piece} src={icons[`${color} bishop`]} />
-                <SetPinnedPieces row={row} column={column} color={color}/>
-                <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
-        </div> : (
-        <motion.div             
-            className={styles.container} 
-            onMouseDown={handleClick}
-            onClick={handleClick}
-            ref={drag}
-            layoutId={pieceId}
-            key={pieceId}
-            >
-                <img className={styles.piece} src={icons[`${color} bishop`]} />
-                <SetPinnedPieces row={row} column={column} color={color}/>
-                <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
-        </motion.div>
-    )
+    return <>
+        {
+        isDragging ?        
+                <div             
+                    className={styles.container} 
+                    onMouseDown={handleClick}
+                    onClick={handleClick}
+                    style={isDragging ? {opacity: 0} : {opacity: 1}} 
+                    ref={drag}
+                    >
+                        <img className={styles.piece} src={icons[`${color} bishop`]} />
+                </div> : 
+                <motion.div             
+                    className={styles.container} 
+                    onMouseDown={handleClick}
+                    onClick={handleClick}
+                    ref={drag}
+                    layoutId={pieceId}
+                    key={pieceId}
+                    >
+                        <img className={styles.piece} src={icons[`${color} bishop`]} />
+                </motion.div>
+        }
+        <SetPinnedPieces row={row} column={column} color={color}/>
+        <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>
+    </>
+    
 }
 
 export default memo(Bishop);
