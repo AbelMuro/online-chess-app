@@ -838,12 +838,11 @@ const chessReducer = createReducer(initialState, (builder) => {
       const piece = state.board[row][column];
 
       const pieceCanMove = legalMovesExist(state, piece, color, {row, column});
-      const movesAvailable = state.stalemate[`movesAvailableFor${color === 'white' ? 'White' : 'Black'}`]
 
-      if(pieceCanMove && !movesAvailable.includes(piece))
-        movesAvailable.push(piece);
+      if(pieceCanMove && !state.stalemate[`movesAvailableFor${color === 'white' ? 'White' : 'Black'}`].includes(piece))
+        state.stalemate[`movesAvailableFor${color === 'white' ? 'White' : 'Black'}`].push(piece);
       else if(!pieceCanMove)
-        state.stalemate[`movesAvailableFor${color === 'white' ? 'White' : 'Black'}`] = movesAvailable.filter((move) => move !== piece)
+        state.stalemate[`movesAvailableFor${color === 'white' ? 'White' : 'Black'}`] = state.stalemate[`movesAvailableFor${color === 'white' ? 'White' : 'Black'}`].filter((move) => move !== piece)
 
     })
     .addCase(resetLegalMoves, (state, action) => {
