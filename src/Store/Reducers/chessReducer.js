@@ -81,17 +81,11 @@ const initialState = {
       ['', '', '', '', '', '', '', '',],
       ['', '', '', '', '', '', '', '',],
     ],
-    moves: [],                    //this property is for the component that keeps track of all the moves (pawn to b3, etc...)
-    black_pieces_taken: [],
-    white_pieces_taken: [],
-    /* 
-      moves: {
-        all: [],
-        black_pieces_taken: [],
-        white_pieces_taken: [],
-      }
-    */
-  
+    moves: {
+      all: [],
+      black_pieces_taken: [],
+      white_pieces_taken: [],
+    },
     stalemate: {
         movesAvailableForWhite: ['white pawn a', 'white pawn b', 'white pawn c', 'white pawn d', 'white pawn e', 'white pawn f', 'white pawn g', 'white pawn h', 'white knight b', 'white knight g'],
         movesAvailableForBlack: ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h', 'black knight b', 'black knight g'],
@@ -226,7 +220,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       //we record the piece that was taken
       if(pieceToBeTaken){
         const pieceColor = pieceToBeTaken.includes('white') ? 'white' : 'black';
-        state[`${pieceColor}_pieces_taken`]?.unshift(pieceToBeTaken); 
+        state.moves[`${pieceColor}_pieces_taken`]?.unshift(pieceToBeTaken); 
       }
              
       let pieceTakenByEnPassant = null;
@@ -302,10 +296,10 @@ const chessReducer = createReducer(initialState, (builder) => {
     .addCase(syncStateWithDatabase, (state, action) => {
       const newState = action.payload.result;
       state.board = newState.chessboard;
-      state.moves = newState.allMoves;
+      state.moves.all = newState.allMoves;
       state.players.current_turn = newState.currentTurn;
-      state.black_pieces_taken = newState.blackPiecesTaken;
-      state.white_pieces_taken = newState.whitePiecesTaken;
+      state.moves.black_pieces_taken = newState.blackPiecesTaken;
+      state.moves.white_pieces_taken = newState.whitePiecesTaken;
     })
     .addCase(undo, (state) => {
       const move = state.time_traveling.past.pop();    
@@ -329,7 +323,7 @@ const chessReducer = createReducer(initialState, (builder) => {
 
         if(pieceToBeTaken){
           const pieceColor = pieceToBeTaken.includes('white') ? 'white' : 'black';
-          state[`${pieceColor}_pieces_taken`].shift()
+          state.moves[`${pieceColor}_pieces_taken`].shift()
         }
 
         if(enPassant){
@@ -362,7 +356,7 @@ const chessReducer = createReducer(initialState, (builder) => {
         return;
       }
       state.time_traveling.stop_moves = true;
-      state.moves.unshift(move);
+      state.moves.all.unshift(move);
       const from = move.from;
       const to = move.to;
       const enPassant = move.enPassant;
@@ -377,7 +371,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       
       if(pieceToBeTaken){
         const pieceColor = pieceToBeTaken.includes('white') ? 'white' : 'black';
-        state[`${pieceColor}_pieces_taken`]?.unshift(pieceToBeTaken);
+        state.moves[`${pieceColor}_pieces_taken`]?.unshift(pieceToBeTaken);
       }
       
       if(enPassant){

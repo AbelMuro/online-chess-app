@@ -4,8 +4,8 @@ import icons from '~/assets/icons'
 import * as styles from './styles.module.css';
 
 function PiecesTaken({mobile}) {
-    const blackPiecesTaken = useSelector(state => state.chess.black_pieces_taken);
-    const whitePiecesTaken = useSelector(state => state.chess.white_pieces_taken);
+    const blackPiecesTaken = useSelector(state => state.chess.moves.black_pieces_taken);
+    const whitePiecesTaken = useSelector(state => state.chess.moves.white_pieces_taken);
 
 
     return (blackPiecesTaken.length > 0 || whitePiecesTaken.length > 0) && 

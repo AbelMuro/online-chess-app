@@ -5,9 +5,9 @@ import {useSelector} from 'react-redux';
 function UpdateMatchInDatabase({matchId}) {
     const board = useSelector(state => state.chess.board);
     const currentTurn = useSelector(state => state.chess.players.current_turn);
-    const blackPiecesTaken = useSelector(state => state.chess.black_pieces_taken);
-    const whitePiecesTaken = useSelector(state => state.chess.white_pieces_taken);
-    const moves = useSelector(state => state.chess.moves);
+    const blackPiecesTaken = useSelector(state => state.chess.moves.black_pieces_taken);
+    const whitePiecesTaken = useSelector(state => state.chess.moves.white_pieces_taken);
+    const moves = useSelector(state => state.chess.moves.all);
     const hasKingBeenMoved = useSelector(state => state.chess.castleling.has_king_been_moved);
     const hasRooksBeenMoved = useSelector(state => state.chess.castleling.has_rooks_been_moved);
     const navigate = useNavigate();

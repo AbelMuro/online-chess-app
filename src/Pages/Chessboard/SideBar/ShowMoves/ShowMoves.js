@@ -5,7 +5,7 @@ import * as styles from './styles.module.css';
 import icons from '~/assets/icons';
 
 function ShowMoves() {
-    const moves = useSelector(state => state.chess.moves);
+    const moves = useSelector(state => state.chess.moves.all);
     const movesBox = useRef();
 
 
