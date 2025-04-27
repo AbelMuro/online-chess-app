@@ -10,7 +10,7 @@ import MobileBar from './MobileBar';
 import useMediaQuery from '~/Hooks/useMediaQuery';
 
 function SideBar(){
-    const currentTurn = useSelector(state => state.chess.current_turn);
+    const currentTurn = useSelector(state => state.chess.players.current_turn);
     const [mobile] = useMediaQuery('(max-width: 620px)');
 
     return mobile ? <MobileBar/> :

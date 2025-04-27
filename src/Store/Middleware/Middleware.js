@@ -2,7 +2,7 @@ export const checkCurrentTurn = store => next => action => {
     const state = store.getState();
     const chess = state.chess;
     const board = chess.board;
-    const currentTurn = chess.current_turn;
+    const currentTurn = chess.players.current_turn;
     const payload = action.payload
     const type = action.type;
     

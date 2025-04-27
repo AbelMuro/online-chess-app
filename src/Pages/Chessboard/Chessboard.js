@@ -58,7 +58,7 @@ function Chessboard() {
     const [mobile] = useMediaQuery('(max-width: 620px)');
     const columns = useRef(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']);
     const dispatch = useDispatch();
-    const userColor = useSelector(state => state.chess.user_color)
+    const userColor = useSelector(state => state.chess.players.user_color)
 
     const squares = useMemo(() => {
         const squares = [];

@@ -4,7 +4,7 @@ import {useSelector} from 'react-redux';
 
 function UpdateMatchInDatabase({matchId}) {
     const board = useSelector(state => state.chess.board);
-    const currentTurn = useSelector(state => state.chess.current_turn);
+    const currentTurn = useSelector(state => state.chess.players.current_turn);
     const blackPiecesTaken = useSelector(state => state.chess.black_pieces_taken);
     const whitePiecesTaken = useSelector(state => state.chess.white_pieces_taken);
     const moves = useSelector(state => state.chess.moves);

@@ -9,8 +9,8 @@ import * as styles from './styles.module.css';
 
 
 function Bishop({color, row, column, pieceId}) { 
-    const currentTurn = useSelector(state => state.chess.current_turn);   
-    const userColor = useSelector(state => state.chess.user_color)  
+    const currentTurn = useSelector(state => state.chess.players.current_turn);   
+    const userColor = useSelector(state => state.chess.players.user_color)  
     const dispatch = useDispatch();
     const [{isDragging}, drag] = useDrag({
         type: 'piece',

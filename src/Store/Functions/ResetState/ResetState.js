@@ -26,9 +26,9 @@ export const ResetProperties = (state, initialState) => {
     state.pinned_pieces = initialState.pinned_pieces;
     state.resigns = initialState.resigns;
     state.checkmate.game_over = initialState.checkmate.game_over;
-    state.user_color = initialState.user_color;
-    state.opponent_color = initialState.opponent_color;
-    state.current_turn =  initialState.current_turn;
+    state.players.user_color = initialState.players.user_color;
+    state.players.opponent_color = initialState.players.opponent_color;
+    state.players.current_turn =  initialState.players.current_turn;
     state.en_passant = initialState.en_passant;
     state.pieceToBeMoved =  initialState.pieceToBeMoved;
   }

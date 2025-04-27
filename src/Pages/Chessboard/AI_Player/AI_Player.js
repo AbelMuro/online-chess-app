@@ -3,8 +3,8 @@ import {useSelector, useDispatch} from 'react-redux';
 
 function AI_Player() {
     const board = useSelector(state => state.chess.board);
-    const opponentColor = useSelector(state => state.chess.opponent_color);
-    const currentTurn = useSelector(state => state.chess.current_turn);
+    const opponentColor = useSelector(state => state.chess.players.opponent_color);
+    const currentTurn = useSelector(state => state.chess.players.current_turn);
     const difficulty = useSelector(state => state.chess.difficulty);
     const stop_moves = useSelector(state => state.chess.time_traveling.stop_moves);
     const dispatch = useDispatch();

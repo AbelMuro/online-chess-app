@@ -6,7 +6,7 @@ import MessageBox from '~/assets/Components/MessageBox';
 import * as styles from './styles.module.css';
 
 function ResignButton(){
-    const currentTurn = useSelector(state => state.chess.current_turn);
+    const currentTurn = useSelector(state => state.chess.players.current_turn);
     const dispatch = useDispatch();
 
 
