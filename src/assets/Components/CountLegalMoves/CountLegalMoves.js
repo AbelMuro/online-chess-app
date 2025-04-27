@@ -3,7 +3,7 @@ import {useSelector, useDispatch} from 'react-redux';
 
 function CountLegalMoves({row, column, color, pieceId}){
     const dispatch = useDispatch();
-    const square = useSelector(state => state.chess.board[row][column]);
+    const board = useSelector(state => state.chess.board);
 
     useEffect(() => {
         dispatch({type: 'COUNT_LEGAL_MOVES', payload: {square: {row, column, color}}});
@@ -12,7 +12,7 @@ function CountLegalMoves({row, column, color, pieceId}){
             dispatch({type: 'RESET_LEGAL_MOVES', payload: {pieceId, color}});
         }
 
-    }, [square])
+    }, [board])
     
 
     return null;
