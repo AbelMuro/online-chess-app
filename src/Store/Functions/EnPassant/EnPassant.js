@@ -1,10 +1,3 @@
-export const checkEnpassant = (state, initialRow, newRow, newColumn) => {
-    if((initialRow + 2 === newRow || initialRow - 2 === newRow))
-        state.en_passant = {row: newRow, column: newColumn};
-    else
-        state.en_passant = null;      
-}
-
 export const checkEnPassantForAI = (state, pieceToBeMoved, from, to) => {
     if(!pieceToBeMoved.includes('pawn')) return;
 
@@ -15,12 +8,7 @@ export const checkEnPassantForAI = (state, pieceToBeMoved, from, to) => {
 }
 
 
-export const implementEnPassant = (state, piece, oldRow, oldColumn, newRow, newColumn) => {
-    if(!piece.includes('pawn') || !state.en_passant) {
-        state.en_passant = null;
-        return null;
-    }
-
+export const takeWithEnPassant = (state, piece, oldRow, oldColumn, newRow, newColumn) => {
     const opposing_color = piece.includes('white') ? 'black' : 'white';
     const pieceToBeTaken = state.en_passant;
     const row = pieceToBeTaken.row;
@@ -35,7 +23,5 @@ export const implementEnPassant = (state, piece, oldRow, oldColumn, newRow, newC
             const pieceColor = pieceToBeTaken.includes('white') ? 'white' : 'black';
             state.moves[`${pieceColor}_pieces_taken`]?.unshift(pieceToBeTaken);
             return {row, column, pieceToBeTaken};
-        }   
-    else
-        checkEnpassant(state, oldRow, newRow, newColumn); 
+    }   
 }

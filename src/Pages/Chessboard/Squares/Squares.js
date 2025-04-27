@@ -15,6 +15,9 @@ import * as styles from './styles.module.css'
 function Squares({row, column, colorOfSquare, id}) {
     const currentSquare = useSelector(state => state.chess.board[row][column]);
     const legalSquare = useSelector(state => state.chess.legal_squares[row][column]);
+    const hasKingBeenMoved = useSelector(state => state.chess.castleling.has_king_been_moved);
+    const hasQueenSideRookBeenMoved = useSelector(state => state.chess.castleling.has_rooks_been_moved[0]);
+    const hasKingSideRookBeenMoved = useSelector(state => state.chess.castleling.has_rooks_been_moved[1]);
     const color = currentSquare.includes('white') ? 'white' : 'black';
     const piece = currentSquare.slice(6, currentSquare.length);
     const dispatch = useDispatch();
@@ -35,9 +38,20 @@ function Squares({row, column, colorOfSquare, id}) {
         if(!legalSquare) return; 
 
         if(legalSquare === 'kingSide' || legalSquare === 'queenSide')                                             
-            dispatch({type: 'IMPLEMENT_CASTLELING', payload: {castleling: legalSquare}})     
+            dispatch({type: 'IMPLEMENT_CASTLELING', payload: {castleling: legalSquare}})   
+        else if(legalSquare === 'enable enpassant')
+            dispatch({type: 'ENABLE_ENPASSANT', payload: {square: {row, column}}})
+        else if(legalSquare === 'take enpassant')
+            dispatch({type: 'IMPLEMENT_ENPASSANT', payload: {square: {row, column}}})
         else
-            dispatch({type: 'MOVE_PIECE', payload: {square: {row, column}}});
+            dispatch({type: 'MOVE_PIECE', 
+                payload: {
+                square: {row, column},
+                ...(piece?.includes('king') && {hasKingBeenMoved}),                                             //we record the first time the king or rooks have been moved
+                ...((piece?.includes('rook') && piece?.includes('a')) && {hasRookBeenMoved: hasQueenSideRookBeenMoved}),
+                ...((piece?.includes('rook') && piece?.includes('h')) && {hasRookBeenMoved: hasKingSideRookBeenMoved})            
+                }
+            });
         
         dispatch({type: 'CHANGE_TURN'});     
     }

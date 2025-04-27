@@ -19,8 +19,8 @@ export const ResetProperties = (state, initialState) => {
 
     state.castleling.has_king_been_moved =  initialState.castleling.has_king_been_moved;
     state.castleling.has_rooks_been_moved = initialState.castleling.has_rooks_been_moved;
-    state.moves.moves.black_pieces_taken = initialState.moves.moves.black_pieces_taken,
-    state.moves.moves.white_pieces_taken = initialState.moves.moves.white_pieces_taken,
+    state.moves.black_pieces_taken = initialState.moves.black_pieces_taken,
+    state.moves.white_pieces_taken = initialState.moves.white_pieces_taken,
     
     state.checkmate.squares_between_king_and_attacker = initialState.checkmate.squares_between_king_and_attacker;
     state.pinned_pieces = initialState.pinned_pieces;

@@ -1,5 +1,5 @@
 import {saveMove} from '../RecordMoves';
-import { implementEnPassant, checkEnPassantForAI } from '../EnPassant';
+import { takeWithEnPassant, checkEnPassantForAI } from '../EnPassant';
 import { UnpinPieces } from '../PinnedPieces';
 
 export const IntepretAIMoves = (state, bestMove) => {
@@ -93,7 +93,7 @@ export const IntepretAIMoves = (state, bestMove) => {
     }
 
     else if(enPassant){
-        pieceTakenByEnPassant = implementEnPassant(state, pieceToBeMoved, fromRow, fromColumn, toRow, toColumn);
+        pieceTakenByEnPassant = takeWithEnPassant(state, pieceToBeMoved, fromRow, fromColumn, toRow, toColumn);
         state.board[fromRow][fromColumn] = '';
         state.board[toRow][toColumn] = pieceToBeMoved;         
     }

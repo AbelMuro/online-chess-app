@@ -115,7 +115,7 @@ function Chessboard() {
 
         const getMatch = async () => {
             try{
-                const response = await fetch(`https://world-class-chess-server.com/get_match/${matchId}`, {
+                const response = await fetch(`http://localhost:8080/get_match/${matchId}`, {
                     method: 'GET'
                 });
 
@@ -155,7 +155,7 @@ function Chessboard() {
                 <SideBar/>
                 <DeclareWinner/>
                 {matchId === 'ai' && <AI_Player/>}
-                {matchId !== 'ai' && <UpdateMatchInDatabase matchId={matchId}/>}
+                {matchId !== 'ai' && <UpdateMatchInDatabase matchId={matchId}/>}                     
             </section>
         </DndProvider>
     )

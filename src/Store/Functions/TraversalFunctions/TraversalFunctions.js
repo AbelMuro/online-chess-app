@@ -91,7 +91,7 @@ export const knightSquares = (callback, row, column) => {
 
 export const pawnSquares = (state, row, column, piece_color, twoSquareMoveAvailable) => {
     const oneSquareMove = piece_color === 'white' ? {row: row - 1, column} : {row: row + 1, column};
-    const twoSquareMove = piece_color === 'white' ? {row: row - 2, column} : {row: row + 2, column};
+    const twoSquareMove = piece_color === 'white' ? {row: row - 2, column, enPassant: 'enable enpassant'} : {row: row + 2, column, enPassant: 'enable enpassant'};
     const leftCornerTake = piece_color === 'white' ? {row: row - 1, column: column - 1} : {row: row + 1, column: column - 1};
     const rightCornerTake = piece_color === 'white' ? {row: row - 1, column: column + 1} : {row: row + 1, column: column + 1};
     const opposing_color = piece_color === 'white' ? 'black' : 'white';
@@ -111,7 +111,7 @@ export const pawnSquares = (state, row, column, piece_color, twoSquareMoveAvaila
     else if(state.board[leftCornerTake.row]?.[leftCornerTake.column] === '' && 
       (state.en_passant?.row === row && state.en_passant?.column === column - 1) && 
       state.board[row][column - 1]?.includes(`${opposing_color} pawn`))  
-        legalSquares.push(leftCornerTake)
+        legalSquares.push({...leftCornerTake, enPassant: 'take enpassant'})
 
     if(state.board[rightCornerTake.row]?.[rightCornerTake.column] &&
       state.board[rightCornerTake.row]?.[rightCornerTake.column] !== '' &&
@@ -120,7 +120,7 @@ export const pawnSquares = (state, row, column, piece_color, twoSquareMoveAvaila
     else if(state.board[rightCornerTake.row]?.[rightCornerTake.column] === '' && 
       (state.en_passant?.row === row && state.en_passant?.column === column + 1) && 
       state.board[row][column + 1]?.includes(`${opposing_color} pawn`))  
-        legalSquares.push(rightCornerTake);
+        legalSquares.push({...rightCornerTake, enPassant: 'take enpassant'});
 
     return [legalSquares];
 }

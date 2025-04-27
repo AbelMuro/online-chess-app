@@ -1,3 +1,3 @@
-import { checkEnpassant, implementEnPassant, checkEnPassantForAI } from "./EnPassant.js";
+import {takeWithEnPassant, checkEnPassantForAI } from "./EnPassant.js";
 
-export {checkEnpassant, implementEnPassant, checkEnPassantForAI}
+export {takeWithEnPassant, checkEnPassantForAI}

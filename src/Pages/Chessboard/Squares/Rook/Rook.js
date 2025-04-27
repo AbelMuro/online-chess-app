@@ -8,13 +8,6 @@ import { useDrag } from "react-dnd"
 import * as styles from './styles.module.css';
 
 
-/* 
-    one thing that i can try here is implement a useEffect that checks if the rook has been moved here,
-    if the rook is not in its initial position, then we can assume that the king has been moved
-    we can dispatch an action to the reducer and record that the rook has been moved
-*/
-
-
 function Rook({color, row, column, pieceId}) {
     const dispatch = useDispatch();
     const userColor = useSelector(state => state.chess.players.user_color); 
@@ -48,18 +41,18 @@ function Rook({color, row, column, pieceId}) {
         }
     }
 
-        useEffect(() => {
-            if(userColor !== color) return;
+    useEffect(() => {
+        if(userColor !== color) return;
 
-            if(userColor === 'white' && pieceId === 'a' && (row !== 7 || column !== 0))
-                dispatch({type: 'HAS_ROOKS_BEEN_MOVED', payload: {moved: true, whichRook: 'queen-side'}})
-            else if(userColor === 'white' && pieceId === 'h' && (row !== 7 || column !== 7))
-                dispatch({type: 'HAS_ROOKS_BEEN_MOVED', payload: {moved: true, whichRook: 'king-side'}})   
-            else if(userColor === 'black' && pieceId === 'a' && (row !== 0 || column !== 0))
-                dispatch({type: 'HAS_ROOKS_BEEN_MOVED', payload: {moved: true, whichRook: 'queen-side'}})
-            else if(userColor === 'black' && pieceId === 'h' && (row !== 0 || column !== 7))
-                dispatch({type: 'HAS_ROOKS_BEEN_MOVED', payload: {moved: true, whichRook: 'king-side'}})
-        }, [])
+        if(userColor === 'white' && pieceId === 'a' && (row !== 7 || column !== 0))
+            dispatch({type: 'HAS_ROOKS_BEEN_MOVED', payload: {moved: true, whichRook: 'queen-side'}})
+        else if(userColor === 'white' && pieceId === 'h' && (row !== 7 || column !== 7))
+            dispatch({type: 'HAS_ROOKS_BEEN_MOVED', payload: {moved: true, whichRook: 'king-side'}})   
+        else if(userColor === 'black' && pieceId === 'a' && (row !== 0 || column !== 0))
+            dispatch({type: 'HAS_ROOKS_BEEN_MOVED', payload: {moved: true, whichRook: 'queen-side'}})
+        else if(userColor === 'black' && pieceId === 'h' && (row !== 0 || column !== 7))
+            dispatch({type: 'HAS_ROOKS_BEEN_MOVED', payload: {moved: true, whichRook: 'king-side'}})
+    }, [])
 
     return <>
         {isDragging ?         

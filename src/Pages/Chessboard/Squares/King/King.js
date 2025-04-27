@@ -10,7 +10,6 @@ function King({color, row, column, pieceId}) {
     const currentTurn = useSelector(state => state.chess.players.current_turn);    
     const userColor = useSelector(state => state.chess.players.user_color); 
     const board = useSelector(state => state.chess.board);   
-    const castleling = useSelector(state => state.chess.castleling);
     const dispatch = useDispatch();
     const [{isDragging}, drag] = useDrag({
         type: 'piece',
@@ -29,7 +28,6 @@ function King({color, row, column, pieceId}) {
         })
     })
 
-
     const handleClick = () => {
         if(color === currentTurn && currentTurn === userColor){
             dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
@@ -38,11 +36,9 @@ function King({color, row, column, pieceId}) {
         }
     }
 
-
     useEffect(() => {
         if(currentTurn === userColor && color === currentTurn)
             dispatch({type: 'IS_KING_IN_CHECK', payload: {square: {row, column, color}}})
-        
     }, [board])
 
     useEffect(() => {
