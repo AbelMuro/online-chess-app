@@ -843,7 +843,6 @@ const chessReducer = createReducer(initialState, (builder) => {
         state.stalemate[`movesAvailableFor${color === 'white' ? 'White' : 'Black'}`].push(piece);
       else if(!pieceCanMove)
         state.stalemate[`movesAvailableFor${color === 'white' ? 'White' : 'Black'}`] = state.stalemate[`movesAvailableFor${color === 'white' ? 'White' : 'Black'}`].filter((move) => move !== piece)
-
     })
     .addCase(resetLegalMoves, (state, action) => {
         const color = action.payload.color === 'white' ? 'White' : 'Black';

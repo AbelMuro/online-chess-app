@@ -13,6 +13,7 @@ export function legalMovesExist(state, piece, color, square) {
     if(piece.includes('pawn')){
         const twoSquareMoveAvailable = color === 'white' ? row === 1 : row === 6;
         const [legalSquares] = pawnSquares(state, row, column, color, twoSquareMoveAvailable);
+        console.log(legalSquares, piece)
         return legalSquares.length !== 0;
     }
 
