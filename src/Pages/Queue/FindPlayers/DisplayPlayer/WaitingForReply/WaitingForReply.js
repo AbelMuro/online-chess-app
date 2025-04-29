@@ -1,6 +1,7 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {overlayVariant, dialogVariant} from './Variants';
+import {useSelector} from 'react-redux';
 import {useDispatch} from 'react-redux';
 import {ClipLoader} from 'react-spinners';
 import {motion} from 'framer-motion';
@@ -9,13 +10,9 @@ import { PeerToPeerConnection } from '`/Queue';
 
 //local client
 
-//this is where i left off
-//DONT FORGET TO UPDATE NOTES FOR WEBRTC IN NODE.JS SECTION OF YOUR NOTES REPOSITORY
-
-//everything works now, i refactored the useWebRTC hook
-
 function WaitingForReply({setWaiting}) {
     const navigate = useNavigate();
+    const chess = useSelector(state => state.chess);
     const {cancelConnection, message, sendMessageToRemoteClient, connection} = useContext(PeerToPeerConnection);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
@@ -34,10 +31,6 @@ function WaitingForReply({setWaiting}) {
         dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player was disconnected'}});
     }, [connection])    
 
-
-
-
-
     useEffect(() => {
         if(!message) return;
         if(message.from === clientUsername) return;
@@ -51,9 +44,29 @@ function WaitingForReply({setWaiting}) {
             dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player declined'}});
             cancelConnection();
         }
-        else
-            console.log('now we create a match in a fetch request');
-        
+        else{
+            fetch('https://world-class-chess-server.com/create_match', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({chess})
+            })
+            .then((response) => {
+                console.log('Match has been created');
+                return response.text();
+            }) 
+            .then((result) => {
+                console.log('Received match ID: ', result);
+                sendMessageToRemoteClient({message: {from: clientUsername, action: 'match', data: {matchId: result}}});
+                navigate(`/chessboard/${result}`);
+            })
+            .catch((error) => {
+                const message = error.message;
+                console.log(message);
+                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
+            })
+        }
     }, [message])
 
 

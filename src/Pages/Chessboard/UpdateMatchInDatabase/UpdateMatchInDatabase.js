@@ -3,24 +3,18 @@ import {useNavigate} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 
 function UpdateMatchInDatabase({matchId}) {
-    const board = useSelector(state => state.chess.board);
-    const currentTurn = useSelector(state => state.chess.players.current_turn);
-    const blackPiecesTaken = useSelector(state => state.chess.moves.black_pieces_taken);
-    const whitePiecesTaken = useSelector(state => state.chess.moves.white_pieces_taken);
-    const moves = useSelector(state => state.chess.moves.all);
-    const hasKingBeenMoved = useSelector(state => state.chess.castleling.has_king_been_moved);
-    const hasRooksBeenMoved = useSelector(state => state.chess.castleling.has_rooks_been_moved);
+    const chess = useSelector(state => state.chess)
     const navigate = useNavigate();
 
     useEffect(() => {
         const updateMatch = async () => {
             try{
-                const response = await fetch('http://localhost:8080/update_match', {
+                const response = await fetch('https://world-class-chess-server.com/update_match', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({board, currentTurn, matchId, hasKingBeenMoved, hasRooksBeenMoved, blackPiecesTaken, whitePiecesTaken, moves})
+                    body: JSON.stringify({chess})
                 })
                 if(response.status === 200){
                     const result = await response.text();
@@ -45,7 +39,7 @@ function UpdateMatchInDatabase({matchId}) {
         }
 
         updateMatch();
-    }, [board, currentTurn, hasKingBeenMoved, hasRooksBeenMoved, blackPiecesTaken, whitePiecesTaken, moves])
+    }, [chess])
 
 
     return null;

@@ -29,7 +29,7 @@ function Queue() {
 
     const leaveQueue = async () => {
         try{
-            const response = await fetch('http://localhost:8080/leave_queue', {
+            const response = await fetch('https://world-class-chess-server.com/leave_queue', {
                 method: 'DELETE',
                 credentials: 'include',
             })
@@ -65,7 +65,7 @@ function Queue() {
 
     useEffect(() => {
        const removePlayerFromQueue = () => {
-            fetch('http://localhost:8080/leave_queue', {
+            fetch('https://world-class-chess-server.com/leave_queue', {
                 method: 'DELETE',
                 credentials: 'include',
                 keepalive: true

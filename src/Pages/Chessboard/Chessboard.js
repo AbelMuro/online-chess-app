@@ -115,14 +115,13 @@ function Chessboard() {
 
         const getMatch = async () => {
             try{
-                const response = await fetch(`http://localhost:8080/get_match/${matchId}`, {
+                const response = await fetch(`https://world-class-chess-server.com/get_match/${matchId}`, {
                     method: 'GET'
                 });
 
                 if(response.status === 200){
                     const result = await response.json();
-                    if(result.chessboard.length)
-                        dispatch({type: 'SYNC_STATE_WITH_DATABASE', payload: {result}})
+                    dispatch({type: 'SYNC_STATE_WITH_DATABASE', payload: {chess: result}})
                 }
                 else if(response.status === 404){
                     const result = await response.text();
@@ -154,13 +153,8 @@ function Chessboard() {
                 {mobile && <PiecesTakenMobile mobile={mobile}/>}
                 <SideBar/>
                 <DeclareWinner/>
-                {
-                    /* 
-                        {matchId === 'ai' && <AI_Player/>}
-                        {matchId !== 'ai' && <UpdateMatchInDatabase matchId={matchId}/>}                         
-                    */
-                }
-                
+                {matchId === 'ai' && <AI_Player/>}
+                {matchId !== 'ai' && <UpdateMatchInDatabase matchId={matchId}/>}                         
             </section>
         </DndProvider>
     )

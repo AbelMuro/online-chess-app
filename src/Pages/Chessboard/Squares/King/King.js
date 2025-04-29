@@ -21,7 +21,7 @@ function King({color, row, column, pieceId}) {
             return row === square.row && column === square.column; 
         },
         canDrag: () => {                      
-            return 'need to replace this';            
+            return color === currentTurn && currentTurn === userColor;            
         },
         collect: (monitor) => ({
             isDragging: monitor.isDragging()   
@@ -29,7 +29,7 @@ function King({color, row, column, pieceId}) {
     })
 
     const handleClick = () => {
-        if('need to replace this'){
+        if(color === currentTurn && currentTurn === userColor){
             dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
             dispatch({type: 'REMOVE_ALL_LEGAL_SQUARES'});
             dispatch({type: 'LEGAL_KING_SQUARES', payload: {square: {row, column, color}}})            
@@ -37,7 +37,7 @@ function King({color, row, column, pieceId}) {
     }
 
     useEffect(() => {
-        if(currentTurn === userColor && color === currentTurn)
+        if(color === currentTurn && currentTurn === userColor && color === currentTurn)
             dispatch({type: 'IS_KING_IN_CHECK', payload: {square: {row, column, color}}})
     }, [board])
 

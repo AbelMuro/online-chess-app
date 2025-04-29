@@ -13,7 +13,7 @@ import { PeerToPeerConnection } from "`/Queue";
 
 function DisplayCurrentChallenge(){
     const [challenge, setChallenge] = useState();
-    const {sendMessageToRemoteClient, message, connection, cancelConnection} = useContext(PeerToPeerConnection);
+    const {sendMessageToRemoteClient, message, connection} = useContext(PeerToPeerConnection);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -42,7 +42,6 @@ function DisplayCurrentChallenge(){
     
 
     useEffect(() => {
-        console.log(message);
         if(!message) return;
         if(message.from === clientUsername) return;
         if(message.action !== 'challenge') return;
@@ -55,7 +54,6 @@ function DisplayCurrentChallenge(){
 
 
     useEffect(() => {
-        console.log(message);
         if(!message) return;
         if(message.from === clientUsername) return;
         if(message.action !== 'cancel') return;
@@ -72,6 +70,17 @@ function DisplayCurrentChallenge(){
         dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Challenger was disconnected'}});
         setChallenge(null);
     }, [connection])    
+
+    useEffect(() => {
+        if(!message) return;
+        if(message.from === clientUsername) return;
+        if(message.action !== 'match') return;
+
+        const data = message.data;
+        const matchId = data.matchId;
+
+        navigate(`/chessboard/${matchId}`);
+    }, [message])
 
 
     return (

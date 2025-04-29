@@ -18,7 +18,7 @@ function Form({token}){
         setLoading(true);
 
         try{
-            const response = await fetch('http://localhost:8080/resetpassword', {
+            const response = await fetch('https://world-class-chess-server.com/resetpassword', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

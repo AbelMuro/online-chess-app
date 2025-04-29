@@ -9,20 +9,6 @@ import { ResetState, ResetProperties} from '../Functions/ResetState';
 import {saveMove} from '../Functions/RecordMoves';
 import {IntepretAIMoves} from '../Functions/IntepretAIMoves';
 
-
-/*
-  [
-      ['black rook a', 'black knight b', 'black bishop c', 'black queen d', 'black king e', 'black bishop f', 'black knight g', 'black rook h'],
-      ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h'],      
-      ['', '', '', '', '', '', '', '',],
-      ['', '', '', '', '', '', '', '',],
-      ['', '', '', '', '', '', '', '',],
-      ['', '', '', '', '', '', '', '',],
-      ['white pawn a', 'white pawn b', 'white pawn c', 'white pawn d', 'white pawn e', 'white pawn f', 'white pawn g', 'white pawn h'],
-      ['white rook a', 'white knight b', 'white bishop c', 'white queen d', 'white king e', 'white bishop f', 'white knight g', 'white rook h'], 
-    ]
-*/
-
 const movePiece = createAction('MOVE_PIECE');
 const implementCastleling = createAction('IMPLEMENT_CASTLELING');
 const implementEnPassant = createAction('IMPLEMENT_ENPASSANT');
@@ -121,21 +107,9 @@ const initialState = {
     pieceToBeMoved: {square: {row: null, column: null}},
   }
 
-
-
 /* 
     THIS IS WHERE I LEFT OFF, i need to modularize some of the logic in this reducer, 
-    i have refactored everything, but the file is still too long (1000 lines of code)
-    i FIXED the issue with the promotion feature, just need to check when the pawn promotes on
-    an empty square
-
-
-
-
-
-
-
-
+    i have refactored everything, but the file is still too long (1000 lines of code
 
     The reducer below has cases where it will LEGAL a group of squares, each LEGALed square will tell the player they can move their piece to that square
     
@@ -387,12 +361,8 @@ const chessReducer = createReducer(initialState, (builder) => {
       ResetProperties(state, initialState);
     })
     .addCase(syncStateWithDatabase, (state, action) => {
-      const newState = action.payload.result;
-      state.board = newState.chessboard;
-      state.moves.all = newState.allMoves;
-      state.players.current_turn = newState.currentTurn;
-      state.moves.black_pieces_taken = newState.blackPiecesTaken;
-      state.moves.white_pieces_taken = newState.whitePiecesTaken;
+      const newState = action.payload.chess;
+      ResetState(state, newState);
     })
     .addCase(undo, (state) => {
       const move = state.time_traveling.past.pop();    

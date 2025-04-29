@@ -6,7 +6,6 @@ import icons from '~/assets/icons';
 import { useDrag } from "react-dnd"
 import * as styles from './styles.module.css';
 
-
 function Pawn({color, row, column, pieceId}) {
     const userColor = useSelector(state => state.chess.players.user_color)
     const [twoSquareMoveAvailable,] = useState((row === 1 && color === 'black') || (row === 6 && color === 'white')); 
@@ -22,7 +21,7 @@ function Pawn({color, row, column, pieceId}) {
             return row === square.row && column === square.column; 
         },
         canDrag: () => {                      
-            return 'need to replace this'            
+            return color === currentTurn && currentTurn === userColor            
         },
         collect: (monitor) => ({
             isDragging: monitor.isDragging()   
@@ -31,7 +30,7 @@ function Pawn({color, row, column, pieceId}) {
 
 
     const handleMove = () => {
-        if('need to replace this'){
+        if(color === currentTurn && currentTurn === userColor){
             dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
             dispatch({type: 'REMOVE_ALL_LEGAL_SQUARES'});
             dispatch({type: 'LEGAL_PAWN_SQUARES', payload: {square: {row, column, color, twoSquareMoveAvailable}}});            
