@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js';
 import {useNavigate} from 'react-router-dom';
 import * as styles from './styles.module.css';
 
 
 function Greeting(){
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [image, setImage] = useState('');
