@@ -10,7 +10,7 @@ import {saveMove} from '../Functions/RecordMoves';
 import {IntepretAIMoves} from '../Functions/IntepretAIMoves';
 
 
-/* i need to finish the route /update_match in node.js
+/*
   [
       ['black rook a', 'black knight b', 'black bishop c', 'black queen d', 'black king e', 'black bishop f', 'black knight g', 'black rook h'],
       ['black pawn a', 'black pawn b', 'black pawn c', 'black pawn d', 'black pawn e', 'black pawn f', 'black pawn g', 'black pawn h'],      
@@ -64,10 +64,6 @@ const setPinnedPieces = createAction('SET_PINNED_PIECES');
 const clearPinnedPieces = createAction('CLEAR_PINNED_PIECES');
 
 
-/* 
-  this is where i left off, i am almost done refactoring the global state,
-  now i need to refactor the movePiece case of the reducer
-*/
 const initialState = { 
     board:  [
       ['black rook a', 'black knight b', 'black bishop c', 'black queen d', 'black king e', 'black bishop f', 'black knight g', 'black rook h'],
@@ -130,7 +126,8 @@ const initialState = {
 /* 
     THIS IS WHERE I LEFT OFF, i need to modularize some of the logic in this reducer, 
     i have refactored everything, but the file is still too long (1000 lines of code)
-    ALSO, fix the bugs with the promotion feature
+    i FIXED the issue with the promotion feature, just need to check when the pawn promotes on
+    an empty square
 
 
 
@@ -352,24 +349,42 @@ const chessReducer = createReducer(initialState, (builder) => {
       ResetProperties(state, initialState);
     })
     .addCase(promotion, (state, action) => {
-        const piece = action.payload.piece;
-        const row = action.payload.square.row;
-        const column = action.payload.square.column;
-        const color = action.payload.color;
-        const pieceId = action.payload.pieceId;
-        const id = pieceId[pieceId.length - 1];
-        const uniqueId = {
-          'a': 'z',
-          'b': 'y',
-          'c': 'x',
-          'd': 'w',
-          'e': 'm',
-          'f': 'o',
-          'g': 'q',
-          'h': 'l',
-        }
+      const oldRow = state.pieceToBeMoved.square.row;
+      const oldColumn = state.pieceToBeMoved.square.column;
+      const newRow = action.payload.square.row;
+      const newColumn = action.payload.square.column;
 
-        state.board[row][column] = `${color} ${piece} ${uniqueId[id]}` 
+      const color = state.players.current_turn;
+
+      const piece = action.payload.piece;     
+      const pieceId = action.payload.pieceId;
+
+      const id = pieceId[pieceId.length - 1];
+      const uniqueId = {
+        'a': 'z',
+        'b': 'y',
+        'c': 'x',
+        'd': 'w',
+        'e': 'm',
+        'f': 'o',
+        'g': 'q',
+        'h': 'l',
+      }
+
+      const pieceToBeMoved = state.board[oldRow][oldColumn];
+      state.board[oldRow][oldColumn] = '';
+      const promotion = `${color} ${piece} ${uniqueId[id]}`
+      const pieceToBeTaken = state.board[newRow][newColumn];
+      state.board[newRow][newColumn] = promotion;
+
+      saveMove(state, {
+        from: {row: oldRow, column: oldColumn}, 
+        to: {row: newRow, column: newColumn}, 
+        pieceToBeTaken, 
+        pieceToBeMoved,
+        promotion
+      })
+      ResetProperties(state, initialState);
     })
     .addCase(syncStateWithDatabase, (state, action) => {
       const newState = action.payload.result;
@@ -396,11 +411,11 @@ const chessReducer = createReducer(initialState, (builder) => {
         const rookHasBeenMovedForFirstTime = move.rookHasBeenMovedForFirstTime;
         const kingHasBeenMovedForFirstTime = move.kingHasBeenMovedForFirstTime;
         const pieceToBeMoved = move.pieceToBeMoved;
-        const pieceToBeTaken = move.pieceToBeTaken
+        const pieceToBeTaken = move.pieceToBeTaken;
         state.board[from.row][from.column] = pieceToBeMoved;
         state.board[to.row][to.column] = pieceToBeTaken;
 
-        if(pieceToBeTaken){
+        if(pieceToBeTaken || enPassant){
           const pieceColor = pieceToBeTaken.includes('white') ? 'white' : 'black';
           state.moves[`${pieceColor}_pieces_taken`].shift()
         }
@@ -408,8 +423,6 @@ const chessReducer = createReducer(initialState, (builder) => {
         if(enPassant){
           const pieceToBeTaken = enPassant.pieceToBeTaken;
           state.board[enPassant.row][enPassant.column] = pieceToBeTaken;
-          const pieceColor = pieceToBeTaken.includes('white') ? 'white' : 'black';
-          state.moves[`${pieceColor}_pieces_taken`].shift();
           state.en_passant = {
               row: enPassant.row, 
               column: enPassant.column
@@ -451,9 +464,10 @@ const chessReducer = createReducer(initialState, (builder) => {
       const kingHasBeenMovedForFirstTime = move.kingHasBeenMovedForFirstTime;
       const pieceToBeMoved = move.pieceToBeMoved;
       const pieceToBeTaken = move.pieceToBeTaken;
+      const promotion = move.promotion;
 
       state.board[from.row][from.column] = '';
-      state.board[to.row][to.column] = pieceToBeMoved;
+      state.board[to.row][to.column] = promotion ? promotion : pieceToBeMoved;
       
       if(pieceToBeTaken){
         const pieceColor = pieceToBeTaken.includes('white') ? 'white' : 'black';
@@ -849,6 +863,8 @@ const chessReducer = createReducer(initialState, (builder) => {
         legalSquares.forEach((square) => {
           if(square.enPassant)
             state.legal_squares[square.row][square.column] = square.enPassant
+          else if(square.promotion)
+            state.legal_squares[square.row][square.column] = 'promotion'
           else
             state.legal_squares[square.row][square.column] = true;
         })

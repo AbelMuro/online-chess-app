@@ -90,10 +90,11 @@ export const knightSquares = (callback, row, column) => {
 }
 
 export const pawnSquares = (state, row, column, piece_color, twoSquareMoveAvailable) => {
-    const oneSquareMove = piece_color === 'white' ? {row: row - 1, column} : {row: row + 1, column};
+    const promotion = piece_color === 'white' ? row - 1 === 0 : row + 1 === 7;
+    const oneSquareMove = piece_color === 'white' ? {row: row - 1, column, ...(promotion && {promotion})} : {row: row + 1, column, ...(promotion && {promotion})};
     const twoSquareMove = piece_color === 'white' ? {row: row - 2, column, enPassant: 'enable enpassant'} : {row: row + 2, column, enPassant: 'enable enpassant'};
-    const leftCornerTake = piece_color === 'white' ? {row: row - 1, column: column - 1} : {row: row + 1, column: column - 1};
-    const rightCornerTake = piece_color === 'white' ? {row: row - 1, column: column + 1} : {row: row + 1, column: column + 1};
+    const leftCornerTake = piece_color === 'white' ? {row: row - 1, column: column - 1, ...(promotion && {promotion})} : {row: row + 1, column: column - 1, ...(promotion && {promotion})};
+    const rightCornerTake = piece_color === 'white' ? {row: row - 1, column: column + 1, ...(promotion && {promotion})} : {row: row + 1, column: column + 1, ...(promotion && {promotion})};
     const opposing_color = piece_color === 'white' ? 'black' : 'white';
     const legalSquares = [];
 

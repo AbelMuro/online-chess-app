@@ -20,7 +20,7 @@ function Knight({color, row, column, pieceId}) {
             return row === square.row && column === square.column; 
         },
         canDrag: () => {                      
-            return color === currentTurn && currentTurn === userColor         
+            return 'need to replace this'         
         },
         collect: (monitor) => ({
             isDragging: monitor.isDragging()   
@@ -28,7 +28,7 @@ function Knight({color, row, column, pieceId}) {
     })
 
     const handleClick = () => {
-        if(color === currentTurn && currentTurn === userColor){
+        if('need to replace this'){
             dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
             dispatch({type: 'REMOVE_ALL_LEGAL_SQUARES'});
             dispatch({type: 'LEGAL_KNIGHT_SQUARES', payload: {square: {row, column, color}}})            

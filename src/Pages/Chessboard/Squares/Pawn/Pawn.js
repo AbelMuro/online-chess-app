@@ -1,5 +1,4 @@
-import React, {memo, useState, useEffect, useRef} from 'react';
-import Dialog from '~/assets/Components/Dialog';
+import React, {memo, useState} from 'react';
 import CountLegalMoves from '~/assets/Components/CountLegalMoves';
 import {useDispatch, useSelector} from 'react-redux';
 import {motion} from 'framer-motion';
@@ -10,9 +9,7 @@ import * as styles from './styles.module.css';
 
 function Pawn({color, row, column, pieceId}) {
     const userColor = useSelector(state => state.chess.players.user_color)
-    const [twoSquareMoveAvailable,] = useState((row === 1 && color === 'black') || (row === 6 && color === 'white'));
-    const [promotion, setPromotion] = useState((row === 7 && color === 'black') || (row === 0 && color === 'white'));
-    const buttonRef = useRef(); 
+    const [twoSquareMoveAvailable,] = useState((row === 1 && color === 'black') || (row === 6 && color === 'white')); 
     const currentTurn = useSelector(state => state.chess.players.current_turn);                                                  
     const dispatch = useDispatch();
     const [{isDragging}, drag] = useDrag({
@@ -25,31 +22,21 @@ function Pawn({color, row, column, pieceId}) {
             return row === square.row && column === square.column; 
         },
         canDrag: () => {                      
-            return color === currentTurn && currentTurn === userColor            
+            return 'need to replace this'            
         },
         collect: (monitor) => ({
             isDragging: monitor.isDragging()   
         })
     })
 
-    const handlePromotion = (handleOpen, choosenPiece) => {
-        dispatch({type: 'PROMOTION', payload: {square: {row, column}, piece: choosenPiece, color, pieceId}});
-        handleOpen();
-    }
 
     const handleMove = () => {
-        if(color === currentTurn && currentTurn === userColor){
+        if('need to replace this'){
             dispatch({type: 'PIECE_TO_BE_MOVED', payload: {square: {row, column}}});
             dispatch({type: 'REMOVE_ALL_LEGAL_SQUARES'});
             dispatch({type: 'LEGAL_PAWN_SQUARES', payload: {square: {row, column, color, twoSquareMoveAvailable}}});            
         }
     }
-
-
-    useEffect(() => {
-        if(promotion)
-            buttonRef.current.click();
-    }, [promotion])
 
 
     return(
@@ -77,39 +64,7 @@ function Pawn({color, row, column, pieceId}) {
                 </motion.div>    
         }    
         <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>   
-        <Dialog 
-                Content={({handleOpen}) => {
-                    return (
-                        <>
-                            <h1 className={styles.content_title}>
-                                Select Piece
-                            </h1>
-                            <div className={styles.content_pieces}>
-                                <button className={styles.content_piece} onClick={() => handlePromotion(handleOpen, 'queen')}>
-                                    <img src={icons[`${color} queen`]}/>
-                                </button>
-                                <button className={styles.content_piece} onClick={() => handlePromotion(handleOpen, 'rook')}>
-                                    <img src={icons[`${color} rook`]}/>
-                                </button>
-                                <button className={styles.content_piece} onClick={() => handlePromotion(handleOpen, 'bishop')}>
-                                    <img src={icons[`${color} bishop`]}/>
-                                </button>
-                                <button className={styles.content_piece} onClick={() => handlePromotion(handleOpen, 'knight')}>
-                                    <img src={icons[`${color} knight`]}/>
-                                </button>
-                            </div>
-                        </>
-                    )
-                }}
-                Button={({handleOpen}) => {
-                    return(
-                        <button ref={buttonRef} className={styles.ignore} onClick={handleOpen}>
-                        </button>
-                    )
-                }}
-            />
         </>
-
     )
 }
 

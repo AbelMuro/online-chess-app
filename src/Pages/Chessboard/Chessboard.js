@@ -154,8 +154,13 @@ function Chessboard() {
                 {mobile && <PiecesTakenMobile mobile={mobile}/>}
                 <SideBar/>
                 <DeclareWinner/>
-                {matchId === 'ai' && <AI_Player/>}
-                {matchId !== 'ai' && <UpdateMatchInDatabase matchId={matchId}/>}                     
+                {
+                    /* 
+                        {matchId === 'ai' && <AI_Player/>}
+                        {matchId !== 'ai' && <UpdateMatchInDatabase matchId={matchId}/>}                         
+                    */
+                }
+                
             </section>
         </DndProvider>
     )
