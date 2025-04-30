@@ -1,4 +1,4 @@
-import { createAction, createReducer } from '@reduxjs/toolkit'
+import { createAction, createReducer, createAsyncThunk } from '@reduxjs/toolkit'
 import { northSquares, southSquares, westSquares, eastSquares, northWestSquares,northEastSquares, southEastSquares, southWestSquares, knightSquares, pawnSquares} from '../Functions/TraversalFunctions';
 import { createLegalSquaresWhileInCheck, createLegalSquaresForKing, createSquaresForCastleling} from '../Functions/CreateSquares';
 import { checkSquaresForCheck, checkSquaresForBlocks, checkSquaresForThreats} from '../Functions/CheckSquares';
@@ -8,6 +8,7 @@ import { legalMovesExist} from '../Functions/Stalemate';
 import { ResetState, ResetProperties} from '../Functions/ResetState';
 import {saveMove} from '../Functions/RecordMoves';
 import {IntepretAIMoves} from '../Functions/IntepretAIMoves';
+import { updateMatchInDatabase } from '../Middleware';
 
 const movePiece = createAction('MOVE_PIECE');
 const implementCastleling = createAction('IMPLEMENT_CASTLELING');
@@ -21,7 +22,6 @@ const promotion = createAction('PROMOTION');
 const setGameSettings = createAction('SET_GAME_SETTINGS');
 const undo = createAction('UNDO');
 const redo = createAction('REDO');
-const syncStateWithDatabase = createAction('SYNC_STATE_WITH_DATABASE');
 
 const legalNorthSquares = createAction('LEGAL_NORTH_SQUARES');
 const legalSouthSquares = createAction('LEGAL_SOUTH_SQUARES');
@@ -48,6 +48,8 @@ const resetState = createAction('RESET_STATE')
 const checkForDoublePins = createAction('CHECK_FOR_DOUBLE_PINS');
 const setPinnedPieces = createAction('SET_PINNED_PIECES');
 const clearPinnedPieces = createAction('CLEAR_PINNED_PIECES');
+
+export const syncWithDatabase = createAsyncThunk('syncWithDatabase', updateMatchInDatabase) /* this is where i left off, i need to test this out and the createMatch endpoint in node,js*/
 
 
 const initialState = { 
@@ -359,10 +361,6 @@ const chessReducer = createReducer(initialState, (builder) => {
         promotion
       })
       ResetProperties(state, initialState);
-    })
-    .addCase(syncStateWithDatabase, (state, action) => {
-      const newState = action.payload.chess;
-      ResetState(state, newState);
     })
     .addCase(undo, (state) => {
       const move = state.time_traveling.past.pop();    
@@ -932,6 +930,13 @@ const chessReducer = createReducer(initialState, (builder) => {
     })
     .addCase(resetState, (state) => {
       ResetState(state, initialState);
+    })
+    .addCase(syncWithDatabase.fulfilled, (state, action) => {
+      console.log('match has been updated')
+    })
+    .addCase(syncWithDatabase.rejected, (state, action) => {
+      const message = action.error.message;
+      console.log(message);
     })
 });
 

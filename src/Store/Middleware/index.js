@@ -1,3 +1,3 @@
-import { checkCurrentTurn } from "./Middleware.js";
+import { updateMatchInDatabase } from "./Middleware.js";
 
-export {checkCurrentTurn};
+export {updateMatchInDatabase};
