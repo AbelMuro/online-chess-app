@@ -1,45 +1,23 @@
-import {memo, useEffect} from 'react';
+import {memo, useEffect, useRef} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import { syncDatabaseWithState } from '!/chessReducer.js';
+
 
 function UpdateMatchInDatabase({matchId}) {
-    const chess = useSelector(state => state.chess)
+    const skipFirstRender = useRef(true);
+    const board = useSelector(state => state.chess.board);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        const updateMatch = async () => {
-            try{
-                const response = await fetch('https://world-class-chess-server.com/update_match', {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({chess})
-                })
-                if(response.status === 200){
-                    const result = await response.text();
-                    console.log(result);
-                }
-                else if(response.status === 404){
-                    const result = await response.text();
-                    console.log(result);
-                    navigate('/menu');
-                }
-                else{
-                    const result = await response.text();
-                    console.log(result);
-                    dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later.'}})
-                }
-            }
-            catch(error){
-                const message = error.message;
-                console.log(message);
-                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
-            }
+        if(skipFirstRender.current){
+            skipFirstRender.current = false;
+            return;
         }
 
-        updateMatch();
-    }, [chess])
+        dispatch(syncDatabaseWithState(matchId));
+    }, [board])
 
 
     return null;

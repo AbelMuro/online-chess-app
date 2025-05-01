@@ -36,8 +36,11 @@ function WaitingForReply({setWaiting}) {
         if(message.from === clientUsername) return;
         if(message.action !== 'decision') return;
 
+        const playerOne = clientUsername;
+        const playerTwo = message.from;
         const data = message.data;
         const decision = data.decision;
+        
 
         if(decision === 'decline'){
             setWaiting(false);
@@ -50,7 +53,7 @@ function WaitingForReply({setWaiting}) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({chess})
+                body: JSON.stringify({chess, playerOne, playerTwo})
             })
             .then((response) => {
                 console.log('Match has been created');

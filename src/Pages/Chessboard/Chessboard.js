@@ -12,6 +12,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
+import {syncStateWithDatabase} from '!/chessReducer.js';
 import * as styles from './styles.module.css';
 
 
@@ -50,8 +51,6 @@ import * as styles from './styles.module.css';
 //Everytime there is a change to the board state, it will trigger a useEffect within the <Queen/>, <Rook/>, <Bishop/> components that 
 // will dispatch an action to see if a piece has been pinned
 // if a black pawn is between the white queen and the black king, that black pawn cannot be moved, so it will be stored within the pinned_pieces array
-
-
 
 function Chessboard() {
     const {matchId} = useParams();
@@ -110,37 +109,13 @@ function Chessboard() {
         }
     }, [])
 
+    //i may need to use WebRTC to send a message to the remote client that the local client has made their move,
+    // the remote client will receive the message and call syncStateWithDatabase
+
     useEffect(() => {
         if(matchId === 'ai') return;
-
-        const getMatch = async () => {
-            try{
-                const response = await fetch(`https://world-class-chess-server.com/get_match/${matchId}`, {
-                    method: 'GET'
-                });
-
-                if(response.status === 200){
-                    const result = await response.json();
-                    dispatch({type: 'SYNC_STATE_WITH_DATABASE', payload: {chess: result}})
-                }
-                else if(response.status === 404){
-                    const result = await response.text();
-                    console.log(result);
-                }
-                else {
-                    const result = await response.text();
-                    console.log(result);
-                    dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later.'}})
-                }                
-            } catch(error){
-                const message = error.message;
-                console.log(message);
-                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later'}});
-            }
-        }
-
-        getMatch();
-    }, [])
+        dispatch(syncStateWithDatabase(matchId))
+    }, [matchId])
 
     return(
         <DndProvider backend={HTML5Backend}> 

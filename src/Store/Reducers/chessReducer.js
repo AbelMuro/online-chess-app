@@ -8,7 +8,7 @@ import { legalMovesExist} from '../Functions/Stalemate';
 import { ResetState, ResetProperties} from '../Functions/ResetState';
 import {saveMove} from '../Functions/RecordMoves';
 import {IntepretAIMoves} from '../Functions/IntepretAIMoves';
-import { updateMatchInDatabase } from '../Middleware';
+import { updateDatabaseWithState, updateStateWithDatabase } from '../Middleware';
 
 const movePiece = createAction('MOVE_PIECE');
 const implementCastleling = createAction('IMPLEMENT_CASTLELING');
@@ -49,8 +49,8 @@ const checkForDoublePins = createAction('CHECK_FOR_DOUBLE_PINS');
 const setPinnedPieces = createAction('SET_PINNED_PIECES');
 const clearPinnedPieces = createAction('CLEAR_PINNED_PIECES');
 
-export const syncWithDatabase = createAsyncThunk('syncWithDatabase', updateMatchInDatabase) /* this is where i left off, i need to test this out and the createMatch endpoint in node,js*/
-
+export const syncDatabaseWithState = createAsyncThunk('syncDatabaseWithState', updateDatabaseWithState)       /* this is where i left off, i need to test this out and the createMatch endpoint in node,js*/
+export const syncStateWithDatabase = createAsyncThunk('syncStateWithDatabase', updateStateWithDatabase);
 
 const initialState = { 
     board:  [
@@ -100,7 +100,9 @@ const initialState = {
     players: {
       user_color: 'white',
       opponent_color: 'black',
-      current_turn: 'white'
+      current_turn: 'white',
+      player_one_username: '',
+      player_two_username: ''
     },
     en_passant: null,
     resigns: false,
@@ -931,10 +933,20 @@ const chessReducer = createReducer(initialState, (builder) => {
     .addCase(resetState, (state) => {
       ResetState(state, initialState);
     })
-    .addCase(syncWithDatabase.fulfilled, (state, action) => {
-      console.log('match has been updated')
+    .addCase(syncDatabaseWithState.fulfilled, (state, action) => {
+      const message = action.payload;
+      console.log(message)
     })
-    .addCase(syncWithDatabase.rejected, (state, action) => {
+    .addCase(syncDatabaseWithState.rejected, (state, action) => {
+      const message = action.error.message;
+      console.log(message);
+    })
+    .addCase(syncStateWithDatabase.fulfilled, (state, action) => {
+      const newState = action.payload.chess;
+      console.log('state has been synchronized with database')
+      ResetState(state, newState);
+    })
+    .addCase(syncDatabaseWithState.rejected, (state, action) => {
       const message = action.error.message;
       console.log(message);
     })

@@ -1,6 +1,6 @@
 import {useState, useEffect, useRef} from 'react';
 import { signalingServerOnMessage, signalingServerOnOpen} from './EventHandlers/SignalingServer';
-import { onIceCandidate, onIceConnectionStateChange, onDataChannel } from './EventHandlers/PeerConnection';
+import { onIceCandidate, onIceConnectionStateChange} from './EventHandlers/PeerConnection';
 import { dataChannelOnOpen, dataChannelOnClose, dataChannelOnError, dataChannelOnMessage } from './EventHandlers/DataChannel';
 import {useDispatch} from 'react-redux';
 

@@ -11,6 +11,10 @@
               {
                 "rootPathSuffix": "./src/Pages",
                 "rootPathPrefix": "`/"
+              },
+              {
+                "rootPathSuffix": "./src/Store/Reducers",
+                "rootPathPrefix": "!/"
               }
             ]
           }

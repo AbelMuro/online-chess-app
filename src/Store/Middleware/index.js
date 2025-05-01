@@ -1,3 +1,3 @@
-import { updateMatchInDatabase } from "./Middleware.js";
+import { updateDatabaseWithState, updateStateWithDatabase } from "./Middleware.js";
 
-export {updateMatchInDatabase};
+export {updateDatabaseWithState, updateStateWithDatabase};
