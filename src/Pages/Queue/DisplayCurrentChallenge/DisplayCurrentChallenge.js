@@ -8,6 +8,7 @@ import * as styles from './styles.module.css';
 import { overlayVariants, dialogVariants } from "./Variants/Variants";
 import {motion, AnimatePresence} from 'framer-motion';
 import { PeerToPeerConnection } from "`/Queue";
+import useLocalStorage from '~/Hooks/useLocalStorage';
 
 //remote client
 
@@ -17,7 +18,7 @@ function DisplayCurrentChallenge(){
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const clientUsername = sessionStorage.getItem('username');
+    const [clientUsername] = useLocalStorage('username');
     if(!clientUsername) {
         navigate('/menu');
         return null;

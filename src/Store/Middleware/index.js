@@ -1,3 +1,3 @@
-import { updateDatabaseWithState, updateStateWithDatabase } from "./Middleware.js";
+import { updateDatabaseWithState, updateStateWithDatabase, initiateWebRTC } from "./Middleware.js";
 
-export {updateDatabaseWithState, updateStateWithDatabase};
+export {updateDatabaseWithState, updateStateWithDatabase, initiateWebRTC};

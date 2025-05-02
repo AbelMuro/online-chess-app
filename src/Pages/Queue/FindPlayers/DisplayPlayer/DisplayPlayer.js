@@ -5,6 +5,7 @@ import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux'; 
 import { AnimatePresence } from 'framer-motion';
 import { PeerToPeerConnection } from '`/Queue';
+import useLocalStorage from '~/Hooks/useLocalStorage';
 import * as styles from './styles.module.css';
 
 //local client
@@ -12,7 +13,7 @@ import * as styles from './styles.module.css';
 function DisplayPlayer({username, image}) {
     const {sendOfferToRemoteClient, sendMessageToRemoteClient, dataChannelOpen} = useContext(PeerToPeerConnection);    
     const [waiting, setWaiting] = useState(false);
-    const clientUsername = sessionStorage.getItem('username');
+    const [clientUsername] = useLocalStorage('username')
 
     const handleConnection = () => {
         sendOfferToRemoteClient(username)

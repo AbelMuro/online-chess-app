@@ -7,6 +7,7 @@ import {ClipLoader} from 'react-spinners';
 import {motion} from 'framer-motion';
 import * as styles from './styles.module.css';
 import { PeerToPeerConnection } from '`/Queue';
+import useLocalStorage from '~/Hooks/useLocalStorage';
 
 //local client
 
@@ -16,7 +17,7 @@ function WaitingForReply({setWaiting}) {
     const {cancelConnection, message, sendMessageToRemoteClient, connection} = useContext(PeerToPeerConnection);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
-    const clientUsername = sessionStorage.getItem('username');
+    const [clientUsername] = useLocalStorage('username');
 
     const handleCancel = async () => {
         sendMessageToRemoteClient({message: {from: clientUsername, action: 'cancel', data: {decision: 'decline'}}});

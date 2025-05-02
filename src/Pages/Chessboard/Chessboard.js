@@ -1,8 +1,8 @@
 import React, {useMemo, useRef, useEffect} from 'react';
 import ShowMovesMobile from './SideBar/ShowMoves';
-import UpdateMatchInDatabase from './UpdateMatchInDatabase';
-import PiecesTakenMobile from './SideBar/PiecesTaken';
+import Real_Player from './Real_Player';
 import AI_Player from './AI_Player';
+import PiecesTakenMobile from './SideBar/PiecesTaken';
 import Squares from './Squares';
 import SideBar from './SideBar';
 import DeclareWinner from './DeclareWinner';
@@ -109,8 +109,6 @@ function Chessboard() {
         }
     }, [])
 
-    //i may need to use WebRTC to send a message to the remote client that the local client has made their move,
-    // the remote client will receive the message and call syncStateWithDatabase
 
     useEffect(() => {
         if(matchId === 'ai') return;
@@ -129,7 +127,7 @@ function Chessboard() {
                 <SideBar/>
                 <DeclareWinner/>
                 {matchId === 'ai' && <AI_Player/>}
-                {matchId !== 'ai' && <UpdateMatchInDatabase matchId={matchId}/>}                         
+                {matchId !== 'ai' && <Real_Player matchId={matchId}/>}                         
             </section>
         </DndProvider>
     )

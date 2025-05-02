@@ -2,8 +2,8 @@ import {useState, useEffect, useRef} from 'react';
 import { signalingServerOnMessage, signalingServerOnOpen} from './EventHandlers/SignalingServer';
 import { onIceCandidate, onIceConnectionStateChange} from './EventHandlers/PeerConnection';
 import { dataChannelOnOpen, dataChannelOnClose, dataChannelOnError, dataChannelOnMessage } from './EventHandlers/DataChannel';
+import useLocalStorage from '~/Hooks/useWebRTC';
 import {useDispatch} from 'react-redux';
-
 
 function useWebRTC(){  
     const signalingServer = useRef();
@@ -12,7 +12,7 @@ function useWebRTC(){
     const [message, setMessage] = useState();
     const [connection, setConnection] = useState(false);
     const [dataChannelOpen, setDataChannelOpen] = useState(false);
-    const localClientUsername = sessionStorage.getItem('username');    
+    const [localClientUsername] = useLocalStorage('username'); 
     const dispatch = useDispatch();
 
     const sendOfferToRemoteClient = async (remoteClientUsername) => {
