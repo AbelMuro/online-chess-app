@@ -121,7 +121,7 @@ function Queue() {
 
 
     return(
-        <PeerToPeerConnection.Provider>
+        <>
                     <DisplayCurrentChallenge/>
                     <section className={styles.container}>
                         <section className={styles.queue}>
@@ -134,7 +134,7 @@ function Queue() {
                             </button>
                         </section>  
                     </section>        
-        </PeerToPeerConnection.Provider>
+        </>
     )
 }
 

@@ -11,7 +11,10 @@ const sendMessage = createAction('SEND_MESSAGE');
 const setError = createAction('SET_ERROR');
 
 const initialState = {
-    peerConnection: null,
+    peerConnection: {
+        connected: false,
+        iceCandidates: []
+    },
     signalingServer: null,
     dataChannel: null,
     loading: false,
@@ -20,7 +23,12 @@ const initialState = {
 }
 
 /* 
-    this is where i left off, i just need to test out this reducer
+    this is where i left off, i need to find a way to save a reference to the following objects
+
+    new RTCPeerConnection()
+    new Websocket()
+
+    these are non-serializable, so i cant store them in the redux store
 */
 
 
