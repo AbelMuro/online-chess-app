@@ -1,8 +1,7 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {overlayVariant, dialogVariant} from './Variants';
-import {useSelector} from 'react-redux';
-import {useDispatch} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {ClipLoader} from 'react-spinners';
 import {motion} from 'framer-motion';
 import * as styles from './styles.module.css';
@@ -14,15 +13,16 @@ import useLocalStorage from '~/Hooks/useLocalStorage';
 function WaitingForReply({setWaiting}) {
     const navigate = useNavigate();
     const chess = useSelector(state => state.chess);
-    const {cancelConnection, message, sendMessageToRemoteClient, connection} = useContext(PeerToPeerConnection);
+    const message = useSelector(state => state.webRTC.message);
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
     const [clientUsername] = useLocalStorage('username');
 
     const handleCancel = async () => {
-        sendMessageToRemoteClient({message: {from: clientUsername, action: 'cancel', data: {decision: 'decline'}}});
-        setWaiting(false);
-        cancelConnection();
+        setWaiting(false);        
+        dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, action: 'cancel', data: {decision: 'decline'}}} })
+
+        //cancelConnection();
     }
 
     useEffect(() => {
@@ -46,7 +46,7 @@ function WaitingForReply({setWaiting}) {
         if(decision === 'decline'){
             setWaiting(false);
             dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player declined'}});
-            cancelConnection();
+            //cancelConnection();
         }
         else{
             fetch('https://world-class-chess-server.com/create_match', {
@@ -62,7 +62,7 @@ function WaitingForReply({setWaiting}) {
             }) 
             .then((result) => {
                 console.log('Received match ID: ', result);
-                sendMessageToRemoteClient({message: {from: clientUsername, action: 'match', data: {matchId: result}}});
+                dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, action: 'match', data: {matchId: result}}}})
                 navigate(`/chessboard/${result}`);
             })
             .catch((error) => {

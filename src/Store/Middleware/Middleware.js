@@ -3,8 +3,7 @@ import { onIceCandidate, onIceConnectionStateChange} from './EventHandlers/PeerC
 
 export const updateDatabaseWithState = async (matchId, {getState, dispatch}) => {
     try{
-        const state = getState();
-        const chess = state.chess;
+        const chess = getState();
 
         const response = await fetch(`https://world-class-chess-server.com/update_match/${matchId}`, {
             method: 'PUT',
@@ -63,14 +62,15 @@ export const initiatePeerConnection = async(_, {getState, dispatch}) => {
                 dispatch({type: 'SET_MESSAGE', payload: {message}})
             }
             receivedChannel.onopen = () => {
-                console.log("Remote data channel is open!");
+                dispatch({type: 'SET_DATA_CHANNEL', payload: {dataChannel: receivedChannel}})
             };
         
             receivedChannel.onclose = () => {
-                console.log("Remote data channel closed");
+                dispatch({type: 'CLOSE_DATA_CHANNEL'})
             };
     
             receivedChannel.onerror = (error) => {
+                console.log('Remote data channel experienced an error ', error);
                 dispatch({type: 'SET_ERROR', payload: {error}});
             }
         }
@@ -80,6 +80,54 @@ export const initiatePeerConnection = async(_, {getState, dispatch}) => {
     catch(error){
         const message = error.message;
         console.log(message);
+        return Promise.reject(message);
+    }
+}
+
+
+export const createDataChannel = async (_,{getState, dispatch, fulfillWithValue}) => {
+    try{
+        const state = getState();
+
+        const dataChannel = state.peerConnection.createDataChannel('chat');            
+        dataChannel.onopen = async () => {
+            fulfillWithValue({dataChannel});    
+        };
+        dataChannel.onclose = () => {
+            dispatch({type: 'CLOSE_DATA_CHANNEL'})
+        };  
+        dataChannel.onerror = (error) => {
+            console.log('Local data channel experienced an error ', error);
+            dispatch({type: 'SET_ERROR', payload: {error}});
+        };
+        dataChannel.onmessage = (e) => {
+            console.log('Received message from remote client', e.data)
+            const data = JSON.parse(e.data);
+            const message = data.message;
+            dispatch({type: 'SET_MESSAGE', payload: {message}})
+        };        
+    }
+    catch(error){
+        const message = error.message;
+        return Promise.reject(message);
+    }
+}
+
+export const createOffer = async (remoteClientUsername, {getState}) => {
+    try{
+        const state = getState();
+
+        const offer = await state.peerConnection.createOffer()
+        await state.peerConnection.setLocalDescription(offer);
+        state.signalingServer.send(JSON.stringify({ 
+            type: 'offer', 
+            offer: {sdp: offer.sdp, type: offer.type}, 
+            username: remoteClientUsername, 
+        }))   
+        return Promise.resolve('Offer sent to remote client')         
+    }
+    catch(error){
+        const message = error.message;
         return Promise.reject(message);
     }
 }

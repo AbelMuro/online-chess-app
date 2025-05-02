@@ -1,3 +1,3 @@
-import { updateDatabaseWithState, updateStateWithDatabase, initiatePeerConnection } from "./Middleware.js";
+import { updateDatabaseWithState, updateStateWithDatabase, initiatePeerConnection, createDataChannel, createOffer } from "./Middleware.js";
 
-export {updateDatabaseWithState, updateStateWithDatabase, initiatePeerConnection};
+export {updateDatabaseWithState, updateStateWithDatabase, initiatePeerConnection, createDataChannel, createOffer};

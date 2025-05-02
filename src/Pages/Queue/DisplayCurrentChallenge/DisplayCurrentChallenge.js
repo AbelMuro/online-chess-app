@@ -1,7 +1,7 @@
 import React, {useState, useContext, useEffect, memo} from "react";
 import { ClipLoader } from "react-spinners";
 import {useNavigate} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js'
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
@@ -13,8 +13,8 @@ import useLocalStorage from '~/Hooks/useLocalStorage';
 //remote client
 
 function DisplayCurrentChallenge(){
+    const message = useSelector(state => state.webRTC.message);
     const [challenge, setChallenge] = useState();
-    const {sendMessageToRemoteClient, message, connection} = useContext(PeerToPeerConnection);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -25,7 +25,7 @@ function DisplayCurrentChallenge(){
     } 
 
     const handleDecision = (decision) => {
-        sendMessageToRemoteClient({message: {from: clientUsername, action: 'decision', data: {decision}}})
+        dispatch({type: 'SEND_MESSAGE', payload:{message: {from: clientUsername, action: 'decision', data: {decision}}} })
 
         if(decision === 'accept'){
             console.log('i need to receive the match id from the remote client here')
@@ -65,12 +65,15 @@ function DisplayCurrentChallenge(){
     }, [message])
 
 
-    useEffect(() => {
-        if(connection !== 'disconnected') return;
+/* 
+        useEffect(() => {
+            if(connection !== 'disconnected') return;
 
-        dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Challenger was disconnected'}});
-        setChallenge(null);
-    }, [connection])    
+            dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Challenger was disconnected'}});
+            setChallenge(null);
+        }, [connection])    
+*/
+
 
     useEffect(() => {
         if(!message) return;

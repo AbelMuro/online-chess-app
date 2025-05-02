@@ -4,6 +4,7 @@ import * as styles from './styles.module.css';
 import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import DisplayCurrentChallenge from './DisplayCurrentChallenge';
+import {initiateWebRTC} from '!/WebRtcReducer.js'
 import useWebRTC from '~/Hooks/useWebRTC';
 
 export const PeerToPeerConnection = createContext();
@@ -11,15 +12,6 @@ export const PeerToPeerConnection = createContext();
 function Queue() {
     const dispatch = useDispatch();
     const navigate = useNavigate();    
-    const [
-        sendOfferToRemoteClient,
-        sendMessageToRemoteClient,
-        message,
-        cancelConnection,
-        connection,
-        dataChannelOpen
-    ] = useWebRTC();
-
     const handleLeave = () => {
         const choice = confirm('Are you sure you want to leave queue?');
 
@@ -123,16 +115,13 @@ function Queue() {
         putPlayerInQueue();
     }, [])
 
+    useEffect(() => {
+        dispatch(initiateWebRTC())
+    }, [])
+
 
     return(
-        <PeerToPeerConnection.Provider 
-            value={{
-                sendOfferToRemoteClient,
-                sendMessageToRemoteClient,
-                message,
-                cancelConnection,
-                connection,
-                dataChannelOpen}}>
+        <PeerToPeerConnection.Provider>
                     <DisplayCurrentChallenge/>
                     <section className={styles.container}>
                         <section className={styles.queue}>

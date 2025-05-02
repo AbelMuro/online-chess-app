@@ -3,6 +3,7 @@ import WaitingForReply from './WaitingForReply';
 import {ClipLoader} from 'react-spinners';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux'; 
+import {createLocalDataChannel, sendOffer} from '!/WebRtcReducer.js';
 import { AnimatePresence } from 'framer-motion';
 import { PeerToPeerConnection } from '`/Queue';
 import useLocalStorage from '~/Hooks/useLocalStorage';
@@ -11,20 +12,24 @@ import * as styles from './styles.module.css';
 //local client
 
 function DisplayPlayer({username, image}) {
-    const {sendOfferToRemoteClient, sendMessageToRemoteClient, dataChannelOpen} = useContext(PeerToPeerConnection);    
-    const [waiting, setWaiting] = useState(false);
-    const [clientUsername] = useLocalStorage('username')
+    const dispatch = useDispatch();
+    const [waiting, setWaiting] = useState(false);  
+    const [clientUsername] = useLocalStorage('username');
 
-    const handleConnection = () => {
-        sendOfferToRemoteClient(username)
+    const handleConnection = async () => {
         setWaiting(true);
+        await dispatch(createLocalDataChannel())
+        await dispatch(sendOffer(username))
     }
 
-    useEffect(() => {
-        if(!waiting) return;
-        if(!dataChannelOpen) return;
-        sendMessageToRemoteClient({message: {from: clientUsername, action: 'challenge', data: {challenger: clientUsername}}})
-    }, [waiting, dataChannelOpen])
+    /* 
+        useEffect(() => {
+            if(!waiting) return;
+            if(!dataChannelOpen) return;
+            sendMessageToRemoteClient({message: {from: clientUsername, action: 'challenge', data: {challenger: clientUsername}}})
+        }, [waiting, dataChannelOpen])    
+    */
+
 
 
     return(    
