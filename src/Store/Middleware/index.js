@@ -1,3 +1,3 @@
-import { updateDatabaseWithState, updateStateWithDatabase, initiateWebRTC } from "./Middleware.js";
+import { updateDatabaseWithState, updateStateWithDatabase, initiatePeerConnection } from "./Middleware.js";
 
-export {updateDatabaseWithState, updateStateWithDatabase, initiateWebRTC};
+export {updateDatabaseWithState, updateStateWithDatabase, initiatePeerConnection};

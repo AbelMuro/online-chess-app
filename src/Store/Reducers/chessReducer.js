@@ -946,7 +946,7 @@ const chessReducer = createReducer(initialState, (builder) => {
       console.log('state has been synchronized with database')
       ResetState(state, newState);
     })
-    .addCase(syncDatabaseWithState.rejected, (state, action) => {
+    .addCase(syncStateWithDatabase.rejected, (state, action) => {
       const message = action.error.message;
       console.log(message);
     })

@@ -1,3 +1,3 @@
-import UpdateMatchInDatabase from './UpdateMatchInDatabase.js';
+import Real_Player from './Real_Player.js';
 
-export default UpdateMatchInDatabase;
+export default Real_Player;
