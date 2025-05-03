@@ -8,7 +8,8 @@ import {initiateWebRTC} from '!/WebRtcReducer'
 
 function Queue() {
     const dispatch = useDispatch();
-    const navigate = useNavigate();    
+    const navigate = useNavigate();   
+     
     const handleLeave = () => {
         const choice = confirm('Are you sure you want to leave queue?');
         if(choice) leaveQueue();

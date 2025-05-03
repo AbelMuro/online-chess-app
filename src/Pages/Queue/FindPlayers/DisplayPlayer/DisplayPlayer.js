@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, memo} from 'react';
 import WaitingForReply from './WaitingForReply';
 import {useDispatch} from 'react-redux'; 
 import {createLocalDataChannel, sendOffer} from '!/WebRtcReducer';
@@ -35,4 +35,4 @@ function DisplayPlayer({username, image}) {
     )
 }
 
-export default DisplayPlayer;
+export default memo(DisplayPlayer);
