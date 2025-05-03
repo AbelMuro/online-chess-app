@@ -1,14 +1,14 @@
 import { createAction, createReducer, createAsyncThunk } from '@reduxjs/toolkit'
-import { northSquares, southSquares, westSquares, eastSquares, northWestSquares,northEastSquares, southEastSquares, southWestSquares, knightSquares, pawnSquares} from '../Functions/TraversalFunctions';
-import { createLegalSquaresWhileInCheck, createLegalSquaresForKing, createSquaresForCastleling} from '../Functions/CreateSquares';
-import { checkSquaresForCheck, checkSquaresForBlocks, checkSquaresForThreats} from '../Functions/CheckSquares';
-import { UnpinPieces, findPinnedPieces, findLegalMovesForPinnedPiece, CheckForDoublePin } from '../Functions/PinnedPieces';
-import { takeWithEnPassant } from '../Functions/EnPassant';
-import { legalMovesExist} from '../Functions/Stalemate';
-import { ResetState, ResetProperties} from '../Functions/ResetState';
-import {saveMove} from '../Functions/RecordMoves';
-import {IntepretAIMoves} from '../Functions/IntepretAIMoves';
-import { updateDatabaseWithState, updateStateWithDatabase } from '../Middleware';
+import { northSquares, southSquares, westSquares, eastSquares, northWestSquares,northEastSquares, southEastSquares, southWestSquares, knightSquares, pawnSquares} from './Functions/TraversalFunctions';
+import { createLegalSquaresWhileInCheck, createLegalSquaresForKing, createSquaresForCastleling} from './Functions/CreateSquares';
+import { checkSquaresForCheck, checkSquaresForBlocks, checkSquaresForThreats} from './Functions/CheckSquares';
+import { UnpinPieces, findPinnedPieces, findLegalMovesForPinnedPiece, CheckForDoublePin } from './Functions/PinnedPieces';
+import { takeWithEnPassant } from './Functions/EnPassant';
+import { legalMovesExist} from './Functions/Stalemate';
+import { ResetState, ResetProperties} from './Functions/ResetState';
+import {saveMove} from './Functions/RecordMoves';
+import {IntepretAIMoves} from './Functions/IntepretAIMoves';
+import { updateDatabaseWithState, updateStateWithDatabase } from './Middleware';
 
 const movePiece = createAction('MOVE_PIECE');
 const implementCastleling = createAction('IMPLEMENT_CASTLELING');
@@ -182,7 +182,7 @@ const initialState = {
 
 */
 
-const chessReducer = createReducer(initialState, (builder) => {      
+const ChessReducer = createReducer(initialState, (builder) => {      
   builder
     .addCase(movePiece, (state, action) => {    
       state.time_traveling.stop_moves = false;
@@ -952,4 +952,4 @@ const chessReducer = createReducer(initialState, (builder) => {
     })
 });
 
-export default chessReducer;
+export default ChessReducer;

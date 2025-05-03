@@ -1,5 +1,5 @@
 import { createAction, createReducer, createAsyncThunk } from '@reduxjs/toolkit';
-import {initiatePeerConnection, createDataChannel, createOffer} from '../Middleware/Middleware.js';
+import {initiatePeerConnection, createDataChannel, createOffer} from './Middleware';
 
 export const initiateWebRTC = createAsyncThunk('INITIATE_WEBRTC', initiatePeerConnection);
 export const createLocalDataChannel = createAsyncThunk('CREATE_LOCAL_DATA_CHANNEL', createDataChannel);
@@ -23,12 +23,7 @@ const initialState = {
 }
 
 
-/* 
-    I need to test everything out now, it may work
-
-*/
-
-const webRtcReducer = createReducer(initialState, (builder) => {
+const WebRtcReducer = createReducer(initialState, (builder) => {
     builder 
         .addCase(initiateWebRTC.fulfilled, (state, action) => {
             connectionManager.peerConnection = action.payload.peerConnection;
@@ -84,4 +79,4 @@ const webRtcReducer = createReducer(initialState, (builder) => {
         })
 });
 
-export default webRtcReducer;
+export default WebRtcReducer;

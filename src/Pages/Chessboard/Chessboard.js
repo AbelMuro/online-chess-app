@@ -12,7 +12,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
-import {syncStateWithDatabase} from '!/chessReducer.js';
+import {syncStateWithDatabase} from '!/ChessReducer';
 import * as styles from './styles.module.css';
 
 

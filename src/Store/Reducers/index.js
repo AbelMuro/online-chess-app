@@ -1,12 +1,14 @@
 import { combineReducers } from "redux";
-import chessReducer from "./chessReducer.js";
-import popUpBoxReducer from "./popUpBoxReducer.js";
-import webRtcReducer from './WebRtcReducer.js'
+import ChessReducer from "./ChessReducer";
+import PopUpBoxReducer from "./PopUpBoxReducer";
+import WebRtcReducer from './WebRtcReducer'
+import AccountReducer from "./AccountReducer";
 
 const rootReducer = combineReducers({
-    chess: chessReducer,
-    popUpBox: popUpBoxReducer,
-    webRTC: webRtcReducer
+    chess: ChessReducer,
+    popUpBox: PopUpBoxReducer,
+    webRTC: WebRtcReducer,
+    account: AccountReducer
 })
 
 export default rootReducer;

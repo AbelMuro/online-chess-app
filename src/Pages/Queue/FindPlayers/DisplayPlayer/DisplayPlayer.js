@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import WaitingForReply from './WaitingForReply';
 import {useDispatch} from 'react-redux'; 
-import {createLocalDataChannel, sendOffer} from '!/WebRtcReducer.js';
+import {createLocalDataChannel, sendOffer} from '!/WebRtcReducer';
 import { AnimatePresence } from 'framer-motion';
 import * as styles from './styles.module.css';
 

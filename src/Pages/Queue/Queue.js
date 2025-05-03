@@ -4,7 +4,7 @@ import * as styles from './styles.module.css';
 import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import DisplayCurrentChallenge from './DisplayCurrentChallenge';
-import {initiateWebRTC} from '!/WebRtcReducer.js'
+import {initiateWebRTC} from '!/WebRtcReducer'
 
 function Queue() {
     const dispatch = useDispatch();

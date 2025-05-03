@@ -2,7 +2,7 @@ import {memo, useEffect, useRef} from 'react';
 import {useNavigate} from 'react-router-dom';
 import useWebRTC from '~/Hooks/useLocalStorage';
 import {useSelector, useDispatch} from 'react-redux';
-import { syncDatabaseWithState } from '!/chessReducer.js';
+import { syncDatabaseWithState } from '!/ChessReducer';
 
 function Real_Player({matchId}) {
     const skipFirstRender = useRef(true);
