@@ -4,7 +4,6 @@ import { onIceCandidate, onIceConnectionStateChange} from './EventHandlers/PeerC
 export const updateDatabaseWithState = async (matchId, {getState, dispatch}) => {
     try{
         const chess = getState();
-
         const response = await fetch(`https://world-class-chess-server.com/update_match/${matchId}`, {
             method: 'PUT',
             headers: {
@@ -88,7 +87,6 @@ export const initiatePeerConnection = async(_, {getState, dispatch}) => {
 export const createDataChannel = async (_,{getState, dispatch, fulfillWithValue}) => {
     try{
         const state = getState();
-
         const dataChannel = state.peerConnection.createDataChannel('chat');            
         dataChannel.onopen = async () => {
             fulfillWithValue({dataChannel});    

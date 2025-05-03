@@ -7,7 +7,7 @@ const initialState = {
     message: ''
 }
 
-const messageReducer = createReducer(initialState, (builder) => {
+const popUpBoxReducer = createReducer(initialState, (builder) => {
     builder 
         .addCase(displayMessage, (state, action) => {
             state.message = action.payload.message;
@@ -17,4 +17,4 @@ const messageReducer = createReducer(initialState, (builder) => {
         })
 });
 
-export default messageReducer;
+export default popUpBoxReducer;

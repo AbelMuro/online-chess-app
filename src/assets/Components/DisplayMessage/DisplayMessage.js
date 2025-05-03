@@ -5,7 +5,7 @@ import * as styles from './styles.module.css';
 import {messageBoxVariants} from './Variants';
 
 function DisplayMessage() {
-    const message = useSelector(state => state.message.message);
+    const message = useSelector(state => state.popUpBox.message);
     const timeout = useRef();
     const dispatch = useDispatch();
 

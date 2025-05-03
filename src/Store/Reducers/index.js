@@ -1,11 +1,11 @@
 import { combineReducers } from "redux";
 import chessReducer from "./chessReducer.js";
-import messageReducer from "./messageReducer.js";
+import popUpBoxReducer from "./popUpBoxReducer.js";
 import webRtcReducer from './WebRtcReducer.js'
 
 const rootReducer = combineReducers({
     chess: chessReducer,
-    message: messageReducer,
+    popUpBox: popUpBoxReducer,
     webRTC: webRtcReducer
 })
 

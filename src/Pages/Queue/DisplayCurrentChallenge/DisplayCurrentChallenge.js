@@ -7,13 +7,13 @@ import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 import { overlayVariants, dialogVariants } from "./Variants/Variants";
 import {motion, AnimatePresence} from 'framer-motion';
-import { PeerToPeerConnection } from "`/Queue";
 import useLocalStorage from '~/Hooks/useLocalStorage';
 
 //remote client
 
 function DisplayCurrentChallenge(){
     const message = useSelector(state => state.webRTC.message);
+    const error = useSelector(state => state.webRTC.error);
     const [challenge, setChallenge] = useState();
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -25,13 +25,14 @@ function DisplayCurrentChallenge(){
     } 
 
     const handleDecision = (decision) => {
+        setLoading(true);
         dispatch({type: 'SEND_MESSAGE', payload:{message: {from: clientUsername, action: 'decision', data: {decision}}} })
 
-        if(decision === 'accept'){
-            console.log('i need to receive the match id from the remote client here')
-        }
-        else
+        if(decision === 'decline'){
             setChallenge(null);
+            setLoading(false);
+        }
+            
     }
 
     const loadImage = () => {
@@ -64,15 +65,13 @@ function DisplayCurrentChallenge(){
 
     }, [message])
 
+    useEffect(() => {
+        if(!error) return;
 
-/* 
-        useEffect(() => {
-            if(connection !== 'disconnected') return;
-
-            dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Challenger was disconnected'}});
-            setChallenge(null);
-        }, [connection])    
-*/
+        console.log(error);
+        dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Challenger was disconnected'}});
+        setChallenge(null);
+    }, [error])    
 
 
     useEffect(() => {
@@ -102,10 +101,10 @@ function DisplayCurrentChallenge(){
                             </h2>
                         </div>    
                         <button onClick={() => {handleDecision('accept')}}>
-                            {loading === 'accept' ? <ClipLoader size='30px' color='#CECECE'/> : 'Accept'}
+                            {loading ? <ClipLoader size='30px' color='#CECECE'/> : 'Accept'}
                         </button>     
                         <button onClick={() => {handleDecision('decline')}}>
-                            {loading === 'decline' ? <ClipLoader size='30px' color='#CECECE'/> : 'Decline'}
+                            Decline
                         </button>          
                     </motion.dialog>
                 </motion.div>}

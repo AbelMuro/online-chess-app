@@ -116,6 +116,7 @@ function Queue() {
     }, [])
 
     useEffect(() => {
+        return;
         dispatch(initiateWebRTC())
     }, [])
 

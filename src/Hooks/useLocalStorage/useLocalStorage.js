@@ -7,7 +7,7 @@ function useLocalStorage(key) {
     useEffect(() => {
         if(!state) return;
 
-        localStorage.setItem(key, state);
+        localStorage.setItem(key, JSON.stringify(state));
     }, [state])
 
     return [state, setState];

@@ -8,35 +8,25 @@ const setLocalDataChannel = createAction('SET_DATA_CHANNEL');
 const closeLocalDataChannel = createAction('CLOSE_DATA_CHANNEL');
 const setMessage = createAction('SET_MESSAGE');
 const sendMessage = createAction('SEND_MESSAGE');
+const cancelConnection = createAction('CANCEL_CONNECTION')
 const setError = createAction('SET_ERROR');
 
-const initialState = {
-    peerConnection: {
-        connected: false,
-        iceCandidates: []
-    },
+const connectionManager = {
+    peerConnection: null,
     signalingServer: null,
-    dataChannel: null,
-    loading: false,
+    dataChannel: null
+}
+
+const initialState = {
     error: null,
     message: null,
 }
 
-/* 
-    this is where i left off, i need to find a way to save a reference to the following objects
-
-    new RTCPeerConnection()
-    new Websocket()
-
-    these are non-serializable, so i cant store them in the redux store
-*/
-
-
 const webRtcReducer = createReducer(initialState, (builder) => {
     builder 
         .addCase(initiateWebRTC.fulfilled, (state, action) => {
-            state.peerConnection = action.payload.peerConnection;
-            state.signalingServer = action.payload.signalingServer;
+            connectionManager.peerConnection = action.payload.peerConnection;
+            connectionManager.signalingServer = action.payload.signalingServer;
             console.log('Peer connection has been established')
         })
         .addCase(initiateWebRTC.rejected, (state, action) => {
@@ -44,7 +34,7 @@ const webRtcReducer = createReducer(initialState, (builder) => {
             console.log('Peer connection could not be established ', state.error);
         })
         .addCase(createLocalDataChannel.fulfilled, (state, action) => {
-            state.dataChannel = action.payload.dataChannel;
+            connectionManager.dataChannel = action.payload.dataChannel;
             console.log('local data channel is open');
         })
         .addCase(createLocalDataChannel.rejected, (state, action) => {
@@ -64,23 +54,27 @@ const webRtcReducer = createReducer(initialState, (builder) => {
             console.log('Received message from remote client')
         })
         .addCase(sendMessage, (state, action) => {
-            const dataChannel = state.dataChannel;
+            const dataChannel = connectionManager.dataChannel;
             const message = action.payload.message;
 
             if(dataChannel?.readyState === 'open')
                 dataChannel?.send(JSON.stringify(message));
         })
-        .addCase(setError, (state, action) => {
-            state.error = action.payload.error;
-            console.log('Error has occured ', state.error);
-        })
         .addCase(setLocalDataChannel, (state, action) => {
-            state.dataChannel = action.payload.dataChannel;
+            connectionManager.dataChannel = action.payload.dataChannel;
             console.log("Remote data channel is open!");
         })
         .addCase(closeLocalDataChannel, (state, action) => {
-            state.dataChannel = null;
+            connectionManager.dataChannel = null;
             console.log("Remote data channel closed");
+        })
+        .addCase(cancelConnection, () => {
+            connectionManager.dataChannel?.close();
+            console.log('Local data channel closed');    
+        })
+        .addCase(setError, (state, action) => {
+            state.error = action.payload.error;
+            console.log('Error has occured ', state.error);
         })
 });
 

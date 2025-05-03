@@ -1,11 +1,10 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {overlayVariant, dialogVariant} from './Variants';
 import {useSelector, useDispatch} from 'react-redux';
 import {ClipLoader} from 'react-spinners';
 import {motion} from 'framer-motion';
 import * as styles from './styles.module.css';
-import { PeerToPeerConnection } from '`/Queue';
 import useLocalStorage from '~/Hooks/useLocalStorage';
 
 //local client
@@ -14,23 +13,24 @@ function WaitingForReply({setWaiting}) {
     const navigate = useNavigate();
     const chess = useSelector(state => state.chess);
     const message = useSelector(state => state.webRTC.message);
+    const error = useSelector(state => state.webRTC.error);
     const dispatch = useDispatch();
-    const [loading, setLoading] = useState(false);
     const [clientUsername] = useLocalStorage('username');
 
     const handleCancel = async () => {
         setWaiting(false);        
-        dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, action: 'cancel', data: {decision: 'decline'}}} })
-
-        //cancelConnection();
+        dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, action: 'cancel', data: {decision: 'decline'}}} });
+        dispatch({type: 'CANCEL_CONNECTION'})
     }
 
-    useEffect(() => {
-        if(connection !== 'disconnected') return;
 
+    useEffect(() => {
+        if(!error) return;
+        
+        console.log(error);
         setWaiting(false);
         dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player was disconnected'}});
-    }, [connection])    
+    }, [error])      
 
     useEffect(() => {
         if(!message) return;
@@ -41,12 +41,11 @@ function WaitingForReply({setWaiting}) {
         const playerTwo = message.from;
         const data = message.data;
         const decision = data.decision;
-        
 
         if(decision === 'decline'){
             setWaiting(false);
             dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player declined'}});
-            //cancelConnection();
+            dispatch({type: 'CANCEL_CONNECTION'});
         }
         else{
             fetch('https://world-class-chess-server.com/create_match', {
@@ -82,11 +81,10 @@ function WaitingForReply({setWaiting}) {
                 </h2>
                 <ClipLoader size='30px' color='#CECECE'/>
                 <button className={styles.cancel} onClick={handleCancel}>
-                    {loading ? <ClipLoader size='25px' color='#CECECE'/> : 'Cancel'}
+                    Cancel
                 </button>
             </motion.dialog>
         </motion.div>
-
     )
 }
 

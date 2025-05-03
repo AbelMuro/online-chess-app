@@ -1,11 +1,8 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState} from 'react';
 import WaitingForReply from './WaitingForReply';
-import {ClipLoader} from 'react-spinners';
-import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux'; 
 import {createLocalDataChannel, sendOffer} from '!/WebRtcReducer.js';
 import { AnimatePresence } from 'framer-motion';
-import { PeerToPeerConnection } from '`/Queue';
 import useLocalStorage from '~/Hooks/useLocalStorage';
 import * as styles from './styles.module.css';
 
@@ -21,16 +18,6 @@ function DisplayPlayer({username, image}) {
         await dispatch(createLocalDataChannel())
         await dispatch(sendOffer(username))
     }
-
-    /* 
-        useEffect(() => {
-            if(!waiting) return;
-            if(!dataChannelOpen) return;
-            sendMessageToRemoteClient({message: {from: clientUsername, action: 'challenge', data: {challenger: clientUsername}}})
-        }, [waiting, dataChannelOpen])    
-    */
-
-
 
     return(    
         <>
