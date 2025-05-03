@@ -9,8 +9,9 @@ const createDataChannel = async (_,{getState, dispatch, fulfillWithValue}) => {
             dispatch({type: 'CLOSE_DATA_CHANNEL'})
         };  
         dataChannel.onerror = (error) => {
-            console.log('Local data channel experienced an error ', error);
-            dispatch({type: 'SET_ERROR', payload: {error}});
+            const message = error.message;
+            console.log('Local data channel experienced an error ', message );
+            dispatch({type: 'SET_ERROR', payload: {message }});
         };
         dataChannel.onmessage = (e) => {
             console.log('Received message from remote client', e.data)
@@ -21,7 +22,7 @@ const createDataChannel = async (_,{getState, dispatch, fulfillWithValue}) => {
     }
     catch(error){
         const message = error.message;
-        return Promise.reject(message);
+        return Promise.reject({message});
     }
 }
 

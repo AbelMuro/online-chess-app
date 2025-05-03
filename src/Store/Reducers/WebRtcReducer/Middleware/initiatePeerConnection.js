@@ -27,8 +27,9 @@ const initiatePeerConnection = async(_, {getState, dispatch}) => {
             };
     
             receivedChannel.onerror = (error) => {
-                console.log('Remote data channel experienced an error ', error);
-                dispatch({type: 'SET_ERROR', payload: {error}});
+                const message = error.message;
+                console.log('Remote data channel experienced an error ', message);
+                dispatch({type: 'SET_ERROR', payload: {message}});
             }
         }
 

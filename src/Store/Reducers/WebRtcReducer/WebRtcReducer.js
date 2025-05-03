@@ -39,7 +39,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             console.log('local data channel is open');
         })
         .addCase(createLocalDataChannel.rejected, (state, action) => {
-            state.error = action.payload;
+            state.error = action.payload.message;
             console.log('local data channel could not be opened ', state.error);
         })
         .addCase(sendOffer.fulfilled, (state, action) => {
@@ -74,7 +74,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             console.log('Local data channel closed');    
         })
         .addCase(setError, (state, action) => {
-            state.error = action.payload.error;
+            state.error = action.payload.message;
             console.log('Error has occured ', state.error);
         })
 });
