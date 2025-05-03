@@ -1,6 +1,7 @@
 const createDataChannel = async (_, {getState, dispatch, fulfillWithValue, rejectWithValue}) => {
     try{
         const state = getState();
+        console.log('state, ', state)
         const dataChannel = state.peerConnection.createDataChannel('chat');           
 
         return new Promise((resolved, rejected) => {
