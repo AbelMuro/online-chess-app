@@ -7,7 +7,6 @@ import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 import { overlayVariants, dialogVariants } from "./Variants/Variants";
 import {motion, AnimatePresence} from 'framer-motion';
-import useLocalStorage from '~/Hooks/useLocalStorage';
 
 //remote client
 
@@ -18,7 +17,7 @@ function DisplayCurrentChallenge(){
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [clientUsername] = useLocalStorage('username');
+    const clientUsername = useSelector(state => state.account.username);
     if(!clientUsername) {
         navigate('/menu');
         return null;

@@ -1,17 +1,17 @@
 import {createAction, createReducer} from '@reduxjs/toolkit';
 
-const updateAccount = createAction('UPDATE_ACCOUNT');
+const setAccount = createAction('SET_ACCOUNT');
 
 const initialState = {
     username: '',
-    profileImageId: ''
+    imageURL: ''
 }
 
 const AccountReducer = createReducer(initialState, (builder) => {
     builder
-        .addCase(updateAccount, (state, action) => {
+        .addCase(setAccount, (state, action) => {
             state.username = action.payload.username;
-            state.profileImageId = action.payload.username
+            state.imageURL = action.payload.imageURL
         })  
 })
 

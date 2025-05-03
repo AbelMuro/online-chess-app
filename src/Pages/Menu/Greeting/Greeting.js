@@ -3,15 +3,12 @@ import {useDispatch} from 'react-redux';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js';
 import {useNavigate} from 'react-router-dom';
 import * as styles from './styles.module.css';
-import useLocalStorage from '~/Hooks/useLocalStorage';
-
 
 function Greeting(){
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [image, setImage] = useState('');
-    const [, setClientUsername] = useLocalStorage('username');
 
     const getInfo = async () => {
         try{
@@ -31,7 +28,7 @@ function Greeting(){
                     setImage(url);
                 }
                 setName(username);
-                setClientUsername(username);
+                dispatch({type: 'SET_ACCOUNT', payload: {username, imageURL: url}})
             }
             else if(response.status === 403){
                 const message = await response.text();

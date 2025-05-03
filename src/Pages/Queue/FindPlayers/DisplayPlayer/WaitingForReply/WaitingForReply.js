@@ -5,17 +5,20 @@ import {useSelector, useDispatch} from 'react-redux';
 import {ClipLoader} from 'react-spinners';
 import {motion} from 'framer-motion';
 import * as styles from './styles.module.css';
-import useLocalStorage from '~/Hooks/useLocalStorage';
 
 //local client
 
 function WaitingForReply({setWaiting}) {
     const navigate = useNavigate();
+    const dispatch = useDispatch();    
     const chess = useSelector(state => state.chess);
     const message = useSelector(state => state.webRTC.message);
     const error = useSelector(state => state.webRTC.error);
-    const dispatch = useDispatch();
-    const [clientUsername] = useLocalStorage('username');
+    const clientUsername = useSelector(state => state.account.username);
+    if(!clientUsername){
+        navigate('/menu');
+        return null;
+    }
 
     const handleCancel = async () => {
         setWaiting(false);        
