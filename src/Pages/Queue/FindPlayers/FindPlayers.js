@@ -23,10 +23,6 @@ function FindPlayers() {
         const currentPlayers = [];
 
         for(let i = 0; i < players.length; i++){
-            if(!username) {
-                navigate('/menu')
-                return;
-            }
             if(players[i].player === username) continue;
 
             const playerInQueue = players[i].player;

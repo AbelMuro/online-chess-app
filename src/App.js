@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from './Store';
+import {PersistGate} from 'redux-persist/integration/react';
+import store, {persistedStore} from './Store';
 import Login from './Pages/Authentication/Login';
 import Register from './Pages/Authentication/Register';
 import ForgotPassword from './Pages/Authentication/ForgotPassword';
@@ -17,19 +18,23 @@ function App() {
 
     return(
         <Provider store={store}>
-            <BrowserRouter>
-                <DisplayMessage/>
-                <Routes>
-                    <Route path='/' element={<Login/>}/>
-                    <Route path='/register' element={<Register/>}/>
-                    <Route path='/menu' element={<Menu/>}/>
-                    <Route path='/selectoptions' element={<SelectOptions/>}/>
-                    <Route path='/queue' element={<Queue/>}/>
-                    <Route path='/chessboard/:matchId' element={<Chessboard/>}/>
-                    <Route path='/forgotpassword' element={<ForgotPassword/>}/>
-                    <Route path='/resetpassword/:token' element={<ResetPassword/>}/>
-                </Routes>
-            </BrowserRouter>
+            <PersistGate 
+                loading={null}
+                persistor={persistedStore}>
+                    <BrowserRouter>
+                        <DisplayMessage/>
+                        <Routes>
+                            <Route path='/' element={<Login/>}/>
+                            <Route path='/register' element={<Register/>}/>
+                            <Route path='/menu' element={<Menu/>}/>
+                            <Route path='/selectoptions' element={<SelectOptions/>}/>
+                            <Route path='/queue' element={<Queue/>}/>
+                            <Route path='/chessboard/:matchId' element={<Chessboard/>}/>
+                            <Route path='/forgotpassword' element={<ForgotPassword/>}/>
+                            <Route path='/resetpassword/:token' element={<ResetPassword/>}/>
+                        </Routes>
+                    </BrowserRouter>
+            </PersistGate>
         </Provider>
     )
 }
