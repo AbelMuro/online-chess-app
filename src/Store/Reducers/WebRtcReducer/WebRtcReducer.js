@@ -11,7 +11,7 @@ const sendMessage = createAction('SEND_MESSAGE');
 const cancelConnection = createAction('CANCEL_CONNECTION')
 const setError = createAction('SET_ERROR');
 
-const connectionManager = {
+export const connectionManager = {
     peerConnection: null,
     signalingServer: null,
     dataChannel: null

@@ -1,8 +1,9 @@
-const createDataChannel = async (_, {getState, dispatch, fulfillWithValue, rejectWithValue}) => {
+import { connectionManager } from "../WebRtcReducer.js";
+
+
+const createDataChannel = async (_, {dispatch}) => {
     try{
-        const state = getState();
-        console.log('state, ', state)
-        const dataChannel = state.peerConnection.createDataChannel('chat');           
+        const dataChannel = connectionManager.peerConnection.createDataChannel('chat');           
 
         return new Promise((resolved, rejected) => {
             dataChannel.onopen = () => {
