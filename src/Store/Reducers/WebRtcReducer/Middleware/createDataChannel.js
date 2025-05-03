@@ -1,4 +1,4 @@
-const createDataChannel = async (_,{getState, dispatch, fulfillWithValue}) => {
+const createDataChannel = async (_,{getState, dispatch, fulfillWithValue, rejectWithValue}) => {
     try{
         const state = getState();
         const dataChannel = state.peerConnection.createDataChannel('chat');            
@@ -22,7 +22,7 @@ const createDataChannel = async (_,{getState, dispatch, fulfillWithValue}) => {
     }
     catch(error){
         const message = error.message;
-        return Promise.reject({message});
+        rejectWithValue({message});
     }
 }
 

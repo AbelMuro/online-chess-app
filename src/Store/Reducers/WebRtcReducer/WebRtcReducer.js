@@ -31,7 +31,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             console.log('Peer connection has been established')
         })
         .addCase(initiateWebRTC.rejected, (state, action) => {
-            state.error = action.payload;
+            state.error = action.payload.message;
             console.log('Peer connection could not be established ', state.error);
         })
         .addCase(createLocalDataChannel.fulfilled, (state, action) => {
@@ -47,8 +47,8 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             console.log(message);
         })
         .addCase(sendOffer.rejected, (state, action) => {
-            const message = action.payload;
-            console.log('Offer could not be sent to remote client ', message)
+            state.error = action.payload.message;
+            console.log('Offer could not be sent to remote client ', state.error)
         })
         .addCase(setMessage, (state, action) => {
             state.message = action.payload.message;

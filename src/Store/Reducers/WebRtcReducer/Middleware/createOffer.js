@@ -1,4 +1,4 @@
-const createOffer = async (remoteClientUsername, {getState}) => {
+const createOffer = async (remoteClientUsername, {getState, fullfillWithValue, rejectWithValue}) => {
     try{
         const state = getState();
 
@@ -9,11 +9,11 @@ const createOffer = async (remoteClientUsername, {getState}) => {
             offer: {sdp: offer.sdp, type: offer.type}, 
             username: remoteClientUsername, 
         }))   
-        return Promise.resolve('Offer sent to remote client')         
+        fullfillWithValue('Offer sent to remote client');       
     }
     catch(error){
         const message = error.message;
-        return Promise.reject(message);
+        rejectWithValue({message});
     }
 }
 
