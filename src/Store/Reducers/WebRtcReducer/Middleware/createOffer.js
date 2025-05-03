@@ -5,8 +5,8 @@ const createOffer = async (remoteClientUsername, {fullfillWithValue}) => {
         const peerConnection = connectionManager.peerConnection;
         const signalingServer = connectionManager.signalingServer;
         const offer = await peerConnection.createOffer();
-        console.log('offer created?')
         await peerConnection.setLocalDescription(offer);
+        console.log('local description created?')
         signalingServer.send(JSON.stringify({ 
             type: 'offer', 
             offer: {sdp: offer.sdp, type: offer.type}, 
