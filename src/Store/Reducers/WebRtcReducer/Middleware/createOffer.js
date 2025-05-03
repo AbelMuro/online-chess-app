@@ -9,11 +9,11 @@ const createOffer = async (remoteClientUsername, {getState, fullfillWithValue, r
             offer: {sdp: offer.sdp, type: offer.type}, 
             username: remoteClientUsername, 
         }))   
-        fullfillWithValue('Offer sent to remote client');       
+        return fullfillWithValue('Offer sent to remote client');       
     }
     catch(error){
         const message = error.message;
-        rejectWithValue({message});
+        return rejectWithValue({message});
     }
 }
 
