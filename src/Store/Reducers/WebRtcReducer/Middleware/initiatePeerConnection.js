@@ -1,7 +1,7 @@
 import { signalingServerOnMessage, signalingServerOnOpen} from './EventHandlers/SignalingServer';
 import { onIceCandidate, onIceConnectionStateChange} from './EventHandlers/PeerConnection';
 
-const initiatePeerConnection = async(_, {dispatch, fulfillWithValue}) => {
+const initiatePeerConnection = (_, {dispatch, fulfillWithValue}) => {
     try{
         const signalingServer = new WebSocket('wss://world-class-chess-server.com:443/signal');
         const peerConnection = new RTCPeerConnection();

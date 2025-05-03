@@ -1,6 +1,6 @@
 import { connectionManager } from "../WebRtcReducer.js";
 
-const createOffer = async (remoteClientUsername, {fullfillWithValue}) => {
+const createOffer = async (remoteClientUsername, {fulfillWithValue}) => {
     try{
         const peerConnection = connectionManager.peerConnection;
         const signalingServer = connectionManager.signalingServer;
@@ -11,8 +11,7 @@ const createOffer = async (remoteClientUsername, {fullfillWithValue}) => {
             offer: {sdp: offer.sdp, type: offer.type}, 
             username: remoteClientUsername, 
         }))   
-        console.log('signalingServer send message?')
-        return fullfillWithValue('Offer sent to remote client');       
+        return fulfillWithValue('Offer sent to remote client');       
     }
     catch(error){
         const message = error.message;
