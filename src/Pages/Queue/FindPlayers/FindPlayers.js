@@ -43,11 +43,11 @@ function FindPlayers() {
 
     return (
         <>
-            {availablePlayers.length === 0 && 
+            {(availablePlayers && availablePlayers.length === 0) && 
                 <h2 className={styles.desc}>
                     Looking for other players
                 </h2>}
-            {availablePlayers.length === 0 ? <ClipLoader size={'35px'} color='#CECECE'/> : availablePlayers}        
+            {(availablePlayers && availablePlayers.length === 0) ? <ClipLoader size={'35px'} color='#CECECE'/> : availablePlayers}        
         </>
     )
 
