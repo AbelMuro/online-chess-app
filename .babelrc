@@ -9,10 +9,6 @@
                 "rootPathPrefix": "~/"                //  ~/ will now represent ./src    so you dont have to write ../../../../src
               },
               {
-                "rootPathSuffix": "./src/Pages",
-                "rootPathPrefix": "`/"
-              },
-              {
                 "rootPathSuffix": "./src/Store/Reducers",
                 "rootPathPrefix": "!/"
               }

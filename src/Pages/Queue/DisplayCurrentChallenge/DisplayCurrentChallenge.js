@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect, memo} from "react";
+import React, {useState, useEffect, memo} from "react";
 import { ClipLoader } from "react-spinners";
 import {useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
@@ -31,8 +31,7 @@ function DisplayCurrentChallenge(){
         if(decision === 'decline'){
             setChallenge(null);
             setLoading(false);
-        }
-            
+        }    
     }
 
     const loadImage = () => {
@@ -42,7 +41,6 @@ function DisplayCurrentChallenge(){
             return icons['empty avatar'];
     }
     
-
     useEffect(() => {
         if(!message) return;
         if(message.from === clientUsername) return;
@@ -53,7 +51,6 @@ function DisplayCurrentChallenge(){
         setChallenge({challenger});
 
     }, [message])
-
 
     useEffect(() => {
         if(!message) return;
@@ -66,15 +63,6 @@ function DisplayCurrentChallenge(){
     }, [message])
 
     useEffect(() => {
-        if(!error) return;
-
-        console.log(error);
-        dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Challenger was disconnected'}});
-        setChallenge(null);
-    }, [error])    
-
-
-    useEffect(() => {
         if(!message) return;
         if(message.from === clientUsername) return;
         if(message.action !== 'match') return;
@@ -85,6 +73,13 @@ function DisplayCurrentChallenge(){
         navigate(`/chessboard/${matchId}`);
     }, [message])
 
+    useEffect(() => {
+        if(!error) return;
+
+        console.log(error);
+        dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Challenger was disconnected'}});
+        setChallenge(null);
+    }, [error])    
 
     return (
         <AnimatePresence>

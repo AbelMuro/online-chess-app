@@ -1,22 +1,17 @@
-import React, {useEffect, createContext} from 'react';
+import React, {useEffect} from 'react';
 import FindPlayers from './FindPlayers';
 import * as styles from './styles.module.css';
 import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import DisplayCurrentChallenge from './DisplayCurrentChallenge';
 import {initiateWebRTC} from '!/WebRtcReducer.js'
-import useWebRTC from '~/Hooks/useWebRTC';
-
-export const PeerToPeerConnection = createContext();
 
 function Queue() {
     const dispatch = useDispatch();
     const navigate = useNavigate();    
     const handleLeave = () => {
         const choice = confirm('Are you sure you want to leave queue?');
-
-        if(choice)
-            leaveQueue();
+        if(choice) leaveQueue();
     }
 
     const putPlayerInQueue = async () => {
@@ -116,25 +111,24 @@ function Queue() {
     }, [])
 
     useEffect(() => {
-        return;
         dispatch(initiateWebRTC())
     }, [])
 
 
     return(
         <>
-                    <DisplayCurrentChallenge/>
-                    <section className={styles.container}>
-                        <section className={styles.queue}>
-                            <h1 className={styles.queue_title}>
-                                You have entered the queue
-                            </h1>
-                            <FindPlayers/>
-                            <button className={styles.queue_button} onClick={handleLeave}>
-                                Leave Queue
-                            </button>
-                        </section>  
-                    </section>        
+            <DisplayCurrentChallenge/>
+            <section className={styles.container}>
+                <section className={styles.queue}>
+                    <h1 className={styles.queue_title}>
+                        You have entered the queue
+                    </h1>
+                    <FindPlayers/>
+                    <button className={styles.queue_button} onClick={handleLeave}>
+                        Leave Queue
+                    </button>
+                </section>  
+            </section>        
         </>
     )
 }

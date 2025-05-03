@@ -3,7 +3,6 @@ import WaitingForReply from './WaitingForReply';
 import {useDispatch} from 'react-redux'; 
 import {createLocalDataChannel, sendOffer} from '!/WebRtcReducer.js';
 import { AnimatePresence } from 'framer-motion';
-import useLocalStorage from '~/Hooks/useLocalStorage';
 import * as styles from './styles.module.css';
 
 //local client
@@ -11,7 +10,6 @@ import * as styles from './styles.module.css';
 function DisplayPlayer({username, image}) {
     const dispatch = useDispatch();
     const [waiting, setWaiting] = useState(false);  
-    const [clientUsername] = useLocalStorage('username');
 
     const handleConnection = async () => {
         setWaiting(true);

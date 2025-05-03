@@ -1,4 +1,3 @@
-import Queue, {PeerToPeerConnection} from './Queue.js';
+import Queue from './Queue.js';
 
-export {PeerToPeerConnection}
 export default Queue;
