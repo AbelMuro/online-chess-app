@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js';
 import {useNavigate} from 'react-router-dom';
 import * as styles from './styles.module.css';
