@@ -22,7 +22,6 @@ function WaitingForReply({setWaiting}) {
         dispatch({type: 'CANCEL_CONNECTION'})
     }
 
-
     useEffect(() => {
         if(!error) return;
         
@@ -70,7 +69,6 @@ function WaitingForReply({setWaiting}) {
             })
         }
     }, [message])
-
 
     return(
         <motion.div className={styles.overlay} initial='hidden' animate='show' exit='exit' variants={overlayVariant}>

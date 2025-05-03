@@ -33,7 +33,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             console.log('Peer connection has been established')
         })
         .addCase(initiateWebRTC.pending, (state, action) => {
-            console.log('waiting for web rtc...')
+            console.log('waiting to initialize WebRTC...')
         })  
         .addCase(initiateWebRTC.rejected, (state, action) => {
             state.error = action.error.message;
@@ -44,7 +44,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             console.log('Local data channel has been created');
         })
         .addCase(createLocalDataChannel.pending, (state, action) => {
-            console.log('waiting for data channel...')
+            console.log('waiting for data channel to be created...')
         })
         .addCase(createLocalDataChannel.rejected, (state, action) => {
             state.error = action.error.message;
@@ -55,7 +55,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             console.log(message);
         })
         .addCase(sendOffer.pending, (state, action) => {
-            console.log('waiting for offer...');
+            console.log('waiting for offer to be created and sent...');
         })
         .addCase(sendOffer.rejected, (state, action) => {
             state.error = action.error.message;

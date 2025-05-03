@@ -1,6 +1,6 @@
 import React, {useState, memo} from 'react';
 import WaitingForReply from './WaitingForReply';
-import {useDispatch} from 'react-redux'; 
+import {useDispatch, useSelector} from 'react-redux'; 
 import {createLocalDataChannel, sendOffer} from '!/WebRtcReducer';
 import { AnimatePresence } from 'framer-motion';
 import * as styles from './styles.module.css';
@@ -9,12 +9,14 @@ import * as styles from './styles.module.css';
 
 function DisplayPlayer({username, image}) {
     const dispatch = useDispatch();
+    const clientUsername = useSelector(state => state.account.username);
     const [waiting, setWaiting] = useState(false);  
 
     const handleConnection = async () => {
         setWaiting(true);
         await dispatch(createLocalDataChannel())
         await dispatch(sendOffer(username))
+        dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, action: 'challenge', data: {challenger: clientUsername}}}})
     }
 
     return(    
