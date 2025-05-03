@@ -22,6 +22,12 @@ const initialState = {
     message: null,
 }
 
+
+/* 
+    I need to test everything out now, it may work
+
+*/
+
 const webRtcReducer = createReducer(initialState, (builder) => {
     builder 
         .addCase(initiateWebRTC.fulfilled, (state, action) => {
