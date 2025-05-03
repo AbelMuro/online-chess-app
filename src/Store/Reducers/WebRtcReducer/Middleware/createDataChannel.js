@@ -1,32 +1,31 @@
 import { connectionManager } from "../WebRtcReducer.js";
 
 
-const createDataChannel = (_, {dispatch}) => {
+const createDataChannel = (_, {dispatch, fulfillWithValue}) => {
     try{
         const peerConnection = connectionManager.peerConnection;      
+        const dataChannel = peerConnection.createDataChannel('chat');   
 
-        return new Promise((resolve, reject) => {
-            const dataChannel = peerConnection.createDataChannel('chat');    
-            console.log('inside the promise'); 
-            dataChannel.onopen = () => {
-                resolve({dataChannel});  
-            };
-            dataChannel.onclose = () => {
-                dispatch({type: 'CLOSE_DATA_CHANNEL'})
-            };  
-            dataChannel.onerror = (error) => {
-                const message = error.message;
-                console.log('Local data channel experienced an error ', message);
-                dispatch({type: 'SET_ERROR', payload: {message }});
-                reject({message});
-            };
-            dataChannel.onmessage = (e) => {
-                console.log('Received message from remote client', e.data)
-                const data = JSON.parse(e.data);
-                const message = data.message;
-                dispatch({type: 'SET_MESSAGE', payload: {message}})
-            };             
-        })
+        dataChannel.onopen = () => {
+            console.log('Local data channel is open') 
+        };
+        dataChannel.onclose = () => {
+            dispatch({type: 'CLOSE_DATA_CHANNEL'})
+        };  
+        dataChannel.onerror = (error) => {
+            const message = error.message;
+            console.log('Local data channel experienced an error ', message);
+            dispatch({type: 'SET_ERROR', payload: {message}});
+        };
+        dataChannel.onmessage = (e) => {
+            console.log('Received message from remote client', e.data)
+            const data = JSON.parse(e.data);
+            const message = data.message;
+            dispatch({type: 'SET_MESSAGE', payload: {message}})
+        };      
+        
+        return fulfillWithValue({dataChannel});
+        
     }
     catch(error){
         const message = error.message;
