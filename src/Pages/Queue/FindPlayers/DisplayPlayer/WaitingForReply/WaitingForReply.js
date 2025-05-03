@@ -15,10 +15,6 @@ function WaitingForReply({setWaiting}) {
     const message = useSelector(state => state.webRTC.message);
     const error = useSelector(state => state.webRTC.error);
     const clientUsername = useSelector(state => state.account.username);
-    if(!clientUsername){
-        navigate('/menu');
-        return null;
-    }
 
     const handleCancel = async () => {
         setWaiting(false);        

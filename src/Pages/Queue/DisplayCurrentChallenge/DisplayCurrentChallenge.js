@@ -18,10 +18,6 @@ function DisplayCurrentChallenge(){
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const clientUsername = useSelector(state => state.account.username);
-    if(!clientUsername) {
-        navigate('/menu');
-        return null;
-    } 
 
     const handleDecision = (decision) => {
         setLoading(true);
