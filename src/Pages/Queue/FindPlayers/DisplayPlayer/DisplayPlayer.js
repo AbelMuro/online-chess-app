@@ -1,4 +1,4 @@
-import React, {useState, memo} from 'react';
+import React, {useState, memo, useEffect} from 'react';
 import WaitingForReply from './WaitingForReply';
 import {useDispatch, useSelector} from 'react-redux'; 
 import {createLocalDataChannel, sendOffer} from '!/WebRtcReducer';
@@ -10,14 +10,19 @@ import * as styles from './styles.module.css';
 function DisplayPlayer({username, image}) {
     const dispatch = useDispatch();
     const clientUsername = useSelector(state => state.account.username);
+    const connected = useSelector(state => state.webRTC.connected);
     const [waiting, setWaiting] = useState(false);  
 
     const handleConnection = async () => {
         setWaiting(true);
         await dispatch(createLocalDataChannel())
         await dispatch(sendOffer(username))
-        dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, action: 'challenge', data: {challenger: clientUsername}}}})
     }
+
+    useEffect(() => {
+        if(!connected || !waiting) return;
+        dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, action: 'challenge', data: {challenger: clientUsername}}}})
+    }, [connected, waiting])
 
     return(    
         <>

@@ -8,6 +8,7 @@ const setLocalDataChannel = createAction('SET_DATA_CHANNEL');
 const closeLocalDataChannel = createAction('CLOSE_DATA_CHANNEL');
 const setMessage = createAction('SET_MESSAGE');
 const sendMessage = createAction('SEND_MESSAGE');
+const setConnected = createAction('SET_CONNECTED');
 const cancelConnection = createAction('CANCEL_CONNECTION')
 const setError = createAction('SET_ERROR');
 
@@ -22,6 +23,7 @@ export const connectionManager = {
 const initialState = {
     error: null,
     message: null,
+    connected: false
 }
 
 
@@ -69,8 +71,10 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             const dataChannel = connectionManager.dataChannel;
             const message = action.payload.message;
 
-            if(dataChannel?.readyState === 'open')
+            if(dataChannel?.readyState === 'open'){
                 dataChannel?.send(JSON.stringify(message));
+                console.log('Message has been sent')
+            }
         })
         .addCase(setLocalDataChannel, (state, action) => {
             connectionManager.dataChannel = action.payload.dataChannel;
@@ -79,6 +83,9 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
         .addCase(closeLocalDataChannel, (state, action) => {
             connectionManager.dataChannel = null;
             console.log("Remote data channel closed");
+        })
+        .addCase(setConnected, (state, action) => {
+            state.connected = action.payload.connected;
         })
         .addCase(cancelConnection, () => {
             connectionManager.dataChannel?.close();
