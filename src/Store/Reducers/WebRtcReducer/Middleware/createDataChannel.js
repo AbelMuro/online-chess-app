@@ -3,9 +3,10 @@ import { connectionManager } from "../WebRtcReducer.js";
 
 const createDataChannel = async (_, {dispatch}) => {
     try{
-        const dataChannel = connectionManager.peerConnection.createDataChannel('chat');           
+        const peerConnection = connectionManager.peerConnection;      
 
         return new Promise((resolved, rejected) => {
+            const dataChannel = peerConnection.createDataChannel('chat');     
             dataChannel.onopen = () => {
                 resolved({dataChannel});  
             };
@@ -14,7 +15,7 @@ const createDataChannel = async (_, {dispatch}) => {
             };  
             dataChannel.onerror = (error) => {
                 const message = error.message;
-                console.log('Local data channel experienced an error ', message );
+                console.log('Local data channel experienced an error ', message);
                 dispatch({type: 'SET_ERROR', payload: {message }});
                 rejected({message});
             };

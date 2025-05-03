@@ -11,12 +11,14 @@ const sendMessage = createAction('SEND_MESSAGE');
 const cancelConnection = createAction('CANCEL_CONNECTION')
 const setError = createAction('SET_ERROR');
 
+//non-serializable values
 export const connectionManager = {
     peerConnection: null,
     signalingServer: null,
     dataChannel: null
 }
 
+//serializable values
 const initialState = {
     error: null,
     message: null,

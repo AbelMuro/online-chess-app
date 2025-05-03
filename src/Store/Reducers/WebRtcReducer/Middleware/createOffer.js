@@ -2,9 +2,11 @@ import { connectionManager } from "../WebRtcReducer.js";
 
 const createOffer = async (remoteClientUsername, {fullfillWithValue}) => {
     try{
-        const offer = await connectionManager.peerConnection.createOffer()
-        await state.peerConnection.setLocalDescription(offer);
-        state.signalingServer.send(JSON.stringify({ 
+        const peerConnection = connectionManager.peerConnection;
+        const signalingServer = connectionManager.signalingServer;
+        const offer = await peerConnection.createOffer()
+        await peerConnection.setLocalDescription(offer);
+        signalingServer.send(JSON.stringify({ 
             type: 'offer', 
             offer: {sdp: offer.sdp, type: offer.type}, 
             username: remoteClientUsername, 
