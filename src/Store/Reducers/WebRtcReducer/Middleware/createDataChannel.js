@@ -26,7 +26,7 @@ const createDataChannel = async (_, {getState, dispatch, fulfillWithValue, rejec
     }
     catch(error){
         const message = error.message;
-        return rejectWithValue({message});
+        return Promise.reject({message});
     }
 }
 

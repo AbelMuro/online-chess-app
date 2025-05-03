@@ -37,8 +37,7 @@ const initiatePeerConnection = async(_, {getState, dispatch, fulfillWithValue, r
     }
     catch(error){
         const message = error.message;
-        console.log(message);
-        return rejectWithValue({message});
+        return Promise.reject({message});
     }
 }
 

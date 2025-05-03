@@ -13,7 +13,7 @@ const createOffer = async (remoteClientUsername, {getState, fullfillWithValue, r
     }
     catch(error){
         const message = error.message;
-        return rejectWithValue({message});
+        return Promise.reject(message);
     }
 }
 
