@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js';
 import {useNavigate} from 'react-router-dom';
@@ -7,8 +7,8 @@ import * as styles from './styles.module.css';
 function Greeting(){
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [name, setName] = useState('');
-    const [image, setImage] = useState('');
+    const username = useSelector(state => state.account.username);
+    const imageURL = useSelector(state => state.account.imageURL);
 
     const getInfo = async () => {
         try{
@@ -25,10 +25,10 @@ function Greeting(){
 
                 if(image){
                     const url = convertBase64ToBlobURL(image, contentType);
-                    setImage(url);
+                    dispatch({type: 'SET_ACCOUNT', payload: {username, imageURL: url}})
                 }
-                setName(username);
-                dispatch({type: 'SET_ACCOUNT', payload: {username, imageURL: url}})
+                else
+                    dispatch({type: 'SET_ACCOUNT', payload: {username, imageURL: ''}})
             }
             else if(response.status === 403){
                 const message = await response.text();
@@ -56,9 +56,9 @@ function Greeting(){
 
     return(
         <section className={styles.container}>
-            {image && <img className={styles.photo} src={image}/>}
+            {imageURL && <img className={styles.photo} src={imageURL}/>}
             <h1 className={styles.title}>
-                Hello {name}!
+                Hello {username}!
             </h1>
         </section>
 
