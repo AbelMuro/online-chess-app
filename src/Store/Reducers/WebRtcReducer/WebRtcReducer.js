@@ -21,11 +21,10 @@ export const connectionManager = {
 
 //serializable values
 const initialState = {
-    error: null,
-    message: null,
+    error: '',
+    message: '',
     connected: false
 }
-
 
 const WebRtcReducer = createReducer(initialState, (builder) => {
     builder 
@@ -69,7 +68,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
         })
         .addCase(sendMessage, (state, action) => {
             const dataChannel = connectionManager.dataChannel;
-            const message = action.payload.message;
+            const message = action.payload;
 
             if(dataChannel?.readyState === 'open'){
                 dataChannel?.send(JSON.stringify(message));
