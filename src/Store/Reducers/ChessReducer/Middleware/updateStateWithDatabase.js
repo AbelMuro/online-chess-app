@@ -7,6 +7,7 @@ const updateStateWithDatabase = async (matchId, {dispatch}) => {
         if(response.status === 200){
             const chess = await response.json();
             const gameSettings = chess.game_settings;
+            console.log('game settings', gameSettings, chess);
             dispatch({type: 'SET_GAME_SETTINGS', payload: {
                 user: gameSettings.user_color,
                 opponent: gameSettings.opponent_color,
