@@ -934,8 +934,8 @@ const ChessReducer = createReducer(initialState, (builder) => {
       ResetState(state, initialState);
     })
     .addCase(syncDatabaseWithState.fulfilled, (state, action) => {
-      const message = action.payload;
-      console.log(message)
+      const message = action.payload.message;
+      console.log(message);
     })
     .addCase(syncDatabaseWithState.rejected, (state, action) => {
       const message = action.error.message;
@@ -943,8 +943,8 @@ const ChessReducer = createReducer(initialState, (builder) => {
     })
     .addCase(syncStateWithDatabase.fulfilled, (state, action) => {
       const newState = action.payload.chess;
-      console.log('state has been synchronized with database')
       ResetState(state, newState);
+      console.log('state has been synchronized with database')
     })
     .addCase(syncStateWithDatabase.rejected, (state, action) => {
       const message = action.error.message;

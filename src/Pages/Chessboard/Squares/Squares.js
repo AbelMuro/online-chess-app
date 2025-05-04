@@ -1,4 +1,5 @@
 import React, {useEffect, useRef} from 'react';
+import {useParams} from 'react-router-dom';
 import Dialog from '~/assets/Components/Dialog';
 import { useDrop } from "react-dnd"
 import {useSelector, useDispatch} from 'react-redux';
@@ -15,6 +16,7 @@ import * as styles from './styles.module.css'
 // the child components of this component are the actual pieces, they are responsible for implementing the rules for 'moving' and 'taking' for each piece
 
 function Squares({row, column, colorOfSquare, id}) {
+    const {matchId} = useParams();
     const currentSquare = useSelector(state => state.chess.board[row][column]);
     const legalSquare = useSelector(state => state.chess.legal_squares[row][column]);
     const hasKingBeenMoved = useSelector(state => state.chess.castleling.has_king_been_moved);
@@ -40,6 +42,7 @@ function Squares({row, column, colorOfSquare, id}) {
     const handlePromotion = (handleOpen, choosenPiece) => {
         dispatch({type: 'PROMOTION', payload: {square: {row, column}, piece: choosenPiece, pieceId: currentSquare}});
         dispatch({type: 'CHANGE_TURN'});
+        dispatch(syncDatabaseWithState(matchId))
         handleOpen();
     }
 
@@ -48,17 +51,20 @@ function Squares({row, column, colorOfSquare, id}) {
 
         if(legalSquare === 'kingSide' || legalSquare === 'queenSide'){
             dispatch({type: 'IMPLEMENT_CASTLELING', payload: {castleling: legalSquare}})  
-            dispatch({type: 'CHANGE_TURN'});
+            dispatch({type: 'CHANGE_TURN'});   
+            dispatch(syncDatabaseWithState(matchId))
         }                                             
              
         else if(legalSquare === 'enable enpassant'){
             dispatch({type: 'ENABLE_ENPASSANT', payload: {square: {row, column}}})
             dispatch({type: 'CHANGE_TURN'});
+            dispatch(syncDatabaseWithState(matchId))
         }
             
         else if(legalSquare === 'take enpassant'){
             dispatch({type: 'IMPLEMENT_ENPASSANT', payload: {square: {row, column}}})
             dispatch({type: 'CHANGE_TURN'});
+            dispatch(syncDatabaseWithState(matchId))
         }
             
         else if(legalSquare === 'promotion')
@@ -72,7 +78,8 @@ function Squares({row, column, colorOfSquare, id}) {
                 ...((piece?.includes('rook') && piece?.includes('h')) && {hasRookBeenMoved: hasKingSideRookBeenMoved})            
                 }
             });
-            dispatch({type: 'CHANGE_TURN'});              
+            dispatch({type: 'CHANGE_TURN'});   
+            dispatch(syncDatabaseWithState(matchId))           
         }
    
     }

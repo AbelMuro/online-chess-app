@@ -53,7 +53,7 @@ function DisplayCurrentChallenge(){
         if(message.action !== 'cancel') return;
 
         setChallenge(null);
-        dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player has canceled the challenge'}});
+        dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player has canceled the challenge'}});
 
     }, [message])
 
@@ -72,7 +72,7 @@ function DisplayCurrentChallenge(){
         if(!error) return;
 
         console.log(error);
-        dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Challenger was disconnected'}});
+        dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Challenger was disconnected'}});
         setChallenge(null);
     }, [error])    
 

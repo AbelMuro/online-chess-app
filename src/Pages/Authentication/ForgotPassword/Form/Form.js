@@ -28,7 +28,7 @@ function Form() {
             
             if(response.status === 200){
                 console.log('Link has been sent');
-                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Email has been sent'}})
+                dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Email has been sent'}})
             }
             
             else if(response.status === 401)
@@ -36,13 +36,13 @@ function Form() {
             
             else{
                 const message = await response.text();
-                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later.'}})
+                dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later.'}})
                 console.log(message);
             }
                 
         }
         catch(error){
-            dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later.'}})
+            dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later.'}})
             console.log(error.message);
         }
         finally{

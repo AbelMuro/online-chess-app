@@ -1,7 +1,7 @@
 import { createAction, createReducer } from '@reduxjs/toolkit';
 
-const displayMessage = createAction('DISPLAY_MESSAGE');
-const resetMessage = createAction('RESET_MESSAGE');
+const displayPopupMessage = createAction('DISPLAY_POPUP_MESSAGE');
+const resetPopupMessage = createAction('RESET_POPUP_MESSAGE');
 
 const initialState = {
     message: ''
@@ -9,10 +9,10 @@ const initialState = {
 
 const PopUpBoxReducer = createReducer(initialState, (builder) => {
     builder 
-        .addCase(displayMessage, (state, action) => {
+        .addCase(displayPopupMessage, (state, action) => {
             state.message = action.payload.message;
         })
-        .addCase(resetMessage, (state) => {
+        .addCase(resetPopupMessage, (state) => {
             state.message = '';
         })
 });

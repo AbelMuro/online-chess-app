@@ -1,6 +1,9 @@
 const updateDatabaseWithState = async (matchId, {getState, dispatch}) => {
     try{
         const chess = getState();
+        const account = getState();
+        const localClientUsername = account.username;
+
         const response = await fetch(`https://world-class-chess-server.com/update_match/${matchId}`, {
             method: 'PUT',
             headers: {
@@ -8,13 +11,21 @@ const updateDatabaseWithState = async (matchId, {getState, dispatch}) => {
             },
             body: JSON.stringify({chess, matchId})
         })
-        const message = await response.text();
-        return Promise.resolve(message);
+        if(response.status === 200){
+            const message = await response.text();
+            dispatch({type: 'SEND_MESSAGE', payload: {message: {from: localClientUsername, action: 'move', data: {}}}})
+            return Promise.resolve({message});        
+        }
+        else{
+            const message = await response.text();
+            dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message}})    
+            return Promise.reject({message})
+        }
     }
     catch(error){
         const message = error.message;
-        console.log(message);
-        return Promise.reject(message);
+        dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message}})  
+        return Promise.reject({message});
     }
 }
 

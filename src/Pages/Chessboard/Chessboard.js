@@ -1,6 +1,6 @@
 import React, {useMemo, useRef, useEffect} from 'react';
 import ShowMovesMobile from './SideBar/ShowMoves';
-import Real_Player from './Real_Player';
+import PlayerToPlayerCommunication from './PlayerToPlayerCommunication';
 import AI_Player from './AI_Player';
 import PiecesTakenMobile from './SideBar/PiecesTaken';
 import Squares from './Squares';
@@ -127,7 +127,7 @@ function Chessboard() {
                 <SideBar/>
                 <DeclareWinner/>
                 {matchId === 'ai' && <AI_Player/>}
-                {matchId !== 'ai' && <Real_Player matchId={matchId}/>}                         
+                {matchId !== 'ai' && <PlayerToPlayerCommunication matchId={matchId}/>}                         
             </section>
         </DndProvider>
     )

@@ -31,27 +31,27 @@ function Form({token}){
             
             if(response.status === 200){
                 console.log('Password changed successfully');
-                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Password changed successfully'}})
+                dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Password changed successfully'}})
                 navigate('/');
             }
             
             else if(response.status === 400){
                 const message = await response.text();
                 console.log(message);
-                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Token is invalid or has expired'}})
+                dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Token is invalid or has expired'}})
                 navigate('/forgotpassword');
             }
                 
             else{
                 const message = await response.text();
                 console.log(message);
-                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later.'}})
+                dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later.'}})
             }
         }
         catch(error){
             const message = error.message;
             console.log(message);
-            dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later'}});
+            dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later'}});
         }
         finally{
             setLoading && setLoading(false);

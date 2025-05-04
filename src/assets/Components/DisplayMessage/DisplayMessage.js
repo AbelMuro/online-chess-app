@@ -10,7 +10,7 @@ function DisplayMessage() {
     const dispatch = useDispatch();
 
     const handleClose = () => {
-        dispatch({type: 'RESET_MESSAGE'});
+        dispatch({type: 'RESET_POPUP_MESSAGE'});
 
         if(timeout.current)
             clearTimeout(timeout.current);
@@ -19,7 +19,7 @@ function DisplayMessage() {
     useEffect(() => {
         if(message)
             timeout.current = setTimeout(() => {
-                dispatch({type: 'RESET_MESSAGE'})
+                dispatch({type: 'RESET_POPUP_MESSAGE'})
             }, 5000)
     }, [message])
 

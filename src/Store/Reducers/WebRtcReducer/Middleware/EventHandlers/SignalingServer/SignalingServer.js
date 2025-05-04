@@ -22,7 +22,7 @@ const signalingServerOnMessage = (peerConnection, dispatch, signalingServer) => 
         catch(error){
             const message = error.message;
             console.log(message);
-            dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Error trying to establish connection to remote client'}})
+            dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Error trying to establish connection to remote client'}})
         }
     }
 }

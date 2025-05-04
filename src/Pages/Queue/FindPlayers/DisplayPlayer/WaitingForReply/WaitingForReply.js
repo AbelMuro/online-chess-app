@@ -27,7 +27,7 @@ function WaitingForReply({setWaiting}) {
         
         console.log(error);
         setWaiting(false);
-        dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player was disconnected'}});
+        dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player was disconnected'}});
         dispatch({type: 'CANCEL_CONNECTION'})
     }, [error])      
 
@@ -43,7 +43,7 @@ function WaitingForReply({setWaiting}) {
 
         if(decision === 'decline'){
             setWaiting(false);
-            dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player declined'}});
+            dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player declined'}});
             dispatch({type: 'CANCEL_CONNECTION'});
         }
         else{
@@ -72,7 +72,7 @@ function WaitingForReply({setWaiting}) {
             .catch((error) => {
                 const message = error.message;
                 console.log(message);
-                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
+                dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
             })
         }
     }, [message])

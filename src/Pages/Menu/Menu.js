@@ -29,14 +29,14 @@ function Menu() {
 
             if(response.status === 200){
                 console.log('User has been logged out');
-                dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'You have been logged out.'}})
+                dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'You have been logged out.'}})
                 navigate('/');
             }
         }
         catch(error){
             const message = error.message;
             console.log(message);
-            dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
+            dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
         }
     }   
 
