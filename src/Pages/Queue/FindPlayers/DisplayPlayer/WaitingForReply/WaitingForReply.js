@@ -54,9 +54,15 @@ function WaitingForReply({setWaiting}) {
                 },
                 body: JSON.stringify({chess, playerOne, playerTwo})
             })
-            .then((response) => {
-                console.log('Match has been created');
-                return response.text();
+            .then(async (response) => {
+                if(response.status === 200){
+                    console.log('Match has been created');
+                    return response.text();                    
+                }
+                else{
+                    const message = await response.text();
+                    throw new Error(`Internal Server Error has occured: ${message}`);
+                }
             }) 
             .then((result) => {
                 console.log('Received match ID: ', result);
