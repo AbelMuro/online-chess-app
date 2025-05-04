@@ -1,4 +1,4 @@
-const updateStateWithDatabase = async (matchId, {dispatch}) => {
+const updateStateWithDatabase = async (matchId, {getState, dispatch}) => {
     try{
         const account = getState();
         const localClientUsername = account.username; 
