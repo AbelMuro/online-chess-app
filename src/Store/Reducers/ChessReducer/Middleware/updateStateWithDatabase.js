@@ -1,5 +1,8 @@
 const updateStateWithDatabase = async (matchId, {dispatch}) => {
     try{
+        const account = getState();
+        const localClientUsername = account.username; 
+
         const response = await fetch(`https://world-class-chess-server.com/get_match/${matchId}`, {
             method: 'GET'
         });
@@ -7,12 +10,16 @@ const updateStateWithDatabase = async (matchId, {dispatch}) => {
         if(response.status === 200){
             const chess = await response.json();
             const gameSettings = chess.game_settings;
-            console.log('game settings', gameSettings, chess);
+            const playerOne = gameSettings.player_one;
+            const playerTwo = gameSettings.player_two;
+            const playerOneColor = playerOne.color;
+            const playerTwoColor = playerTwo.color;
+
             dispatch({type: 'SET_GAME_SETTINGS', payload: {
-                user: gameSettings.user_color,
-                opponent: gameSettings.opponent_color,
-                playerOneUsername: gameSettings.player_one_username,
-                playerTwoUsername: gameSettings.player_two_username,
+                user: localClientUsername === playerOne.username ? playerOneColor : playerTwoColor,
+                opponent: localClientUsername === playerOne.username ? playerTwoColor : playerOneColor,
+                playerOneUsername: playerOne.username,
+                playerTwoUsername: playerTwo.username,
             }});
             return Promise.resolve({chess});
         }

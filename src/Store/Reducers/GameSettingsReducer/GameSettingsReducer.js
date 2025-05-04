@@ -13,7 +13,7 @@ const initialState = {
 const GameSettingsReducer = createReducer(initialState, (builder) => {
     builder
         .addCase(setPlayers, (state, action) => {
-            state.user_color = action.payload.user;
+            state.user_color = action.payload.user; 
             state.opponent_color = action.payload.opponent;
             state.player_one_username = action.payload.playerOneUsername || '';
             state.player_two_username = action.payload.playerTwoUsername || '';
