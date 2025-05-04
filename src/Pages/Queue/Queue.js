@@ -103,7 +103,6 @@ function Queue() {
 
         return () => {
             window.removeEventListener('beforeunload', removePlayerFromQueue);
-            leaveQueue && leaveQueue();
         }
     }, [])
 
