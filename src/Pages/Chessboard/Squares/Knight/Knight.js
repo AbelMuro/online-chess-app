@@ -7,7 +7,7 @@ import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
 function Knight({color, row, column, pieceId}) {
-    const userColor = useSelector(state => state.chess.settings.user_color); 
+    const userColor = useSelector(state => state.settings.user_color); 
     const currentTurn = useSelector(state => state.chess.current_turn);    
     const dispatch = useDispatch();
     const [{isDragging}, drag] = useDrag({

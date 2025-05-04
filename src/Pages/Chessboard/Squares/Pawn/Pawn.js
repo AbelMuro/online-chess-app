@@ -7,7 +7,7 @@ import { useDrag } from "react-dnd"
 import * as styles from './styles.module.css';
 
 function Pawn({color, row, column, pieceId}) {
-    const userColor = useSelector(state => state.chess.settings.user_color)
+    const userColor = useSelector(state => state.settings.user_color)
     const [twoSquareMoveAvailable,] = useState((row === 1 && color === 'black') || (row === 6 && color === 'white')); 
     const currentTurn = useSelector(state => state.chess.current_turn);                                                  
     const dispatch = useDispatch();

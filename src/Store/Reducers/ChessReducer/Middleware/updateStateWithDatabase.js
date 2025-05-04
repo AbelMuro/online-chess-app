@@ -10,8 +10,8 @@ const updateStateWithDatabase = async (matchId, {dispatch}) => {
             dispatch({type: 'SET_GAME_SETTINGS', payload: {
                 user: gameSettings.user_color,
                 opponent: gameSettings.opponent_color,
-                playerOneUsername: gameSettings.playerOneUsername,
-                playerTwoUsername: gameSettings.playerTwoUsername,
+                playerOneUsername: gameSettings.player_one_username,
+                playerTwoUsername: gameSettings.player_two_username,
             }});
             return Promise.resolve({chess});
         }
