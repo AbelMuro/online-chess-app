@@ -12,7 +12,7 @@ import King from './King';
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css'
 
-//The Squares components is responsible for determining if this square is a legal square where a piece can be moved
+// The Squares components is responsible for determining if this square is a legal square where a piece can be moved
 // the child components of this component are the actual pieces, they are responsible for implementing the rules for 'moving' and 'taking' for each piece
 
 function Squares({row, column, colorOfSquare, id}) {
@@ -81,7 +81,6 @@ function Squares({row, column, colorOfSquare, id}) {
             dispatch({type: 'CHANGE_TURN'});   
             dispatch(syncDatabaseWithState(matchId))           
         }
-   
     }
 
     useEffect(() => {

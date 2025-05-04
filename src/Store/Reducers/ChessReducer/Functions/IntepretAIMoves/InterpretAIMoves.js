@@ -40,7 +40,7 @@ export const IntepretAIMoves = (state, bestMove) => {
     const from = bestMove.slice(0, 2);
     const to = bestMove.slice(2, 4);
     const promotion = bestMove[4];
-    const piece_color = state.players.opponent_color;
+    const piece_color = state.settings.opponent_color;
     let pieceTakenByEnPassant = null;
     const fromColumn = columns[from[0]];
     const fromRow = row[from[1]];

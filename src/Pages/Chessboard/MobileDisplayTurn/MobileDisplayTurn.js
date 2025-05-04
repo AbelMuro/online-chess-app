@@ -5,7 +5,7 @@ import * as styles from './styles.module.css';
 
 function MobileDisplayTurn() {
     const [mobile] = useMediaQuery('(max-width: 620px)');
-    const currentTurn = useSelector(state => state.chess.players.current_turn);
+    const currentTurn = useSelector(state => state.chess.current_turn);
 
     return mobile &&
         <h1 className={styles.currentTurn}>

@@ -7,8 +7,8 @@ import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
 function King({color, row, column, pieceId}) {
-    const currentTurn = useSelector(state => state.chess.players.current_turn);    
-    const userColor = useSelector(state => state.chess.players.user_color); 
+    const currentTurn = useSelector(state => state.chess.current_turn);    
+    const userColor = useSelector(state => state.chess.settings.user_color); 
     const board = useSelector(state => state.chess.board);   
     const dispatch = useDispatch();
     const [{isDragging}, drag] = useDrag({

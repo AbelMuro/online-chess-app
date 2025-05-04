@@ -8,6 +8,7 @@ const setLocalDataChannel = createAction('SET_DATA_CHANNEL');
 const closeLocalDataChannel = createAction('CLOSE_DATA_CHANNEL');
 const setMessage = createAction('SET_MESSAGE');
 const sendMessage = createAction('SEND_MESSAGE');
+const clearMessage = createAction('CLEAR_MESSAGE');
 const setConnected = createAction('SET_CONNECTED');
 const cancelConnection = createAction('CANCEL_CONNECTION')
 const setError = createAction('SET_ERROR');
@@ -103,6 +104,9 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             state.connected = false;
             state.error = action.payload.message;
             console.log('Error has occured ', state.error);
+        })
+        .addCase(clearMessage, (state) => {
+            state.message = '';
         })
 });
 

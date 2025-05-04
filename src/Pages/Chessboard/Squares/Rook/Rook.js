@@ -10,8 +10,8 @@ import * as styles from './styles.module.css';
 
 function Rook({color, row, column, pieceId}) {
     const dispatch = useDispatch();
-    const userColor = useSelector(state => state.chess.players.user_color); 
-    const currentTurn = useSelector(state => state.chess.players.current_turn);   
+    const userColor = useSelector(state => state.chess.settings.user_color); 
+    const currentTurn = useSelector(state => state.chess.current_turn);   
     const [{isDragging}, drag] = useDrag({
         type: 'piece',
         item: () => {

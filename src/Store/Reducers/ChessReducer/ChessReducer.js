@@ -19,7 +19,6 @@ const changeTurn = createAction('CHANGE_TURN');
 const pieceToBeMoved = createAction('PIECE_TO_BE_MOVED');
 
 const promotion = createAction('PROMOTION');
-const setGameSettings = createAction('SET_GAME_SETTINGS');
 const undo = createAction('UNDO');
 const redo = createAction('REDO');
 
@@ -97,13 +96,7 @@ const initialState = {
       has_king_been_moved: false,
       has_rooks_been_moved: [false, false]
     },    
-    players: {
-      user_color: 'white',
-      opponent_color: 'black',
-      current_turn: 'white',
-      player_one_username: '',
-      player_two_username: ''
-    },
+    current_turn: 'white',
     en_passant: null,
     resigns: false,
     pinned_pieces: [],
@@ -332,7 +325,7 @@ const ChessReducer = createReducer(initialState, (builder) => {
       const newRow = action.payload.square.row;
       const newColumn = action.payload.square.column;
 
-      const color = state.players.current_turn;
+      const color = state.current_turn;
 
       const piece = action.payload.piece;     
       const pieceId = action.payload.pieceId;
@@ -369,7 +362,7 @@ const ChessReducer = createReducer(initialState, (builder) => {
       state.moves.all.shift();
       if(!move){
         state.board = initialState.board;
-        state.players.current_turn = 'white';
+        state.current_turn = 'white';
         return;
       }
       else{
@@ -414,7 +407,7 @@ const ChessReducer = createReducer(initialState, (builder) => {
           state.castleling[`has_king_been_moved`] = false;
         
         state.time_traveling.future.push(move);    
-        state.players.current_turn = state.players.current_turn === 'white' ? 'black' : 'white';    
+        state.current_turn = state.current_turn === 'white' ? 'black' : 'white';    
       }
       ResetProperties(state, initialState);
     })
@@ -467,17 +460,8 @@ const ChessReducer = createReducer(initialState, (builder) => {
           state.castleling[`has_king_been_moved`] = true;
       
       state.time_traveling.past.push(move);
-      state.players.current_turn = state.players.current_turn === 'white' ? 'black' : 'white';
+      state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
       ResetProperties(state, initialState);
-    })
-    .addCase(setGameSettings, (state, action) => {
-      const difficulty = action.payload.difficulty;
-      const user = action.payload.user;
-      const opponent = action.payload.opponent;
-
-      state.difficulty = difficulty;
-      state.players.user_color = user;
-      state.players.opponent_color = opponent;
     })
     .addCase(hasKingBeenMoved, (state, action) => {
       state.castleling.has_king_been_moved = action.payload.moved;
@@ -868,7 +852,7 @@ const ChessReducer = createReducer(initialState, (builder) => {
         state.checkmate.game_over = opposing_color;
     })
     .addCase(changeTurn, (state) => {
-      state.players.current_turn = state.players.current_turn === 'white' ? 'black' : 'white';
+      state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
     })
     .addCase(pieceToBeMoved, (state, action) => {
       state.pieceToBeMoved = action.payload;

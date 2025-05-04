@@ -1,4 +1,4 @@
-import {memo, useEffect, useRef} from 'react';
+import {memo, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 

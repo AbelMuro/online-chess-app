@@ -64,7 +64,7 @@ function DisplayCurrentChallenge(){
 
         const data = message.data;
         const matchId = data.matchId;
-
+        dispatch({type: 'CLEAR_MESSAGE'});
         navigate(`/chessboard/${matchId}`);
     }, [message])
 
