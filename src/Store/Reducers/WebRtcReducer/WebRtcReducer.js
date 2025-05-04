@@ -80,7 +80,10 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             console.log("Remote data channel is open!");
         })
         .addCase(closeLocalDataChannel, (state, action) => {
+            connectionManager.dataChannel?.close();
             connectionManager.dataChannel = null;
+            state.message = '';
+            state.connected = false;
             console.log("Remote data channel closed");
         })
         .addCase(setConnected, (state, action) => {
@@ -94,6 +97,10 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             console.log('Local data channel closed');    
         })
         .addCase(setError, (state, action) => {
+            connectionManager.dataChannel?.close();
+            connectionManager.dataChannel = null;
+            state.message = '';
+            state.connected = false;
             state.error = action.payload.message;
             console.log('Error has occured ', state.error);
         })
