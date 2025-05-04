@@ -8,6 +8,14 @@ import * as styles from './styles.module.css';
 
 //local client
 
+
+/* 
+    this is where i left off, i finished refactoring the webRTC reducer,
+    now i need to navigate both clients to the chessboard and i need to make sure 
+    the connection with WebRTC remains active so that the clients can continue sending
+    messages to each other everytime they make a move
+*/
+
 function WaitingForReply({setWaiting}) {
     const navigate = useNavigate();
     const dispatch = useDispatch();    
