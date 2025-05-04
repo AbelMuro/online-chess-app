@@ -28,6 +28,7 @@ function WaitingForReply({setWaiting}) {
         console.log(error);
         setWaiting(false);
         dispatch({type: 'DISPLAY_MESSAGE', payload: {message: 'Player was disconnected'}});
+        dispatch({type: 'CANCEL_CONNECTION'})
     }, [error])      
 
     useEffect(() => {

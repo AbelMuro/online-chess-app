@@ -86,8 +86,11 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
         .addCase(setConnected, (state, action) => {
             state.connected = action.payload.connected;
         })
-        .addCase(cancelConnection, () => {
+        .addCase(cancelConnection, (state) => {
             connectionManager.dataChannel?.close();
+            connectionManager.dataChannel = null;
+            state.message = '';
+            state.connected = false;
             console.log('Local data channel closed');    
         })
         .addCase(setError, (state, action) => {
