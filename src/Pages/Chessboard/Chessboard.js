@@ -52,6 +52,17 @@ import * as styles from './styles.module.css';
 // will dispatch an action to see if a piece has been pinned
 // if a black pawn is between the white queen and the black king, that black pawn cannot be moved, so it will be stored within the pinned_pieces array
 
+
+
+/* 
+    this is where i left off, i fixed the bug with both players having the same user_color and opponent_color
+    i created a route on the back-end to delete the match document if either player disconnects from the 
+    webRTC connection, the match is won by one of the players, or if either player leaves the session unexpectedly
+
+    i need to test everything out now
+*/
+
+
 function Chessboard() {
     const {matchId} = useParams();
     const [mobile] = useMediaQuery('(max-width: 620px)');
