@@ -15,6 +15,8 @@ const updateStateWithDatabase = async (matchId, {getState, dispatch}) => {
             const playerOneColor = playerOne.color;
             const playerTwoColor = playerTwo.color;
 
+            console.log(localClientUsername, playerOne, playerTwo);
+
             dispatch({type: 'SET_GAME_SETTINGS', payload: {
                 user: localClientUsername === playerOne.username ? playerOneColor : playerTwoColor,
                 opponent: localClientUsername === playerOne.username ? playerTwoColor : playerOneColor,
