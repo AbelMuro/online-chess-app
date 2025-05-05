@@ -52,7 +52,7 @@ function WaitingForReply({setWaiting}) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({chess, playerOne, playerTwo})
+                body: JSON.stringify({chess, playerOne, playerTwo}),
             })
             .then(async (response) => {
                 if(response.status === 200){

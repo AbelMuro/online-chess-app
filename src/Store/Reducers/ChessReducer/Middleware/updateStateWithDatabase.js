@@ -7,10 +7,10 @@
 
 */
 
-const updateStateWithDatabase = async (matchId, {getState, dispatch}) => {
+const updateStateWithDatabase = async (matchId, {dispatch}) => {
     try{
-        const account = getState();
-        //const localClientUsername = account.username;             //the problem is that i cant access the account reducer from here
+        const chessAccountData = localStorage.getItem('persist:chess-account-data');
+        const localClientUsername = JSON.parse(chessAccountData).account;
 
         const response = await fetch(`https://world-class-chess-server.com/get_match/${matchId}`, {
             method: 'GET'
@@ -24,17 +24,12 @@ const updateStateWithDatabase = async (matchId, {getState, dispatch}) => {
             const playerOneColor = playerOne.color;
             const playerTwoColor = playerTwo.color;
 
-            /* 
-
             dispatch({type: 'SET_GAME_SETTINGS', payload: {
                 user: localClientUsername === playerOne.username ? playerOneColor : playerTwoColor,
                 opponent: localClientUsername === playerOne.username ? playerTwoColor : playerOneColor,
-                playerOneUsername: playerOne.username,
-                playerTwoUsername: playerTwo.username,
+                playerOne: playerOne,
+                playerTwo: playerTwo,
             }});            
-            
-            */
-
             return Promise.resolve({chess});
         }
         else{

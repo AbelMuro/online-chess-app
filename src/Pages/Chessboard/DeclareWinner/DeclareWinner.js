@@ -16,9 +16,9 @@ function DeclareWinner() {
     }
 
     useEffect(() => {
-        if(checkmate || resigns || stalemate.game_over)
+        if(checkmate || resigns || stalemate)
             buttonRef.current.click();
-    }, [checkmate, resigns, stalemate.game_over])
+    }, [checkmate, resigns, stalemate])
 
     return(
         <Dialog 

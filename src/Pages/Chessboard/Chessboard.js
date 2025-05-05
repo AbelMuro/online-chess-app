@@ -9,7 +9,7 @@ import DeclareWinner from './DeclareWinner';
 import MobileDisplayTurn from './MobileDisplayTurn';
 import useMediaQuery from '~/Hooks/useMediaQuery';
 import {useDispatch, useSelector} from 'react-redux';
-import {useParams} from 'react-router-dom';
+import {useParams, useNavigate} from 'react-router-dom';
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import {syncStateWithDatabase} from '!/ChessReducer';
@@ -55,9 +55,36 @@ import * as styles from './styles.module.css';
 function Chessboard() {
     const {matchId} = useParams();
     const [mobile] = useMediaQuery('(max-width: 620px)');
+    const navigate = useNavigate();
     const columns = useRef(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']);
     const dispatch = useDispatch();
     const userColor = useSelector(state => state.settings.user_color)
+    const localClientUsername = useSelector(state => state.account.username);
+
+
+    const endMatch = async () => {
+        try{
+            const response = await fetch(`https://world-class-chess-server.com/delete_match/${matchId}`, {
+                method: 'DELETE'
+            });
+
+            if(response.status === 200){
+                const message = await response.text();
+                console.log(message);
+                navigate('/menu');
+            }
+            else{
+                const message = await response.text();
+                console.log(message);
+                dispatch({type: 'DISPLAY_POPUP_MESSAGE', message: 'Internal Server Error has occurred, please try again later'});
+            }
+        }
+        catch(error){
+            const message = message.error;
+            console.log(message);
+            dispatch({type: 'DISPLAY_POPUP_MESSAGE', message: 'Server is offline, please try again later'})
+        }   
+    }
 
     const squares = useMemo(() => {
         const squares = [];
@@ -114,6 +141,15 @@ function Chessboard() {
         if(matchId === 'ai') return;
         dispatch(syncStateWithDatabase(matchId))
     }, [matchId])
+
+    useEffect(() => {
+        return async () => {
+            dispatch({type: 'SEND_MESSAGE', message: {from: localClientUsername, action: 'end match', data: {message: `${localClientUsername} has left the match`}}})
+            endMatch();
+        }
+    }, [])
+
+
 
     return(
         <DndProvider backend={HTML5Backend}> 

@@ -5,8 +5,8 @@ const setPlayers = createAction('SET_GAME_SETTINGS');
 const initialState = {
     user_color: '',
     opponent_color: '',
-    player_one_username: '',
-    player_two_username: '',
+    player_one: {username: '', color: ''},
+    player_two: {username: '', color: ''},
     difficulty: ''   
 }
 
@@ -15,8 +15,8 @@ const GameSettingsReducer = createReducer(initialState, (builder) => {
         .addCase(setPlayers, (state, action) => {
             state.user_color = action.payload.user; 
             state.opponent_color = action.payload.opponent;
-            state.player_one_username = action.payload.playerOneUsername || '';
-            state.player_two_username = action.payload.playerTwoUsername || '';
+            state.player_one = action.payload.playerOne || '';
+            state.player_two = action.payload.playerTwo || '';
             state.difficulty = action.payload.difficulty || '';
         })
 })
