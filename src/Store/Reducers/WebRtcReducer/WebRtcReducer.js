@@ -17,7 +17,15 @@ const setError = createAction('SET_ERROR');
 export const connectionManager = {
     peerConnection: null,
     signalingServer: null,
-    dataChannel: null
+    dataChannel: null,
+    cancelConnection: () => {
+        this.peerConnection?.close()
+        this.peerConnection = null;
+        this.signalingServer?.close();
+        this.signalingServer = null;
+        this.dataChannel?.close();
+        this.dataChannel = null
+    }
 }
 
 //serializable values
@@ -80,7 +88,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             connectionManager.dataChannel = action.payload.dataChannel;
             console.log("Remote data channel is open!");
         })
-        .addCase(closeLocalDataChannel, (state, action) => {
+        .addCase(closeLocalDataChannel, (state) => {
             connectionManager.dataChannel?.close();
             connectionManager.dataChannel = null;
             state.message = '';
@@ -91,11 +99,10 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             state.connected = action.payload.connected;
         })
         .addCase(cancelConnection, (state) => {
-            connectionManager.dataChannel?.close();
-            connectionManager.dataChannel = null;
+            connectionManager.cancelConnection();
             state.message = '';
             state.connected = false;
-            console.log('Local data channel closed');    
+            console.log('Connection has been cancelled');    
         })
         .addCase(setError, (state, action) => {
             connectionManager.dataChannel?.close();

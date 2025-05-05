@@ -1,4 +1,4 @@
-import React, {useMemo, useRef, useEffect} from 'react';
+import React, {useMemo, useRef, useEffect, useCallback} from 'react';
 import ShowMovesMobile from './SideBar/ShowMoves';
 import PlayerToPlayerCommunication from './PlayerToPlayerCommunication';
 import AI_Player from './AI_Player';
@@ -59,10 +59,10 @@ function Chessboard() {
     const columns = useRef(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']);
     const dispatch = useDispatch();
     const userColor = useSelector(state => state.settings.user_color)
-    const localClientUsername = useSelector(state => state.account.username);
+    const connectionError = useSelector(state => state.webRTC.error);
 
 
-    const endMatch = async () => {
+    const endMatch = useCallback(async () => {
         try{
             const response = await fetch(`https://world-class-chess-server.com/delete_match/${matchId}`, {
                 method: 'DELETE'
@@ -84,7 +84,7 @@ function Chessboard() {
             console.log(message);
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', message: 'Server is offline, please try again later'})
         }   
-    }
+    }, [matchId])
 
     const squares = useMemo(() => {
         const squares = [];
@@ -143,13 +143,30 @@ function Chessboard() {
     }, [matchId])
 
     useEffect(() => {
-        return async () => {
-            dispatch({type: 'SEND_MESSAGE', message: {from: localClientUsername, action: 'end match', data: {message: `${localClientUsername} has left the match`}}})
-            endMatch();
+        if(!connectionError) return;
+
+        dispatch({type: 'CANCEL_CONNECTION'});
+        dispatch({type: 'DISPLAY_POPUP_MESSAGE', message: 'Opponent was disconnected'});
+        endMatch();
+
+    }, [connectionError])
+
+    useEffect(() => {
+        const handleConnection = () => {
+            dispatch({type: 'CANCEL_CONNECTION'});
+            fetch(`https://world-class-chess-server.com/delete_match/${matchId}`, {
+                method: 'DELETE',
+                keepalive: true
+            });
+        }
+
+        document.addEventListener('beforeunload', handleConnection)
+
+        return () => {
+            handleConnection && handleConnection();
+            document.removeEventListener('beforeunload', handleConnection)
         }
     }, [])
-
-
 
     return(
         <DndProvider backend={HTML5Backend}> 
@@ -161,7 +178,7 @@ function Chessboard() {
                 {mobile && <ShowMovesMobile/>}
                 {mobile && <PiecesTakenMobile mobile={mobile}/>}
                 <SideBar/>
-                <DeclareWinner/>
+                <DeclareWinner endMatch={endMatch}/>
                 {matchId === 'ai' && <AI_Player/>}
                 {matchId !== 'ai' && <PlayerToPlayerCommunication matchId={matchId}/>}                         
             </section>

@@ -15,6 +15,7 @@ function PlayerToPlayerCommunication({matchId}) {
 
         dispatch(syncStateWithDatabase(matchId))
     }, [message])       
+
     
     return null;
 }
