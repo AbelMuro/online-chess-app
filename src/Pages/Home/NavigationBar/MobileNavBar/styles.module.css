@@ -69,14 +69,14 @@
     padding: 0px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 45px;
     list-style-type: none;
 }
 
-.menu_links > li{
+.menu_links > li, .menu_register, .menu_login{
     color: var(--text-color);
     font-family: 'mulish';
-    font-size: 1rem;
+    font-size: 1.4rem;
     font-weight: 300;
     cursor: pointer;
 }
@@ -88,6 +88,26 @@
 .menu_links > li:active{
     color: var(--button-bg-active);
 }
+
+.menu_register, .menu_login{
+    width: 100%;
+    padding: 10px;
+    background-color: transparent;
+    border: 1px solid var(--text-color);
+    border-radius: 10px;
+}
+
+.menu_register:hover, 
+.menu_login:hover{
+    border-color: var(--button-bg-hover);
+    color: var(--button-bg-hover);
+}
+
+.menu_register:active,
+.menu_register:active{
+    border-color: var(--button-bg-active);
+    color: var(--button-bg-active);
+}   
 
 .menu_close{
     width: 50px;

@@ -3,6 +3,11 @@
     src: url('./assets/fonts/Mulish-VariableFont_wght.ttf');
 }
 
+@font-face {
+    font-family: 'amanda black';
+    src: url('./assets/fonts/AnandaBlackPersonal.ttf');
+}
+
 body{
     margin: 0px;
     min-height: 100vh;
@@ -30,7 +35,7 @@ body{
     --error-text: rgb(160, 0, 0);
 
     --button-bg: rgb(0, 0, 161);
-    --button-bg-hover: rgb(4, 4, 209);
+    --button-bg-hover: #0404d1;
     --button-bg-active: rgb(3, 3, 253);
 
     --button-2-bg: rgb(240, 240, 240);

@@ -1,0 +1,15 @@
+.header{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100dvh - 60px);
+}
+
+.header_title{
+    margin: 0px;
+    font-family: 'amanda black';
+    font-size: 5rem;
+    color: var(--text-color);
+    font-weight: 300;
+}
