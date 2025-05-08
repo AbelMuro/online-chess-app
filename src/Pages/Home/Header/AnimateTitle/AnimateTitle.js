@@ -4,18 +4,20 @@ import * as styles from './styles.module.css';
 
 function AnimateTitle() {
     return(
-        <svg viewBox="0 0 500 200" width="500" height="200">
-            <motion.path
-                d="M10,100 Q100,10 200,100 T400,100"
-                fill="transparent"
-                stroke="black"
-                strokeWidth="3"
-                strokeLinecap="round"
-                initial={{ strokeDasharray: 500, strokeDashoffset: 500 }}
-                animate={{ strokeDashoffset: 0 }}
-                transition={{ duration: 2, ease: "easeInOut" }}
-            />
-        </svg>        
+        <svg width="300" height="100" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+            <motion.text
+            x="10"
+            y="50"
+            fontFamily="AmandaBlackPersonal, sans-serif"
+            fontSize="40"
+            fill="black"
+            initial={{ strokeDasharray: 300, strokeDashoffset: 300 }}
+            animate={{ strokeDashoffset: 0 }}
+            transition={{ duration: 2, ease: "easeInOut" }}
+            >
+                World Class Chess
+            </motion.text>
+      </svg>       
     )
 
 }
