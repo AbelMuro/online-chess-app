@@ -29,7 +29,7 @@ const updateDatabaseWithState = async (matchId, {getState, dispatch}) => {
     }
     catch(error){
         const message = error.message;
-        dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message}})  
+        dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later'}})  
         return Promise.reject({message});
     }
 }
