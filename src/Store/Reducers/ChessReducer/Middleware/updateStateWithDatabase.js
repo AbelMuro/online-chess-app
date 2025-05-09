@@ -12,6 +12,7 @@ const updateStateWithDatabase = async (matchId, {dispatch}) => {
         const chessAccountData = localStorage.getItem('persist:chess-account-data');
         const account = JSON.parse(chessAccountData).account;
         const localClientUsername = JSON.parse(account).username;
+        console.log('username', localClientUsername);
 
         const response = await fetch(`https://world-class-chess-server.com/get_match/${matchId}`, {
             method: 'GET'
