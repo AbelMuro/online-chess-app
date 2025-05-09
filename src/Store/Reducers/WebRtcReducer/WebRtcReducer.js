@@ -109,7 +109,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             connectionManager.dataChannel = null;
             state.message = '';
             state.connected = false;
-            state.error = action.payload.message;
+            state.error = action.payload.error;
             console.log('Error has occured ', state.error);
         })
         .addCase(clearMessage, (state) => {
