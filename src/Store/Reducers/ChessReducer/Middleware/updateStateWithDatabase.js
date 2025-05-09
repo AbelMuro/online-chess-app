@@ -12,7 +12,6 @@ const updateStateWithDatabase = async (matchId, {dispatch}) => {
         const chessAccountData = localStorage.getItem('persist:chess-account-data');
         const account = JSON.parse(chessAccountData).account;
         const localClientUsername = JSON.parse(account).username;
-        console.log('username', localClientUsername);
 
         const response = await fetch(`https://world-class-chess-server.com/get_match/${matchId}`, {
             method: 'GET'
@@ -26,7 +25,8 @@ const updateStateWithDatabase = async (matchId, {dispatch}) => {
             const playerOneColor = playerOne.color;
             const playerTwoColor = playerTwo.color;
 
-            console.log(playerOne.username, playerTwo.username);
+            console.log('user', localClientUsername === playerOne.username ? playerOneColor : playerTwoColor)
+            console.log('user', localClientUsername === playerOne.username ? playerTwoColor : playerOneColor)
 
             dispatch({type: 'SET_GAME_SETTINGS', payload: {
                 user: localClientUsername === playerOne.username ? playerOneColor : playerTwoColor,
