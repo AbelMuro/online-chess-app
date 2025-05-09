@@ -136,7 +136,7 @@ function Chessboard() {
                 }        
             }
         return squares;
-    }, [])
+    }, [userColor])
 
 
     useEffect(() => {
