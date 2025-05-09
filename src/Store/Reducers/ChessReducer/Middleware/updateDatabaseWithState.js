@@ -19,6 +19,7 @@ const updateDatabaseWithState = async (matchId, {getState, dispatch}) => {
         else if(response.status === 404){
             const message = await response.text();
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Match was not found in the database'}})    
+            return Promise.reject({message});
         }
         else{
             const message = await response.text();
