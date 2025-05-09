@@ -1,5 +1,6 @@
 const updateDatabaseWithState = async (matchId, {getState, dispatch}) => {
     try{
+        console.log(matchId);
         const chess = getState();
         const account = getState();
         const localClientUsername = account.username;
