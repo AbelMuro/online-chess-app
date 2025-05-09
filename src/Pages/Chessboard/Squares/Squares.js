@@ -3,7 +3,7 @@ import {useParams} from 'react-router-dom';
 import Dialog from '~/assets/Components/Dialog';
 import { useDrop } from "react-dnd"
 import {useSelector, useDispatch} from 'react-redux';
-import {syncDatabaseWithState} from '!/chessReducer.js'
+import {syncDatabaseWithState} from '!/ChessReducer'
 import Pawn from './Pawn';
 import Rook from './Rook';
 import Knight from './Knight';
