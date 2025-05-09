@@ -1,3 +1,8 @@
+/* 
+
+    this is where i left off, test everythhing now!
+*/
+
 const updateDatabaseWithState = async (matchId, {getState, dispatch}) => {
     try{
         const chess = getState();
@@ -9,7 +14,21 @@ const updateDatabaseWithState = async (matchId, {getState, dispatch}) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({chess, matchId})
+            body: JSON.stringify({
+                board: chess.board, 
+                legal_squares: chess.legal_squares,
+                moves: chess.moves,
+                stalemate: chess.stalemate,
+                checkmate: chess.checkmate,
+                time_traveling: chess.time_traveling,
+                castleling: chess.castleling,
+                en_passant: chess.en_passant,
+                pinned_pieces: chess.pinned_pieces,
+                difficulty: chess.difficulty,
+                pieceToBeMoved: chess.pieceToBeMoved,
+                current_turn: chess.current_turn,
+                matchId
+            })
         })
         if(response.status === 200){
             const message = await response.text();
