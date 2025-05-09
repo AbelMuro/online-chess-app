@@ -13,6 +13,7 @@
   "dependencies": {
     "@karmaniverous/serify-deserify": "^2.0.11",
     "@reduxjs/toolkit": "^2.5.0",
+    "animejs": "^4.0.2",
     "dotenv-webpack": "^8.1.0",
     "framer-motion": "^12.0.6",
     "react": "^19.0.0",

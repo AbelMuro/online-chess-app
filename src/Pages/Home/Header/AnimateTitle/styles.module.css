@@ -1,0 +1,13 @@
+.container{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.title{
+    margin: 0px;
+    font-family: 'amanda black';
+    font-size: 5rem;
+    color: var(--text-color);
+    font-weight: 300;
+}

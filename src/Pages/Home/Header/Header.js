@@ -5,9 +5,7 @@ import * as styles from './styles.module.css';
 function Header() {
     return(
         <header className={styles.header}>
-            <h1 className={styles.header_title}>
-                World Class Chess
-            </h1>
+            <AnimateTitle/>
         </header>
     )
 }
