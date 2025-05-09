@@ -1,4 +1,5 @@
 import {memo, useEffect} from 'react';
+import { syncStateWithDatabase } from '!/ChessReducer';
 import {useNavigate} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 
