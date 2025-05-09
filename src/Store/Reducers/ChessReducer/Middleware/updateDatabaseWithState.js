@@ -4,7 +4,7 @@ const updateDatabaseWithState = async (matchId, {getState, dispatch}) => {
         const account = getState();
         const localClientUsername = account.username;
 
-        const response = await fetch(`https://world-class-chess-server.com/update_match/${matchId}`, {
+        const response = await fetch(`https://world-class-chess-server.com/update_match`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -16,9 +16,13 @@ const updateDatabaseWithState = async (matchId, {getState, dispatch}) => {
             dispatch({type: 'SEND_MESSAGE', payload: {message: {from: localClientUsername, action: 'move', data: {}}}})
             return Promise.resolve({message});        
         }
+        else if(response.status === 404){
+            const message = await response.text();
+            dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Match was not found in the database'}})    
+        }
         else{
             const message = await response.text();
-            dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message}})    
+            dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later'}})    
             return Promise.reject({message})
         }
     }
