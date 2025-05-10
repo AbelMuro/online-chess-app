@@ -8,9 +8,11 @@ function useWebSocket(url, callback, initialState, dataToRemove) {
         const socket = new WebSocket(url);            	
 
         socket.onopen = () => {                                        
-            console.log(`Connected to ${url} websocket serverssssssss`);
-            if(socket.readyState === WebSocket.OPEN)
+            console.log(`Connected to ${url} websocket servers`);
+            if(socket.readyState === WebSocket.OPEN){
+                console.log('websocket is ready')
                 socket.send(dataToRemove);
+            }
             else
                 console.error('Websocket not ready for sending')
         };

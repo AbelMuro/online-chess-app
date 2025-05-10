@@ -65,7 +65,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             const message = action.payload;
             console.log(message);
         })
-        .addCase(sendOffer.pending, (state, action) => {
+        .addCase(sendOffer.pending, () => {
             console.log('waiting for offer to be created and sent...');
         })
         .addCase(sendOffer.rejected, (state, action) => {
