@@ -180,7 +180,6 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
         squaresBetweenKingAndAttacker = [];
         return [squaresBetweenKingAndAttacker, king_in_check]
       }
-          
   }
   
   export const checkSquaresForBlocks = (state, square, piece_color) => {
