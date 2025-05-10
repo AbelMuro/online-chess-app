@@ -9,9 +9,7 @@ function useWebSocket(url, callback, initialState, dataToRemove) {
 
         socket.onopen = () => {                                        
             console.log(`Connected to ${url} websocket server`);
-            setTimeout(() => {
-                socket.send(JSON.stringify(dataToRemove));
-            }, 10)
+            setTimeout(() => socket.send(JSON.stringify(dataToRemove)), 100);
         };
     
         socket.onmessage = callback;                        
