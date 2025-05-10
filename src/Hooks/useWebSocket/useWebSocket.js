@@ -9,6 +9,7 @@ function useWebSocket(url, callback, initialState, dataToRemove) {
 
         socket.onopen = () => {                                        
             console.log(`Connected to ${url} websocket server`);
+            socket.send(JSON.stringify(dataToRemove));
         };
     
         socket.onmessage = callback;                        
@@ -22,7 +23,6 @@ function useWebSocket(url, callback, initialState, dataToRemove) {
         };
 
         return () => {
-            socket?.send?.(JSON.stringify({action: 'remove', data: dataToRemove}))
             socket?.close?.();
         }
     }, [])
