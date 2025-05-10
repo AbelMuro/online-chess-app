@@ -155,7 +155,7 @@ function Chessboard() {
     }, [matchId])
 
     useEffect(() => {
-        if(!connectionError && checkmate) return;
+        if(!connectionError || checkmate) return;
 
         dispatch({type: 'CANCEL_CONNECTION'});
         dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Opponent was disconnected'}});
