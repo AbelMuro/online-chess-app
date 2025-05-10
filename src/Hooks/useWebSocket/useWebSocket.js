@@ -8,13 +8,13 @@ function useWebSocket(url, callback, initialState, dataToRemove) {
         const socket = new WebSocket(url);            	
 
         socket.onopen = () => {                                        
-            console.log(`Connected to ${url} webSocket server`);
+            console.log(`Connected to ${url} websocket server`);
         };
     
         socket.onmessage = callback;                        
     
         socket.onclose = () => {
-            console.log(`Disconnected from ${url} webSocket server`);
+            console.log(`Disconnected from ${url} websocket server`);
         };
     
         socket.onerror = (error) => {
