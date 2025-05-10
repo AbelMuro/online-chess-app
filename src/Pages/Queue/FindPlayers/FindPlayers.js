@@ -16,7 +16,7 @@ function FindPlayers() {
         (e) => {
             const documents = JSON.parse(e.data);             
             setPlayers(documents);            
-        }, []);
+        }, [], username);
 
 
     const availablePlayers = useMemo(() => {

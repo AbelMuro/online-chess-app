@@ -11,8 +11,7 @@ function Queue() {
     const navigate = useNavigate();   
      
     const handleLeave = () => {
-        const choice = confirm('Are you sure you want to leave queue?');
-        if(choice) leaveQueue();
+        confirm('Are you sure you want to leave queue?');
     }
 
     const putPlayerInQueue = async () => {
@@ -54,58 +53,6 @@ function Queue() {
         }
     }
 
-    const leaveQueue = async () => {
-        try{
-            const response = await fetch('https://world-class-chess-server.com/leave_queue', {
-                method: 'DELETE',
-                credentials: 'include',
-            })
-            
-            if(response.status === 200){
-                const result = await response.text();
-                console.log(result);
-                navigate('/menu');
-            }
-            else if(response.status === 403){
-                const result = await response.text();
-                console.log(result);
-                dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: result}})
-                navigate('/');
-            }
-            else if(response.status === 404){
-                const result = await response.text();
-                console.log(result);
-                dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: result}})
-            }
-            else{
-                const result = await response.text();
-                console.error('Internal Server Error has occurred in this endpoint /leave_queue ', result);
-                dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later.'}})
-            }
-        }
-        catch(error){
-            const message = error.message;
-            console.error('Server went offline in this endpoint /leave_queue ', message);
-            dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later.'}});
-        }
-    }
-
-    useEffect(() => {
-       const removePlayerFromQueue = () => {
-            fetch('https://world-class-chess-server.com/leave_queue', {
-                method: 'DELETE',
-                credentials: 'include',
-                keepalive: true
-            });                
-        }    
-        
-        window.addEventListener('beforeunload', removePlayerFromQueue);
-
-        return () => {
-            removePlayerFromQueue && removePlayerFromQueue()
-            window.removeEventListener('beforeunload', removePlayerFromQueue);
-        }
-    }, [])
 
     useEffect(() => {
         putPlayerInQueue();

@@ -25,7 +25,6 @@ function WaitingForReply({setWaiting}) {
     useEffect(() => {
         if(!error) return;
         
-        console.log(error);
         setWaiting(false);
         dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player was disconnected'}});
         dispatch({type: 'CLOSE_DATA_CHANNEL'})
@@ -81,9 +80,7 @@ function WaitingForReply({setWaiting}) {
                 else{
                     console.error('Server went offline in this endpoint /create_match ', message)
                     dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
-                }    
-                
-                
+                }       
             })
         }
     }, [message])

@@ -4,7 +4,7 @@ import Dialog from '~/assets/Components/Dialog';
 import {useSelector} from 'react-redux';
 import * as styles from './styles.module.css';
 
-function DeclareWinner({endMatch}) {
+function DeclareWinner() {
     const checkmate = useSelector(state => state.chess.checkmate.game_over);
     const stalemate = useSelector(state => state.chess.stalemate.game_over);
     const resigns = useSelector(state => state.chess.resigns);
@@ -12,7 +12,6 @@ function DeclareWinner({endMatch}) {
     const navigate = useNavigate();
 
     const handleGoBack = () => {
-        endMatch();
         navigate('/menu');
     }
 

@@ -74,6 +74,7 @@ function Chessboard() {
     const checkmate = useSelector(state => state.chess.checkmate.game_over);
 
 
+    /* 
     const endMatch = useCallback(async () => {
         try{
             const response = await fetch(`https://world-class-chess-server.com/delete_match/${matchId}`, {
@@ -88,7 +89,6 @@ function Chessboard() {
             else{
                 const message = await response.text();
                 console.error('Internal server error occurred in this endpoint /delete_match ', message);
-                dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later'}});
             }
         }
         catch(error){
@@ -97,6 +97,8 @@ function Chessboard() {
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
         }   
     }, [matchId])
+    
+    */
 
     const squares = useMemo(() => {
         const squares = [];
@@ -159,10 +161,10 @@ function Chessboard() {
 
         dispatch({type: 'CANCEL_CONNECTION'});
         dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Opponent was disconnected'}});
-        endMatch();
 
     }, [connectionError, checkmate])
 
+    /*
     useEffect(() => {
         const handleConnection = () => {
             dispatch({type: 'CANCEL_CONNECTION'});
@@ -172,13 +174,15 @@ function Chessboard() {
             });
         }
 
-        document.addEventListener('beforeunload', handleConnection)
+        window.addEventListener('beforeunload', handleConnection)
 
         return () => {
             handleConnection && handleConnection();
-            document.removeEventListener('beforeunload', handleConnection)
+            window.removeEventListener('beforeunload', handleConnection)
         }
-    }, [])
+    }, [])    
+    */
+
 
     return(
         <DndProvider backend={HTML5Backend}> 
@@ -190,7 +194,7 @@ function Chessboard() {
                 {mobile && <ShowMovesMobile/>}
                 {mobile && <PiecesTakenMobile mobile={mobile}/>}
                 <SideBar/>
-                <DeclareWinner endMatch={endMatch}/>
+                <DeclareWinner/>
                 {matchId === 'ai' && <AI_Player/>}
                 {matchId !== 'ai' && <PlayerToPlayerCommunication matchId={matchId}/>}                         
             </section>
