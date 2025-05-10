@@ -5,9 +5,7 @@
 
 const updateDatabaseWithState = async (matchId, {getState, dispatch}) => {
     try{
-        const chess = getState();
-        console.log(chess);
-        const account = getState();
+        const {chess, account} = getState();
         const localClientUsername = account.username;
 
         const response = await fetch(`https://world-class-chess-server.com/update_match`, {
