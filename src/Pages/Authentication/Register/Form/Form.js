@@ -56,14 +56,15 @@ function Form(){
                 
             else{
                 const message = await response.text();
+                console.error('Internal server error has occurred in this endpoint /register', message);
                 dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later.'}})
-                console.log(message);
+                
             }
                 
         }
         catch(error){
             const message = error.message;
-            console.log(message);
+            console.error('Server went offline in this endpoint /register', message);
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later.'}})
         }
         finally{

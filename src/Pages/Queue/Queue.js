@@ -43,13 +43,13 @@ function Queue() {
             }
             else{
                 const result = await response.text();
-                console.log(result);
+                console.error('Internal Server Error has occurred in this endpoint /put_player_in_queue ', result);
                 dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later.'}})
             }
         }
         catch(error){
             const message = error.message;
-            console.log(message);
+            console.error('Server went offline in this endpoint /put_player_in_queue ', message);
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
         }
     }
@@ -79,13 +79,13 @@ function Queue() {
             }
             else{
                 const result = await response.text();
-                console.log(result)
+                console.error('Internal Server Error has occurred in this endpoint /leave_queue ', result);
                 dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later.'}})
             }
         }
         catch(error){
             const message = error.message;
-            console.log(message);
+            console.error('Server went offline in this endpoint /leave_queue ', message);
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later.'}});
         }
     }

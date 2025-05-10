@@ -14,8 +14,7 @@ const createDataChannel = (_, {dispatch, fulfillWithValue}) => {
             dispatch({type: 'CLOSE_DATA_CHANNEL'})
         };  
         dataChannel.onerror = (error) => {
-            console.log('Local data channel experienced an error ');
-            dispatch({type: 'SET_ERROR', payload: {error}});
+            dispatch({type: 'SET_ERROR', payload: {error, message: 'Local data channel experienced an error'}});
         };
         dataChannel.onmessage = (e) => {
             console.log('Received message from remote client', e.data)

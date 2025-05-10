@@ -87,13 +87,13 @@ function Chessboard() {
             }
             else{
                 const message = await response.text();
-                console.log(message);
+                console.error('Internal server error occurred in this endpoint /delete_match ', message);
                 dispatch({type: 'DISPLAY_POPUP_MESSAGE', message: 'Internal Server Error has occurred, please try again later'});
             }
         }
         catch(error){
-            const message = message.error;
-            console.log(message);
+            const message = error.message;
+            console.error('Server went offline in this endpoint /delete_match ', message);
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', message: 'Server is offline, please try again later'})
         }   
     }, [matchId])
@@ -157,7 +157,6 @@ function Chessboard() {
     useEffect(() => {
         if(!connectionError && checkmate) return;
 
-        console.log('connection error and checkmate useEffect')
         dispatch({type: 'CANCEL_CONNECTION'});
         dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Opponent was disconnected'}});
         endMatch();

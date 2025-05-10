@@ -111,7 +111,8 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             state.message = '';
             state.connected = false;
             state.error = action.payload.error;
-            console.log(state.error);
+            const message = action.payload.message;
+            console.error(message, state.error);
         })
         .addCase(clearMessage, (state) => {
             state.message = '';

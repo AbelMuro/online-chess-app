@@ -61,7 +61,7 @@ function WaitingForReply({setWaiting}) {
                 }
                 else{
                     const message = await response.text();
-                    throw new Error(`Internal Server Error has occured: ${message}`);
+                    throw new Error(message, {cause: 'could not create match'});
                 }
             }) 
             .then((result) => {
@@ -72,8 +72,18 @@ function WaitingForReply({setWaiting}) {
             })
             .catch((error) => {
                 const message = error.message;
-                console.log(message);
-                dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
+                const cause = error.cause;
+                if(cause === 'could not create match'){
+                    console.error('Internal Server error occurred in this endpoint /create_match', message);
+                    dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Internal Server error has occurred, please try again later'}})
+                }
+                   
+                else{
+                    console.error('Server went offline in this endpoint /create_match ', message)
+                    dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
+                }    
+                
+                
             })
         }
     }, [message])

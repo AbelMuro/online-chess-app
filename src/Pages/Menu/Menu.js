@@ -35,7 +35,7 @@ function Menu() {
         }
         catch(error){
             const message = error.message;
-            console.log(message);
+            console.error('Server went offline in this endpoint /logout ', message);
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
         }
     }   

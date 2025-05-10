@@ -36,14 +36,16 @@ function Form() {
             
             else{
                 const message = await response.text();
+                console.error(`Internal Server Error from endpoint /forgotpassword`, message);
                 dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later.'}})
-                console.log(message);
+                
             }
                 
         }
         catch(error){
+            const message = error.message;
+            console.error('Server went offline in endpoint /forgotpassword', message)
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later.'}})
-            console.log(error.message);
         }
         finally{
             setLoading && setLoading(false);

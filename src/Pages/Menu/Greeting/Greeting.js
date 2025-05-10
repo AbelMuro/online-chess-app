@@ -38,13 +38,13 @@ function Greeting(){
             }
             else{
                 const message = await response.text();
-                console.log(message);
+                console.error('Internal Server error has occurred in this endpoint /get_account ', message);
                 dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later.'}})
             }
         }
         catch(error){
             const message = error.message;
-            console.log(message);
+            console.error('Server went offline in this endpoint /get_account ', message);
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later.'}})
         }
     }
