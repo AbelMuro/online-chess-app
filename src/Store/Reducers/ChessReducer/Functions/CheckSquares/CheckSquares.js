@@ -176,8 +176,11 @@ export const checkSquaresForCheck = (state, row, column, piece_color) => {
   
       if(king_in_check) 
         return [squaresBetweenKingAndAttacker, king_in_check];
-      else
-          [[], false]
+      else{
+        squaresBetweenKingAndAttacker = [];
+        return [squaresBetweenKingAndAttacker, king_in_check]
+      }
+          
   }
   
   export const checkSquaresForBlocks = (state, square, piece_color) => {
