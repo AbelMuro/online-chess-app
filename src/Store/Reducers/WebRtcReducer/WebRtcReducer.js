@@ -18,7 +18,7 @@ export const connectionManager = {
     peerConnection: null,
     signalingServer: null,
     dataChannel: null,
-    cancelConnection: () => {
+    cancelConnection: function() {
         this.peerConnection?.close()
         this.peerConnection = null;
         this.signalingServer?.close();
