@@ -88,13 +88,13 @@ function Chessboard() {
             else{
                 const message = await response.text();
                 console.error('Internal server error occurred in this endpoint /delete_match ', message);
-                dispatch({type: 'DISPLAY_POPUP_MESSAGE', message: 'Internal Server Error has occurred, please try again later'});
+                dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later'}});
             }
         }
         catch(error){
             const message = error.message;
             console.error('Server went offline in this endpoint /delete_match ', message);
-            dispatch({type: 'DISPLAY_POPUP_MESSAGE', message: 'Server is offline, please try again later'})
+            dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
         }   
     }, [matchId])
 
