@@ -8,7 +8,7 @@ function useWebSocket(url, callback, initialState, dataToRemove) {
         const socket = new WebSocket(url);            	
 
         socket.onopen = () => {                                        
-            console.log(`Connected to ${url} websocket server`);
+            console.log(`Connected to ${url} websocket serverssssssss`);
             if(socket.readyState === WebSocket.OPEN)
                 socket.send(dataToRemove);
             else
