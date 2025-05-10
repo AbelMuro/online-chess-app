@@ -36,6 +36,7 @@ const legalKingSquares = createAction('LEGAL_KING_SQUARES');
 const removeAllLegalSquares = createAction('REMOVE_ALL_LEGAL_SQUARES');
 
 const isKingInCheck = createAction('IS_KING_IN_CHECK');
+const isOpposingKingInCheck = createAction('IS_OPPOSING_KING_IN_CHECK');
 const hasKingBeenMoved = createAction('HAS_KING_BEEN_MOVED');
 const hasRooksBeenMoved = createAction('HAS_ROOKS_BEEN_MOVED')
 const resigns = createAction('RESIGNS');
@@ -86,7 +87,8 @@ const initialState = {
       king_in_check: false,
       squares_between_king_and_attacker: [],
       game_over: false
-    },        
+    },   
+
     time_traveling: {         //used for redoing and undoing moves
         past: [],
         future: [],
@@ -833,10 +835,13 @@ const ChessReducer = createReducer(initialState, (builder) => {
       const piece_color = action.payload.square.color;
       const opposing_color = piece_color === 'white' ? 'black' : 'white';
       
-      checkSquaresForCheck(state, row, column, piece_color)     //this function will check if the king is currently in check by traversing through the squares north, west, east, south and diagonally for threats
-      const squares_between_king_and_attacker = state.checkmate.squares_between_king_and_attacker
+      const [squares, king_in_check] = checkSquaresForCheck(state, row, column, piece_color)     //this function will check if the king is currently in check by traversing through the squares north, west, east, south and diagonally for threats
+      state.checkmate.squares_between_king_and_attacker = squares;
+      state.checkmate.king_in_check = king_in_check;
     
       if(!state.checkmate.king_in_check) return;
+
+      const squares_between_king_and_attacker = state.checkmate.squares_between_king_and_attacker
 
       let isSquareBlockable = false;
       for(let i = 0; i < squares_between_king_and_attacker.length; i++){
@@ -850,6 +855,33 @@ const ChessReducer = createReducer(initialState, (builder) => {
       
       if(!legalMoves.length && !attackerIsUnderThreat)
         state.checkmate.game_over = opposing_color;
+    })
+    .addCase(isOpposingKingInCheck, (state, action) => {
+        const row = action.payload.square.row;
+        const column = action.payload.square.column;
+        const piece_color = action.payload.square.color;
+        const opposing_color = piece_color === 'white' ? 'black' : 'white';
+
+        const [squares, king_in_check] = checkSquaresForCheck(state, row, column, piece_color);
+
+        if(!king_in_check) return;
+
+        const squares_between_king_and_attacker = squares;
+
+        let isSquareBlockable = false;
+        for(let i = 0; i < squares_between_king_and_attacker.length; i++){
+          isSquareBlockable = checkSquaresForBlocks(state, squares_between_king_and_attacker[i], piece_color);
+          if(isSquareBlockable)
+            return; 
+        }
+
+        const attacker = squares_between_king_and_attacker[squares_between_king_and_attacker.length - 1]; 
+        const attackerIsUnderThreat = checkSquaresForThreats(state, attacker, piece_color);
+        const legalMoves = createLegalSquaresForKing(state, row, column, piece_color);
+
+        if(!legalMoves.length && !attackerIsUnderThreat)
+          state.checkmate.game_over = opposing_color;
+
     })
     .addCase(changeTurn, (state) => {
       state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
