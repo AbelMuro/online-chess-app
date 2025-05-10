@@ -71,6 +71,7 @@ function Chessboard() {
     const dispatch = useDispatch();
     const userColor = useSelector(state => state.settings.user_color)
     const connectionError = useSelector(state => state.webRTC.error);
+    const checkmate = useSelector(state => state.chess.checkmate.game_over);
 
 
     const endMatch = useCallback(async () => {
@@ -154,13 +155,13 @@ function Chessboard() {
     }, [matchId])
 
     useEffect(() => {
-        if(!connectionError) return;
+        if(!connectionError && checkmate) return;
 
         dispatch({type: 'CANCEL_CONNECTION'});
-        dispatch({type: 'DISPLAY_POPUP_MESSAGE', message: 'Opponent was disconnected'});
+        dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Opponent was disconnected'}});
         endMatch();
 
-    }, [connectionError])
+    }, [connectionError, checkmate])
 
     useEffect(() => {
         const handleConnection = () => {

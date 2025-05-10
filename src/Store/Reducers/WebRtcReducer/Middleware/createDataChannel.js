@@ -14,7 +14,7 @@ const createDataChannel = (_, {dispatch, fulfillWithValue}) => {
             dispatch({type: 'CLOSE_DATA_CHANNEL'})
         };  
         dataChannel.onerror = (error) => {
-            console.log('Local data channel experienced an error ', error);
+            console.log('Local data channel experienced an error ');
             dispatch({type: 'SET_ERROR', payload: {error}});
         };
         dataChannel.onmessage = (e) => {

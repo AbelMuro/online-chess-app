@@ -4,6 +4,7 @@ import {initiatePeerConnection, createDataChannel, createOffer} from './Middlewa
 export const initiateWebRTC = createAsyncThunk('INITIATE_WEBRTC', initiatePeerConnection);
 export const createLocalDataChannel = createAsyncThunk('CREATE_LOCAL_DATA_CHANNEL', createDataChannel);
 export const sendOffer = createAsyncThunk('CREATE_OFFER', createOffer)
+
 const setLocalDataChannel = createAction('SET_DATA_CHANNEL');
 const closeLocalDataChannel = createAction('CLOSE_DATA_CHANNEL');
 const setMessage = createAction('SET_MESSAGE');
@@ -110,7 +111,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             state.message = '';
             state.connected = false;
             state.error = action.payload.error;
-            console.log('Error has occured ', state.error);
+            console.log(state.error);
         })
         .addCase(clearMessage, (state) => {
             state.message = '';
