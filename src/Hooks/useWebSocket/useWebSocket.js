@@ -22,7 +22,6 @@ function useWebSocket(url, callback, initialState) {
         };
 
         return () => {
-            socket?.send?.('helll owolrld')
             socket?.close?.();
         }
     }, [])

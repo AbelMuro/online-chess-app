@@ -12,11 +12,11 @@ function FindPlayers() {
     const navigate = useNavigate();
     const username = useSelector(state => state.account.username);
     const [players, setPlayers] = useWebSocket(
-        'wss://world-class-chess-server.com:443/queue', 
+        `wss://world-class-chess-server.com:443/queue?username=${username}`, 
         (e) => {
             const documents = JSON.parse(e.data);             
             setPlayers(documents);            
-        }, [], username);
+        }, []);
 
 
     const availablePlayers = useMemo(() => {
