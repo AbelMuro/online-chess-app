@@ -23,12 +23,12 @@ export const connectionManager = {
     signalingServer: null,
     dataChannel: null,
     cancelConnection: function() {
+        this.dataChannel?.close();
+        this.dataChannel = null
         this.peerConnection?.close()
         this.peerConnection = null;
         this.signalingServer?.close();
         this.signalingServer = null;
-        this.dataChannel?.close();
-        this.dataChannel = null
     }
 }
 

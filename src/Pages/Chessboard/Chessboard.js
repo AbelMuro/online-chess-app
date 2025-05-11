@@ -54,14 +54,6 @@ import * as styles from './styles.module.css';
 // if a black pawn is between the white queen and the black king, that black pawn cannot be moved, so it will be stored within the pinned_pieces array
 
 
-
-/* 
-    This is where i left off, i need to use the useWebSocket hook here to connect to another
-    websocket to the back end. i should also test out the queue websocket since i made major
-    changes to that socket
-*/
-
-
 function Chessboard() {
     const {matchId} = useParams();
     const [mobile] = useMediaQuery('(max-width: 620px)');
