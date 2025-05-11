@@ -1,6 +1,6 @@
 import { connectionManager } from "../WebRtcReducer.js";
 
-const createOffer = async (_, {fulfillWithValue, getState, dispatch}) => {
+const createOffer = async (_, {fulfillWithValue, getState}) => {
     try{
         const {account, webRTC} = getState();
         const localClientUsername = account.username;

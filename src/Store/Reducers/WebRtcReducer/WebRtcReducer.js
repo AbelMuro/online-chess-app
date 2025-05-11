@@ -16,7 +16,6 @@ const cancelConnection = createAction('CANCEL_CONNECTION')
 
 const setError = createAction('SET_ERROR');
 const setRemoteClient = createAction('SET_REMOTE_CLIENT');
-const sendDataThroughWebsocket = createAction('SEND_DATA_THROUGH_WEBSOCKET');
 
 //non-serializable values
 export const connectionManager = {
