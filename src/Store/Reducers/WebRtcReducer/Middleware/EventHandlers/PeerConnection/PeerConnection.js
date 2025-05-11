@@ -12,7 +12,7 @@ const onIceConnectionStateChange = (peerConnection, dispatch) => {
         const state = peerConnection.iceConnectionState;
         console.log(`ICE state: ${state}`)
         if(state === 'disconnected' || state === 'failed' || state === 'closed')
-            dispatch({type: 'SET_ERROR', payload: {message: 'Could not establish ICE connection'}});
+            dispatch({type: 'SET_ERROR', payload: {error: state, message: 'Could not establish ICE connection'}});
     }
 }
 
