@@ -55,11 +55,9 @@ import * as styles from './styles.module.css';
 
 
 /* 
-    this is where i left off, i fixed the bug with both players having the same user_color and opponent_color
-    i created a route on the back-end to delete the match document if either player disconnects from the 
-    webRTC connection, the match is won by one of the players, or if either player leaves the session unexpectedly
-
-    i need to test everything out now
+    This is where i left off, i need to use the useWebSocket hook here to connect to another
+    websocket to the back end. i should also test out the queue websocket since i made major
+    changes to that socket
 */
 
 
@@ -72,33 +70,6 @@ function Chessboard() {
     const userColor = useSelector(state => state.settings.user_color)
     const connectionError = useSelector(state => state.webRTC.error);
     const checkmate = useSelector(state => state.chess.checkmate.game_over);
-
-
-    /* 
-    const endMatch = useCallback(async () => {
-        try{
-            const response = await fetch(`https://world-class-chess-server.com/delete_match/${matchId}`, {
-                method: 'DELETE'
-            });
-
-            if(response.status === 200){
-                const message = await response.text();
-                console.log(message);
-                navigate('/menu');
-            }
-            else{
-                const message = await response.text();
-                console.error('Internal server error occurred in this endpoint /delete_match ', message);
-            }
-        }
-        catch(error){
-            const message = error.message;
-            console.error('Server went offline in this endpoint /delete_match ', message);
-            dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
-        }   
-    }, [matchId])
-    
-    */
 
     const squares = useMemo(() => {
         const squares = [];
