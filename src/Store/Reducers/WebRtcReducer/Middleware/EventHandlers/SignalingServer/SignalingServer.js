@@ -12,6 +12,7 @@ const signalingServerOnMessage = (peerConnection, dispatch, signalingServer, get
                 await peerConnection.setRemoteDescription(new RTCSessionDescription(data.offer));   //we create a remote description of the offer  (remote description are the connection settings of the OTHER peer)
                 const answer = await peerConnection.createAnswer();                                 //we create an answer in response to the offer
                 await peerConnection.setLocalDescription(answer);                                   //we create a local description of the answer we created
+                dispatch({type: 'SET_REMOTE_CLIENT', payload: {username: remoteClientUsername}})
                 signalingServer.send(JSON.stringify({ 
                     type: 'answer', 
                     answer, 

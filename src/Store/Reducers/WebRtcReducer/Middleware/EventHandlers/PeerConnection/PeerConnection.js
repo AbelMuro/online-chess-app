@@ -4,7 +4,7 @@ const onIceCandidate = (signalingServer, getState) => {
         const localClientUsername = account.username;
         const remoteClientUsername = webRTC.remoteClientUsername;
 
-        console.log(remoteClientUsername);
+        console.log(localClientUsername);
 
         if(e.candidate) 
             signalingServer.send(JSON.stringify({
