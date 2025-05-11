@@ -1,4 +1,5 @@
-import React, {useMemo, useRef, useEffect, useCallback} from 'react';
+import React, {useMemo, useRef, useEffect} from 'react';
+import useWebSocket from '~/Hooks/useWebSocket';
 import ShowMovesMobile from './SideBar/ShowMoves';
 import PlayerToPlayerCommunication from './PlayerToPlayerCommunication';
 import AI_Player from './AI_Player';
@@ -70,6 +71,7 @@ function Chessboard() {
     const userColor = useSelector(state => state.settings.user_color)
     const connectionError = useSelector(state => state.webRTC.error);
     const checkmate = useSelector(state => state.chess.checkmate.game_over);
+    useWebSocket(`wss://world-class-chess-server.com:443/match?matchId=${matchId}`, () => {});
 
     const squares = useMemo(() => {
         const squares = [];
