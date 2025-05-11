@@ -1,36 +1,39 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 
 
 function useWebSocket(url, callback, initialState, dataToRemove) {
     const [data, setData] = useState(initialState);
+    const socketRef = useRef();
+    const [ready, setReady] = useState(false);
 
     useEffect(() => {
-        const socket = new WebSocket(url);            	
+        socketRef.current = new WebSocket(url);            	
 
-        socket.onopen = () => {                                        
+        socketRef.current.onopen = () => {                                        
             console.log(`Connected to ${url} websocket servers`);
-            if(socket.readyState === WebSocket.OPEN){
-                console.log('websocket is ready')
-                socket.send(dataToRemove);
-            }
-            else
-                console.error('Websocket not ready for sending')
+            setReady(true);
         };
     
-        socket.onmessage = callback;                        
+        socketRef.current.onmessage = callback;                        
     
-        socket.onclose = () => {
+        socketRef.current.onclose = () => {
             console.log(`Disconnected from ${url} websocket server`);
         };
     
-        socket.onerror = (error) => {
+        socketRef.current.onerror = (error) => {
             console.error(`Error occurred in websocket ${url}: `, error);
         };
 
         return () => {
-            socket?.close?.();
+            socketRef.current?.close?.();
         }
     }, [])
+
+    useEffect(() => {
+        if(!ready) return;
+
+        socketRef.current.send(dataToRemove);
+    }, [ready])
 
     return [data, setData];
 }
