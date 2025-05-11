@@ -137,25 +137,6 @@ function Chessboard() {
 
     }, [connectionError, checkmate])
 
-    /*
-    useEffect(() => {
-        const handleConnection = () => {
-            dispatch({type: 'CANCEL_CONNECTION'});
-            fetch(`https://world-class-chess-server.com/delete_match/${matchId}`, {
-                method: 'DELETE',
-                keepalive: true
-            });
-        }
-
-        window.addEventListener('beforeunload', handleConnection)
-
-        return () => {
-            handleConnection && handleConnection();
-            window.removeEventListener('beforeunload', handleConnection)
-        }
-    }, [])    
-    */
-
 
     return(
         <DndProvider backend={HTML5Backend}> 
