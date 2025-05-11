@@ -134,6 +134,9 @@ function Chessboard() {
 
         dispatch({type: 'CANCEL_CONNECTION'});
         dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Opponent was disconnected'}});
+        setTimeout(() => {
+            navigate('/menu');
+        }, 2000)
 
     }, [connectionError, checkmate])
 
