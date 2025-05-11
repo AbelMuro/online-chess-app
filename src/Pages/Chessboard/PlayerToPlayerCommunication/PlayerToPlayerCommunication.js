@@ -10,6 +10,7 @@ function PlayerToPlayerCommunication({matchId}) {
 
     useWebSocket(`wss://world-class-chess-server.com:443/match?matchId=${matchId}`, 
         (e) => {
+            console.log('received message from match websocket')
             const state = JSON.parse(e.data);
             dispatch({type: 'UPDATE_STATE', payload: {state}})
         }, 
