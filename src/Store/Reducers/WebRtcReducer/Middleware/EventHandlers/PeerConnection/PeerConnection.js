@@ -1,7 +1,16 @@
-const onIceCandidate = (signalingServer) => {
+const onIceCandidate = (signalingServer, getState) => {
     return (e) => {
+        const {account, webRTC} = getState();
+        const localClientUsername = account.username;
+        const remoteClientUsername = webRTC.remoteClientUsername;
+
         if(e.candidate) 
-            signalingServer.send(JSON.stringify({type: 'candidate', candidate: e.candidate}));
+            signalingServer.send(JSON.stringify({
+                type: 'candidate', 
+                candidate: e.candidate,
+                from: localClientUsername,
+                to: remoteClientUsername
+            }));
         else
             console.log('All ICE candidates have been collected');
     };

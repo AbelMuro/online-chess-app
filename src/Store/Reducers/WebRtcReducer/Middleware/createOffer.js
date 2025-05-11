@@ -1,9 +1,10 @@
 import { connectionManager } from "../WebRtcReducer.js";
 
-const createOffer = async (remoteClientUsername, {fulfillWithValue, getState}) => {
+const createOffer = async (_, {fulfillWithValue, getState, dispatch}) => {
     try{
-        const {account} = getState();
+        const {account, webRTC} = getState();
         const localClientUsername = account.username;
+        const remoteClientUsername = webRTC.remoteClientUsername;
 
         const peerConnection = connectionManager.peerConnection;
         const signalingServer = connectionManager.signalingServer;

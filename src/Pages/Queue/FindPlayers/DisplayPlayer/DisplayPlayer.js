@@ -15,8 +15,9 @@ function DisplayPlayer({username, image}) {
 
     const handleConnection = async () => {
         setWaiting(true);
+        dispatch({type: 'SET_REMOTE_CLIENT', payload: {username}})
         await dispatch(createLocalDataChannel())
-        await dispatch(sendOffer(username))
+        await dispatch(sendOffer())
     }
 
     useEffect(() => {

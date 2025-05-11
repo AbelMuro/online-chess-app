@@ -10,9 +10,13 @@ const closeLocalDataChannel = createAction('CLOSE_DATA_CHANNEL');
 const setMessage = createAction('SET_MESSAGE');
 const sendMessage = createAction('SEND_MESSAGE');
 const clearMessage = createAction('CLEAR_MESSAGE');
+
 const setConnected = createAction('SET_CONNECTED');
 const cancelConnection = createAction('CANCEL_CONNECTION')
+
 const setError = createAction('SET_ERROR');
+const setRemoteClient = createAction('SET_REMOTE_CLIENT');
+const sendDataThroughWebsocket = createAction('SEND_DATA_THROUGH_WEBSOCKET');
 
 //non-serializable values
 export const connectionManager = {
@@ -33,7 +37,8 @@ export const connectionManager = {
 const initialState = {
     error: '',
     message: '',
-    connected: false
+    connected: false,
+    remoteClientUsername: ''
 }
 
 const WebRtcReducer = createReducer(initialState, (builder) => {
@@ -72,6 +77,9 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             state.error = action.error.message;
             console.log('Offer could not be sent to remote client ', state.error)
         })
+        .addCase(setRemoteClient, (state, action) => {
+            state.remoteClientUsername = action.payload.username;
+        })
         .addCase(setMessage, (state, action) => {
             state.message = action.payload.message;
             console.log('Received message from remote client')
@@ -94,6 +102,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             connectionManager.dataChannel = null;
             state.message = '';
             state.connected = false;
+            state.remoteClientUsername = '';
             console.log("Remote data channel closed");
         })
         .addCase(setConnected, (state, action) => {
@@ -103,6 +112,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             connectionManager.cancelConnection();
             state.message = '';
             state.connected = false;
+            state.remoteClientUsername = '';
             console.log('Connection has been cancelled');    
         })
         .addCase(setError, (state, action) => {
@@ -110,6 +120,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             connectionManager.dataChannel = null;
             state.message = '';
             state.connected = false;
+            state.remoteClientUsername = '';
             state.error = action.payload.error;
             const message = action.payload.message;
             console.error(message, state.error);

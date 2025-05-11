@@ -11,7 +11,7 @@ const initiatePeerConnection = (_, {dispatch, fulfillWithValue, getState}) => {
 
         signalingServer.onmessage = signalingServerOnMessage(peerConnection, dispatch, signalingServer, getState);        
         signalingServer.onopen = signalingServerOnOpen();
-        peerConnection.onicecandidate = onIceCandidate(signalingServer)                                                  //returns a callback
+        peerConnection.onicecandidate = onIceCandidate(signalingServer, getState)                                                  //returns a callback
         peerConnection.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection, dispatch);
         peerConnection.ondatachannel = (e) => {
             const receivedChannel = e.channel;
