@@ -1,9 +1,12 @@
 import { signalingServerOnMessage, signalingServerOnOpen} from './EventHandlers/SignalingServer';
 import { onIceCandidate, onIceConnectionStateChange} from './EventHandlers/PeerConnection';
 
-const initiatePeerConnection = (_, {dispatch, fulfillWithValue}) => {
+const initiatePeerConnection = (_, {dispatch, fulfillWithValue, getState}) => {
     try{
-        const signalingServer = new WebSocket('wss://world-class-chess-server.com:443/signal');
+        const {account} = getState();
+        const localClientUsername = account.username;
+
+        const signalingServer = new WebSocket(`wss://world-class-chess-server.com:443/signal?username=${localClientUsername}`);
         const peerConnection = new RTCPeerConnection();
 
         signalingServer.onmessage = signalingServerOnMessage(peerConnection, dispatch, signalingServer);        

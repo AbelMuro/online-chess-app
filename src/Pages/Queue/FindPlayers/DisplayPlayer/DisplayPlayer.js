@@ -21,13 +21,13 @@ function DisplayPlayer({username, image}) {
 
     useEffect(() => {
         if(!connected || !waiting) return;
-        dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, action: 'challenge', data: {challenger: clientUsername}}}})
+        dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, to: username, action: 'challenge', data: {challenger: clientUsername}}}})
     }, [connected, waiting])
 
     return(    
         <>
             <AnimatePresence>
-                {waiting && <WaitingForReply setWaiting={setWaiting}/>}
+                {waiting && <WaitingForReply setWaiting={setWaiting} waitingFor={username}/>}
             </AnimatePresence>
             <div className={styles.queue_player} key={username}>
                 <img className={styles.queue_player_image} src={image}/>

@@ -8,7 +8,7 @@ import * as styles from './styles.module.css';
 
 //local client
 
-function WaitingForReply({setWaiting}) {
+function WaitingForReply({setWaiting, waitingFor}) {
     const navigate = useNavigate();
     const dispatch = useDispatch();    
     const chess = useSelector(state => state.chess);
@@ -18,7 +18,7 @@ function WaitingForReply({setWaiting}) {
 
     const handleCancel = async () => {
         setWaiting(false);        
-        dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, action: 'cancel', data: {decision: 'decline'}}} });
+        dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, to: waitingFor, action: 'cancel', data: {decision: 'decline'}}} });
         dispatch({type: 'CLOSE_DATA_CHANNEL'})
     }
 
@@ -66,7 +66,7 @@ function WaitingForReply({setWaiting}) {
             .then((result) => {
                 console.log('Received match ID: ', result);
                 dispatch({type: 'CLEAR_MESSAGE'});
-                dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, action: 'match', data: {matchId: result}}}})
+                dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, to: waitingFor, action: 'match', data: {matchId: result}}}})
                 navigate(`/chessboard/${result}`); 
             })
             .catch((error) => {
