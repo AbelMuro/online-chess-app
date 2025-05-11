@@ -21,7 +21,7 @@ function DisplayCurrentChallenge(){
 
     const handleDecision = (decision) => {
         setLoading(true);
-        dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, to: challenge.challenger, action: 'decision', data: {decision}}} })
+        dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, action: 'decision', data: {decision}}} })
 
         if(decision === 'decline'){
             setChallenge(null);
