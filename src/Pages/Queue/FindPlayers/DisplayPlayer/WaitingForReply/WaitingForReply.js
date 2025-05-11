@@ -67,8 +67,7 @@ function WaitingForReply({setWaiting}) {
                 console.log('Received match ID: ', result);
                 dispatch({type: 'CLEAR_MESSAGE'});
                 dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, action: 'match', data: {matchId: result}}}})
-                navigate(`/chessboard/${result}`);
-                dispatch({type: 'CANCEL_CONNECTION'})
+                navigate(`/chessboard/${result}`); 
             })
             .catch((error) => {
                 const message = error.message;
