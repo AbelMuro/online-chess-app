@@ -9,7 +9,7 @@ const initiatePeerConnection = (_, {dispatch, fulfillWithValue, getState}) => {
         const signalingServer = new WebSocket(`wss://world-class-chess-server.com:443/signal?username=${localClientUsername}`);
         const peerConnection = new RTCPeerConnection();
 
-        signalingServer.onmessage = signalingServerOnMessage(peerConnection, dispatch, signalingServer);        
+        signalingServer.onmessage = signalingServerOnMessage(peerConnection, dispatch, signalingServer, getState);        
         signalingServer.onopen = signalingServerOnOpen();
         peerConnection.onicecandidate = onIceCandidate(signalingServer)                                                  //returns a callback
         peerConnection.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection, dispatch);

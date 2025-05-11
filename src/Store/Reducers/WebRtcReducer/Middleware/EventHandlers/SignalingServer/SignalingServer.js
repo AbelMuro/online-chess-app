@@ -1,15 +1,23 @@
-const signalingServerOnMessage = (peerConnection, dispatch, signalingServer) => {
+const signalingServerOnMessage = (peerConnection, dispatch, signalingServer, getState) => {
 
-    return async (message) => {
+    return async (e) => {
         try{
-            const text = await message.data.text();
+            const {account} = getState();
+            const localClientUsername = account.username;
+            const text = await e.data.text();
             const data = JSON.parse(text);
+            const remoteClientUsername = data.from;
         
             if(data.type === 'offer' && peerConnection.signalingState === 'stable') {                                                            //we handle a connection here (when a remote client wants to connect to a local client)
                 await peerConnection.setRemoteDescription(new RTCSessionDescription(data.offer));   //we create a remote description of the offer  (remote description are the connection settings of the OTHER peer)
                 const answer = await peerConnection.createAnswer();                                 //we create an answer in response to the offer
                 await peerConnection.setLocalDescription(answer);                                   //we create a local description of the answer we created
-                signalingServer.send(JSON.stringify({ type: 'answer', answer }));                   //we send the answer to the websocket
+                signalingServer.send(JSON.stringify({ 
+                    type: 'answer', 
+                    answer, 
+                    from: localClientUsername, 
+                    to: remoteClientUsername 
+                }));                   //we send the answer to the websocket
             } 
             else if(data.type === 'answer' && peerConnection.signalingState === 'have-local-offer'){
                 await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));  //we create a remote description of the answer from another peer
