@@ -8,7 +8,7 @@ function useWebSocket(url, callback, initialState) {
         const socket = new WebSocket(url);            	
 
         socket.onopen = () => {                                        
-            console.log(`Connected to ${url} websocket servers`);
+            console.log(`Connected to ${url} websocket server`);
         };
     
         socket.onmessage = callback;                        

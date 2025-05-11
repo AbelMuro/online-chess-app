@@ -1,23 +1,20 @@
-import {memo, useEffect} from 'react';
-import { syncStateWithDatabase } from '!/ChessReducer';
+import {memo} from 'react';
+import useWebSocket from '~/Hooks/useWebSocket/useWebSocket';
 import {useNavigate} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 
 function PlayerToPlayerCommunication({matchId}) {
     const localClientUsername = useSelector(state => state.account.username);
-    const message = useSelector(state => state.webRTC.message);
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    useWebSocket(`wss://world-class-chess-server.com:443/match?matchId=${matchId}`, 
+        (e) => {
+            const state = JSON.parse(e.data);
+            dispatch({type: 'UPDATE_STATE', payload: {state}})
+        }, 
+        []);
  
-    useEffect(() => {
-        if(!message) return;
-        if(message.from === localClientUsername) return;
-        if(message.action !== 'move') return;
-
-        dispatch(syncStateWithDatabase(matchId))
-    }, [message])       
-
-    
     return null;
 }
 

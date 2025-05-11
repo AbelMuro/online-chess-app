@@ -1,5 +1,4 @@
 import React, {useMemo, memo} from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { ClipLoader } from 'react-spinners';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js';
@@ -9,7 +8,6 @@ import * as styles from './styles.module.css';
 import icons from '~/assets/icons'
 
 function FindPlayers() {
-    const navigate = useNavigate();
     const username = useSelector(state => state.account.username);
     const [players, setPlayers] = useWebSocket(
         `wss://world-class-chess-server.com:443/queue?username=${username}`, 

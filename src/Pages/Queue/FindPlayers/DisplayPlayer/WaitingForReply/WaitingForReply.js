@@ -68,6 +68,7 @@ function WaitingForReply({setWaiting}) {
                 dispatch({type: 'CLEAR_MESSAGE'});
                 dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, action: 'match', data: {matchId: result}}}})
                 navigate(`/chessboard/${result}`);
+                dispatch({type: 'CANCEL_CONNECTION'})
             })
             .catch((error) => {
                 const message = error.message;
@@ -80,7 +81,10 @@ function WaitingForReply({setWaiting}) {
                 else{
                     console.error('Server went offline in this endpoint /create_match ', message)
                     dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
-                }       
+                }      
+                
+                navigate('/menu');
+                dispatch({type: 'CANCEL_CONNECTION'})
             })
         }
     }, [message])

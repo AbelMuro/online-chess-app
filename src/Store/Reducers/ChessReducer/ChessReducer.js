@@ -44,6 +44,7 @@ const countLegalMoves = createAction('COUNT_LEGAL_MOVES');
 const resetLegalMoves = createAction('RESET_LEGAL_MOVES');
 const checkStalemate = createAction('CHECK_STALEMATE');
 const resetState = createAction('RESET_STATE')
+const updateState = createAction('UPDATE_STATE');
 
 const checkForDoublePins = createAction('CHECK_FOR_DOUBLE_PINS');
 const setPinnedPieces = createAction('SET_PINNED_PIECES');
@@ -948,6 +949,10 @@ const ChessReducer = createReducer(initialState, (builder) => {
     })
     .addCase(resetState, (state) => {
       ResetState(state, initialState);
+    })
+    .addCase(updateState, (state, action) => {
+      const newState = action.payload.state;
+      ResetState(state, newState);
     })
     .addCase(syncDatabaseWithState.fulfilled, (state, action) => {
       const message = action.payload.message;

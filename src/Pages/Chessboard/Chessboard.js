@@ -69,9 +69,6 @@ function Chessboard() {
     const columns = useRef(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']);
     const dispatch = useDispatch();
     const userColor = useSelector(state => state.settings.user_color)
-    const connectionError = useSelector(state => state.webRTC.error);
-    const checkmate = useSelector(state => state.chess.checkmate.game_over);
-    useWebSocket(`wss://world-class-chess-server.com:443/match?matchId=${matchId}`, () => {});
 
     const squares = useMemo(() => {
         const squares = [];
@@ -128,18 +125,6 @@ function Chessboard() {
         if(matchId === 'ai') return;
         dispatch(syncStateWithDatabase(matchId))
     }, [matchId])
-
-    useEffect(() => {
-        if(!connectionError || checkmate) return;
-
-        dispatch({type: 'CANCEL_CONNECTION'});
-        dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Opponent was disconnected'}});
-        setTimeout(() => {
-            navigate('/menu');
-        }, 2000)
-
-    }, [connectionError, checkmate])
-
 
     return(
         <DndProvider backend={HTML5Backend}> 
