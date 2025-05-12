@@ -54,6 +54,21 @@ import * as styles from './styles.module.css';
 // if a black pawn is between the white queen and the black king, that black pawn cannot be moved, so it will be stored within the pinned_pieces array
 
 
+
+
+/* 
+    this is where i left off, i need to find the right time and place to dispatch the action 'CANCEL_CONNECTION'
+    to destroy any lingering webRTC connections before the match starts
+
+    i also need to display a message before the user closes the tab or browser, asking them if they are sure they want to leave
+    if they leave, then the match will end.
+
+    i also need to remove the redo and undo buttons in the chessboard when its two humans playing. and i also need to 
+    implement a timer feature
+*/
+
+
+
 function Chessboard() {
     const {matchId} = useParams();
     const [mobile] = useMediaQuery('(max-width: 620px)');
