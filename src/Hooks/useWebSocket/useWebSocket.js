@@ -1,7 +1,7 @@
 import {useState, useEffect} from 'react';
 
 
-function useWebSocket(url, callback, initialState) {
+function useWebSocket(url, onmessage, initialState) {
     const [data, setData] = useState(initialState);
 
     useEffect(() => {
@@ -11,7 +11,7 @@ function useWebSocket(url, callback, initialState) {
             console.log(`Connected to ${url} websocket server`);
         };
     
-        socket.onmessage = callback;                        
+        socket.onmessage = onmessage;                        
     
         socket.onclose = () => {
             console.log(`Disconnected from ${url} websocket server`);

@@ -105,7 +105,9 @@ function Chessboard() {
 
 
     useEffect(() => {
-        dispatch({type: 'CANCEL_CONNECTION'})                   //canceling any lingering webRTC connections
+        setTimeout(() => {
+            dispatch({type: 'CANCEL_CONNECTION'})                   //canceling any lingering webRTC connections
+        }, 2000)
 
         return () => {
             setTimeout(() => {
