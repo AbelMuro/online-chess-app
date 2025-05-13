@@ -5,12 +5,14 @@ import { useAnimationControls } from 'framer-motion';
 import * as styles from './styles.module.css';
 
 function Header() {
-    const controls = useAnimationControls();
+    const titleControls = useAnimationControls();
+    const boardControls = useAnimationControls();
 
     const triggerAnimationSequence = async () => {
-        await controls.start('write_text')
-        await controls.start({opacity: 0});
-        await controls.start({display: 'none'});
+        await titleControls.start('write_text')
+        await titleControls.start({opacity: 0});
+        await titleControls.start({display: 'none'});
+        await boardControls.start('show')
     }
 
     useEffect(() => {
@@ -19,8 +21,8 @@ function Header() {
 
     return(
         <header className={styles.header}>
-            <AnimateTitle controls={controls}/>
-            <AnimateChessboard controls={controls}/>
+            <AnimateTitle controls={titleControls}/>
+            <AnimateChessboard controls={boardControls}/>
         </header>
     )
 }

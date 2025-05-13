@@ -9,22 +9,22 @@ function AnimateTitle({controls}) {
     const words = title.current.split(' ');
 
     return (
-        <motion.div className={styles.container} initial={'text_hidden'} animate={controls} variants={container_variant}>
-                {words.map((word, wordIndex) => {
-                    return (
-                        <div className={styles.word_container}>
-                            {word.split('').map((letter, letterIndex) => {
-                                return(
-                                    <AnimateLetter 
-                                        letter={letter} 
-                                        letterIndex={letterIndex} 
-                                        wordIndex={wordIndex}
-                                    />
-                                )
-                            })}
-                        </div>
-                    )})}
-        </motion.div>
+            <motion.div className={styles.title} initial={'text_hidden'} animate={controls} variants={container_variant}>
+                    {words.map((word, wordIndex) => {
+                        return (
+                            <div className={styles.word_container}>
+                                {word.split('').map((letter, letterIndex) => {
+                                    return(
+                                        <AnimateLetter 
+                                            letter={letter} 
+                                            letterIndex={letterIndex} 
+                                            wordIndex={wordIndex}
+                                        />
+                                    )
+                                })}
+                            </div>
+                        )})}
+            </motion.div>            
     )
 }
 
