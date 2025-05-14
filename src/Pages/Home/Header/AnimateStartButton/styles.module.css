@@ -3,10 +3,31 @@
     width: 200px;
     height: 60px;
     border-radius: 40px;
-    background: linear-gradient(45deg, rgb(0, 0, 111)0% 40%, rgb(255, 255, 255));
     border: none;
     font-size: 1.2rem;
     color: white;
     font-family: 'mulish';
+    background-color: black;
     cursor: pointer;
+    position: relative;
+}
+
+.start > span{
+    position: relative;
+    z-index: var(--closer)
+}
+
+.background{
+    width: 100%;
+    height: 60px;
+    border-radius: 40px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: var(--close);
+}
+
+.background_rect{
+    width: 100%;
+    height: 60px;
 }

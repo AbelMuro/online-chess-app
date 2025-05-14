@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import AnimateBackgroundSmudge from './AnimateBackgroundSmudge';
 import AnimateTitle from './AnimateTitle';
-import AnimatePieces from './AnimatePieces';
+import DisplayPieces from './DisplayPieces';
 import AnimateStartButton from './AnimateStartButton';
 import { useAnimationControls } from 'framer-motion';
 import * as styles from './styles.module.css';
@@ -9,13 +9,13 @@ import * as styles from './styles.module.css';
 function Header() {
     const smudgeControls = useAnimationControls();
     const titleControls = useAnimationControls();
-    const pieceControls = useAnimationControls();
     const buttonControls = useAnimationControls();
 
     const triggerAnimationSequence = async () => {
         smudgeControls.start('show');
         await titleControls.start('write_text');
         await buttonControls.start('show');
+        await smudgeControls.start('heartbeat');
     }
 
     useEffect(() => {
@@ -26,7 +26,7 @@ function Header() {
         <header className={styles.header}>
             <AnimateBackgroundSmudge controls={smudgeControls}/>
             <AnimateTitle controls={titleControls}/>
-            <AnimatePieces controls={pieceControls}/>
+            <DisplayPieces/>
             <AnimateStartButton controls={buttonControls}/>
         </header>
     )

@@ -1,9 +1,8 @@
 import React from 'react';
-import icons from './icons';
 import * as styles from './styles.module.css';
 
 
-function AnimatePieces({controls}) {
+function DisplayPieces() {
     return(
         <div className={styles.container}>
             <img className={styles.piece_piece}/>
@@ -13,4 +12,4 @@ function AnimatePieces({controls}) {
     )
 }
 
-export default AnimatePieces;
+export default DisplayPieces;

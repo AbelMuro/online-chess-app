@@ -2,6 +2,9 @@ import React, {useRef, useEffect} from 'react';
 import {motion} from 'framer-motion';
 import { text_variant } from '../Variants';
 
+
+//this is where i left off, i need to resize each letter in the text element for responsive design
+
 function AnimateLetter({letter, letterIndex, wordIndex}) {
     const svgRef = useRef();
     const textRef = useRef();
@@ -27,7 +30,7 @@ function AnimateLetter({letter, letterIndex, wordIndex}) {
                 fontFamily="'amanda black', sans serif"
                 fontSize="60"
                 stroke="white"
-                strokeWidth="1"
+                strokeWidth="3"
                 strokeDasharray="300"
                 variants={text_variant}
                 ref={textRef}

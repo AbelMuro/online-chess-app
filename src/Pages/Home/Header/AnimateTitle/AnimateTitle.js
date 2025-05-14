@@ -1,7 +1,7 @@
 import React, {useRef} from 'react';
 import AnimateLetter from './AnimateLetter';
 import {motion} from 'framer-motion'
-import {container_variant, text_variant} from './Variants';
+import {container_variant} from './Variants';
 import * as styles from './styles.module.css';
 
 function AnimateTitle({controls}) {

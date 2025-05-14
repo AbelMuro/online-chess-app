@@ -1,3 +1,3 @@
-import {button_variant} from './Variants.js';
+import {button_variant, linearGradientBlue_variant , linearGradientBlack_variant} from './Variants.js';
 
-export {button_variant};
+export {button_variant, linearGradientBlue_variant, linearGradientBlack_variant };
