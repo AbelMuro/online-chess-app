@@ -1,0 +1,13 @@
+.background_smudge{
+    width: 90%;
+    height: 300px;
+    top: 230px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    z-index: var(--farthest);
+    position: absolute;
+    border-radius: 100%;    
+    filter: blur(90px);    
+    background-color: rgba(0, 0, 255, 0.5);
+}

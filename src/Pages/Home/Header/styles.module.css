@@ -1,4 +1,10 @@
 .header{
     width: 100%;
-    min-height: calc(100dvh - 60px);    
+    min-height: calc(100dvh - 80px);    
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }

@@ -18,35 +18,6 @@ function NavigationBar() {
                 <a className={styles.navigation_logo}>
                     <img src={'/icons/World-class-chess-logo.png'}/>
                 </a>
-                <ul className={styles.navigation_links}>
-                    <li onClick={() => handleNavigate('/')}>
-                        <a>
-                            Home
-                        </a>
-                    </li>
-                    <li onClick={() => handleNavigate('/aboutus')}>
-                        <a>
-                            About Us
-                        </a>
-                    </li>
-                    <li onClick={() => handleNavigate('/contactus')}>
-                        <a>
-                            Contact Us
-                        </a>
-                    </li>
-                </ul>
-                <ul className={styles.navigation_auth}>
-                    <li>
-                        <button className={styles.navigation_register} onClick={() => handleNavigate('/register')}>
-                            Register
-                        </button>
-                    </li>
-                    <li>
-                        <button className={styles.navigation_login} onClick={() => handleNavigate('/login')}>
-                            Login
-                        </button> 
-                    </li>
-                </ul>
             </section>
         </nav>
     

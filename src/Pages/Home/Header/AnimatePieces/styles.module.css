@@ -1,0 +1,28 @@
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: var(--closer);
+}
+
+
+.container > .piece_piece:nth-child(1){
+    width: 100px;
+    height: 100px;
+    background-color: black;
+    mask-image: url('./icons/rook icon.png');
+    mask-size: 100px 100px;
+    mask-position: center;
+    mask-repeat: no-repeat;
+}
+
+.container > .piece_piece:nth-child(2){
+    width: 100px;
+    height: 100px;
+    background-color: black;
+    mask-image: url('./icons/knight\ piece.png');
+    mask-size: 100px 100px;
+    mask-position: center;
+    mask-repeat: no-repeat;
+}

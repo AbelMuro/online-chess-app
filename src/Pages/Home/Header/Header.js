@@ -1,18 +1,21 @@
 import React, {useEffect} from 'react';
+import AnimateBackgroundSmudge from './AnimateBackgroundSmudge';
 import AnimateTitle from './AnimateTitle';
-import AnimateChessboard from './AnimateChessboard';
+import AnimatePieces from './AnimatePieces';
+import AnimateStartButton from './AnimateStartButton';
 import { useAnimationControls } from 'framer-motion';
 import * as styles from './styles.module.css';
 
 function Header() {
+    const smudgeControls = useAnimationControls();
     const titleControls = useAnimationControls();
-    const boardControls = useAnimationControls();
+    const pieceControls = useAnimationControls();
+    const buttonControls = useAnimationControls();
 
     const triggerAnimationSequence = async () => {
-        await titleControls.start('write_text')
-        await titleControls.start({opacity: 0});
-        await titleControls.start({display: 'none'});
-        await boardControls.start('show')
+        smudgeControls.start('show');
+        await titleControls.start('write_text');
+        await buttonControls.start('show');
     }
 
     useEffect(() => {
@@ -21,8 +24,10 @@ function Header() {
 
     return(
         <header className={styles.header}>
+            <AnimateBackgroundSmudge controls={smudgeControls}/>
             <AnimateTitle controls={titleControls}/>
-            <AnimateChessboard controls={boardControls}/>
+            <AnimatePieces controls={pieceControls}/>
+            <AnimateStartButton controls={buttonControls}/>
         </header>
     )
 }

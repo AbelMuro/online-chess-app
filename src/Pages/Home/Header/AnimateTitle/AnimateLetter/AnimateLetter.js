@@ -12,21 +12,20 @@ function AnimateLetter({letter, letterIndex, wordIndex}) {
         const svgElement = svgRef.current;
         const textElement = textRef.current;
         const rect = textElement.getBoundingClientRect();
-        const increaseByAmount = (letterIndex === 0 && wordIndex === 0) ? 45 : 15
+        const increaseByAmount = (letterIndex === 0 && wordIndex === 0) ? 65 : 25
         svgElement.setAttribute('width', Number(rect.width) + increaseByAmount);
-
     }, [])
 
     return(
-        <svg height="50" key={`${letter} ${letterIndex}`} ref={svgRef}>
+        <svg height="90" key={`${letter} ${letterIndex}`} ref={svgRef}>
             <motion.text
                 x='50%'
-                y="25"
+                y="45"
                 fill="none"
                 textAnchor='middle'
                 dy=".3em"
                 fontFamily="'amanda black', sans serif"
-                fontSize="40"
+                fontSize="60"
                 stroke="white"
                 strokeWidth="1"
                 strokeDasharray="300"
