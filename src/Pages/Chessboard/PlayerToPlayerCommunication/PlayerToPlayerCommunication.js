@@ -22,7 +22,7 @@ function PlayerToPlayerCommunication({matchId}) {
         setTimeout(() => {
             dispatch({type: 'CANCEL_CONNECTION'})                   //canceling any lingering webRTC connections
         }, 2000)   
-    }, [])
+    }, [playerOne, localClientUsername])
  
     return null;
 }
