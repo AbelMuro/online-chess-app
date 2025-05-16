@@ -66,8 +66,6 @@ import * as styles from './styles.module.css';
     i also need to remove the redo and undo buttons in the chessboard when its two humans playing. and i also need to 
     implement a timer feature
 
-    in the back end, make sure to send the player-one username and player-two username as query parameters of the websocket URL
-    this way, i can save on unnecessary re-renders by sending data from the websocket to a very specific player
 */
 
 
@@ -123,10 +121,6 @@ function Chessboard() {
 
 
     useEffect(() => {
-        setTimeout(() => {
-            dispatch({type: 'CANCEL_CONNECTION'})                   //canceling any lingering webRTC connections
-        }, 2000)
-
         return () => {
             setTimeout(() => {
                 dispatch({type: 'RESET_STATE'});
