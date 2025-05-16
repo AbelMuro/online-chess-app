@@ -10,10 +10,8 @@ function PlayerToPlayerCommunication({matchId}) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const localClientColor = playerOne.username === localClientUsername ? playerOne.color: playerTwo.color;
-    console.log('local client color = ', localClientColor);
 
-    return;
-    useWebSocket(`wss://world-class-chess-server.com:443/match?matchId=${matchId}player=${localClientUsername}color=${localClientColor}`, 
+    useWebSocket(`wss://world-class-chess-server.com:443/match?matchId=${matchId}&player=${localClientUsername}&color=${localClientColor}`, 
         (e) => {
             console.log('received message from match websocket')
             const state = JSON.parse(e.data);
