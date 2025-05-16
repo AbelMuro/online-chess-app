@@ -48,7 +48,7 @@
     position: fixed;
     top: 0px;
     left: 0px;
-    z-index: var(--closer);
+    z-index: var(--closest);
     display: flex;
     justify-content: end;
 }

@@ -1,0 +1,10 @@
+.letter{
+    font-family: 'amanda black';
+    font-size: 4rem;
+}
+
+@media(max-width: 700px){
+    .letter{
+        font-size: 2.7rem;
+    }
+}

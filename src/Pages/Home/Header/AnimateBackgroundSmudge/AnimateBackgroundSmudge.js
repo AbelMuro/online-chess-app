@@ -6,8 +6,8 @@ import * as styles from './styles.module.css';
 function AnimateBackgroundSmudge({controls}) {
     return(
             <motion.div 
-                initial={{opacity: 0}}
-                animate={controls}
+                initial={{opacity: 1}}
+               // animate={controls}
                 variants={smudge_variant}
                 className={styles.background_smudge}/>
     )
