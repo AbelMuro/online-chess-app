@@ -15,8 +15,8 @@ const implementCastleling = createAction('IMPLEMENT_CASTLELING');
 const implementEnPassant = createAction('IMPLEMENT_ENPASSANT');
 const enableEnPassant = createAction('ENABLE_ENPASSANT');
 const movePieceWithAI = createAction('MOVE_PIECE_WITH_AI');
-const changeTurn = createAction('CHANGE_TURN');
 const pieceToBeMoved = createAction('PIECE_TO_BE_MOVED');
+const playerRanOutOfTime = createAction('PLAYER_RAN_OUT_OF_TIME');
 
 const promotion = createAction('PROMOTION');
 const undo = createAction('UNDO');
@@ -98,7 +98,11 @@ const initialState = {
     castleling: {
       has_king_been_moved: false,
       has_rooks_been_moved: [false, false]
-    },    
+    },   
+    out_of_time: {
+        player: '', 
+        color: ''
+    }, 
     current_turn: 'white',
     en_passant: null,
     resigns: false,
@@ -223,6 +227,9 @@ const ChessReducer = createReducer(initialState, (builder) => {
       IntepretAIMoves(state, bestMove, opponentColor);
       state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
       ResetProperties(state, initialState);
+    })
+    .addCase(playerRanOutOfTime, (state, action) => {
+      state.out_of_time = true;
     })
     .addCase(implementCastleling, (state, action) => {
       state.time_traveling.stop_moves = false;

@@ -7,6 +7,7 @@ import * as styles from './styles.module.css';
 function DeclareWinner() {
     const checkmate = useSelector(state => state.chess.checkmate.game_over);
     const stalemate = useSelector(state => state.chess.stalemate.game_over);
+    const outOfTime = useSelector(state => state.chess.out_of_time.player)
     const resigns = useSelector(state => state.chess.resigns);
     const buttonRef = useRef();
     const navigate = useNavigate();
@@ -16,9 +17,9 @@ function DeclareWinner() {
     }
 
     useEffect(() => {
-        if(checkmate || resigns || stalemate)
+        if(checkmate || resigns || stalemate || outOfTime)
             buttonRef.current.click();
-    }, [checkmate, resigns, stalemate])
+    }, [checkmate, resigns, stalemate, outOfTime])
 
     return(
         <Dialog 
@@ -29,6 +30,7 @@ function DeclareWinner() {
                             {checkmate && `${checkmate} wins!`}
                             {resigns && `${resigns} resigns!`}
                             {stalemate.game_over && `It's a draw!`} 
+                            {outOfTime.player && `${outOfTime.player} ran out of time!`}
                         </h2>
                         <button className={styles.dialog_button} onClick={handleGoBack}>
                             Ok

@@ -1,5 +1,4 @@
 import React, {useMemo, useRef, useEffect} from 'react';
-import useWebSocket from '~/Hooks/useWebSocket';
 import ShowMovesMobile from './SideBar/ShowMoves';
 import PlayerToPlayerCommunication from './PlayerToPlayerCommunication';
 import AI_Player from './AI_Player';
