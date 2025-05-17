@@ -1,4 +1,4 @@
-import {memo, useEffect} from 'react';
+import {memo, useEffect, useRef} from 'react';
 import {syncDatabaseWithState} from '!/ChessReducer'
 import ConnectToWebsocket from '~/assets/functions/ConnectToWebsocket';
 import {useSelector, useDispatch} from 'react-redux';
@@ -9,8 +9,14 @@ function PlayerToPlayerCommunication({matchId}) {
     const playerOne = useSelector(state => state.settings.player_one);
     const playerTwo = useSelector(state => state.settings.player_two);
     const dispatch = useDispatch();
+    const skipFirstRender = useRef(true);
 
     useEffect(() => {
+        if(skipFirstRender.current) {
+            skipFirstRender.current = false;
+            return;
+        }
+
         const finalizeTurn = async () => {
             dispatch({type: 'RESET_TIMER', payload: {seconds: 60}});
             dispatch({type: 'CHANGE_TURN'});
