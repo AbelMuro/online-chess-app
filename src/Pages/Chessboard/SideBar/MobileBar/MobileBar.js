@@ -1,5 +1,6 @@
 import React from 'react';
 import * as styles from './styles.module.css';
+import Timer from '../Timer';
 import ResignButton from '../ResignButton';
 import TakeBackButton from '../TakeBackButton';
 import RedoButton from '../RedoButton';
@@ -12,6 +13,7 @@ function MobileBar() {
                 <TakeBackButton/>
                 <RedoButton/>
             </div>
+            <Timer/>
             <ResignButton/>
         </section>
     )

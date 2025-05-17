@@ -2,7 +2,7 @@ import {saveMove} from '../RecordMoves';
 import { takeWithEnPassant, checkEnPassantForAI } from '../EnPassant';
 import { UnpinPieces } from '../PinnedPieces';
 
-export const IntepretAIMoves = (state, bestMove) => {
+export const IntepretAIMoves = (state, bestMove, piece_color) => {
     const columns = {
         a: 0,
         b: 1,
@@ -40,7 +40,6 @@ export const IntepretAIMoves = (state, bestMove) => {
     const from = bestMove.slice(0, 2);
     const to = bestMove.slice(2, 4);
     const promotion = bestMove[4];
-    const piece_color = state.settings.opponent_color;
     let pieceTakenByEnPassant = null;
     const fromColumn = columns[from[0]];
     const fromRow = row[from[1]];

@@ -12,7 +12,7 @@ import Chessboard from './Pages/Chessboard';
 import SelectOptions from './Pages/SelectOptions';
 import Queue from './Pages/Queue';
 import Menu from './Pages/Menu';
-import DisplayMessage from './assets/Components/DisplayMessage';
+import DisplayPopupMessage from './assets/Components/DisplayPopupMessage';
 import './global.css';
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
                 loading={null}
                 persistor={persistedStore}>
                     <BrowserRouter>
-                        <DisplayMessage/>
+                        <DisplayPopupMessage/>
                         <Routes>
                             <Route path='/' element={<Home/>}/>
                             <Route path='/login' element={<Login/>}/>

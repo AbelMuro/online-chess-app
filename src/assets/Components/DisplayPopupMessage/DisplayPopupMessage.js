@@ -4,7 +4,7 @@ import {motion, AnimatePresence} from 'framer-motion';
 import * as styles from './styles.module.css';
 import {messageBoxVariants} from './Variants';
 
-function DisplayMessage() {
+function DisplayPopupMessage() {
     const message = useSelector(state => state.popUpBox.message);
     const timeout = useRef();
     const dispatch = useDispatch();
@@ -46,4 +46,4 @@ function DisplayMessage() {
     )
 }
 
-export default DisplayMessage;
+export default DisplayPopupMessage;

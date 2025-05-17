@@ -12,7 +12,7 @@ function Greeting(){
 
     const getInfo = async () => {
         try{
-            const response = await fetch('http://localhost:3000/get_account', {
+            const response = await fetch('https://world-class-chess-server.com/get_account', {
                 method: 'GET',
                 credentials: 'include'
             })

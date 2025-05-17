@@ -18,3 +18,11 @@
         grid-row: 1/2;
     }
 }
+
+@media(max-width: 620px){
+    .timer{
+        width: 100px;
+        height: 50px;
+        font-size: 1.9rem;
+    }
+}

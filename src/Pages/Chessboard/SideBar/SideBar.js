@@ -22,13 +22,13 @@ function SideBar(){
             <h1 className={styles.bar_title}>
                 {`${currentTurn} to move`}
             </h1>
-            {matchId !== 'ai' && <Timer/>}
+            {true && <Timer/>}
             <PiecesTaken/>
             <ShowMoves/>
             <div className={styles.bar_buttons}>
                 <ResignButton/>
-                {matchId === 'ai' && <TakeBackButton/>}
-                {matchId === 'ai' && <RedoButton/>}
+                {false && <TakeBackButton/>}
+                {false && <RedoButton/>}
             </div>
         </aside>
     

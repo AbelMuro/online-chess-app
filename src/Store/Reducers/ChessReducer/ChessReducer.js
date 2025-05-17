@@ -217,8 +217,9 @@ const ChessReducer = createReducer(initialState, (builder) => {
     })
     .addCase(movePieceWithAI, (state, action) => {
       const {bestMove} = action.payload.bestmove;
+      const opponentColor = action.payload.opponentColor;
       state.en_passant = null;
-      IntepretAIMoves(state, bestMove);
+      IntepretAIMoves(state, bestMove, opponentColor);
       ResetProperties(state, initialState);
     })
     .addCase(implementCastleling, (state, action) => {
