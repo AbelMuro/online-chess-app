@@ -80,6 +80,7 @@ function Squares({row, column, colorOfSquare, id}) {
                 }
             });
             dispatch({type: 'CHANGE_TURN'});   
+            console.log(matchId)
             matchId !== 'ai' && dispatch(syncDatabaseWithState(matchId))           
         }
     }
