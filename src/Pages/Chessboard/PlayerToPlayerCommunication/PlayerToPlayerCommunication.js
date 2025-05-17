@@ -1,35 +1,24 @@
 import {memo, useEffect, useRef} from 'react';
-import {syncDatabaseWithState} from '!/ChessReducer'
 import ConnectToWebsocket from '~/assets/functions/ConnectToWebsocket';
 import {useSelector, useDispatch} from 'react-redux';
 
 function PlayerToPlayerCommunication({matchId}) {
     const board = useSelector(state => state.chess.board)
     const localClientUsername = useSelector(state => state.account.username);
-    const currentTurn = useSelector(state => state.chess.current_turn);
-    const userColor = useSelector(state => state.settings.user_color);
     const playerOne = useSelector(state => state.settings.player_one);
     const playerTwo = useSelector(state => state.settings.player_two);
     const dispatch = useDispatch();
     const skipFirstRender = useRef(true);
 
     useEffect(() => {
-        if(skipFirstRender.current) {
+        if(skipFirstRender.current){
             skipFirstRender.current = false;
             return;
         }
-        if(!userColor || currentTurn === userColor) return;
 
-        console.log('finalizing turn');
+        dispatch({type: 'RESET_TIMER', payload: {seconds: 60}});
 
-        const finalizeTurn = async () => {
-            dispatch({type: 'RESET_TIMER', payload: {seconds: 60}});
-            await dispatch(syncDatabaseWithState(matchId))
-        }
-
-        finalizeTurn();
-
-    }, [board, currentTurn, userColor])
+    }, [board])
 
     useEffect(() => {
         if(!playerOne?.color || !playerTwo?.color || !playerOne?.username) return;

@@ -1,4 +1,5 @@
 import React, {useEffect, useRef} from 'react';
+import {syncDatabaseWithState} from '!/ChessReducer'
 import Dialog from '~/assets/Components/Dialog';
 import { useDrop } from "react-dnd"
 import {useSelector, useDispatch} from 'react-redux';
@@ -40,24 +41,31 @@ function Squares({row, column, colorOfSquare, id}) {
 
     const handlePromotion = (handleOpen, choosenPiece) => {
         dispatch({type: 'PROMOTION', payload: {square: {row, column}, piece: choosenPiece, pieceId: currentSquare}});
+        dispatch(syncDatabaseWithState(matchId))
         handleOpen();
     }
 
     const handleClick = () => { 
         if(!legalSquare) return; 
 
-        if(legalSquare === 'kingSide' || legalSquare === 'queenSide')
-            dispatch({type: 'IMPLEMENT_CASTLELING', payload: {castleling: legalSquare}})  
-                                                          
-        else if(legalSquare === 'enable enpassant')
-            dispatch({type: 'ENABLE_ENPASSANT', payload: {square: {row, column}}})
+        if(legalSquare === 'kingSide' || legalSquare === 'queenSide'){
+            dispatch({type: 'IMPLEMENT_CASTLELING', payload: {castleling: legalSquare}}) 
+            dispatch(syncDatabaseWithState(matchId))
+        }
+                                                           
+        else if(legalSquare === 'enable enpassant'){
+            dispatch({type: 'ENABLE_ENPASSANT', payload: {square: {row, column}}});
+            dispatch(syncDatabaseWithState(matchId))
+        }
+               
+        else if(legalSquare === 'take enpassant'){
+            dispatch({type: 'IMPLEMENT_ENPASSANT', payload: {square: {row, column}}});
+            dispatch(syncDatabaseWithState(matchId))
+        }
             
-        else if(legalSquare === 'take enpassant')
-            dispatch({type: 'IMPLEMENT_ENPASSANT', payload: {square: {row, column}}})
-           
         else if(legalSquare === 'promotion')
             promotionDialogButtonRef.current.click();
-        else
+        else{
             dispatch({type: 'MOVE_PIECE', 
                 payload: {
                 square: {row, column},
@@ -65,8 +73,9 @@ function Squares({row, column, colorOfSquare, id}) {
                 ...((piece?.includes('rook') && piece?.includes('a')) && {hasRookBeenMoved: hasQueenSideRookBeenMoved}),
                 ...((piece?.includes('rook') && piece?.includes('h')) && {hasRookBeenMoved: hasKingSideRookBeenMoved})            
                 }
-            });     
-        
+            });       
+            dispatch(syncDatabaseWithState(matchId));        
+        }
     }
 
     useEffect(() => {
