@@ -33,7 +33,7 @@ function Form(){
         formData.append('image', image);
 
         try{
-            const response = await fetch('https://world-class-chess-server.com/register', {
+            const response = await fetch('http://localhost:3000/register', {
                 method: 'POST',
                 body: formData,
                 credentials: 'include'

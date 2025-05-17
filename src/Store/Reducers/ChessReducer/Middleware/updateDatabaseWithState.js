@@ -8,7 +8,7 @@ const updateDatabaseWithState = async (matchId, {getState, dispatch}) => {
         const {chess, account} = getState();
         const localClientUsername = account.username;
 
-        const response = await fetch(`https://world-class-chess-server.com/update_match`, {
+        const response = await fetch(`http://localhost:3000/update_match`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

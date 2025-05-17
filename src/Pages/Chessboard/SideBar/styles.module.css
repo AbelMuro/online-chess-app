@@ -46,8 +46,8 @@
 
     .bar_buttons{
         width: 150px;
-        align-self: center;
-        row-gap: 30px;
+        align-self: end;
+        row-gap: 40px;
         column-gap: 10px;
         grid-column: 3/4;
         grid-row: 1/3;

@@ -63,8 +63,7 @@ import * as styles from './styles.module.css';
     i also need to display a message before the user closes the tab or browser, asking them if they are sure they want to leave
     if they leave, then the match will end.
 
-    i also need to remove the redo and undo buttons in the chessboard when its two humans playing. and i also need to 
-    implement a timer feature
+    i need to work on the responsiveness for the timer component, desktop and tablet are done, just missing mobile
 
 */
 
