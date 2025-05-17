@@ -3,7 +3,6 @@ import {useParams} from 'react-router-dom';
 import Dialog from '~/assets/Components/Dialog';
 import { useDrop } from "react-dnd"
 import {useSelector, useDispatch} from 'react-redux';
-import {syncDatabaseWithState} from '!/ChessReducer'
 import Pawn from './Pawn';
 import Rook from './Rook';
 import Knight from './Knight';
@@ -76,9 +75,7 @@ function Squares({row, column, colorOfSquare, id}) {
                 ...((piece?.includes('rook') && piece?.includes('h')) && {hasRookBeenMoved: hasKingSideRookBeenMoved})            
                 }
             });
-            dispatch({type: 'CHANGE_TURN'});   
-            dispatch(syncDatabaseWithState(matchId))   
-            dispatch({type: 'RESET_TIMER', payload: {seconds: 60}});        
+            dispatch({type: 'CHANGE_TURN'});         
         }
     }
 

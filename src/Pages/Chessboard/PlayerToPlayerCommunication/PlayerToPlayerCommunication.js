@@ -1,4 +1,5 @@
 import {memo, useEffect} from 'react';
+import {syncDatabaseWithState} from '!/ChessReducer'
 import ConnectToWebsocket from '~/assets/functions/ConnectToWebsocket';
 import {useSelector, useDispatch} from 'react-redux';
 
@@ -11,8 +12,8 @@ function PlayerToPlayerCommunication({matchId}) {
 
 
     useEffect(() => {
-        dispatch(syncDatabaseWithState(matchId))
         dispatch({type: 'RESET_TIMER', payload: {seconds: 60}});
+        dispatch(syncDatabaseWithState(matchId))
     }, [board])
 
 
