@@ -20,7 +20,7 @@ function PlayerToPlayerCommunication({matchId}) {
         }
         if(!userColor || currentTurn === userColor) return;
 
-        console.log('finalizing turn')
+        console.log('finalizing turn');
 
         const finalizeTurn = async () => {
             dispatch({type: 'RESET_TIMER', payload: {seconds: 60}});
