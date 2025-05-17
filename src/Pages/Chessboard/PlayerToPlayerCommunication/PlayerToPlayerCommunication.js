@@ -11,7 +11,8 @@ function PlayerToPlayerCommunication({matchId}) {
 
 
     useEffect(() => {
-        console.log('board has changed');
+        dispatch(syncDatabaseWithState(matchId))
+        dispatch({type: 'RESET_TIMER', payload: {seconds: 60}});
     }, [board])
 
 
