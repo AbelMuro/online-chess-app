@@ -1,5 +1,5 @@
-import {memo} from 'react';
-import useWebSocket from '~/Hooks/useWebSocket/useWebSocket';
+import {memo, useEffect} from 'react';
+import ConnectToWebsocket from '~/assets/functions/ConnectToWebsocket';
 import {useSelector, useDispatch} from 'react-redux';
 
 function PlayerToPlayerCommunication({matchId}) {
@@ -7,17 +7,25 @@ function PlayerToPlayerCommunication({matchId}) {
     const playerOne = useSelector(state => state.settings.player_one);
     const playerTwo = useSelector(state => state.settings.player_two);
     const dispatch = useDispatch();
-    const localClientColor = playerOne.username === localClientUsername ? playerOne.color: playerTwo.color;
 
-    useWebSocket(`wss://world-class-chess-server.com:443/match?matchId=${matchId}&color=${localClientColor}`, 
-        (e) => {
-            const state = JSON.parse(e.data);
-            dispatch({type: 'UPDATE_STATE', payload: {state}})
-        }, 
-        []
-    );
+    useEffect(() => {
+        if(!playerOne?.color || !playerTwo?.color || !playerOne?.username) return;
 
- 
+        const localClientColor = playerOne.username === localClientUsername ? playerOne.color: playerTwo.color;
+        const closeSocket = ConnectToWebsocket(`wss://world-class-chess-server.com:443/match?matchId=${matchId}&color=${localClientColor}`,         
+            (e) => {
+                const state = JSON.parse(e.data);
+                dispatch({type: 'UPDATE_STATE', payload: {state}})
+            }
+        )
+
+        return () => {
+            closeSocket();
+        }
+
+    }, [playerOne, playerTwo, localClientUsername])
+
+
     return null;
 }
 
