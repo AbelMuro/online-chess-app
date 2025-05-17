@@ -12,9 +12,14 @@ function PlayerToPlayerCommunication({matchId}) {
 
 
     useEffect(() => {
-        dispatch({type: 'RESET_TIMER', payload: {seconds: 60}});
-        dispatch({type: 'CHANGE_TURN'});
-        dispatch(syncDatabaseWithState(matchId))
+        const finalizeTurn = async () => {
+            dispatch({type: 'RESET_TIMER', payload: {seconds: 60}});
+            dispatch({type: 'CHANGE_TURN'});
+            await dispatch(syncDatabaseWithState(matchId))
+        }
+
+        finalizeTurn();
+
     }, [board])
 
 
