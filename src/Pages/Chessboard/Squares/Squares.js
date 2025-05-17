@@ -43,7 +43,7 @@ function Squares({row, column, colorOfSquare, id}) {
     const handlePromotion = (handleOpen, choosenPiece) => {
         dispatch({type: 'PROMOTION', payload: {square: {row, column}, piece: choosenPiece, pieceId: currentSquare}});
         dispatch({type: 'CHANGE_TURN'});
-        matchId !== 'ai' && dispatch(syncDatabaseWithState(matchId))
+        dispatch(syncDatabaseWithState(matchId))
         handleOpen();
     }
 
@@ -53,19 +53,19 @@ function Squares({row, column, colorOfSquare, id}) {
         if(legalSquare === 'kingSide' || legalSquare === 'queenSide'){
             dispatch({type: 'IMPLEMENT_CASTLELING', payload: {castleling: legalSquare}})  
             dispatch({type: 'CHANGE_TURN'});   
-            matchId !== 'ai' && dispatch(syncDatabaseWithState(matchId))
+            dispatch(syncDatabaseWithState(matchId))
         }                                             
              
         else if(legalSquare === 'enable enpassant'){
             dispatch({type: 'ENABLE_ENPASSANT', payload: {square: {row, column}}})
             dispatch({type: 'CHANGE_TURN'});
-            matchId !== 'ai' && dispatch(syncDatabaseWithState(matchId))
+            dispatch(syncDatabaseWithState(matchId))
         }
             
         else if(legalSquare === 'take enpassant'){
             dispatch({type: 'IMPLEMENT_ENPASSANT', payload: {square: {row, column}}})
             dispatch({type: 'CHANGE_TURN'});
-            matchId !== 'ai' && dispatch(syncDatabaseWithState(matchId))
+            dispatch(syncDatabaseWithState(matchId))
         }
             
         else if(legalSquare === 'promotion')
@@ -80,8 +80,7 @@ function Squares({row, column, colorOfSquare, id}) {
                 }
             });
             dispatch({type: 'CHANGE_TURN'});   
-            console.log(matchId);
-            matchId !== 'ai' && dispatch(syncDatabaseWithState(matchId))           
+            dispatch(syncDatabaseWithState(matchId))           
         }
     }
 
