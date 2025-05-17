@@ -19,7 +19,6 @@ function PlayerToPlayerCommunication({matchId}) {
 
         const finalizeTurn = async () => {
             dispatch({type: 'RESET_TIMER', payload: {seconds: 60}});
-            dispatch({type: 'CHANGE_TURN'});
             await dispatch(syncDatabaseWithState(matchId))
         }
 

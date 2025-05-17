@@ -203,6 +203,7 @@ const ChessReducer = createReducer(initialState, (builder) => {
       //this is what moves the piece on the board  
       state.board[oldRow][oldColumn] = '';                          
       state.board[newRow][newColumn] = pieceToBeMoved;
+      state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
 
       saveMove(state, {
           from: {row: oldRow, column: oldColumn}, 
@@ -220,6 +221,7 @@ const ChessReducer = createReducer(initialState, (builder) => {
       const opponentColor = action.payload.opponentColor;
       state.en_passant = null;
       IntepretAIMoves(state, bestMove, opponentColor);
+      state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
       ResetProperties(state, initialState);
     })
     .addCase(implementCastleling, (state, action) => {
@@ -270,6 +272,8 @@ const ChessReducer = createReducer(initialState, (builder) => {
         }
       }
 
+      state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
+
       saveMove(state, {
         from: {row: kingPosition.row, column: kingPosition.column}, 
         to: {row: newKingPosition.row, column: newKingPosition.column}, 
@@ -289,6 +293,8 @@ const ChessReducer = createReducer(initialState, (builder) => {
 
       state.board[oldRow][oldColumn] = '';
       state.board[newRow][newColumn] = pieceToBeMoved;
+      state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
+      
       saveMove(state, {
         from: {row: oldRow, column: oldColumn}, 
         to: {row: newRow, column: newColumn}, 
@@ -307,8 +313,11 @@ const ChessReducer = createReducer(initialState, (builder) => {
       const pieceToBeMoved = state.board[oldRow][oldColumn];
       const pieceToBeTaken = state.board[enPassantRow][enPassantColumn];
       takeWithEnPassant(state, pieceToBeMoved, oldRow, oldColumn, newRow, newColumn);
+
       state.board[oldRow][oldColumn] = '';
       state.board[newRow][newColumn] = pieceToBeMoved;
+      state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
+
       saveMove(state, {
         from: {row: oldRow, column: oldColumn}, 
         to: {row: newRow, column: newColumn}, 
@@ -351,6 +360,7 @@ const ChessReducer = createReducer(initialState, (builder) => {
       const promotion = `${color} ${piece} ${uniqueId[id]}`
       const pieceToBeTaken = state.board[newRow][newColumn];
       state.board[newRow][newColumn] = promotion;
+      state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
 
       saveMove(state, {
         from: {row: oldRow, column: oldColumn}, 
@@ -885,13 +895,8 @@ const ChessReducer = createReducer(initialState, (builder) => {
           state.checkmate.game_over = opposing_color;
 
     })
-    .addCase(changeTurn, (state) => {
-      state.current_turn = state.current_turn === 'white' ? 'black' : 'white';
-    })
     .addCase(pieceToBeMoved, (state, action) => {
       state.pieceToBeMoved = action.payload;
-      state.blue_squares = [];
-      state.red_squares = [];
     })
     .addCase(checkForDoublePins, (state, action) => {    //i need to check for a specific type of pin, i will traverse through a file in the board and find the other king, i will see if there are threats within that file
       const row = action.payload.square.row;

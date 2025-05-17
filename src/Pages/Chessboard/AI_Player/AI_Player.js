@@ -22,7 +22,6 @@ function AI_Player() {
             if(response.status === 200){
                 const bestmove = await response.json();
                 dispatch({type: 'MOVE_PIECE_WITH_AI', payload: {bestmove, opponentColor}})
-                dispatch({type: 'CHANGE_TURN'});
             }
             else if(response.status === 400){
                 console.log('Failed to analyze position');
