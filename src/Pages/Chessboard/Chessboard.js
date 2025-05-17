@@ -118,6 +118,8 @@ function Chessboard() {
 
 
     useEffect(() => {
+        dispatch({type: 'CANCEL_CONNECTION'});
+
         return () => {
             setTimeout(() => {
                 dispatch({type: 'RESET_STATE'});
