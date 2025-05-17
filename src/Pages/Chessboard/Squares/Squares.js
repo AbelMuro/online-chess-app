@@ -57,7 +57,7 @@ function Squares({row, column, colorOfSquare, id}) {
            
         else if(legalSquare === 'promotion')
             promotionDialogButtonRef.current.click();
-        else{
+        else
             dispatch({type: 'MOVE_PIECE', 
                 payload: {
                 square: {row, column},
@@ -66,7 +66,7 @@ function Squares({row, column, colorOfSquare, id}) {
                 ...((piece?.includes('rook') && piece?.includes('h')) && {hasRookBeenMoved: hasKingSideRookBeenMoved})            
                 }
             });     
-        }
+        
     }
 
     useEffect(() => {
