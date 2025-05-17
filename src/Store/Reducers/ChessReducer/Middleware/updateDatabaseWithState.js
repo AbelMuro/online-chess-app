@@ -1,7 +1,3 @@
-/* 
-
-    this is where i left off, test everythhing now!
-*/
 
 const updateDatabaseWithState = async (matchId, {getState, dispatch}) => {
     try{

@@ -10,7 +10,6 @@ function PlayerToPlayerCommunication({matchId}) {
     const playerTwo = useSelector(state => state.settings.player_two);
     const dispatch = useDispatch();
 
-
     useEffect(() => {
         const finalizeTurn = async () => {
             dispatch({type: 'RESET_TIMER', payload: {seconds: 60}});
@@ -21,7 +20,6 @@ function PlayerToPlayerCommunication({matchId}) {
         finalizeTurn();
 
     }, [board])
-
 
     useEffect(() => {
         if(!playerOne?.color || !playerTwo?.color || !playerOne?.username) return;
