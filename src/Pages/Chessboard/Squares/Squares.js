@@ -39,11 +39,13 @@ function Squares({row, column, colorOfSquare, id}) {
             handleClick();
         }
     })
+    
 
     const handlePromotion = (handleOpen, choosenPiece) => {
         dispatch({type: 'PROMOTION', payload: {square: {row, column}, piece: choosenPiece, pieceId: currentSquare}});
         dispatch({type: 'CHANGE_TURN'});
         dispatch(syncDatabaseWithState(matchId))
+        dispatch({type: 'RESET_TIMER', payload: {seconds: 60}});
         handleOpen();
     }
 
@@ -54,18 +56,21 @@ function Squares({row, column, colorOfSquare, id}) {
             dispatch({type: 'IMPLEMENT_CASTLELING', payload: {castleling: legalSquare}})  
             dispatch({type: 'CHANGE_TURN'});   
             dispatch(syncDatabaseWithState(matchId))
+            dispatch({type: 'RESET_TIMER', payload: {seconds: 60}});
         }                                             
              
         else if(legalSquare === 'enable enpassant'){
             dispatch({type: 'ENABLE_ENPASSANT', payload: {square: {row, column}}})
             dispatch({type: 'CHANGE_TURN'});
             dispatch(syncDatabaseWithState(matchId))
+            dispatch({type: 'RESET_TIMER', payload: {seconds: 60}});
         }
             
         else if(legalSquare === 'take enpassant'){
             dispatch({type: 'IMPLEMENT_ENPASSANT', payload: {square: {row, column}}})
             dispatch({type: 'CHANGE_TURN'});
             dispatch(syncDatabaseWithState(matchId))
+            dispatch({type: 'RESET_TIMER', payload: {seconds: 60}});
         }
             
         else if(legalSquare === 'promotion')
@@ -80,7 +85,8 @@ function Squares({row, column, colorOfSquare, id}) {
                 }
             });
             dispatch({type: 'CHANGE_TURN'});   
-            dispatch(syncDatabaseWithState(matchId))           
+            dispatch(syncDatabaseWithState(matchId))   
+            dispatch({type: 'RESET_TIMER', payload: {seconds: 60}});        
         }
     }
 
