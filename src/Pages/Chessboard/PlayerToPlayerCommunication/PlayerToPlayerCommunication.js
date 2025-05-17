@@ -3,10 +3,17 @@ import ConnectToWebsocket from '~/assets/functions/ConnectToWebsocket';
 import {useSelector, useDispatch} from 'react-redux';
 
 function PlayerToPlayerCommunication({matchId}) {
+    const board = useSelector(state => state.chess.board)
     const localClientUsername = useSelector(state => state.account.username);
     const playerOne = useSelector(state => state.settings.player_one);
     const playerTwo = useSelector(state => state.settings.player_two);
     const dispatch = useDispatch();
+
+
+    useEffect(() => {
+        console.log('board has changed');
+    }, [board])
+
 
     useEffect(() => {
         if(!playerOne?.color || !playerTwo?.color || !playerOne?.username) return;
