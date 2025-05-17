@@ -1,4 +1,5 @@
 import React, {useEffect, useRef} from 'react';
+import { useParams } from 'react-router-dom';
 import {syncDatabaseWithState} from '!/ChessReducer'
 import Dialog from '~/assets/Components/Dialog';
 import { useDrop } from "react-dnd"
@@ -16,6 +17,7 @@ import * as styles from './styles.module.css'
 // the child components of this component are the actual pieces, they are responsible for implementing the rules for 'moving' and 'taking' for each piece
 
 function Squares({row, column, colorOfSquare, id}) {
+    const {matchId} = useParams();
     const currentSquare = useSelector(state => state.chess.board[row][column]);
     const legalSquare = useSelector(state => state.chess.legal_squares[row][column]);
     const hasKingBeenMoved = useSelector(state => state.chess.castleling.has_king_been_moved);
