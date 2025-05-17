@@ -12,6 +12,7 @@ function PlayerToPlayerCommunication({matchId}) {
     const skipFirstRender = useRef(true);
 
     useEffect(() => {
+        console.log('finalize turn')
         if(skipFirstRender.current) {
             skipFirstRender.current = false;
             return;
