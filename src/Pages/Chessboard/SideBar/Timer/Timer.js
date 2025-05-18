@@ -5,7 +5,6 @@ import {useSelector, useDispatch} from 'react-redux';
 import * as styles from './styles.module.css';
 
 
-
 function Timer() {
     const {matchId} = useParams();
     const seconds = useSelector(state => state.timer.seconds);
