@@ -66,7 +66,7 @@ import * as styles from './styles.module.css';
 */
 
 function Chessboard() {
-    const blocker = useConfirmNavigation(true);
+
     const {matchId} = useParams();
     const [mobile] = useMediaQuery('(max-width: 620px)');
     const columns = useRef(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']);
@@ -114,6 +114,8 @@ function Chessboard() {
         return squares;
     }, [userColor])
 
+
+    useConfirmNavigation(true);
 
     useEffect(() => {
         dispatch({type: 'CANCEL_CONNECTION'});

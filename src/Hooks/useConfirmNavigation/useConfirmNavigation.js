@@ -13,6 +13,8 @@ function useConfirmNavigation(shouldBlock) {
         else
             block.reset();
     }, [block])
+
+    
 }
 
 export default useConfirmNavigation;
