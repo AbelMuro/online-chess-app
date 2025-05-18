@@ -9,7 +9,8 @@ import DeclareWinner from './DeclareWinner';
 import MobileDisplayTurn from './MobileDisplayTurn';
 import useMediaQuery from '~/Hooks/useMediaQuery';
 import {useDispatch, useSelector} from 'react-redux';
-import {useParams, useNavigate} from 'react-router-dom';
+import useConfirmNavigation from '~/Hooks/useConfirmNavigation';
+import {useParams} from 'react-router-dom';
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import {syncStateWithDatabase} from '!/ChessReducer';
@@ -67,9 +68,9 @@ import * as styles from './styles.module.css';
 
 
 function Chessboard() {
+    const blocker = useConfirmNavigation(true);
     const {matchId} = useParams();
     const [mobile] = useMediaQuery('(max-width: 620px)');
-    const navigate = useNavigate();
     const columns = useRef(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']);
     const dispatch = useDispatch();
     const userColor = useSelector(state => state.settings.user_color)
