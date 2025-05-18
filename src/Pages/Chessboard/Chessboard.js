@@ -119,16 +119,8 @@ function Chessboard() {
     useEffect(() => {
         dispatch({type: 'CANCEL_CONNECTION'});
 
-        const beforeunload = (e) => {
-            e.preventDefault();
-            e.returnValue = ''
-        }
-
-        window.addEventListener('beforeunload', beforeunload)
-
         return () => {
             dispatch({type: 'RESET_STATE'});
-            window.removeEventListener('beforeunload', beforeunload);
         }
     }, [])
 

@@ -21,6 +21,23 @@ function DeclareWinner() {
             buttonRef.current.click();
     }, [checkmate, resigns, stalemate, playerRanOutOfTime])
 
+
+    useEffect(() => {
+        const beforeunload = (e) => {
+            e.preventDefault();
+            e.returnValue = ''
+        }
+
+        if(checkmate || resigns || stalemate || playerRanOutOfTime.player)
+            window.removeEventListener('beforeunload', beforeunload)
+        else
+            window.addEventListener('beforeunload', beforeunload)
+
+        return () => {
+            window.removeEventListener('beforeunload', beforeunload);
+        }
+    }, [checkmate, resigns, stalemate, playerRanOutOfTime])
+
     return(
         <Dialog 
             Content={() => {
