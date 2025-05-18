@@ -65,8 +65,6 @@ import * as styles from './styles.module.css';
 
 */
 
-
-
 function Chessboard() {
     const blocker = useConfirmNavigation(true);
     const {matchId} = useParams();
