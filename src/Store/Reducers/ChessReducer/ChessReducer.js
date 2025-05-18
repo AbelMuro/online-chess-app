@@ -90,7 +90,7 @@ const initialState = {
       game_over: false
     },   
 
-    time_traveling: {         //used for redoing and undoing moves
+    time_traveling: {        
         past: [],
         future: [],
         stop_moves: false,
