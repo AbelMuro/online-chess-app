@@ -4,6 +4,16 @@ import {syncDatabaseWithState} from '!/ChessReducer';
 import {useSelector, useDispatch} from 'react-redux';
 import * as styles from './styles.module.css';
 
+/* 
+    This is where i left off,
+
+    i need to update the websocket on the back end to send data to both clients 
+    at the same time when there is a checkmate, stalemate and when someone ran 
+    out of time
+*/
+
+
+
 function Timer() {
     const {matchId} = useParams();
     const seconds = useSelector(state => state.timer.seconds);
