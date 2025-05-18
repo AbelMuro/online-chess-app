@@ -229,7 +229,8 @@ const ChessReducer = createReducer(initialState, (builder) => {
       ResetProperties(state, initialState);
     })
     .addCase(playerRanOutOfTime, (state, action) => {
-      state.out_of_time = true;
+      state.out_of_time.player = action.payload.player;
+      state.out_of_time.color = action.payload.color;
     })
     .addCase(implementCastleling, (state, action) => {
       state.time_traveling.stop_moves = false;
