@@ -24,7 +24,7 @@ function PlayerToPlayerCommunication({matchId}) {
         if(!playerOne?.color || !playerTwo?.color || !playerOne?.username) return;
 
         const localClientColor = playerOne.username === localClientUsername ? playerOne.color: playerTwo.color;
-        const closeSocket = ConnectToWebsocket(`wss://world-class-chess-server.com:443/match?matchId=${matchId}&color=${localClientColor}`,         
+        const closeSocket = ConnectToWebsocket(`wss://world-class-chess-server.com:443/match?matchId=${matchId}&username=${localClientUsername}&color=${localClientColor}`,         
             (e) => {
                 const state = JSON.parse(e.data);
                 dispatch({type: 'UPDATE_STATE', payload: {state}})
