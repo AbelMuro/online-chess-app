@@ -33,9 +33,6 @@ function DeclareWinner() {
         else
             window.addEventListener('beforeunload', beforeunload)
 
-        return () => {
-            window.removeEventListener('beforeunload', beforeunload);
-        }
     }, [checkmate, resigns, stalemate, playerRanOutOfTime])
 
     return(
