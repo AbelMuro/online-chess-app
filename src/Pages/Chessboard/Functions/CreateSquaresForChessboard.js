@@ -1,3 +1,5 @@
+import React from 'react';
+
 const CreateSquaresForChessboard = (userColor, Squares, ) => {
         const squares = [];
         const columns = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
@@ -16,7 +18,13 @@ const CreateSquaresForChessboard = (userColor, Squares, ) => {
                         square = column % 2 !== 0 ? 'lightSquare' : 'darkSquare';
                         
                     squares.push( 
-                        <Squares colorOfSquare={square} row={row} column={column} id={id} key={id}/>
+                        React.createElement(Squares, {
+                            colorOfSquare: square,
+                            row: row,
+                            column: column,
+                            id: id,
+                            key: id
+                        })
                     ); 
                 }        
             }
@@ -34,7 +42,13 @@ const CreateSquaresForChessboard = (userColor, Squares, ) => {
                         square = column % 2 !== 0 ? 'lightSquare' : 'darkSquare';
                         
                     squares.push( 
-                        <Squares colorOfSquare={square} row={row} column={column} id={id} key={id}/>
+                        React.createElement(Squares, {
+                            colorOfSquare: square,
+                            row: row,
+                            column: column,
+                            id: id,
+                            key: id
+                        })
                     ); 
                 }        
             }

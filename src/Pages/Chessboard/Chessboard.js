@@ -61,8 +61,6 @@ import * as styles from './styles.module.css';
     this is where i left off, i need to find the right time and place to dispatch the action 'CANCEL_CONNECTION'
     to destroy any lingering webRTC connections before the match starts
 
-    i also need to display a message before the user closes the tab or browser, asking them if they are sure they want to leave
-    if they leave, then the match will end.
 
 */
 
