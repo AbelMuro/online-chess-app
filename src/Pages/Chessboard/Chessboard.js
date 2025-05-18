@@ -1,4 +1,5 @@
 import React, {useMemo, useRef, useEffect} from 'react';
+import {CreateSquaresForChessboard} from './Functions';
 import ShowMovesMobile from './SideBar/ShowMoves';
 import PlayerToPlayerCommunication from './PlayerToPlayerCommunication';
 import AI_Player from './AI_Player';
@@ -69,53 +70,10 @@ function Chessboard() {
     const block = useConfirmNavigation(true);
     const {matchId} = useParams();
     const [mobile] = useMediaQuery('(max-width: 620px)');
-    const columns = useRef(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']);
     const dispatch = useDispatch();
     const userColor = useSelector(state => state.settings.user_color)
 
-    const squares = useMemo(() => {
-        const squares = [];
-        if(userColor === 'white')
-            for (let row = 0; row <= 7; row++) { 
-                const alternate = row % 2 === 0
-                for (let column = 0; column <= 7; column++) { 
-                    let square;
-                    const currentColumn = columns.current[column];
-                    const id = `${currentColumn}${row + 1}`
-
-                    if(alternate)
-                        square = column % 2 === 0 ? 'lightSquare' : 'darkSquare';
-                    else
-                        square = column % 2 !== 0 ? 'lightSquare' : 'darkSquare';
-                        
-                    squares.push( 
-                        <Squares colorOfSquare={square} row={row} column={column} id={id} key={id}/>
-                    ); 
-                }        
-            }
-        else
-            for (let row = 7; row >= 0; row--) { 
-                const alternate = row % 2 === 0
-                for (let column = 0; column <= 7; column++) { 
-                    let square;
-                    const currentColumn = columns.current[column];
-                    const id = `${currentColumn}${row + 1}`
-
-                    if(alternate)
-                        square = column % 2 === 0 ? 'lightSquare' : 'darkSquare';
-                    else
-                        square = column % 2 !== 0 ? 'lightSquare' : 'darkSquare';
-                        
-                    squares.push( 
-                        <Squares colorOfSquare={square} row={row} column={column} id={id} key={id}/>
-                    ); 
-                }        
-            }
-        return squares;
-    }, [userColor])
-
-
-    
+    const squares = useMemo(() => CreateSquaresForChessboard(userColor, Squares), [userColor]);
 
     useEffect(() => {
         dispatch({type: 'CANCEL_CONNECTION'});
