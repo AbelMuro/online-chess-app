@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import store, {persistedStore} from './Store';
@@ -15,27 +15,56 @@ import Menu from './Pages/Menu';
 import DisplayPopupMessage from './assets/Components/DisplayPopupMessage';
 import './global.css';
 
+
+
 function App() {
+
+    const router = createBrowserRouter([
+        {
+            path: "/",
+            element: <Home />,
+        },
+        {
+            path: "/login",
+            element: <Login />,
+        },
+        {
+            path: "/register",
+            element: <Register />,
+        },
+        {
+            path: "/menu",
+            element: <Menu />,
+        },
+        {
+            path: "/selectoptions",
+            element: <SelectOptions />,
+        },
+        {
+            path: "/queue",
+            element: <Queue />,
+        },
+        {
+            path: "/chessboard/:matchId",
+            element: <Chessboard />,
+        },
+        {
+            path: "/forgotpassword",
+            element: <ForgotPassword />,
+        },
+        {
+            path: "/resetpassword/:token",
+            element: <ResetPassword />,
+        },
+    ])
 
     return(
         <Provider store={store}>
             <PersistGate 
                 loading={null}
                 persistor={persistedStore}>
-                    <BrowserRouter>
-                        <DisplayPopupMessage/>
-                        <Routes>
-                            <Route path='/' element={<Home/>}/>
-                            <Route path='/login' element={<Login/>}/>
-                            <Route path='/register' element={<Register/>}/>
-                            <Route path='/menu' element={<Menu/>}/>
-                            <Route path='/selectoptions' element={<SelectOptions/>}/>
-                            <Route path='/queue' element={<Queue/>}/>
-                            <Route path='/chessboard/:matchId' element={<Chessboard/>}/>
-                            <Route path='/forgotpassword' element={<ForgotPassword/>}/>
-                            <Route path='/resetpassword/:token' element={<ResetPassword/>}/>
-                        </Routes>
-                    </BrowserRouter>
+                    <DisplayPopupMessage/>
+                    <RouterProvider router={router}/>
             </PersistGate>
         </Provider>
     )
