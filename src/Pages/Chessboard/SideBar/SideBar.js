@@ -16,19 +16,18 @@ function SideBar(){
     const currentTurn = useSelector(state => state.chess.current_turn);
     const [mobile] = useMediaQuery('(max-width: 620px)');
 
-
     return mobile ? <MobileBar/> :
         <aside className={styles.bar}>
             <h1 className={styles.bar_title}>
                 {`${currentTurn} to move`}
             </h1>
-            {matchId !== 'ai' && <Timer/>}
+            <Timer/>
             <PiecesTaken/>
             <ShowMoves/>
             <div className={styles.bar_buttons}>
                 <ResignButton/>
-                {matchId === 'ai' && <TakeBackButton/>}
-                {matchId === 'ai' && <RedoButton/>}
+                <TakeBackButton/>
+                <RedoButton/>
             </div>
         </aside>
     

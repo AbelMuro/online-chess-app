@@ -7,6 +7,7 @@ import * as styles from './styles.module.css';
 
 function Timer() {
     const {matchId} = useParams();
+    if(matchId === 'ai') return null;
     const seconds = useSelector(state => state.timer.seconds);
     const localClientUsername = useSelector(state => state.account.username);
     const currentTurn = useSelector(state => state.chess.current_turn);

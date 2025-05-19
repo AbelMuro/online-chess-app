@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import {squareCoordinates} from './SquareCoordinates';
+import {squareCoordinates} from '~/assets/SquareCoordinates';
 import {useSelector} from 'react-redux';
 import * as styles from './styles.module.css';
 import icons from '~/assets/icons';
@@ -7,8 +7,6 @@ import icons from '~/assets/icons';
 function ShowMoves() {
     const moves = useSelector(state => state.chess.moves.all);
     const movesBox = useRef();
-
-
 
     return (
         <section className={styles.container}>

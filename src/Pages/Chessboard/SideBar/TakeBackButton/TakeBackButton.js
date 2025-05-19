@@ -1,10 +1,13 @@
 import React from 'react';
+import {useParams} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import MessageBox from '~/assets/Components/MessageBox';
 import icons from '../icons';
 import * as styles from './styles.module.css'
 
 function TakeBackButton() {
+    const {matchId} = useParams();
+    if(matchId !== 'ai') return null;
     const dispatch = useDispatch();
 
     const handleTakeBack = () => {

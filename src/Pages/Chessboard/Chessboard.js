@@ -1,14 +1,10 @@
-import React, {useMemo, useRef, useEffect} from 'react';
+import React, {useMemo, useEffect} from 'react';
 import {CreateSquaresForChessboard} from './Functions';
-import ShowMovesMobile from './SideBar/ShowMoves';
 import PlayerToPlayerCommunication from './PlayerToPlayerCommunication';
 import AI_Player from './AI_Player';
-import PiecesTakenMobile from './SideBar/PiecesTaken';
 import Squares from './Squares';
 import SideBar from './SideBar';
 import DeclareWinner from './DeclareWinner';
-import MobileDisplayTurn from './MobileDisplayTurn';
-import useMediaQuery from '~/Hooks/useMediaQuery';
 import {useDispatch, useSelector} from 'react-redux';
 import useConfirmNavigation from '~/Hooks/useConfirmNavigation';
 import {useParams} from 'react-router-dom';
@@ -61,20 +57,24 @@ import * as styles from './styles.module.css';
     this is where i left off, i need to find the right time and place to dispatch the action 'CANCEL_CONNECTION'
     to destroy any lingering webRTC connections before the match starts
 
+    i also need to refactor the <AI_Player> and the <PlayerToPlayerCommunication> component
+
+    i may be able to refactor the <Square> component
+
+    i also need to make sure i can reset the state properly when i nagivate away from the chessboard
 
 */
 
 function Chessboard() {
     const block = useConfirmNavigation(true);
     const {matchId} = useParams();
-    const [mobile] = useMediaQuery('(max-width: 620px)');
     const dispatch = useDispatch();
     const userColor = useSelector(state => state.settings.user_color)
 
     const squares = useMemo(() => CreateSquaresForChessboard(userColor, Squares), [userColor]);
 
     useEffect(() => {
-        dispatch({type: 'CANCEL_CONNECTION'});
+        //dispatch({type: 'CANCEL_CONNECTION'});
 
         return () => {
             dispatch({type: 'RESET_STATE'});
@@ -90,12 +90,9 @@ function Chessboard() {
     return(
         <DndProvider backend={HTML5Backend}> 
             <section className={styles.chess}> 
-                <MobileDisplayTurn/>
                 <div className={styles.chess_board}>
                     {squares}
                 </div>
-                {mobile && <ShowMovesMobile/>}
-                {mobile && <PiecesTakenMobile mobile={mobile}/>}
                 <SideBar/>
                 <DeclareWinner/>
                 {matchId === 'ai' && <AI_Player/>}

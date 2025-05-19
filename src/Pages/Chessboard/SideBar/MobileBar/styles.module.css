@@ -1,14 +1,19 @@
 .container{
     width: 100%;
-    height: 70px;
+    height: auto;
     background-color: var(--mobile-container-background);
-    display: flex;
+    display: grid;
+    row-gap: 10px; 
+    grid-template-columns: 1fr 1fr;
     justify-content: space-between;
     align-items: center;
     padding: 10px;
 }
 
 .buttons{
+    justify-self: end;
+    grid-column: 2/3;
+    grid-row: 3/4;
     display: flex;
     gap: 10px;
 }

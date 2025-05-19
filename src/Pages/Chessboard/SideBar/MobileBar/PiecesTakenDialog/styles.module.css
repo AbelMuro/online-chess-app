@@ -1,0 +1,85 @@
+.button{
+    width: 150px;
+    height: 40px;
+    padding: 0px 10px;
+    background-color: var(--button-bg);
+    border-radius: 10px;
+    border: none;
+    font-family: 'mulish';
+    font-size: 1rem;
+    color: var(--text-color);
+    cursor: pointer;
+    grid-column: 2/3;
+    grid-row: 2/3;
+    justify-self: end;
+}
+
+.button:hover{
+    background-color: var(--button-bg-hover);
+}
+
+.button:active{
+    background-color: var(--button-bg-active);
+}
+
+.dialog_title{
+    font-size: 1.5rem;
+    font-family: 'mulish';
+    font-weight: 800;
+    color: #CECECE;
+    grid-column: 1/3;
+    grid-row: 1/2;
+    text-align: center;
+    margin: 0px;
+}
+
+.dialog_pieces_white{
+    grid-row: 2/3;
+}
+
+.dialog_pieces_black{
+    grid-row: 3/4;
+}
+
+
+.dialog_pieces_white, .dialog_pieces_black{
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    scrollbar-width: thin;
+    scrollbar-color: var(--scroll-bar-bg) transparent;
+    grid-column: 1/3;
+    padding-bottom: 10px;
+}
+
+.dialog_pieces_white > img, .dialog_pieces_black > img{
+    width: 15px;
+    object-fit: contain;
+}   
+
+.dialog_pieces_white::-webkit-scrollbar, 
+.dialog_pieces_black::-webkit-scrollbar{
+    width: 10px;
+    background-color: transparent;
+}
+
+.dialog_pieces_white::-webkit-scrollbar-thumb,
+.dialog_pieces_black::-webkit-scrollbar-thumb{
+    background-color: var(--scroll-bar-bg);
+    border-radius: 10px;
+}
+
+.dialog_button{
+    font-size: 1rem;
+    font-family: 'mulish';
+    font-weight: 400;
+    color: #CECECE;
+    width: 100%;
+    height: 30px;
+    border-radius: 10px;
+    border: none;
+    background-color: var(--button-bg);
+    cursor: pointer;
+    grid-row: 4/5;
+    grid-column: 1/3;
+}

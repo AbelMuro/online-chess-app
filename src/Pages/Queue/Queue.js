@@ -16,7 +16,7 @@ function Queue() {
 
     const putPlayerInQueue = async () => {
         try{
-            const response = await fetch('https://world-class-chess-server.com/put_player_in_queue', {
+            const response = await fetch('http://localhost:8080/put_player_in_queue', {
                 method: 'POST',
                 header: {
                     'Content-Type': 'application/json'

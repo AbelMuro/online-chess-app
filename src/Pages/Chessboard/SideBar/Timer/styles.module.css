@@ -24,5 +24,8 @@
         width: 100px;
         height: 50px;
         font-size: 1.9rem;
+        grid-column: 1/2;
+        grid-row: 3/4;
+        justify-self: center;
     }
 }

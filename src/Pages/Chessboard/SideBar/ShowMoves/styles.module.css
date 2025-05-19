@@ -16,8 +16,7 @@
     margin: 0px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 
@@ -73,21 +72,27 @@
 @media(max-width: 620px){
     .container{
         width: 100%;
-        height: auto;
-        background-color: var(--mobile-container-background);
+        height: 60px;
+        grid-column: 1/4;
+        grid-row: 1/2;
+        background-color: transparent;
         gap: 10px;
         border-radius: 0px;
         padding: 10px 25px;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
     }
 
     .moves{
-        height: 60px;
+        height: 100%;
         flex-direction: row;    
-        gap: 35px;
+        justify-content: start;
+        gap: 20px;
     }
 
     .container > h2{
         display: block;
-        align-self: center;
+        font-size: 1rem;
     }
 }
