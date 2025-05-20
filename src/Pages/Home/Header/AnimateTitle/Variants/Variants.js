@@ -1,5 +1,7 @@
 export const container_variant = {
-    text_hidden: {},
+    text_hidden: {
+
+    },
     write_text: {
         transition: {
             staggerChildren: 0.2

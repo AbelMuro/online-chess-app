@@ -28,6 +28,12 @@
     }
 }
 
-@media(max-width: 700px){
-    
+@media(max-width: 580px){
+    .title{
+        grid-template-columns: auto;
+    }
+
+    .word_container:nth-child(3){
+        grid-column: 1/2;
+    }
 }

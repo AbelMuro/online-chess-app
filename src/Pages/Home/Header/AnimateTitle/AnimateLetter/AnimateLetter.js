@@ -2,7 +2,6 @@ import React, {useRef, useEffect} from 'react';
 import {motion} from 'framer-motion';
 import useMediaQuery from '~/Hooks/useMediaQuery';
 import { text_variant } from '../Variants';
-import * as styles from './styles.module.css';
 
 
 //the problem here is that the size of each letter in mobile displays while in desktop
@@ -18,10 +17,12 @@ function AnimateLetter({letter, letterIndex, wordIndex}) {
         const svgElement = svgRef.current;
         const textElement = textRef.current;
 
-        document.fonts.ready.then(() => {
-            const bbox = textElement.getBBox();
-            svgElement.setAttribute('width', bbox.width + 20);
-        })
+        setTimeout(() => {
+            document.fonts.ready.then(() => {
+                const bbox = textElement.getBBox();
+                svgElement.setAttribute('width', bbox.width + 20);                  
+            })
+        }, 200)
 
     }, [mobile])
 
@@ -32,11 +33,12 @@ function AnimateLetter({letter, letterIndex, wordIndex}) {
             key={`${letter} ${letterIndex}`} 
             ref={svgRef}>
                 <motion.text
-                    className={styles.letter}
                     x='50%'
                     y="45"
                     fill="none"
                     textAnchor='middle'
+                    fontSize={mobile ? '2.7rem' : '4rem'}
+                    fontFamily="'amanda black'"
                     dy=".3em"
                     stroke="white"
                     strokeWidth="3"
