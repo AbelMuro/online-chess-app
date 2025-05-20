@@ -4,8 +4,7 @@ import useMediaQuery from '~/Hooks/useMediaQuery';
 import { text_variant } from '../Variants';
 
 
-//the problem here is that the size of each letter in mobile displays while in desktop
-//and the size of each letter in desktop appears in mobile
+//this is where i left off, i need to get the full size of the dash for strokedasharray and strokedashoffset of each letter
 function AnimateLetter({letter, letterIndex, wordIndex}) {
     const [mobile] = useMediaQuery('(max-width: 700px)');
     const svgRef = useRef();
