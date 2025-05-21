@@ -1,24 +1,48 @@
 import React, {useRef, useEffect} from 'react';
-import {motion, useScroll, useTransform, useMotionValueEvent} from 'framer-motion';
+import calculateScrollThresholds from '~/assets/functions/calculateScrollThresholds.js';
+import {motion, useScroll, useTransform, useMotionValueEvent, useMotionValue} from 'framer-motion';
 import * as styles from './styles.module.css';
 
-//this is where i left off, im trying to stop the behavior of position sticky at some point
-// and resume the sticky behavior when the user scrolls back up
+
 
 function Feature() {
-    const containerRef = useRef();
+    const square = useRef();
+    const topScrollThreshold = useRef(0);
+    const bottomScrollThreshold = useRef(1);
+    const container = useRef();
     const {scrollYProgress} = useScroll();
-    const width = useTransform(scrollYProgress, [0, 1], [0, 400]);
+    const width = useMotionValue(0);       
+    //const constraint = useTransform(scrollYProgress, [topScrollThreshold.current, bottomScrollThreshold.current], [0, 400]);
 
-    useMotionValueEvent(width, 'change', (latest) => {
-        if(latest !== 400) return;
-        containerRef.current.style.position = 'relative';
+
+
+    useMotionValueEvent(scrollYProgress, 'change', (value) => {
+        const top = topScrollThreshold.current;
+        const bottom = bottomScrollThreshold.current;
+
+        if(value < top || value > bottom) return;
+
+        //look up linear interpolation to create a mapping between the range top to bottom and the range 0 to 400
     })
+
+    useEffect(() => {
+        const [top, bottom] = calculateScrollThresholds(container.current.offsetTop, container.current.offsetHeight)
+        topScrollThreshold.current = top;
+        bottomScrollThreshold.current = bottom;
+    }, [])
 
 
     return (
-        <motion.section className={styles.container} style={{width}} ref={containerRef}>
-            
+        <motion.section 
+            className={styles.container}
+            ref={container}>
+                <motion.div 
+                    className={styles.square}
+                    style={{width}}
+                    ref={square}
+                    >
+
+                </motion.div>
         </motion.section>
     )
 }

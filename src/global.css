@@ -11,6 +11,7 @@
 body{
     margin: 0px;
     min-height: 100vh;
+    height: 5000px;
     background-color: var(--background)
 }
 
