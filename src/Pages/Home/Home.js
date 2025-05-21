@@ -1,16 +1,15 @@
 import React from 'react';
 import NavigationBar from './NavigationBar';
 import Header from './Header';
+import Features from './Features';
 import * as styles from './styles.module.css';
-
-//this is where i left off, 
-
 
 function Home() {
     return(
         <section className={styles.home}>
             <NavigationBar/>
             <Header/>
+            <Features/>
         </section>
     )
 }

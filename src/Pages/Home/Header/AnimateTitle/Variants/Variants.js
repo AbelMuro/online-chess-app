@@ -1,7 +1,5 @@
 export const container_variant = {
-    text_hidden: {
-
-    },
+    text_hidden: {},
     write_text: {
         transition: {
             staggerChildren: 0.2
@@ -11,7 +9,7 @@ export const container_variant = {
 
 export const text_variant = {
     text_hidden: {
-        strokeDashoffset: 300, 
+        strokeDashoffset: 350, 
         //fill: '#ffffff00'
     },
     write_text: {

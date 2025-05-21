@@ -41,7 +41,7 @@ function AnimateLetter({letter, letterIndex, wordIndex}) {
                     dy=".3em"
                     stroke="white"
                     strokeWidth="3"
-                    strokeDasharray="300"
+                    strokeDasharray="350"
                     variants={text_variant}
                     ref={textRef}
                 >
