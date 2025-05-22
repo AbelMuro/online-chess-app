@@ -1,6 +1,7 @@
 import React, {useRef, useEffect} from 'react';
 import calculateScrollThresholds from '~/assets/functions/calculateScrollThresholds.js';
-import {motion, useScroll, useTransform, useMotionValueEvent, useMotionValue} from 'framer-motion';
+import CreateMapping from '~/assets/functions/CreateMapping.js';
+import {motion, useScroll, useMotionValueEvent, useMotionValue} from 'framer-motion';
 import * as styles from './styles.module.css';
 
 
@@ -12,17 +13,17 @@ function Feature() {
     const container = useRef();
     const {scrollYProgress} = useScroll();
     const width = useMotionValue(0);       
-    //const constraint = useTransform(scrollYProgress, [topScrollThreshold.current, bottomScrollThreshold.current], [0, 400]);
-
-
 
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
         const top = topScrollThreshold.current;
         const bottom = bottomScrollThreshold.current;
+        const lowerConstraint = 0;
+        const upperConstraint = 400;
 
         if(value < top || value > bottom) return;
 
-        //look up linear interpolation to create a mapping between the range top to bottom and the range 0 to 400
+        const mappedValue = CreateMapping(top, bottom, lowerConstraint, upperConstraint, value);
+        width.set(mappedValue);
     })
 
     useEffect(() => {
@@ -36,13 +37,9 @@ function Feature() {
         <motion.section 
             className={styles.container}
             ref={container}>
-                <motion.div 
-                    className={styles.square}
-                    style={{width}}
-                    ref={square}
-                    >
-
-                </motion.div>
+                <motion.h2 className={styles.title}>
+                    Play Against The Almighty Stockfish Engine!
+                </motion.h2>
         </motion.section>
     )
 }
