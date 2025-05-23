@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import AnimateBackgroundSmudge from './AnimateBackgroundSmudge';
 import AnimateTitle from './AnimateTitle';
 import DisplayPieces from './DisplayPieces';
 import AnimateStartButton from './AnimateStartButton';
@@ -24,7 +23,6 @@ function Header() {
 
     return(
         <header className={styles.header}>
-            <AnimateBackgroundSmudge controls={smudgeControls}/>
             <AnimateTitle controls={titleControls}/>
             <DisplayPieces/>
             <AnimateStartButton controls={buttonControls}/>

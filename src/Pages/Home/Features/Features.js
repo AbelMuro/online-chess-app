@@ -1,5 +1,4 @@
 import React, {useRef, useEffect} from 'react';
-import AnimateHandwriting from '~/assets/Components/AnimateHandwriting';
 import calculateScrollThresholds from '~/assets/functions/calculateScrollThresholds.js';
 import CreateMapping from '~/assets/functions/CreateMapping.js';
 import {motion, useScroll, useMotionValueEvent, useMotionValue} from 'framer-motion';
