@@ -1,0 +1,12 @@
+.container{
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.word_container{
+    display: flex;
+    gap: 3px;
+    justify-content: center;
+    align-items: center;
+}
