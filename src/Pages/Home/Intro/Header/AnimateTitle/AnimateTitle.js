@@ -4,12 +4,18 @@ import {motion} from 'framer-motion'
 import {container_variant} from './Variants';
 import * as styles from './styles.module.css';
 
-function AnimateTitle({controls}) {
+function AnimateTitle({opacity, scale}) {
     const title = useRef('World Class Chess');
     const words = title.current.split(' ');
 
     return (
-            <motion.div className={styles.title} initial={'text_hidden'} animate={controls} variants={container_variant}>
+            <motion.div 
+                className={styles.title} 
+                initial={'text_hidden'} 
+                animate={'write_text'} 
+                variants={container_variant}
+                style={{opacity, scale}}
+                >
                     {words.map((word, wordIndex) => {
                         return (
                             <div className={styles.word_container}>

@@ -4,7 +4,7 @@ import {button_variant, linearGradientBlue_variant, linearGradientBlack_variant 
 import {motion} from 'framer-motion';
 import * as styles from './styles.module.css';
 
-function AnimateStartButton({controls}) {
+function AnimateStartButton({opacity}) {
     const navigate = useNavigate();
     const [stopColorOne, setStopColorOne] = useState('blue');
     const [stopColorTwo, setStopColorTwo] = useState('black')
@@ -30,8 +30,10 @@ function AnimateStartButton({controls}) {
             onHoverStart={onHoverStart}
             onHoverEnd={onHoverEnd}
             initial={'hidden'} 
-            animate={controls} 
-            variants={button_variant}> 
+            animate={'show'} 
+            variants={button_variant}
+            style={{opacity}}
+            > 
                 <svg className={styles.background}>
                     <defs>
                         <linearGradient id="grad1">

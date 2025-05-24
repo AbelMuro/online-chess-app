@@ -6,6 +6,8 @@
     justify-content: center;
     gap: 35px;
     background-color: transparent;
+    position: relative;
+    z-index: var(--close);
 }
 
 
