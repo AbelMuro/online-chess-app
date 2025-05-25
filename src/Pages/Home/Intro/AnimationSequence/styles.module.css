@@ -1,12 +1,12 @@
 .header{
     width: 100%;
-    min-height: calc(100vh - 80px);   
+    height: calc(100vh - 80px);   
     display: flex;
     flex-direction: column;
     gap: 15px;
     justify-content: center;
     align-items: center;
     position: sticky;
-    top: 0px;
+    top: 80px;
     z-index: var(--close);
 }

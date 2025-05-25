@@ -15,9 +15,16 @@ function NavigationBar() {
     return mobile ? <MobileNavBar/> : 
         <nav className={styles.navigation}>
             <section className={styles.navigation_content}>
-                <a className={styles.navigation_logo}>
-                    <img src={'/icons/World-class-chess-logo.png'}/>
+                <a className={styles.navigation_link}>
+                    Intro
                 </a>
+                <a className={styles.navigation_link}>
+                    Features
+                </a>
+                <a className={styles.navigation_link}>
+                    About Us
+                </a>
+                
             </section>
         </nav>
     

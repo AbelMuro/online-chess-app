@@ -1,13 +1,12 @@
-import React, {useEffect} from 'react';
-import Header from './Header';
-import { useAnimationControls } from 'framer-motion';
+import React from 'react';
+import AnimationSequence from './AnimationSequence';
 import * as styles from './styles.module.css';
 
 function Intro() {
 
     return(
         <section className={styles.container}>
-            <Header/>
+            <AnimationSequence/>
         </section>
     )
 }

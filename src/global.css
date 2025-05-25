@@ -8,6 +8,11 @@
     src: url('./assets/fonts/AnandaBlackPersonal.ttf');
 }
 
+
+html{
+    scroll-behavior: smooth;
+}
+
 body{
     margin: 0px;
     min-height: 100vh;
