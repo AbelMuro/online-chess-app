@@ -1,13 +1,15 @@
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {button_variant, linearGradientBlue_variant, linearGradientBlack_variant } from './Variants';
-import {motion} from 'framer-motion';
+import {motion, useTransform, useScroll} from 'framer-motion';
 import * as styles from './styles.module.css';
 
-function AnimateStartButton({opacity}) {
+function AnimateStartButton() {
     const navigate = useNavigate();
     const [stopColorOne, setStopColorOne] = useState('blue');
-    const [stopColorTwo, setStopColorTwo] = useState('black')
+    const [stopColorTwo, setStopColorTwo] = useState('black');
+    const {scrollYProgress} = useScroll();
+    const opacity = useTransform(scrollYProgress, [0, 0.12], [1, 0]);
 
     const onHoverStart = () => {
         setStopColorOne('black');
