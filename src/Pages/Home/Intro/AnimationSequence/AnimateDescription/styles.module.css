@@ -1,0 +1,30 @@
+.description{
+    width: 800px;
+    height: 271px;
+    display: none;
+    flex-direction: column;
+    justify-content: start;
+    gap: 25px;
+    position: relative;
+    z-index: var(--closer);
+}
+
+.description_title{
+    font-family: 'amanda black';
+    letter-spacing: 5px;
+    font-weight: 800;
+    font-size: 2.3rem;
+    color: white;
+    margin: 0px;
+    align-self: center;
+}
+
+.description_desc{
+    font-family: 'mulish';
+    font-weight: 300;
+    font-size: 1.7rem;
+    line-height: 37px;
+    color: rgb(217, 223, 255);
+    margin: 0px;
+    transition: all 0.2s;
+}

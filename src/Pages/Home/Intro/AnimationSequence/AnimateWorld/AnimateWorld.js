@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useState, useRef} from 'react';
+import {useScroll, useMotionValueEvent} from 'framer-motion';
 import Path from './Paths';
 import paths from './Drawings';
 import * as styles from './styles.module.css';
-
 
 /*
 
@@ -26,6 +26,15 @@ import * as styles from './styles.module.css';
 
 
 function AnimateWorld() {
+    const {scrollYProgress} = useScroll();
+    const container = useRef();
+
+    useMotionValueEvent(scrollYProgress, 'change', (value) => {
+        if(value <= 0.25)
+            container.current.style.display = 'block';
+        else
+            container.current.style.display = 'none';
+    })
 
     return(
         <svg 
@@ -33,6 +42,7 @@ function AnimateWorld() {
             viewBox={'0 0 1024 1024'}
             preserveAspectRatio="xMidYMid meet"
             xmlns="http://www.w3.org/2000/svg" 
+            ref={container}
             className={styles.container}>
                 {/* outline and north/south america*/}
                 <Path  d={paths.outline_and_americas} stroke="#000070" strokeWidth="3" transform="translate(520,150)"/>

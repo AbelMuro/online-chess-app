@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {button_variant, linearGradientBlue_variant, linearGradientBlack_variant } from './Variants';
-import {motion, useTransform, useScroll} from 'framer-motion';
+import {motion, useTransform, useScroll, useMotionValueEvent} from 'framer-motion';
 import * as styles from './styles.module.css';
 
 function AnimateStartButton() {
@@ -10,6 +10,7 @@ function AnimateStartButton() {
     const [stopColorTwo, setStopColorTwo] = useState('black');
     const {scrollYProgress} = useScroll();
     const opacity = useTransform(scrollYProgress, [0, 0.12], [1, 0]);
+    const button = useRef();
 
     const onHoverStart = () => {
         setStopColorOne('black');
@@ -25,6 +26,14 @@ function AnimateStartButton() {
         navigate('/login')
     }
 
+    useMotionValueEvent(scrollYProgress, 'change', (value) => {
+        if(value <= 0.12)
+            button.current.style.display = 'block';
+        else
+            button.current.style.display = 'none';
+    
+    })
+
     return(
         <motion.button 
             onClick={handleNavigate}
@@ -34,6 +43,7 @@ function AnimateStartButton() {
             initial={'hidden'} 
             animate={'show'} 
             variants={button_variant}
+            ref={button}
             style={{opacity}}
             > 
                 <svg className={styles.background}>

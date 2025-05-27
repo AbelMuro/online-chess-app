@@ -2,7 +2,8 @@ import React from 'react';
 import AnimateTitle from './AnimateTitle';
 import AnimateStartButton from './AnimateStartButton';
 import AnimateWorld from './AnimateWorld';
-import AnimateChessboard from './AnimateChessboard';
+import AnimateDescription from './AnimateDescription';
+import AnimateEnd from './AnimateEnd';
 import * as styles from './styles.module.css';
 
 /* i need to finish the zoom-in animation for the world svg element 
@@ -15,12 +16,13 @@ import * as styles from './styles.module.css';
 function AnimationSequence() {
     return(        
         <header className={styles.header}>
-            <AnimateTitle/>
-            <AnimateStartButton/>
-            <AnimateWorld/>
-            <AnimateChessboard/>
+            <AnimateTitle/>                     {/* initial animation and ends at scroll position 0.12 */}
+            <AnimateStartButton/>               {/* initial animation and ends at scroll position 0.12 */}
+            <AnimateWorld/>                     {/* initial animation and ends at scroll position 0.20 */}            
+            <AnimateDescription/>               {/* animation starts at scroll position 0.12 and ends at scroll position 0.25*/}
+            <AnimateEnd/>
         </header>
     )
 }
 
-export default AnimationSequence;
+export default  AnimationSequence;
