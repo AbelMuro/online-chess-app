@@ -20,18 +20,6 @@ import * as styles from './styles.module.css';
 
     -then i will convert the container png file into a reliable SVG file
 
-    -also, update notes on SVG filters, specifically on the following svg tags
-
-            <feDisplacementMap>
-
-            <feBlend>
-
-            <feMerge>
-                <feMergeNode in="blur2"/>
-                <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-
-            the 'result' property and the 'in' property
 
 */
 
