@@ -1,37 +1,34 @@
 import React, {useRef, useEffect} from 'react';
+import getPathCommandsAsArray from '~/assets/functions/GetPathCommandsAsArray.js';
 import CreateMapping from '~/assets/functions/CreateMapping.js'
-import { useMotionValue, useScroll, motion, useMotionValueEvent , useTransform} from 'framer-motion';
+import { useMotionValue, useScroll, motion, useMotionValueEvent} from 'framer-motion';
 
-function Paths({d, stroke, strokeWidth, transform}) {
+function Paths({d}) {
     const {scrollYProgress} = useScroll();
     const pathRef = useRef();
-    const strokeDasharray = useRef(0);
-    const strokeDashoffset = useMotionValue(strokeDasharray.current);
+    const pathCommandsArray = useRef([])
+    const dCommands = useMotionValue('');
 
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
         if(value > 0.20) {
             pathRef.current.style.opacity = '0'
-            return
+            return;
         }
-        else
-            pathRef.current.style.opacity = '1'
-
-        const mappedValue = CreateMapping(0, 0.20, 0, strokeDasharray.current, value);
-        strokeDashoffset.set(mappedValue);
+        pathRef.current.style.opacity = '1'
+        let mappedValue = CreateMapping(0, 0.20, pathCommandsArray.current.length - 1, 0, value);
+        mappedValue = Math.floor(mappedValue);
+        if(mappedValue > pathCommandsArray.current.length - 1) return;
+        const allAnimatedCommands = pathCommandsArray.current.slice(0, mappedValue).join(' ');
+        dCommands.set(allAnimatedCommands);
     })
 
-
     useEffect(() => {
-        if(!pathRef.current) return;
-
-        const path = pathRef.current;
-        const pathLength = path.getTotalLength();
-        strokeDasharray.current = pathLength + 15;
-        path.setAttribute('stroke-dasharray', pathLength + 15);   
+        pathCommandsArray.current = getPathCommandsAsArray(d);
     }, [])
 
+
     return(
-        <motion.path d={d} stroke={stroke} strokeWidth={strokeWidth} transform={transform} ref={pathRef} style={{strokeDashoffset}}/>
+        <motion.path d={dCommands} fill='black' stroke={'blue'} strokeWidth={'5'} ref={pathRef} />
     )
 }
 
