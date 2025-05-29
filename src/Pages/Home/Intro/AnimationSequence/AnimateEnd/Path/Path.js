@@ -5,54 +5,54 @@ import * as styles from './styles.module.css';
 
 function Path({d, transform}) {
     const {scrollYProgress} = useScroll();
-    const commands = useMotionValue();
-    const pathCommandsArray = useRef([]);
     const pathInnerRef = useRef();
     const pathOuterRef = useRef();
-
+    const strokeDashArray = useRef();
+    const offset = useMotionValue();
 
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
-        if(value < 0.20){
-            commands.set([]);
+        if(value < 0.20) {
+            pathInnerRef.current.style.display = 'none'
+            pathOuterRef.current.style.display = 'none'
             return;
         }
-        else if (value > 0.43){
-           commands.set(pathCommandsArray.current)
-           return; 
-        }
 
-        let mappedValue = CreateMapping(0.20, 0.43, 0, pathCommandsArray.current.length - 1, value);
-        mappedValue = Math.floor(mappedValue);
-        if(mappedValue > pathCommandsArray.current.length - 1) return;
-        const allCurrentCommands = pathCommandsArray.current.slice(0, mappedValue);
-        commands.set(allCurrentCommands)
+        else if(value > 0.40) return;
+
+        pathInnerRef.current.style.display = 'block'
+        pathOuterRef.current.style.display = 'block'
+        const mappedValue = CreateMapping(0.20, 0.40, strokeDashArray.current, 0, value);
+        offset.set(mappedValue);
     })
 
-
-
-    const getPathCommandsAsArray = (pathString) => {
-        const commands = pathString.split(/\s(?=[A-Z])/); // Split on spaces before a command letter (e.g., "M", "C", "L")
-        const pathVariants = [];
-        let currentPath = ""; 
-
-        commands.forEach((cmd) => {
-            currentPath += ` ${cmd.trim()}`; // Append new command to previous path
-            pathVariants.push(currentPath.trim()); // Store the updated path
-        });
-
-        return pathVariants; 
-    }
-
-
-
     useEffect(() => {
-        pathCommandsArray.current = getPathCommandsAsArray(d);
+        const totalPathOneLength = pathInnerRef.current.getTotalLength();
+        pathInnerRef.current.setAttribute('stroke-dasharray', totalPathOneLength);
+        pathOuterRef.current.setAttribute('stroke-dasharray', totalPathOneLength);
+        strokeDashArray.current = totalPathOneLength;
     }, [])
 
     return(
         <>
-            <motion.path d={commands} transform={transform} ref={pathInnerRef} fill='none' stroke='blue' strokeWidth='6'/> 
-            <motion.path d={commands} transform={transform} ref={pathOuterRef} fill='none' stroke='blue' strokeWidth='43' filter={`url(#glowEffect)`}/>   
+            <motion.path 
+                className={styles.path} 
+                d={d} 
+                transform={transform} 
+                ref={pathInnerRef} 
+                fill='none' 
+                stroke='blue' 
+                strokeWidth='6' 
+                strokeDashoffset={offset}/> 
+            <motion.path 
+                className={styles.path} 
+                d={d} 
+                transform={transform} 
+                ref={pathOuterRef} 
+                fill='none' 
+                stroke='blue' 
+                strokeWidth='43' 
+                strokeDashoffset={offset} 
+                filter={`url(#glowEffect)`}/>   
         </>
         
     )

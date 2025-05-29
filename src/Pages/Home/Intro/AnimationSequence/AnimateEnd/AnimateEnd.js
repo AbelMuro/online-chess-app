@@ -4,22 +4,8 @@ import {motion, useScroll} from 'framer-motion';
 import * as styles from './styles.module.css';
 
 /* 
-    -This is where i left off, i need to apply the following glow effect on the other
-    svg elements (and get a brighter color too)
-
-            <defs>
-                <filter id="glowEffect">
-                    <feGaussianBlur stdDeviation="2" result="blur1"/>
-                    <feGaussianBlur in="blur1" stdDeviation="5" result="blur2"/>
-                    <feMerge>
-                        <feMergeNode in="blur2"/>
-                        <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
-                </filter>
-            </defs> 
-
-    -then i will convert the container png file into a reliable SVG file
-
+    this is where i left off, i need to continue working on this svg design
+    i want to add a checked background to this design
 
 */
 

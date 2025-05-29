@@ -2,34 +2,59 @@ import React, {useRef, useEffect} from 'react';
 import getPathCommandsAsArray from '~/assets/functions/GetPathCommandsAsArray.js';
 import CreateMapping from '~/assets/functions/CreateMapping.js'
 import { useMotionValue, useScroll, motion, useMotionValueEvent} from 'framer-motion';
+import * as styles from './styles.module.css';
 
-function Paths(props) {
-    const d = props.d;
+function Paths({d, transform}) {
     const {scrollYProgress} = useScroll();
-    const pathRef = useRef();
-    const pathCommandsArray = useRef([])
-    const dCommands = useMotionValue('');
+    const pathOneRef = useRef();
+    const pathTwoRef = useRef();
+    const strokeDashArray = useRef();
+    const offset = useMotionValue();
+
 
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
         if(value > 0.20) {
-            pathRef.current.style.opacity = '0'
+            pathOneRef.current.style.opacity = '0'
+            pathTwoRef.current.style.opacity = '0'
             return;
         }
-        pathRef.current.style.opacity = '1'
-        let mappedValue = CreateMapping(0, 0.20, pathCommandsArray.current.length - 1, 0, value);
-        mappedValue = Math.floor(mappedValue);
-        if(mappedValue > pathCommandsArray.current.length - 1) return;
-        const allAnimatedCommands = pathCommandsArray.current.slice(0, mappedValue);
-        dCommands.set(allAnimatedCommands);
+        pathOneRef.current.style.opacity = '1'
+        pathTwoRef.current.style.opacity = '1'
+        const mappedValue = CreateMapping(0, 0.20, 0, strokeDashArray.current, value);
+        offset.set(mappedValue);
     })
 
     useEffect(() => {
-        pathCommandsArray.current = getPathCommandsAsArray(d);
+        const totalPathOneLength = pathOneRef.current.getTotalLength();
+        const totalPathTwoLength = pathTwoRef.current.getTotalLength();
+        pathOneRef.current.setAttribute('stroke-dasharray', totalPathOneLength);
+        pathTwoRef.current.setAttribute('stroke-dasharray', totalPathTwoLength)
+        strokeDashArray.current = totalPathOneLength;
     }, [])
 
-
     return(
-        <motion.path {...props} d={dCommands}  fill='none' stroke={'blue'} strokeWidth={'1'} ref={pathRef} />
+        <>
+            <motion.path 
+                className={styles.path} 
+                transform={transform} 
+                d={d} 
+                fill='none' 
+                stroke={'blue'} 
+                strokeWidth={'2'} 
+                strokeDashoffset={offset}
+                ref={pathOneRef} />
+            <motion.path 
+                className={styles.path} 
+                transform={transform} 
+                d={d} 
+                fill='none' 
+                stroke={'blue'} 
+                strokeWidth={'14'} 
+                strokeDashoffset={offset}
+                filter='url(#glowEffect)'
+                ref={pathTwoRef} />        
+        </>
+
     )
 }
 
