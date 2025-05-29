@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import AnimateLetter from './AnimateLetter';
 import {motion, cubicBezier, useScroll, useTransform, useMotionValueEvent} from 'framer-motion'
 import {container_variant} from './Variants';
@@ -6,6 +6,7 @@ import * as styles from './styles.module.css';
 
 function AnimateTitle() {
     const {scrollYProgress} = useScroll();
+    const [mount, setMount] = useState(true);
     const opacity = useTransform(scrollYProgress, [0, 0.12], [1, 0], {ease: cubicBezier(0.25, 1, 1, 1)});
     const title = useRef('World Class Chess');
     const words = title.current.split(' ');
@@ -14,13 +15,12 @@ function AnimateTitle() {
 
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
         if(value <= 0.12)
-            container.current.style.display = 'grid';
+            setMount(true);
         else
-            container.current.style.display = 'none';
-    
+            setMount(false); 
     })
 
-    return (
+    return mount && (
             <motion.div 
                 className={styles.title} 
                 initial={'text_hidden'} 

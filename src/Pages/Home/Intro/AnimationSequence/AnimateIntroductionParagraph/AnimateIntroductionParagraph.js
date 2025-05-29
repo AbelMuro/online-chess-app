@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react';
 import CreateMapping from '~/assets/functions/CreateMapping.js';
-import {useScroll, motion, useTransform, useMotionValueEvent, AnimatePresence} from 'framer-motion';
+import {useScroll, motion, useTransform, useMotionValueEvent, AnimatePresence, useMotionValue} from 'framer-motion';
 import * as styles from './styles.module.css';
 
 function AnimateDescription() {
@@ -9,19 +9,29 @@ function AnimateDescription() {
     const text = useRef(`Whether you're facing off against real opponents from around the world or testing your skills against the powerful Stockfish engine, this app brings the thrill of strategy to your fingertips. Ready to sharpen your tactics and outwit the competition? Play now and take your chess game to the next level!`)
     const [visibleChars, setVisibleChars] = useState(''); 
     const y = useTransform(scrollYProgress, [0.12, 0.14], [-15, 0]);
+    const opacity = useMotionValue(1);
+    const scale = useMotionValue(1);
 
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
         if(value <= 0.12){
             container.current.style.display = 'none';
             return;
         }
-        container.current.style.display = 'flex';
-        const mappedValue = CreateMapping(0.12, 0.25, 0, text.current.length, value);
-        setVisibleChars(text.current.slice(0, mappedValue))
+        else if(value >= 0.25){
+            opacity.set(0);
+            scale.set(1.5);
+            console.log('opacity and scale motion value')
+        }
+        else{
+            container.current.style.display = 'flex';
+            const mappedValue = CreateMapping(0.12, 0.25, 0, text.current.length, value);
+            setVisibleChars(text.current.slice(0, mappedValue))            
+        }
+
     })
 
     return(
-        <section className={styles.description} ref={container}>
+        <motion.section className={styles.description} ref={container} style={{opacity, scale}}>
             <motion.h2 className={styles.description_title} style={{y}}>
                 Introduction
             </motion.h2>
@@ -41,7 +51,7 @@ function AnimateDescription() {
                     })}                    
                 </AnimatePresence>
             </p>
-        </section>
+        </motion.section>
 
     )
 }

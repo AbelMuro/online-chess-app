@@ -14,10 +14,14 @@ function Path({d, transform}) {
         if(value < 0.20) {
             pathInnerRef.current.style.display = 'none'
             pathOuterRef.current.style.display = 'none'
+            offset.set(strokeDashArray.current);
             return;
         }
 
-        else if(value > 0.40) return;
+        else if(value > 0.40) {
+            offset.set(0);
+            return
+        };
 
         pathInnerRef.current.style.display = 'block'
         pathOuterRef.current.style.display = 'block'

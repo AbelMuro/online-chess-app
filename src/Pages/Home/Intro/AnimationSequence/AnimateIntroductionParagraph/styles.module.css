@@ -28,3 +28,32 @@
     margin: 0px;
     transition: all 0.2s;
 }
+
+@media(max-width: 1000px){
+    .description{
+        width: 80%;
+        height: 230px;
+        gap: 15px;
+    }
+
+
+    .description_title{
+        font-size: 1.7rem;
+    }
+
+    .description_desc{
+        font-size: 1.2rem;
+        line-height: 26px;
+    }
+}
+
+@media(max-width: 520px){
+    .description_title{
+        font-size: 1.3rem;
+    }
+
+    .description_desc{
+        font-size: 0.9rem;
+        line-height: 23px;
+    }
+}

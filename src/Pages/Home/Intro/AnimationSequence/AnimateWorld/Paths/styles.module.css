@@ -1,3 +1,4 @@
 .path{
     overflow: visible;
+    transition: all 1.2s linear;
 }
