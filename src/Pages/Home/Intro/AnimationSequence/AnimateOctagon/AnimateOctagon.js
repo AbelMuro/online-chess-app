@@ -10,7 +10,7 @@ import * as styles from './styles.module.css';
 */
 
 
-function AnimateEnd() {
+function AnimateOctagon() {
 
     
     return(
@@ -32,4 +32,4 @@ function AnimateEnd() {
     )
 }
 
-export default AnimateEnd;
+export default AnimateOctagon;

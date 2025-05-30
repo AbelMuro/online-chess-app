@@ -19,6 +19,7 @@ body{
     height: 5000px;
     background-color: var(--background);
     overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 
 * {

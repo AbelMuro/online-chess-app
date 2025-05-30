@@ -5,7 +5,7 @@ import { text_variant } from '../Variants';
 
 
 //this is where i left off, i need to get the full size of the dash for strokedasharray and strokedashoffset of each letter
-function AnimateLetter({letter, letterIndex, wordIndex}) {
+function AnimateLetter({letter}) {
     const [mobile] = useMediaQuery('(max-width: 700px)');
     const svgRef = useRef();
     const textRef = useRef();
@@ -29,7 +29,6 @@ function AnimateLetter({letter, letterIndex, wordIndex}) {
         <svg 
             xmlns='http://www.w3.org/2000/svg' 
             height={mobile ? '70' : '90'}
-            key={`${letter} ${letterIndex}`} 
             ref={svgRef}>
                 <motion.text
                     x='50%'

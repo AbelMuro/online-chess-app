@@ -1,0 +1,42 @@
+.container{
+    margin: auto;
+    width: 90%;
+    padding: 0px 20px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+}
+
+.detail{
+    width: 60%;
+    margin: 0px;
+    font-family: 'mulish';
+    font-size: 1.7rem;
+    color: white;
+    line-height: 32px;
+    text-align: center;
+}
+
+.detail:nth-of-type(1){
+    align-self: center;
+    justify-self: center;
+}
+
+.detail:nth-of-type(2){
+    align-self: end;
+    justify-self: center;
+}
+
+@media(max-width: 700px){
+    .detail{
+        font-size: 1.2rem;
+        line-height: 25px;
+    }
+}
+
+@media(max-width: 500px){
+    .container{
+        height: 400px;
+        padding: 0px;
+        grid-template-columns: 1fr;
+    }
+}

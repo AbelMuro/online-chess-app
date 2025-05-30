@@ -1,5 +1,5 @@
-import React from 'react';
-import { createBrowserRouter, RouterProvider, Routes, Route } from 'react-router-dom';
+import React, {useEffect} from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
 import store, {persistedStore} from './Store';
@@ -18,6 +18,14 @@ import './global.css';
 
 
 function App() {
+
+
+    useEffect(() => {
+        window.history.scrollRestoration = "manual";
+        window.onload = () => {
+           window.scrollTo({top: 0, behavior: 'instant'}); 
+        }
+    }, [])
 
     const router = createBrowserRouter([
         {

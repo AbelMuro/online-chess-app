@@ -1,4 +1,6 @@
 .home{
+    width: 100%;
+    height: 25000px;   
     display: flex;
     flex-direction: column;
     width: 100%;

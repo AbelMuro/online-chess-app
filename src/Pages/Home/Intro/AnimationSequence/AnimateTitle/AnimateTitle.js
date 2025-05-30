@@ -30,10 +30,11 @@ function AnimateTitle() {
                 style={{opacity}}>
                     {words.map((word, wordIndex) => {
                         return (
-                            <div className={styles.word_container}>
+                            <div className={styles.word_container} key={`${word} ${wordIndex}`}>
                                 {word.split('').map((letter, letterIndex) => {
                                     return(
                                         <AnimateLetter 
+                                            key={`${letter} ${letterIndex}`}
                                             letter={letter} 
                                             letterIndex={letterIndex} 
                                             wordIndex={wordIndex}
