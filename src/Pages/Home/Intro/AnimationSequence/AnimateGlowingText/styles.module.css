@@ -1,0 +1,46 @@
+.container{
+    width: 500px;
+    height: 150px;
+    position: relative;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.text, .glow{
+    text-align: center;
+    color: blue;
+    font-family: 'mulish';
+    font-weight: 800;
+    margin: 0px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    white-space: nowrap;
+}
+
+.text{
+    font-size: 6rem;
+    z-index: var(--closer);
+}
+
+.glow{
+    font-size: 6.5rem;
+    filter: blur(40px);
+    z-index: var(--close);
+}
+
+@media(max-width: 620px){
+    .container{
+        width: 337px;
+        height: 100px
+    }
+
+    .text{
+        font-size: 4rem;
+    }
+
+    .glow{
+        font-size: 4.5rem;
+    }
+}

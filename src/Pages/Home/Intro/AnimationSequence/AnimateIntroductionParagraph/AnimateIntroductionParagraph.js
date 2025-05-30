@@ -8,31 +8,35 @@ function AnimateDescription() {
     const container = useRef();
     const text = useRef(`Whether you're facing off against real opponents from around the world or testing your skills against the powerful Stockfish engine, this app brings the thrill of strategy to your fingertips. Ready to sharpen your tactics and outwit the competition? Play now and take your chess game to the next level!`)
     const [visibleChars, setVisibleChars] = useState(''); 
-    const y = useTransform(scrollYProgress, [0.12, 0.14], [-15, 0]);
     const opacity = useMotionValue(1);
     const scale = useMotionValue(1);
 
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
-        if(value <= 0.12){
+        if(value <= 0.125){
             container.current.style.display = 'none';
             return;
         }
-        else if(value >= 0.25){
-            opacity.set(0);
-            scale.set(1.5);
-            console.log('opacity and scale motion value')
-        }
-        else{
-            container.current.style.display = 'flex';
-            const mappedValue = CreateMapping(0.12, 0.25, 0, text.current.length, value);
-            setVisibleChars(text.current.slice(0, mappedValue))            
-        }
-
+        container.current.style.display = 'flex';
+        const mappedValue = CreateMapping(0.125, 0.25, 0, text.current.length, value);
+        setVisibleChars(text.current.slice(0, mappedValue))            
     })
 
+
+    useMotionValueEvent(scrollYProgress, 'change', (value) => {
+        if(value <= 0.35) return;
+        else if(value > 0.40){
+            container.current.style.display = 'none';
+            return;
+        }
+
+        const mappedValue = CreateMapping(0.35, 0.40, 1, 0, value);
+        opacity.set(mappedValue);
+
+    })  
+
     return(
-        <motion.section className={styles.description} ref={container} style={{opacity, scale}}>
-            <motion.h2 className={styles.description_title} style={{y}}>
+        <motion.section className={styles.description} ref={container} style={{opacity}}>
+            <motion.h2 className={styles.description_title}>
                 Introduction
             </motion.h2>
             <p className={styles.description_desc}>

@@ -28,8 +28,8 @@ function AnimationSequence() {
             <AnimateTitle/>                     {/* initial animation and ends at scroll position 0.12 */}
             <AnimateStartButton/>               {/* initial animation and ends at scroll position 0.12 */}
             <AnimateWorld/>                     {/* initial animation and ends at scroll position 0.20 */}            
-            <AnimateIntroductionParagraph/>     {/* animation starts at scroll position 0.12 and ends at scroll position 0.25*/}
-            <AnimateGlowingText/>               {/* animation starts at scroll position 0.25 */}
+            <AnimateIntroductionParagraph/>     {/* animation starts at scroll position 0.13 and ends at scroll position 0.40*/}
+            <AnimateGlowingText/>               {/* animation starts at scroll position 0.40 */}
             <AnimateEnd/>                       {/* animation starts at scroll position 0.20 */}
         </header>
     )

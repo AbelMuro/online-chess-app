@@ -20,6 +20,7 @@
 }
 
 .description_desc{
+    min-height: 37px;
     font-family: 'mulish';
     font-weight: 300;
     font-size: 1.7rem;
