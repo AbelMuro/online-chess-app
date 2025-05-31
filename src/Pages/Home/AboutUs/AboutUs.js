@@ -3,6 +3,11 @@ import WhoWeAre from './WhoWeAre';
 import Features from './Features';
 import * as styles from './styles.module.css';
 
+
+/* 
+this is where i left off, i want to create large vertical text and appears with the scroll position
+
+*/
 function AboutUs() {
 
     return(
