@@ -9,7 +9,6 @@
     background-color: blue;
     border-radius: 40px;   
     position: relative; 
-    transition: all 0.8s linear;
 }
 
 
@@ -18,7 +17,6 @@
     border-radius: 40px; 
     filter: blur(14px);
     margin: auto;
-    transition: all 0.8s linear;
     position: absolute;
     top: 50%;
     left: 50%;
