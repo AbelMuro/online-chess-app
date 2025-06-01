@@ -34,6 +34,7 @@
     border-radius: 50px;
     background-color: blue;
     position: relative;
+    transition: all 0.5s linear;
 }
 
 .north_east_line{

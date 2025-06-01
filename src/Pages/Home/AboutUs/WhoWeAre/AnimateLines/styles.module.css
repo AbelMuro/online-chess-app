@@ -9,6 +9,7 @@
     background-color: blue;
     border-radius: 40px;   
     position: relative; 
+    transition: all 0.7s linear;
 }
 
 

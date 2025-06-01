@@ -5,17 +5,10 @@ import AnimateWorld from './AnimateWorld';
 import AnimateIntroductionParagraph from './AnimateIntroductionParagraph';
 import AnimateGlowingText from './AnimateGlowingText';
 import AnimateOctagon from './AnimateOctagon';
-import {useScroll, useMotionValueEvent} from 'framer-motion';
 import * as styles from './styles.module.css';
 
 
 function AnimationSequence() {
-    const {scrollYProgress} = useScroll();
-
-    useMotionValueEvent(scrollYProgress, 'change', (value) => {
-        console.log(value);
-    })
-    
 
     return(        
         <header className={styles.header}>

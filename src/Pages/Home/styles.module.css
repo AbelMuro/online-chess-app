@@ -1,6 +1,6 @@
 .home{
     width: 100%;
-    height: 25000px;   
+    height: var(--full-document-height-home-page);   
     display: flex;
     flex-direction: column;
     width: 100%;

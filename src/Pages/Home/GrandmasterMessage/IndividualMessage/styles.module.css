@@ -1,0 +1,19 @@
+.message{
+    width: 100%;
+    font-size: 1.4rem;
+    font-family: 'mulish';
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: start;
+    justify-self: center;
+    align-self: center;    
+}
+
+
+@media(max-width: 700px){
+    .message{
+        font-size: 1.2rem;
+    }
+}
