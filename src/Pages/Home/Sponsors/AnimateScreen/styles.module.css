@@ -10,4 +10,5 @@
 .screen{
     z-index: var(--close);
     transition: all 0s;
+    padding: 80px 0px;
 }

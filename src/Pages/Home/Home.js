@@ -16,6 +16,7 @@ function Home() {
     const {scrollYProgress} = useScroll();
     
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
+        console.log(value);
         if(value < 0.56)
             setBlueBoxTransition('first phase');
         else

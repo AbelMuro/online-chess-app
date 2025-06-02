@@ -1,4 +1,5 @@
 import React, {useEffect, useContext, useState} from 'react';
+import AnimateText from './AnimateText';
 import { BlueScreenContext } from '-/Home';
 import {AnimatePresence, motion, useAnimationControls} from 'framer-motion'
 import * as styles from './styles.module.css';
@@ -58,7 +59,7 @@ function AnimateScreen() {
                             initial={{width: 0, height: 0}} 
                             exit={{width: 0, height: 0, transition: {duration: 0.4}}}
                             animate={{width: '100%', height: '100vh', transition: {type: 'spring', stiffness: 80, damping: 12, delay: 0.4}}}>
-
+                                <AnimateText/>
 
                                 
                         </motion.div>}

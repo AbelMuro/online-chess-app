@@ -1,0 +1,36 @@
+.title{
+    font-family: 'mulish';
+    font-size: 10rem;
+    color: black;
+    font-weight: 800;
+    line-height: 160px;
+    margin: 0px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ignore{
+    display: none;
+}
+
+.letter{
+    max-height: 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: scroll;
+    scrollbar-width: 0px;
+    scrollbar-color: transparent transparent;    
+}
+
+.letter::-webkit-scrollbar{
+    width: 0px;
+    background-color: transparent;
+}
+
+.letter::-webkit-scrollbar-thumb{
+    background-color: transparent;
+    border-radius: 0px;
+}
