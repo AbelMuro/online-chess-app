@@ -8,8 +8,7 @@ function AnimateDescription() {
     const container = useRef();
     const text = useRef(`Whether you're facing off against real opponents from around the world or testing your skills against the powerful Stockfish engine, this app brings the thrill of strategy to your fingertips. Ready to sharpen your tactics and outwit the competition? Play now and take your chess game to the next level!`)
     const [visibleChars, setVisibleChars] = useState(''); 
-    const opacity = useMotionValue(1);
-    const scale = useMotionValue(1);
+    const opacity = useTransform(scrollYProgress, [0.35, 0.40], [1, 0]);
 
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
         if(value <= 0.125){
@@ -23,15 +22,12 @@ function AnimateDescription() {
 
 
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
-        if(value <= 0.35) return;
+        if(value <= 0.35) 
+            return;
         else if(value > 0.40){
             container.current.style.display = 'none';
             return;
         }
-
-        const mappedValue = CreateMapping(0.35, 0.40, 1, 0, value);
-        opacity.set(mappedValue);
-
     })  
 
     return(

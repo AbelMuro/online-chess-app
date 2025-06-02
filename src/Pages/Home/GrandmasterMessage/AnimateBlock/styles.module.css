@@ -7,7 +7,6 @@
     justify-self: center;
     position: sticky;
     top: 160px;
-    transition: all 0.2s linear;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,7 +15,6 @@
 .block_rook{
     width: 100%;
     object-fit: contain;
-    transition: all 0.3s linear;
 }
 
 .glow_effect{

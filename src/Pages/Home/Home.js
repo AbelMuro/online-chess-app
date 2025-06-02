@@ -1,54 +1,27 @@
-import React, {useEffect} from 'react';
+import React, {createContext, useState, useEffect} from 'react';
 import DisplayBorder from './DisplayBorder';
 import NavigationBar from './NavigationBar';
-
 import BackgroundMouseAnimation from './BackgroundMouseAnimation';
-import {useScroll, useMotionValueEvent} from 'framer-motion';
 import Intro from './Intro';
 import AboutUs from './AboutUs';
 import GrandmasterMessage from './GrandmasterMessage'
 import Sponsors from './Sponsors';
+import { useMotionValueEvent, useScroll} from 'framer-motion';
 import * as styles from './styles.module.css';
 
+export const BlueScreenContext = createContext();
+
 function Home() {
+    const [blueBoxTransition, setBlueBoxTransition] = useState('first phase');
     const {scrollYProgress} = useScroll();
-
-    function smoothScroll(targetY) {
-        const startY = window.scrollY;
-        const distance = targetY - startY;
-        let startTime = null;
-
-        function animationStep(time) {
-            if (!startTime) startTime = time;
-            const progress = (time - startTime) / 500; // Adjust duration here
-            const ease = progress < 1 ? 1 - Math.pow(1 - progress, 3) : 1; // Cubic easing
-
-            window.scrollTo(0, startY + distance * ease);
-
-            if (progress < 1) requestAnimationFrame(animationStep);
-        }
-
-        requestAnimationFrame(animationStep);
-    }
-
-    useMotionValueEvent(scrollYProgress, 'change', (value) => {
-        console.log(value);
-    })
-
-    useEffect(() => {
-        return;
-        const handleScroll = (e) => {
-           e.preventDefault();
-           smoothScroll(100)
-        }
-
-        document.addEventListener('scroll', handleScroll);
-
-        return () => {
-            document.removeEventListener('scroll', handleScroll)
-        }
-    }, [])
     
+    useMotionValueEvent(scrollYProgress, 'change', (value) => {
+        if(value < 0.56)
+            setBlueBoxTransition('first phase');
+        else
+            setBlueBoxTransition('second phase')
+    });
+
 
     return(
         <section className={styles.home}>
@@ -57,8 +30,10 @@ function Home() {
             <NavigationBar/>
             <Intro/>
             <AboutUs/>
-            <GrandmasterMessage/>
-            <Sponsors/>
+            <BlueScreenContext value={{blueBoxTransition, setBlueBoxTransition}}>
+                <GrandmasterMessage/>
+                <Sponsors/>                
+            </BlueScreenContext>
         </section>
     )
 }

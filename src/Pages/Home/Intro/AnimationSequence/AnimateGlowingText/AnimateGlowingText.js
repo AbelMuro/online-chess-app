@@ -1,22 +1,17 @@
 import React, {useRef} from 'react';
-import CreateMapping from '~/assets/functions/CreateMapping.js';
-import {motion, useScroll, useMotionValueEvent, useMotionValue} from 'framer-motion';
+import {motion, useScroll, useMotionValueEvent, useTransform} from 'framer-motion';
 import * as styles from './styles.module.css';
 
 function AnimateGlowingText() {
     const {scrollYProgress} = useScroll();
-    const opacity = useMotionValue();
+    const opacity = useTransform(scrollYProgress, [0.40, 0.42], [0, 1])
     const container = useRef();
 
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
-        if(value < 0.40) {
+        if(value < 0.40) 
             container.current.style.display = 'none';
-            return;
-        };
-
-        container.current.style.display = 'block'
-        const mappedValue = CreateMapping(0.40, 0.42, 0, 1, value);
-        opacity.set(mappedValue);
+        else
+            container.current.style.display = 'block'
     })  
 
     return(

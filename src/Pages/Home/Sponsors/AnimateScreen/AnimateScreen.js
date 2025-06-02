@@ -1,19 +1,71 @@
-import React from 'react';
-import {motion} from 'framer-motion'
+import React, {useEffect, useContext, useState} from 'react';
+import { BlueScreenContext } from '-/Home';
+import {AnimatePresence, motion, useAnimationControls} from 'framer-motion'
 import * as styles from './styles.module.css';
 
 /* 
-    this is where i left off, i need to create a blue box here with the same layoutId as the AnimateBlock component
-    i can make a transition animation when the AnimateBlock component is unmounted and create another transition
-    animation for this component. it will make it seems as if the AnimateBlock is being moved to the middle of the screen
 
     i also need to fix some visual bugs on the AnimateBlock component
 
-    also, make sure you give a static height to the Sponsors component
+    there are still some bugs that i need to fix with the animateScreen component,
+    especially with the transition that happens when scrolling from AnimateBlock to
+    AnimateScreen
+
+    For now, i can focus on displaying a large title that animates like a slot machine
+    in the Blue screen
 */
 
 function AnimateScreen() {
-    return(<></>)
+    const {blueBoxTransition} = useContext(BlueScreenContext);
+    const [mount, setMount] = useState(false);
+    const controlsWidth = useAnimationControls();
+
+    const handleScrolling = () => {
+        const handleWheel = (e) => e.preventDefault();
+        const touchmove = (e) => e.preventDefault();
+
+        document.addEventListener("wheel", handleWheel, { passive: false });
+        document.addEventListener("touchmove", touchmove, { passive: false });
+
+
+        setTimeout(() => {
+            document.removeEventListener("wheel", handleWheel);
+            document.removeEventListener("touchmove", touchmove);
+        }, 400)
+    }
+    
+
+    useEffect(() => {
+        if(blueBoxTransition === 'first phase'){
+            handleScrolling();
+            setTimeout(() => {
+                setMount(false) 
+            }, 400)
+        }
+        else{
+            handleScrolling();
+            setMount(true);
+        }
+    }, [blueBoxTransition])
+
+    return (
+            <>
+                {mount && <motion.div className={styles.block} layoutId='blue_block'/>}  
+                <AnimatePresence>
+                    {blueBoxTransition === 'second phase' && 
+                        <motion.div 
+                            className={styles.screen} 
+                            initial={{width: 0, height: 0}} 
+                            exit={{width: 0, height: 0, transition: {duration: 0.4}}}
+                            animate={{width: '100%', height: '100vh', transition: {type: 'spring', stiffness: 80, damping: 12, delay: 0.4}}}>
+
+
+                                
+                        </motion.div>}
+                </AnimatePresence>
+            </>
+    )     
+    
 }
 
 export default AnimateScreen;

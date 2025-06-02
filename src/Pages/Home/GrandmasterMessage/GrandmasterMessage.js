@@ -18,6 +18,7 @@ function GrandmasterMessage() {
             return <AnimateBlock fromX={0} toX={-270} blurUpperThreshold={0.53} blurLowerThreshold={0.55}/>
 
     }, [mobile, tablet])
+    
 
     return(
         <section className={styles.container}>

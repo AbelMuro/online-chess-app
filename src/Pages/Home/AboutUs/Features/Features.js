@@ -1,19 +1,11 @@
 import React from 'react';
 import KnightIcon from './KnightIcon';
-import CreateMapping from '~/assets/functions/CreateMapping.js';
-import {useScroll, useMotionValue, useMotionValueEvent, motion} from 'framer-motion';
+import {useScroll, useTransform, motion} from 'framer-motion';
 import * as styles from './styles.module.css';
 
 function Features() {
     const {scrollYProgress} = useScroll();
-    const scale = useMotionValue(0);
-
-    useMotionValueEvent(scrollYProgress, 'change', (value) => {
-        if(value < 0.45 || value > 0.47) return;
-
-        const mappedValue = CreateMapping(0.45, 0.47, 0, 1, value);
-        scale.set(mappedValue);
-    })
+    const scale = useTransform(scrollYProgress, [0.45, 0.47], [0, 1]);
 
     return(
         <section className={styles.container}>

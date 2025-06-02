@@ -1,5 +1,4 @@
 import React, {useRef, useEffect} from 'react';
-import getPathCommandsAsArray from '~/assets/functions/GetPathCommandsAsArray.js';
 import CreateMapping from '~/assets/functions/CreateMapping.js'
 import { useMotionValue, useScroll, motion, useMotionValueEvent} from 'framer-motion';
 import * as styles from './styles.module.css';
