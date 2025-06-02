@@ -1,30 +1,18 @@
-import React, {useRef, useMemo, useEffect} from 'react';
+import React, {useRef, useMemo} from 'react';
 import AnimateLetter from './AnimateLetter';
-import {useMotionValue, useAnimationControls, motion} from 'framer-motion';
 import * as styles from './styles.module.css';
+
+
+/* 
+    i need to implement variants here and use staggerChildren
+*/
 
 function AnimateText(){
     const text = useRef('CHESS'.split(''));
     const repeat = useMemo(() => Array.from({length: 15}, (_, i) => i), []);
-    const scrollPosition = useMotionValue(0);
-    const controls = useAnimationControls();
-
-    useEffect(() => {
-        const allScrollContainers = document.querySelectorAll(`.${styles.letter}`);
-
-        allScrollContainers.forEach((container, i) => {
-            setTimeout(() => {
-                container.scrollTo({top: container.scrollHeight, behavior: 'smooth'})
-            }, i * 500)
-        })
-    }, [])
-
-    useEffect(() => {
-        controls.start({x: 160})
-    }, [])
 
     return(
-        <h1 className={styles.title}>
+        <motion.h1 className={styles.title}>
             {text.current.map((letter, i) => {
                 const repeatedLetters = repeat.map((_, i) => {
                     return(
@@ -34,15 +22,10 @@ function AnimateText(){
                     )
                 })
                 return (
-                    <div 
-                        key={`${letter} ${i}`}
-                        className={styles.letter}>
-                            {repeatedLetters}
-                    </div>
+                    <AnimateLetter key={`${letter} ${i}`} repeatedLetters={repeatedLetters} letter={letter}/>
                 )
             })}
-            <motion.div className={styles.ignore} animate={controls} style={{x: scrollPosition}}/>
-        </h1>
+        </motion.h1>
     )
 }
 
