@@ -1,0 +1,8 @@
+.block{
+    width: 100px;
+    height: 100px;
+    background-color: blue;
+    position: fixed;
+    inset: 0;
+    margin: auto;
+}

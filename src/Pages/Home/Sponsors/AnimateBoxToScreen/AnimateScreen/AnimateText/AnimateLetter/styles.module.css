@@ -1,0 +1,55 @@
+.letter{
+    height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 40px;
+    overflow: scroll;
+    scrollbar-width: 0px;
+    scrollbar-color: transparent transparent;  
+    pointer-events: none;
+}
+
+.letter > span{
+    font-family: 'mulish';
+    font-size: 15rem;
+    color: black;
+    font-weight: 800;
+    line-height: 190px;
+}
+
+.letter::-webkit-scrollbar{
+    width: 0px;
+    background-color: transparent;
+}
+
+.letter::-webkit-scrollbar-thumb{
+    background-color: transparent;
+    border-radius: 0px;
+}
+
+.ignore{
+    display: none;
+}
+
+@media(max-width: 800px){
+    .letter{
+        height: 160px;
+    }
+
+    .letter > span{
+        font-size: 10rem;
+        line-height: 130px;
+    }
+}
+
+@media(max-width: 550px){
+    .letter{
+        height: 100px
+    }
+
+    .letter> span{
+        font-size: 5.6rem;
+        line-height: 80px;
+    }
+}

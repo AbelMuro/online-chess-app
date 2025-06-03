@@ -1,12 +1,12 @@
 import React from 'react';
-import AnimateScreen from './AnimateScreen';
+import AnimateBoxToScreen from './AnimateBoxToScreen';
 import * as styles from './styles.module.css';
 
 function Sponsors() {
 
     return(
         <section className={styles.container}>
-            <AnimateScreen/>
+            <AnimateBoxToScreen/>
         </section>
     )
 }

@@ -1,14 +1,15 @@
 import React, {useEffect, useRef, useState} from "react";
-import {motion, useAnimationControls, useMotionValue} from 'framer-motion'
+import {motion, useMotionValue} from 'framer-motion'
 import * as styles from './styles.module.css';
 
 function AnimateLetter({repeatedLetters}) {
     const containerRef = useRef();
     const [scrollHeight, setScrollHeight] = useState(0);
     const x = useMotionValue(0);
-    const controls = useAnimationControls();
 
     x.on('change', (value) => {
+        if(!containerRef.current) return;
+
         containerRef.current.scrollTo({top: value, behavior: 'smooth'});
     })
 
@@ -18,13 +19,6 @@ function AnimateLetter({repeatedLetters}) {
         const scrollContainer = containerRef.current;
         setScrollHeight(scrollContainer.scrollHeight);
     }, [])
-
-    useEffect(() => {
-        setTimeout(() => {
-            controls.start({x: 0})
-            controls.start({x: scrollHeight});
-        }, 500)
-    }, [scrollHeight])
 
 
     return(       
