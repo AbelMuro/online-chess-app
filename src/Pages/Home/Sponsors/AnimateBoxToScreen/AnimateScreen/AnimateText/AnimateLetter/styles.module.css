@@ -1,7 +1,7 @@
 .container{
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
     gap: 15px;
 }
@@ -11,19 +11,18 @@
     font-size: 2.5rem;
     color: black;
     font-weight: 800;
-    line-height: 30px;
+    line-height: 40px;
 }
 
-.letter{
+.letter{                            /* container with scroll bar*/
     height: 200px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     gap: 20px;
     overflow: scroll;
     scrollbar-width: none;
     scrollbar-color: transparent transparent;  
-    pointer-events: none;
 }
 
 
@@ -33,12 +32,8 @@
     font-size: 15rem;
     color: black;
     font-weight: 800;
-    line-height: 190px;
 }
 
-.letter > span:last-child{
-    margin-bottom: -30px;
-}
 
 .letter::-webkit-scrollbar{
     display: none;

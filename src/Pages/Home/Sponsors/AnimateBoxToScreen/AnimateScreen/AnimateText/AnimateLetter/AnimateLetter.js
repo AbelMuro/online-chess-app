@@ -1,9 +1,17 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState, useMemo} from "react";
 import {motion, useMotionValue} from 'framer-motion'
 import * as styles from './styles.module.css';
 
-function AnimateLetter({repeatedLetters, word}) {
+function AnimateLetter({letter, word}) {
     const containerRef = useRef();
+    const repeat = useMemo(() => Array.from({length: 5}, (_, i) => i), []);
+    const repeatedLetters = repeat.map((_, i) => {
+            return(
+                <span key={i}>
+                    {letter}
+                </span>
+            )
+        })
     const [scrollHeight, setScrollHeight] = useState(0);
     const x = useMotionValue(0);
 
