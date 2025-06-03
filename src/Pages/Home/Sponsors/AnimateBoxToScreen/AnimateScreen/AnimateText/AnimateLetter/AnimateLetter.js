@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import {motion, useMotionValue} from 'framer-motion'
 import * as styles from './styles.module.css';
 
-function AnimateLetter({repeatedLetters}) {
+function AnimateLetter({repeatedLetters, word}) {
     const containerRef = useRef();
     const [scrollHeight, setScrollHeight] = useState(0);
     const x = useMotionValue(0);
@@ -22,10 +22,18 @@ function AnimateLetter({repeatedLetters}) {
 
 
     return(       
-        <>
+        <div className={styles.container}>
             <div className={styles.letter} ref={containerRef}>
                 {repeatedLetters}
             </div>
+            {word.map((letter) => {
+                return (
+                    <span>
+                        {letter}
+                    </span>
+                )
+            })}
+
             <motion.div 
                 className={styles.ignore} 
                 variants={{
@@ -33,7 +41,7 @@ function AnimateLetter({repeatedLetters}) {
                     end: {x: scrollHeight}
                 }} 
                 style={{x}}/>        
-        </>             
+        </div>             
     )
 }
 

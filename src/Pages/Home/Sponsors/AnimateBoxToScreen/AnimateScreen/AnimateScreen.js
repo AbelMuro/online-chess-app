@@ -3,13 +3,10 @@ import AnimateText from './AnimateText';
 import {motion, useScroll, useTransform} from 'framer-motion'
 import * as styles from './styles.module.css';
 
-/* 
-    use hexadecimal values for the colors here
-*/
 
 function AnimateScreen() {
     const {scrollYProgress} = useScroll();
-    const color = useTransform(scrollYProgress, [0.57, 0.58, 0.59, 0.60, 0.61, 0.62, 0.63, 0.64, 0.65], ['blue', 'purple', 'red', 'orange', 'yellow', 'green', 'pink', 'grey', 'lightblue']);
+    const color = useTransform(scrollYProgress, [0.57, 0.60, 0.63, 0.66, 0.69, 0.72, 0.75, 0.78, 0.81], ['#0000ff', '#800080', '#ff0000', '#ffa500', '#ffff00', '#008000', '#ffc0cb', '#808080', '#add8e6']);
 
     return (
             <motion.div 
@@ -20,6 +17,7 @@ function AnimateScreen() {
                 style={{backgroundColor: color}}
                 >
                     <AnimateText/>
+                    
             </motion.div>
     )     
     

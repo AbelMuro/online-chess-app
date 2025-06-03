@@ -6,6 +6,7 @@ import * as styles from './styles.module.css';
 
 function AnimateText(){
     const text = useRef('CHESS'.split(''));
+    const words = useRef(['heckmate'.split(''), 'eart'.split(''), 'legance'.split(''), 'tragedy'.split(''), 'acrifice'.split('')]);
     const repeat = useMemo(() => Array.from({length: 5}, (_, i) => i), []);
     const controls = useAnimationControls();
 
@@ -35,7 +36,12 @@ function AnimateText(){
                         )
                     })
                     return (
-                        <AnimateLetter key={`${letter} ${i}`} repeatedLetters={repeatedLetters} letter={letter}/>
+                        <AnimateLetter 
+                            key={`${letter} ${i}`} 
+                            repeatedLetters={repeatedLetters} 
+                            letter={letter}
+                            word={words.current[i]}
+                            />
                     )
                 })}
         </motion.h1>
