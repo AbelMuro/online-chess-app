@@ -11,13 +11,12 @@ function AnimateScreen() {
     return (
             <motion.div 
                 className={styles.screen} 
-                initial={{width: 0, height: 0}} 
+                initial={{width: '0%', height: '0vh'}} 
                 exit={{width: 0, height: 0, transition: {duration: 0.4}}}
                 animate={{width: '100%', height: '100vh', transition: {type: 'spring', stiffness: 80, damping: 12, delay: 0.4}}}
                 style={{backgroundColor: color}}
                 >
                     <AnimateText/>
-                    
             </motion.div>
     )     
     

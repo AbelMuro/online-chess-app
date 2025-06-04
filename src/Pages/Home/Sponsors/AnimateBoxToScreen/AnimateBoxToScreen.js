@@ -1,8 +1,8 @@
 import React, {useEffect, useState, useContext} from 'react';
 import AnimateScreen from './AnimateScreen';
-import {motion, AnimatePresence} from 'framer-motion';
+import AnimateBox from './AnimateBox';
+import {AnimatePresence} from 'framer-motion';
 import {BlueScreenContext} from '-/Home.js'
-import * as styles from './styles.module.css';
 
 
 function AnimateBoxToScreen() {
@@ -22,7 +22,7 @@ function AnimateBoxToScreen() {
 
     return(
         <>
-            {mount && <motion.div className={styles.block} layoutId='blue_block'/>}  
+            <AnimateBox mount={mount}/>
             <AnimatePresence>    
                 {blueBoxTransition === 'second phase' && <AnimateScreen/>}
             </AnimatePresence>        

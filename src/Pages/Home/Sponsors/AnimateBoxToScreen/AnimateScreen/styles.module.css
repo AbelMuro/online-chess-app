@@ -4,6 +4,7 @@
     position: fixed;
     inset: 0;
     margin: auto;
+    transition: all 0s;
 }
 
 .screen{

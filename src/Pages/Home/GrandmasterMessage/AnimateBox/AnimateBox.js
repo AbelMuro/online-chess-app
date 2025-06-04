@@ -4,12 +4,8 @@ import {useScroll, useTransform, motion, useAnimationControls} from 'framer-moti
 import icons from './icons';
 import * as styles from './styles.module.css';
 
-/* 
-    this is where i left off, the issue here is that there are two re-renders that 
-    happen and this is what causes bugs with layoutId
-*/
 
-function AnimateBlock() {
+function AnimateBox() {
     const [mount, setMount] = useState(false);
     const {blueBoxTransition} = useContext(BlueScreenContext);    
     const controlsX = useAnimationControls();
@@ -53,4 +49,4 @@ function AnimateBlock() {
     )
 }
 
-export default AnimateBlock;
+export default AnimateBox;

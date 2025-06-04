@@ -1,5 +1,5 @@
 import React, {useRef, useMemo, useState} from "react";
-import {motion, useMotionValue, useScroll, useTransform} from 'framer-motion'
+import {motion, useMotionValue} from 'framer-motion'
 import * as styles from './styles.module.css';
 
 /* 
@@ -9,9 +9,6 @@ import * as styles from './styles.module.css';
 */
 
 function AnimateLetter({letter, word}) {
-    const [text, setText] = useState([]);
-    const {scrollYProgress} = useScroll();
-    const numberOfTextToRender = useTransform(scrollYProgress, [0.58, 0.81], [0, word.length - 1]);
     const containerRef = useRef();
     const x = useMotionValue(0);     
     const repeat = useMemo(() => Array.from({length: 15}, (_, i) => i), []);
@@ -30,9 +27,6 @@ function AnimateLetter({letter, word}) {
         containerRef.current.scrollTo({top: value, behavior: 'smooth'});
     })
 
-    numberOfTextToRender.on('change', (value) => {
-        setText(word.slice(0, Math.floor(value)));
-    })
 
 
 
@@ -41,14 +35,6 @@ function AnimateLetter({letter, word}) {
             <div className={styles.letter} ref={containerRef}>
                 {repeatedLetters}
             </div>
-            {text.map((letter) => {
-                return (
-                    <motion.span>
-                        {letter}
-                    </motion.span>
-                )
-            })}
-
             <motion.div 
                 className={styles.ignore} 
                 variants={{
