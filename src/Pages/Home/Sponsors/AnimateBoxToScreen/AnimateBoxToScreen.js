@@ -16,7 +16,6 @@ function AnimateBoxToScreen() {
         document.addEventListener("wheel", handleWheel, { passive: false });
         document.addEventListener("touchmove", touchmove, { passive: false });
 
-
         setTimeout(() => {
             document.removeEventListener("wheel", handleWheel);
             document.removeEventListener("touchmove", touchmove);

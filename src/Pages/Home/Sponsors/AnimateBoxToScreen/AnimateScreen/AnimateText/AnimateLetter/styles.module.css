@@ -15,23 +15,38 @@
 }
 
 .letter{                            /* container with scroll bar*/
+    width: 200px;
     height: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 20px;
     overflow: scroll;
     scrollbar-width: none;
     scrollbar-color: transparent transparent;  
+    pointer-events: none;
 }
 
 
-.letter > span{
-    display: inline-block;
+.letter > p{
+    height: 200px;
     font-family: 'mulish';
     font-size: 15rem;
     color: black;
     font-weight: 800;
+    overflow: hidden;
+    position: relative;
+}
+
+.letter > p:not(p:last-child){
+    margin: 0px 0px 15px 0px;
+}
+
+.letter > p:last-child{
+    margin: 0px;
+}
+
+.letter > p > span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 
@@ -52,24 +67,37 @@
     display: none;
 }
 
-@media(max-width: 800px){
+@media(max-width: 960px){
     .letter{
-        height: 160px;
+        width: 120px;
+        height: 140px;
     }
 
-    .letter > span{
+    .letter > p{
+        height: 150px;
         font-size: 10rem;
-        line-height: 130px;
+    }
+
+    .container > span{
+        font-size: 2rem;
+        line-height: 30px;
     }
 }
 
-@media(max-width: 550px){
+@media(max-width: 600px){
     .letter{
-        height: 100px
+        width: 70px;
+        height: 80px
     }
 
-    .letter> span{
+    .letter > p{
+        height: 90px;
         font-size: 5.6rem;
         line-height: 80px;
+    }
+
+    .container > span{
+        font-size: 1.6rem;
+        line-height: 20px;
     }
 }

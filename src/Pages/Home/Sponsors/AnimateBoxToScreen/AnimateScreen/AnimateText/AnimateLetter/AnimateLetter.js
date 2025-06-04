@@ -1,32 +1,39 @@
-import React, {useEffect, useRef, useState, useMemo} from "react";
-import {motion, useMotionValue} from 'framer-motion'
+import React, {useRef, useMemo, useState} from "react";
+import {motion, useMotionValue, useScroll, useTransform} from 'framer-motion'
 import * as styles from './styles.module.css';
 
+/* 
+    this is where i left off, i need to animate the text that is being displayed
+    based on the scroll position
+
+*/
+
 function AnimateLetter({letter, word}) {
+    const [text, setText] = useState([]);
+    const {scrollYProgress} = useScroll();
+    const numberOfTextToRender = useTransform(scrollYProgress, [0.58, 0.81], [0, word.length - 1]);
     const containerRef = useRef();
-    const repeat = useMemo(() => Array.from({length: 5}, (_, i) => i), []);
-    const repeatedLetters = repeat.map((_, i) => {
+    const x = useMotionValue(0);     
+    const repeat = useMemo(() => Array.from({length: 15}, (_, i) => i), []);
+    const repeatedLetters = useMemo(() => repeat.map((_, i) => {
             return(
-                <span key={i}>
-                    {letter}
-                </span>
+                <p key={i}>
+                    <span>
+                       {letter} 
+                    </span>
+                </p>
             )
-        })
-    const [scrollHeight, setScrollHeight] = useState(0);
-    const x = useMotionValue(0);
+    }), [])
 
     x.on('change', (value) => {
         if(!containerRef.current) return;
-
         containerRef.current.scrollTo({top: value, behavior: 'smooth'});
     })
 
-    useEffect(() => {
-        if(!containerRef.current) return;
+    numberOfTextToRender.on('change', (value) => {
+        setText(word.slice(0, Math.floor(value)));
+    })
 
-        const scrollContainer = containerRef.current;
-        setScrollHeight(scrollContainer.scrollHeight);
-    }, [])
 
 
     return(       
@@ -34,11 +41,11 @@ function AnimateLetter({letter, word}) {
             <div className={styles.letter} ref={containerRef}>
                 {repeatedLetters}
             </div>
-            {word.map((letter) => {
+            {text.map((letter) => {
                 return (
-                    <span>
+                    <motion.span>
                         {letter}
-                    </span>
+                    </motion.span>
                 )
             })}
 
@@ -46,7 +53,7 @@ function AnimateLetter({letter, word}) {
                 className={styles.ignore} 
                 variants={{
                     initial: {x: 0}, 
-                    end: {x: scrollHeight}
+                    end: {x: 3500}
                 }} 
                 style={{x}}/>        
         </div>             

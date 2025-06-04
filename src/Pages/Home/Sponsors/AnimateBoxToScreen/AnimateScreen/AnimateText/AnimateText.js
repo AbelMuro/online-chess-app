@@ -1,10 +1,13 @@
 import React, {useRef, useMemo, useEffect} from 'react';
+import useMediaQuery from '~/Hooks/useMediaQuery';
 import AnimateLetter from './AnimateLetter';
 import {motion, useAnimationControls} from 'framer-motion';
 import * as styles from './styles.module.css';
 
 
 function AnimateText(){
+    const [tablet] = useMediaQuery('(max-width: 960px)');
+    const [mobile] = useMediaQuery('(max-width: 600px)');
     const text = useRef('CHESS'.split(''));
     const words = useRef(['heckmate'.split(''), 'eart'.split(''), 'legance'.split(''), 'tragedy'.split(''), 'acrifice'.split('')]);
     const controls = useAnimationControls();
@@ -17,15 +20,16 @@ function AnimateText(){
         return () => {
             clearTimeout(timeout)
         }
-    }, [])
+    }, [mobile, tablet])
+
+
 
     return(
         <motion.h1 
             className={styles.title} 
             animate={controls} 
             exit={{opacity: 0}}
-            initial={{opacity: 0}}
-            variants={{initial: {opacity: 0}, end: {opacity: 1, transition: {staggerChildren: 0.2, when: 'beforeChildren', delay: 0.5}}}}>
+            variants={{initial: {}, end: {transition: {staggerChildren: 0.2, when: 'beforeChildren', delay: 0.5}}}}>
                 {text.current.map((letter, i) => {
                     return (
                         <AnimateLetter 
