@@ -16,7 +16,10 @@ function AnimateScreen() {
                 animate={{width: '100%', height: '100vh', transition: {type: 'spring', stiffness: 80, damping: 12, delay: 0.4}}}
                 style={{backgroundColor: color}}
                 >
-                    <AnimateText/>
+                    <div className={styles.screen_content}>
+                        <AnimateText/>                        
+                    </div>
+
             </motion.div>
     )     
     

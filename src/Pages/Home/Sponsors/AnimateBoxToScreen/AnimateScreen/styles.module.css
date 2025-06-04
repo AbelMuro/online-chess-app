@@ -5,12 +5,15 @@
     inset: 0;
     margin: auto;
     transition: all 0s;
-}
-
-.screen{
     z-index: var(--close);
     transition: all 0s;
-    padding: 80px 0px;
+    padding: 80px 0px;    
+}
+
+.screen_content{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 45px
 }
 
 @media(max-width: 600px){
