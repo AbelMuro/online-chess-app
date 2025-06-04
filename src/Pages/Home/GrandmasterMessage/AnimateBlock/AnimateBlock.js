@@ -1,19 +1,36 @@
 import React, {useContext, useEffect, useState} from 'react';
 import { BlueScreenContext } from '-/Home.js';
-import {useScroll, useTransform, motion} from 'framer-motion';
+import {useScroll, useTransform, motion, useAnimationControls} from 'framer-motion';
 import icons from './icons';
 import * as styles from './styles.module.css';
 
-function AnimateBlock({fromX, toX, blurUpperThreshold, blurLowerThreshold}) {
+/* 
+    this is where i left off, the issue here is that there are two re-renders that 
+    happen and this is what causes bugs with layoutId
+*/
+
+function AnimateBlock() {
     const [mount, setMount] = useState(false);
-    const {blueBoxTransition} = useContext(BlueScreenContext);
+    const {blueBoxTransition} = useContext(BlueScreenContext);    
+    const controlsX = useAnimationControls();
+    const controlsRotate = useAnimationControls();
+    const controlsBlur = useAnimationControls();
     const {scrollYProgress} = useScroll();
-    const x = useTransform(scrollYProgress, [0.49, 0.50], [fromX, toX]);
+    const x = useTransform(scrollYProgress, [0.49, 0.50], [0, -270]);
     const rotate = useTransform(scrollYProgress, [0.49, 0.50], [0, 360]);
-    const blur = useTransform(scrollYProgress, [blurUpperThreshold, blurLowerThreshold], [50, 0]);
-    const blurFilter = useTransform(blur, (value) => `blur(${value}px)`);
+    const blur = useTransform(scrollYProgress, [0.53, 0.55], [50, 0]);
 
+    x.on('change', (value) => {
+        controlsX.start({x: value, transition: {duration: 0.2}})
+    })
 
+    rotate.on('change', (value) => {
+        controlsRotate.start({rotate: value, transition: {duration: 0.5}});
+    })
+
+    blur.on('change', (value) => {
+        controlsBlur.start({filter: `blur(${value}px)`, transition: {duration: 0}})
+    })
 
     useEffect(() => {
         if(blueBoxTransition === 'second phase'){
@@ -29,9 +46,9 @@ function AnimateBlock({fromX, toX, blurUpperThreshold, blurLowerThreshold}) {
     
 
     return mount && (
-            <motion.div className={styles.block} style={{x}} layoutId='blue_block'>
-                <motion.img style={{rotate}} className={styles.block_rook} src={icons['rook']}/>
-                <motion.div className={styles.glow_effect} style={{filter: blurFilter}}/>
+            <motion.div className={styles.block} initial={{x: x.get()}} animate={controlsX} layoutId='blue_block'>
+                <motion.img initial={{rotate: rotate.get()}} animate={controlsRotate} className={styles.block_rook} src={icons['rook']}/>
+                <motion.div initial={{filter: `blur(${blur.get()}px)`}} animate={controlsBlur} className={styles.glow_effect}/>
             </motion.div>                
     )
 }

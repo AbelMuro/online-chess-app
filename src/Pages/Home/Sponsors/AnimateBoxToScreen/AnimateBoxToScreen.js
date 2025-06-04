@@ -9,30 +9,15 @@ function AnimateBoxToScreen() {
     const {blueBoxTransition} = useContext(BlueScreenContext);
     const [mount, setMount] = useState(false);
 
-    const handleScrolling = () => {
-        const handleWheel = (e) => e.preventDefault();
-        const touchmove = (e) => e.preventDefault();
-
-        document.addEventListener("wheel", handleWheel, { passive: false });
-        document.addEventListener("touchmove", touchmove, { passive: false });
-
-        setTimeout(() => {
-            document.removeEventListener("wheel", handleWheel);
-            document.removeEventListener("touchmove", touchmove);
-        }, 400)
-    }
 
     useEffect(() => {
-        if(blueBoxTransition === 'first phase'){
-            handleScrolling();
+        if(blueBoxTransition === 'first phase')
             setTimeout(() => {
                 setMount(false) 
             }, 400)
-        }
-        else{
-            handleScrolling();
+        else
             setMount(true);
-        }
+        
     }, [blueBoxTransition])
 
     return(
