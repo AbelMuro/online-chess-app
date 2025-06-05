@@ -1,13 +1,30 @@
-import React from 'react';
+import React, {createContext, useEffect, useState, useRef} from 'react';
+import calculateScrollThreshold from '~/assets/functions/calculateScrollThresholds.js';
 import AnimationSequence from './AnimationSequence';
 import * as styles from './styles.module.css';
 
+export const ThresholdContext = createContext();
 
 function Intro() {
+    const [topThreshold, setTopThreshold] = useState(0);
+    const containerRef = useRef();
+
+    useEffect(() => {
+        const node = containerRef.current;
+        const offsetFromTop = node.offsetTop;
+        const offsetHeight = node.offsetHeight;
+
+        const [topThreshold] = calculateScrollThreshold(offsetFromTop, offsetHeight);
+
+        setTopThreshold(topThreshold);
+    }, [])
+
     return(
-        <header className={styles.container}>
-            <AnimationSequence/>
-        </header>
+        <ThresholdContext value={{topThreshold}}>
+            <header className={styles.container} ref={containerRef}>
+                <AnimationSequence/>
+            </header>
+        </ThresholdContext>
     )
 }
 

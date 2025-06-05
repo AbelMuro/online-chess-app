@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import { ThresholdContext } from '../AboutUs';
 import KnightIcon from './KnightIcon';
 import {useScroll, useTransform, motion} from 'framer-motion';
 import * as styles from './styles.module.css';
 
 function Features() {
+    const {topThreshold} = useContext(ThresholdContext);
     const {scrollYProgress} = useScroll();
-    const scale = useTransform(scrollYProgress, [0.49, 0.51], [0, 1]);
+    const scale = useTransform(scrollYProgress, [topThreshold + 0.02, topThreshold + 0.04], [0, 1]);
 
     return(
         <section className={styles.container}>

@@ -2,11 +2,11 @@ import React from 'react';
 import AnimateLine from './AnimateLine';
 import * as styles from './styles.module.css';
 
-function IndividualMessage({message, upperThreshold, lowerThreshold}){
+function IndividualMessage({message, animationStart}){
     return(
         <div className={styles.message}>
             {message}
-            <AnimateLine upperThreshold={upperThreshold} lowerThreshold={lowerThreshold}/>
+            <AnimateLine animationStart={animationStart}/>
         </div>
     )
 }

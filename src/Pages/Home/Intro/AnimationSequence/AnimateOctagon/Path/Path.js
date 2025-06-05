@@ -1,9 +1,11 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useContext} from 'react';
+import { ThresholdContext } from '../../../Intro';
 import CreateMapping from '~/assets/functions/CreateMapping.js';
-import {motion, useScroll, useMotionValueEvent, useMotionValue, easeInOut} from 'framer-motion';
+import {motion, useScroll, useMotionValueEvent, useMotionValue} from 'framer-motion';
 import * as styles from './styles.module.css';
 
 function Path({d, transform}) {
+    const {topThreshold} = useContext(ThresholdContext);
     const {scrollYProgress} = useScroll();
     const pathInnerRef = useRef();
     const pathOuterRef = useRef();
@@ -11,21 +13,24 @@ function Path({d, transform}) {
     const offset = useMotionValue();
 
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
-        if(value < 0.20) {
+        const from = topThreshold + 0.25;
+        const to = topThreshold + 0.40;
+
+        if(value < from) {
             pathInnerRef.current.style.display = 'none'
             pathOuterRef.current.style.display = 'none'
             offset.set(strokeDashArray.current);
             return;
         }
 
-        else if(value > 0.40) {
+        else if(value > to) {
             offset.set(0);
-            return
+            return;
         };
 
         pathInnerRef.current.style.display = 'block'
         pathOuterRef.current.style.display = 'block'
-        const mappedValue = CreateMapping(0.20, 0.40, strokeDashArray.current, 0, value);
+        const mappedValue = CreateMapping(from, to, strokeDashArray.current, 0, value);
         offset.set(mappedValue);
     })
 

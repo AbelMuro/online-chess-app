@@ -1,8 +1,9 @@
-import React from 'react';
+import React , {useContext} from 'react';
 import AnimateLines from './AnimateLines';
 import * as styles from './styles.module.css';
 
 function WhoWeAre() {
+
     return(
         <section className={styles.container}>
             <p className={styles.detail}>

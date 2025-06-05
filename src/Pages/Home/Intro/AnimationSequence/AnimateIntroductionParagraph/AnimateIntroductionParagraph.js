@@ -1,34 +1,35 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useContext} from 'react';
+import { ThresholdContext } from '../../Intro';
 import CreateMapping from '~/assets/functions/CreateMapping.js';
-import {useScroll, motion, useTransform, useMotionValueEvent, AnimatePresence, useMotionValue} from 'framer-motion';
+import {useScroll, motion, useTransform, useMotionValueEvent, AnimatePresence} from 'framer-motion';
 import * as styles from './styles.module.css';
 
 function AnimateDescription() {
+    const {topThreshold } = useContext(ThresholdContext);
     const {scrollYProgress} = useScroll();
     const container = useRef();
     const text = useRef(`Whether you're facing off against real opponents from around the world or testing your skills against the powerful Stockfish engine, this app brings the thrill of strategy to your fingertips. Ready to sharpen your tactics and outwit the competition? Play now and take your chess game to the next level!`)
     const [visibleChars, setVisibleChars] = useState(''); 
-    const opacity = useTransform(scrollYProgress, [0.35, 0.40], [1, 0]);
+    const opacity = useTransform(scrollYProgress, [topThreshold + 0.33, topThreshold + 0.37], [1, 0]);
 
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
-        if(value <= 0.125){
+        const from = topThreshold + 0.16;
+        const to = topThreshold + 0.30;
+        const remove = topThreshold + 0.38
+
+        if(value <= from){
+            container.current.style.display = 'none';
+            return;
+        }
+        else if(value >= remove){
             container.current.style.display = 'none';
             return;
         }
         container.current.style.display = 'flex';
-        const mappedValue = CreateMapping(0.125, 0.25, 0, text.current.length, value);
+        const mappedValue = CreateMapping(from, to, 0, text.current.length, value);
         setVisibleChars(text.current.slice(0, mappedValue))            
     })
 
-
-    useMotionValueEvent(scrollYProgress, 'change', (value) => {
-        if(value <= 0.35) 
-            return;
-        else if(value > 0.40){
-            container.current.style.display = 'none';
-            return;
-        }
-    })  
 
     return(
         <motion.section className={styles.description} ref={container} style={{opacity}}>
@@ -42,7 +43,7 @@ function AnimateDescription() {
                             <motion.span 
                                 key={index} 
                                 initial={{opacity: 0, y: 10}} 
-                                animate={{opacity: 1, y: 0}}
+                                animate={{opacity: 1, y: 0, transition: {duration: 0.8}}}
                                 exit={{opacity: 0, y: 10}}
                                 >
                                     {char}

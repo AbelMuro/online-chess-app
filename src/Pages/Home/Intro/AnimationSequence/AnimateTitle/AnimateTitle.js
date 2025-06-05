@@ -1,20 +1,22 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useContext} from 'react';
+import { ThresholdContext } from '../../Intro';
 import AnimateLetter from './AnimateLetter';
 import {motion, cubicBezier, useScroll, useTransform, useMotionValueEvent} from 'framer-motion'
 import {container_variant} from './Variants';
 import * as styles from './styles.module.css';
 
 function AnimateTitle() {
+    const {topThreshold} = useContext(ThresholdContext);
     const {scrollYProgress} = useScroll();
     const [mount, setMount] = useState(true);
-    const opacity = useTransform(scrollYProgress, [0, 0.12], [1, 0], {ease: cubicBezier(0.25, 1, 1, 1)});
+    const opacity = useTransform(scrollYProgress, [topThreshold, topThreshold + 0.12], [1, 0], {ease: cubicBezier(0.25, 1, 1, 1)});
     const title = useRef('World Class Chess');
     const words = title.current.split(' ');
     const container = useRef();
 
 
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
-        if(value <= 0.12)
+        if(value <= topThreshold + 0.15)
             setMount(true);
         else
             setMount(false); 

@@ -1,5 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import { BlueScreenContext } from '-/Home.js';
+import { ThresholdContext } from '../GrandmasterMessage';
 import {useScroll, useTransform, motion, useAnimationControls} from 'framer-motion';
 import icons from './icons';
 import * as styles from './styles.module.css';
@@ -7,14 +8,15 @@ import * as styles from './styles.module.css';
 
 function AnimateBox() {
     const [mount, setMount] = useState(false);
-    const {blueBoxTransition} = useContext(BlueScreenContext);    
+    const {blueBoxTransition} = useContext(BlueScreenContext);   
+    const {topThreshold} = useContext(ThresholdContext) 
     const controlsX = useAnimationControls();
     const controlsRotate = useAnimationControls();
     const controlsBlur = useAnimationControls();
     const {scrollYProgress} = useScroll();
-    const x = useTransform(scrollYProgress, [0.53, 0.54], [0, -270]);
-    const rotate = useTransform(scrollYProgress, [0.53, 0.54], [0, 360]);
-    const blur = useTransform(scrollYProgress, [0.57, 0.61], [50, 0]);
+    const x = useTransform(scrollYProgress, [topThreshold + 0.01, topThreshold + 0.02], [0, -270]);
+    const rotate = useTransform(scrollYProgress, [topThreshold + 0.01, topThreshold + 0.02], [0, 360]);
+    const blur = useTransform(scrollYProgress, [topThreshold + 0.05, topThreshold + 0.09], [50, 0]);
 
     x.on('change', (value) => {
         controlsX.start({x: value, transition: {duration: 0.2}})
@@ -25,7 +27,7 @@ function AnimateBox() {
     })
 
     blur.on('change', (value) => {
-        controlsBlur.start({filter: `blur(${value}px)`, transition: {duration: 0}})
+        controlsBlur.start({filter: `blur(${value}px)`, transition: {duration: 0}});
     })
 
     useEffect(() => {

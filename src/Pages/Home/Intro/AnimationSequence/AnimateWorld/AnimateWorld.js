@@ -1,15 +1,17 @@
-import React, {useState, useRef} from 'react';
+import React, {useRef, useContext} from 'react';
+import { ThresholdContext } from '../../Intro';
 import {useScroll, useMotionValueEvent} from 'framer-motion';
 import Path from './Paths';
 import * as styles from './styles.module.css';
 
 
 function AnimateWorld() {
+    const {topThreshold} = useContext(ThresholdContext);
     const {scrollYProgress} = useScroll();
     const container = useRef();
 
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
-        if(value <= 0.25)
+        if(value <= topThreshold + 0.27)
             container.current.style.display = 'block';
         else
             container.current.style.display = 'none';

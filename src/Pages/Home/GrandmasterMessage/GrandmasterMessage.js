@@ -1,28 +1,42 @@
-import React, {useMemo} from 'react';
-import useMediaQuery from '~/Hooks/useMediaQuery';
+import React, {useEffect, createContext, useRef, useState} from 'react';
+import calculateScrollThreshold from '~/assets/functions/calculateScrollThresholds';
 import DisplayVerticalText from './DisplayVerticalText';
 import IndividualMessage from './IndividualMessage';
 import AnimateBox from './AnimateBox';
 import * as styles from './styles.module.css';
 
-/* 
-    this is where i left off, i need to get the scroll position from the top of this element
-    and use that to approximate when to animate its child components
-*/
 
+export const ThresholdContext = createContext();
 
 function GrandmasterMessage() {
+    const containerRef = useRef();
+    const [topThreshold, setTopThreshold] = useState(0);
+
+
+    useEffect(() => {
+        if(!containerRef.current) return;
+
+        const node = containerRef.current;
+        const offsetFromTop = node.offsetTop;
+        const offsetHeight = node.offsetHeight;
+
+        const [topThreshold] = calculateScrollThreshold(offsetFromTop, offsetHeight);
+        setTopThreshold(topThreshold);
+    }, [])
 
     return(
-        <section className={styles.container}>
-            <DisplayVerticalText/>
-            <AnimateBox/>
-            <div className={styles.message_container}>
-                <IndividualMessage message={'[Become a grandmaster today!]'} upperThreshold='0.48' lowerThreshold='0.49'/>
-                <IndividualMessage message={'[Challenge the stockfish engine!]'} upperThreshold='0.49' lowerThreshold='0.50'/>
-                <IndividualMessage message={'[Expand your knowledge!]'} upperThreshold='0.50' lowerThreshold='0.51'/>  
-            </div>
-        </section>
+        <ThresholdContext value={{topThreshold}}>
+            <section className={styles.container} ref={containerRef}>
+                <DisplayVerticalText/>
+                <AnimateBox/>
+                <div className={styles.message_container}>
+                    <IndividualMessage message={'[Become a grandmaster today!]'} animationStart={topThreshold + 0.02}/>
+                    <IndividualMessage message={'[Challenge the stockfish engine!]'} animationStart={topThreshold + 0.03}/>
+                    <IndividualMessage message={'[Expand your knowledge!]'} animationStart={topThreshold + 0.04}/>  
+                </div>
+            </section>            
+        </ThresholdContext>
+
     )
 }
 

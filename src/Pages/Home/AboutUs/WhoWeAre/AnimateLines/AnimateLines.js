@@ -1,11 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import { ThresholdContext } from '../../AboutUs';
 import {useScroll, useTransform, motion} from 'framer-motion';
 import * as styles from './styles.module.css';
 
 function AnimateLines() {
+    const {topThreshold} = useContext(ThresholdContext);
     const {scrollYProgress} = useScroll();
-    const scale = useTransform(scrollYProgress, [0.47, 0.49], [0, 1]);
-
+    const scale = useTransform(scrollYProgress, [topThreshold, topThreshold + 0.02], [0, 1]);
 
     return(
         <section className={styles.container}>

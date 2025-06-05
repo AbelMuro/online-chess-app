@@ -1,21 +1,34 @@
-import React from 'react';
+import React, {useEffect, useState, useRef, createContext} from 'react';
 import WhoWeAre from './WhoWeAre';
 import Features from './Features';
+import calculateScrollThreshold from '~/assets/functions/calculateScrollThresholds.js';
 import * as styles from './styles.module.css';
 
-
-/* 
-    this is where i left off, i need to get the scroll position from the top of this element
-    and use that to approximate when to animate its child components
-*/
+export const ThresholdContext = createContext()
 
 function AboutUs() {
+    const [topThreshold, setTopThreshold] = useState(0);
+    const containerRef = useRef();
+
+    useEffect(() => {
+        if(!containerRef.current) return;
+
+        const node = containerRef.current;
+        const offsetFromTop = node.offsetTop;                                                // the space between the top border of the element and the top of the page
+        const offsetHeight = node.offsetHeight;                                              // the full height of the element
+
+        const [topThreshold] = calculateScrollThreshold(offsetFromTop, offsetHeight);
+        setTopThreshold(topThreshold);
+    }, [])
 
     return(
-        <article className={styles.container}>
-            <WhoWeAre/>                    {/* line animation starts at scroll position 0.47 and ends at scroll position 0.49*/}
-            <Features/>                     {/* line animation starts at scroll position 0.49 and ends at scroll position 0.51 */}
-        </article>
+        <ThresholdContext value={{topThreshold}}>
+            <article className={styles.container} ref={containerRef}>
+                <WhoWeAre />                     {/* line animation starts at scroll position 0.47 and ends at scroll position 0.49*/}
+                <Features />                     {/* line animation starts at scroll position 0.49 and ends at scroll position 0.51 */}
+            </article>
+        </ThresholdContext>
+
     )
 }
 

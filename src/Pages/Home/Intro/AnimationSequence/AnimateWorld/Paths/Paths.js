@@ -1,9 +1,11 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useContext} from 'react';
+import { ThresholdContext } from '../../../Intro';
 import CreateMapping from '~/assets/functions/CreateMapping.js'
 import { useMotionValue, useScroll, motion, useMotionValueEvent} from 'framer-motion';
 import * as styles from './styles.module.css';
 
 function Paths({d, transform}) {
+    const {topThreshold} = useContext(ThresholdContext);
     const {scrollYProgress} = useScroll();
     const pathOneRef = useRef();
     const pathTwoRef = useRef();
@@ -12,14 +14,15 @@ function Paths({d, transform}) {
 
 
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
-        if(value > 0.20) {
+        if(value > topThreshold + 0.23) {
             pathOneRef.current.style.opacity = '0'
             pathTwoRef.current.style.opacity = '0'
             return;
         }
         pathOneRef.current.style.opacity = '1'
         pathTwoRef.current.style.opacity = '1'
-        const mappedValue = CreateMapping(0, 0.20, 0, strokeDashArray.current, value);
+        let mappedValue = CreateMapping(topThreshold, topThreshold + 0.23, 0, strokeDashArray.current, value);
+        if(mappedValue < 0) mappedValue = 0;
         offset.set(mappedValue);
     })
 

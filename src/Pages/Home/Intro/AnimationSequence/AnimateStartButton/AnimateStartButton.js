@@ -1,10 +1,12 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useContext} from 'react';
+import { ThresholdContext } from '../../Intro';
 import {useNavigate} from 'react-router-dom';
 import {button_variant, linearGradientBlue_variant, linearGradientBlack_variant } from './Variants';
 import {motion, useTransform, useScroll, useMotionValueEvent} from 'framer-motion';
 import * as styles from './styles.module.css';
 
 function AnimateStartButton() {
+    const {topThreshold} = useContext(ThresholdContext);
     const navigate = useNavigate();
     const [stopColorOne, setStopColorOne] = useState('blue');
     const [stopColorTwo, setStopColorTwo] = useState('black');
@@ -27,7 +29,7 @@ function AnimateStartButton() {
     }
 
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
-        if(value <= 0.12)
+        if(value <= topThreshold + 0.15)
             button.current.style.display = 'block';
         else
             button.current.style.display = 'none';

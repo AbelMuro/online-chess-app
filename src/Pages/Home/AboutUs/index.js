@@ -1,3 +1,5 @@
-import AboutUs from "./AboutUs.js";
+import AboutUs, {ThresholdContext} from "./AboutUs.js";
 
+
+export {ThresholdContext};
 export default AboutUs;

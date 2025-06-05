@@ -3,11 +3,6 @@ import {useScroll, motion} from 'framer-motion';
 import Path from './Path';
 import * as styles from './styles.module.css';
 
-/* 
-    this is where i left off, i need to continue working on this svg design
-    i want to add a checked background to this design
-
-*/
 
 
 function AnimateOctagon() {
