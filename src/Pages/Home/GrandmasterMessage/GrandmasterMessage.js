@@ -5,6 +5,12 @@ import IndividualMessage from './IndividualMessage';
 import AnimateBox from './AnimateBox';
 import * as styles from './styles.module.css';
 
+/* 
+    this is where i left off, i need to get the scroll position from the top of this element
+    and use that to approximate when to animate its child components
+*/
+
+
 function GrandmasterMessage() {
 
     return(
