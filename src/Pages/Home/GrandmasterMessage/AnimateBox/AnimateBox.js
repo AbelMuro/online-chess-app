@@ -12,9 +12,9 @@ function AnimateBox() {
     const controlsRotate = useAnimationControls();
     const controlsBlur = useAnimationControls();
     const {scrollYProgress} = useScroll();
-    const x = useTransform(scrollYProgress, [0.49, 0.50], [0, -270]);
-    const rotate = useTransform(scrollYProgress, [0.49, 0.50], [0, 360]);
-    const blur = useTransform(scrollYProgress, [0.53, 0.55], [50, 0]);
+    const x = useTransform(scrollYProgress, [0.53, 0.54], [0, -270]);
+    const rotate = useTransform(scrollYProgress, [0.53, 0.54], [0, 360]);
+    const blur = useTransform(scrollYProgress, [0.57, 0.61], [50, 0]);
 
     x.on('change', (value) => {
         controlsX.start({x: value, transition: {duration: 0.2}})

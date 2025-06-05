@@ -2,7 +2,7 @@ import React from 'react';
 import AnimateBoxToScreen from './AnimateBoxToScreen';
 import * as styles from './styles.module.css';
 
-function Sponsors() {
+function FAQ() {
 
     return(
         <section className={styles.container}>
@@ -11,4 +11,4 @@ function Sponsors() {
     )
 }
 
-export default Sponsors;
+export default FAQ;

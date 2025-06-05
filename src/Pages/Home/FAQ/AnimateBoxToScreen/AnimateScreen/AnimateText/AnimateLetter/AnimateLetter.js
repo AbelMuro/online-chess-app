@@ -5,13 +5,9 @@ import * as styles from './styles.module.css';
 /* 
     this is where i left off, i need to animate the text that is being displayed
     based on the scroll position
-
 */
 
-function AnimateLetter({letter, word}) {
-    const [text, setText] = useState([]);
-    const {scrollYProgress} = useScroll();
-    const numberOfTextToRender = useTransform(scrollYProgress, [0.58, 0.81], [0, word.length - 1]);
+function AnimateLetter({letter}) {
     const containerRef = useRef();
     const x = useMotionValue(0);     
     const repeat = useMemo(() => Array.from({length: 15}, (_, i) => i), []);
@@ -30,25 +26,11 @@ function AnimateLetter({letter, word}) {
         containerRef.current.scrollTo({top: value, behavior: 'smooth'});
     })
 
-    numberOfTextToRender.on('change', (value) => {
-        setText(word.slice(0, Math.floor(value)));
-    })
-
-
-
     return(       
         <div className={styles.container}>
             <div className={styles.letter} ref={containerRef}>
                 {repeatedLetters}
             </div>
-            {text.map((letter) => {
-                return (
-                    <motion.span>
-                        {letter}
-                    </motion.span>
-                )
-            })}
-
             <motion.div 
                 className={styles.ignore} 
                 variants={{

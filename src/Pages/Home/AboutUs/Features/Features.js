@@ -5,7 +5,7 @@ import * as styles from './styles.module.css';
 
 function Features() {
     const {scrollYProgress} = useScroll();
-    const scale = useTransform(scrollYProgress, [0.45, 0.47], [0, 1]);
+    const scale = useTransform(scrollYProgress, [0.49, 0.51], [0, 1]);
 
     return(
         <section className={styles.container}>

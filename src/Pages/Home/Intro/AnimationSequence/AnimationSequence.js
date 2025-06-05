@@ -16,8 +16,8 @@ function AnimationSequence() {
             <AnimateStartButton/>               {/* initial animation and ends at scroll position 0.12 */}
             <AnimateWorld/>                     {/* initial animation and ends at scroll position 0.20 */}            
             <AnimateIntroductionParagraph/>     {/* animation starts at scroll position 0.13 and ends at scroll position 0.40*/}
-            <AnimateGlowingText/>               {/* animation starts at scroll position 0.40 */}
-            <AnimateOctagon/>                       {/* animation starts at scroll position 0.20 */}
+            <AnimateGlowingText/>               {/* animation starts at scroll position 0.40 and ends at scroll position 0.42*/}
+            <AnimateOctagon/>                   {/* animation starts at scroll position 0.20 and ends at scroll position 0.40*/}
         </header>
     )
 }

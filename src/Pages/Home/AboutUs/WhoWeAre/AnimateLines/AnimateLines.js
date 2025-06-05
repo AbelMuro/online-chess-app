@@ -4,7 +4,7 @@ import * as styles from './styles.module.css';
 
 function AnimateLines() {
     const {scrollYProgress} = useScroll();
-    const scale = useTransform(scrollYProgress, [0.43, 0.45], [0, 1]);
+    const scale = useTransform(scrollYProgress, [0.47, 0.49], [0, 1]);
 
 
     return(

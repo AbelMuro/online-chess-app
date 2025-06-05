@@ -5,7 +5,7 @@ import BackgroundMouseAnimation from './BackgroundMouseAnimation';
 import Intro from './Intro';
 import AboutUs from './AboutUs';
 import GrandmasterMessage from './GrandmasterMessage'
-import Sponsors from './Sponsors';
+import FAQ from './FAQ';
 import { useMotionValueEvent, useScroll} from 'framer-motion';
 import * as styles from './styles.module.css';
 
@@ -29,9 +29,9 @@ function Home() {
     
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
         console.log(value);
-        if(value >= 0.49 && value < 0.56)
+        if(value >= 0.60 && value < 0.63)
             setBlueBoxTransition('first phase');
-        else if(value >= 0.56 && value <= 0.569)
+        else if(value >= 0.63 && value <= 0.639)
             setBlueBoxTransition('second phase')
     });
 
@@ -49,7 +49,7 @@ function Home() {
             <AboutUs/>
             <BlueScreenContext value={{blueBoxTransition, setBlueBoxTransition}}>
                 <GrandmasterMessage/>
-                <Sponsors/>                
+                <FAQ/>                
             </BlueScreenContext>
         </section>
     )
