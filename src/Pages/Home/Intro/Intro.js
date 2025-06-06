@@ -20,11 +20,11 @@ function Intro() {
     }, [])
 
     return(
-        <ThresholdContext value={{topThreshold}}>
+        <ThresholdContext.Provider value={{topThreshold}}>
             <header className={styles.container} ref={containerRef}>
                 <AnimationSequence/>
             </header>
-        </ThresholdContext>
+        </ThresholdContext.Provider>
     )
 }
 

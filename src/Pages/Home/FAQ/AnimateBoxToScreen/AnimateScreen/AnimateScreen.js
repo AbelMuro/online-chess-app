@@ -1,4 +1,5 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState, useContext} from 'react';
+import { ThresholdContext } from '../../FAQ';
 import AnimateText from './AnimateText';
 import Accordion from './Accordion';
 import {LayoutGroup, motion, useScroll, useTransform} from 'framer-motion'
@@ -6,8 +7,19 @@ import * as styles from './styles.module.css';
 
 
 function AnimateScreen() {
+    const {topThreshold} = useContext(ThresholdContext);
     const {scrollYProgress} = useScroll();
-    const color = useTransform(scrollYProgress, [0.57, 0.60, 0.63, 0.66, 0.69, 0.72, 0.75, 0.78, 0.81], ['#0000ff', '#800080', '#ff0000', '#ffa500', '#ffff00', '#008000', '#ffc0cb', '#808080', '#add8e6']);
+    const color = useTransform(scrollYProgress, [
+        topThreshold + 0.02, 
+        topThreshold + 0.04, 
+        topThreshold + 0.06, 
+        topThreshold + 0.08, 
+        topThreshold + 0.10, 
+        topThreshold + 0.12, 
+        topThreshold + 0.14, 
+        topThreshold + 0.16, 
+        topThreshold + 0.18
+    ], ['#0000ff', '#008000', '#ff0000', '#ffa500', '#ffff00', '#008000', '#ffc0cb', '#808080', '#add8e6']);
     const containerRef = useRef();
 
 

@@ -1,6 +1,6 @@
 .container{
     width: 90%;
-    height: 1500px;
+    height: var(--grandmaster-section-height-home-page);
     display: grid;
     grid-template-columns: repeat(2, auto);
     justify-content: center;

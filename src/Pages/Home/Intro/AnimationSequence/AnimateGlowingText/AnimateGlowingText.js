@@ -6,11 +6,13 @@ import * as styles from './styles.module.css';
 function AnimateGlowingText() {
     const {topThreshold} = useContext(ThresholdContext);
     const {scrollYProgress} = useScroll();
-    const opacity = useTransform(scrollYProgress, [0.40, 0.42], [0, 1])
+    const opacity = useTransform(scrollYProgress, [topThreshold + 0.38, topThreshold + 0.40], [0, 1])
     const container = useRef();
 
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
-        if(value < 0.40) 
+        const remove = topThreshold + 0.38
+
+        if(value < remove) 
             container.current.style.display = 'none';
         else
             container.current.style.display = 'block'

@@ -6,6 +6,7 @@ import Intro from './Intro';
 import AboutUs from './AboutUs';
 import GrandmasterMessage from './GrandmasterMessage'
 import FAQ from './FAQ';
+import Footer from './Footer';
 import { useMotionValueEvent, useScroll} from 'framer-motion';
 import * as styles from './styles.module.css';
 
@@ -51,6 +52,7 @@ function Home() {
                 <GrandmasterMessage/>
                 <FAQ/>                
             </BlueScreenContext>
+            <Footer/>
         </section>
     )
 }

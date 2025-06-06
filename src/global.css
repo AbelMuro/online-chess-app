@@ -33,12 +33,12 @@ body{
     --far: 25;
     --farthest: 1;
 
-    --full-document-height-home-page: 15000px;   /* 100% */
-    --intro-section-height-home-page: calc(0.46 * var(--full-document-height-home-page));  /* 46% */
-    --aboutus-section-height-home-page: 1500px; /* 7% */
-    --grandmaster-section-height-home-page: calc(0.068 * var(--full-document-height-home-page)); /* 6.8%*/
-    --blue-screen-section-height-home-page: calc(0.312 * var(--full-document-height-home-page)); /* 31.2%*/
-
+    --full-document-height-home-page: 15000px;  
+    --intro-section-height-home-page: 6900px;  
+    --aboutus-section-height-home-page: 1050px; 
+    --grandmaster-section-height-home-page: 1500px; 
+    --blue-screen-section-height-home-page: 2700px; 
+    --footer-section-height-home-page: 0px;
 
     --background: #000070;
     --container-background: rgb(1, 1, 44);

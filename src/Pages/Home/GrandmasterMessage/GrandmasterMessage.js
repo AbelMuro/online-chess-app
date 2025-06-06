@@ -5,12 +5,12 @@ import IndividualMessage from './IndividualMessage';
 import AnimateBox from './AnimateBox';
 import * as styles from './styles.module.css';
 
-
 export const ThresholdContext = createContext();
 
 function GrandmasterMessage() {
     const containerRef = useRef();
     const [topThreshold, setTopThreshold] = useState(0);
+    const [bottomThreshold, setBottomThreshold] = useState(0);
 
 
     useEffect(() => {
@@ -20,12 +20,13 @@ function GrandmasterMessage() {
         const offsetFromTop = node.offsetTop;
         const offsetHeight = node.offsetHeight;
 
-        const [topThreshold] = calculateScrollThreshold(offsetFromTop, offsetHeight);
+        const [topThreshold, bottomThreshold] = calculateScrollThreshold(offsetFromTop, offsetHeight);
         setTopThreshold(topThreshold);
+        setBottomThreshold(bottomThreshold);
     }, [])
 
     return(
-        <ThresholdContext value={{topThreshold}}>
+        <ThresholdContext.Provider value={{topThreshold, bottomThreshold}}>
             <section className={styles.container} ref={containerRef}>
                 <DisplayVerticalText/>
                 <AnimateBox/>
@@ -35,7 +36,7 @@ function GrandmasterMessage() {
                     <IndividualMessage message={'[Expand your knowledge!]'} animationStart={topThreshold + 0.04}/>  
                 </div>
             </section>            
-        </ThresholdContext>
+        </ThresholdContext.Provider>
 
     )
 }
