@@ -30,9 +30,9 @@ function Home() {
     
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
         console.log(value)
-        if(value >= 0.73 && value < 0.739)
+        if(value < 0.739)
             setBlueBoxTransition('first phase');
-        else if(value >= 0.739 && value <= 0.75)
+        else if(value >= 0.739)
             setBlueBoxTransition('second phase')
     });
 

@@ -5,7 +5,7 @@ import * as styles from './styles.module.css';
 
 function Footer() {
     return(
-        <footer className={styles.container}>
+        <footer className={styles.container} id='footer'>
             <h1 className={styles.title}>
                 <span>
                     Developed by Abel Muro

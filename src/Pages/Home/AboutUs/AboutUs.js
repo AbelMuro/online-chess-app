@@ -23,7 +23,7 @@ function AboutUs() {
 
     return(
         <ThresholdContext value={{topThreshold}}>
-            <article className={styles.container} ref={containerRef}>
+            <article className={styles.container} ref={containerRef} id='about-us'>
                 <WhoWeAre />                     {/* line animation starts at scroll position 0.47 and ends at scroll position 0.49*/}
                 <Features />                     {/* line animation starts at scroll position 0.49 and ends at scroll position 0.51 */}
             </article>

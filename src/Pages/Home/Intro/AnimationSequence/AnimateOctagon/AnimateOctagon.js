@@ -1,5 +1,4 @@
 import React from 'react';
-import {useScroll, motion} from 'framer-motion';
 import Path from './Path';
 import * as styles from './styles.module.css';
 
@@ -14,7 +13,6 @@ function AnimateOctagon() {
             preserveAspectRatio="xMidYMid meet"
             viewBox="0 0 3439 2269"
             version="1.1"
-            id="svg1"
             xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <filter id="glowEffect">

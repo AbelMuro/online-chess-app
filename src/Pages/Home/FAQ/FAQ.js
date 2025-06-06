@@ -23,7 +23,7 @@ function FAQ() {
 
     return(
         <ThresholdContext value={{topThreshold, bottomThreshold}}>
-            <section className={styles.container} ref={containerRef}>
+            <section className={styles.container} ref={containerRef} id='faq'>
                 <AnimateBoxToScreen/>
             </section>
         </ThresholdContext>

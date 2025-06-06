@@ -21,7 +21,7 @@ function Intro() {
 
     return(
         <ThresholdContext.Provider value={{topThreshold}}>
-            <header className={styles.container} ref={containerRef}>
+            <header className={styles.container} ref={containerRef} id='intro'>
                 <AnimationSequence/>
             </header>
         </ThresholdContext.Provider>
