@@ -7,7 +7,7 @@ import * as styles from './styles.module.css';
 
 
 function AnimateScreen() {
-    const {topThreshold} = useContext(ThresholdContext);
+    const {topThreshold, bottomThreshold} = useContext(ThresholdContext);
     const {scrollYProgress} = useScroll();
     const color = useTransform(scrollYProgress, [
         topThreshold + 0.02, 
@@ -24,7 +24,7 @@ function AnimateScreen() {
 
 
     scrollYProgress.on('change', (value) => {
-        if(value >= 0.81)
+        if(value >= bottomThreshold - 0.10)
             containerRef.current.style.position = 'sticky';
         else
             containerRef.current.style.position = 'fixed';

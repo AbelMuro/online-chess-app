@@ -29,10 +29,10 @@ function Home() {
     }
     
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
-        console.log(value);
-        if(value >= 0.60 && value < 0.63)
+        console.log(value)
+        if(value >= 0.73 && value < 0.739)
             setBlueBoxTransition('first phase');
-        else if(value >= 0.63 && value <= 0.639)
+        else if(value >= 0.739 && value <= 0.75)
             setBlueBoxTransition('second phase')
     });
 
@@ -44,7 +44,7 @@ function Home() {
     return(
         <section className={styles.home}>
             {/*<BackgroundMouseAnimation/> */}
-            <DisplayBorder/>
+            {/*<DisplayBorder/> */ }
             <NavigationBar/>
             <Intro/>
             <AboutUs/>
