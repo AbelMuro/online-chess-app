@@ -13,6 +13,7 @@ module.exports = {
         clean: true,
         assetModuleFilename: '[name][ext]',
     },
+    devtool: 'source-map',
     plugins: [                      
         new HtmlWebpackPlugin({               //this plugin will help us generate the production html file in our /dist
             filename: 'index.html',           //our production html file will be named index.html

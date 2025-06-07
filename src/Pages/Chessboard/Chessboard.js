@@ -70,7 +70,6 @@ function Chessboard() {
     const {matchId} = useParams();
     const dispatch = useDispatch();
     const userColor = useSelector(state => state.settings.user_color)
-
     const squares = useMemo(() => CreateSquaresForChessboard(userColor, Squares), [userColor]);
 
     useEffect(() => {
