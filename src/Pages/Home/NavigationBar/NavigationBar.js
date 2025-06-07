@@ -15,9 +15,8 @@ function NavigationBar() {
 
 
     const handleLink = async (e) => {
-        /* i need to find a way to scroll towards the element programmatically from here, in case the user is currently at #intro and goes to #credits*/
-        
-
+        const element = e.target;
+        const event = new MouseEvent()
     }
 
 
