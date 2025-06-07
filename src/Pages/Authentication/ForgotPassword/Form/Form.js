@@ -16,7 +16,7 @@ function Form() {
         setLoading(true);
 
         try{
-            const response = await fetch('world-class-chess-server.com/forgotpassword', {
+            const response = await fetch('https://world-class-chess-server.com/forgotpassword', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

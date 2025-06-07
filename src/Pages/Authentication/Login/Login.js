@@ -17,7 +17,7 @@ function Login() {
     const handleGuest = async () => {
         setLoading(true);
         try{
-            const response = await fetch('world-class-chess-server.com/guestlogin', {
+            const response = await fetch('https://world-class-chess-server.com/guestlogin', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

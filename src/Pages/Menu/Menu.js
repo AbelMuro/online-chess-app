@@ -18,7 +18,7 @@ function Menu() {
 
     const handleLogOut = async () => {
         try{
-            const response = await fetch('world-class-chess-server.com/logout', {
+            const response = await fetch('https://world-class-chess-server.com/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type' : 'application/json'
