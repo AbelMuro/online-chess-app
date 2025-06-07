@@ -1,11 +1,3 @@
-/* 
-    this is where i left off, im succeded in creating a match with the local client and remote client
-    the problem is assigning the colors to the players (white, black)
-
-    i need to get the localClientUsername in a useEffect() and make a fetch request that updates the
-    match with the game settings,
-
-*/
 
 const updateStateWithDatabase = async (matchId, {dispatch, getState}) => {
     try{
