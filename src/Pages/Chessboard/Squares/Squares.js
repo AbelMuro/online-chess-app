@@ -43,7 +43,7 @@ function Squares({row, column, colorOfSquare, id}) {
 
     const handlePromotion = (handleOpen, choosenPiece) => {
         dispatch({type: 'PROMOTION', payload: {square: {row, column}, piece: choosenPiece, pieceId: currentSquare}});
-        dispatch(syncDatabaseWithState(matchId))
+        matchId !== 'ai' && dispatch(syncDatabaseWithState(matchId))
         handleOpen();
     }
 
@@ -52,17 +52,17 @@ function Squares({row, column, colorOfSquare, id}) {
 
         if(legalSquare === 'kingSide' || legalSquare === 'queenSide'){
             dispatch({type: 'IMPLEMENT_CASTLELING', payload: {castleling: legalSquare}}) 
-            dispatch(syncDatabaseWithState(matchId))
+            matchId !== 'ai' && dispatch(syncDatabaseWithState(matchId))
         }
                                                            
         else if(legalSquare === 'enable enpassant'){
             dispatch({type: 'ENABLE_ENPASSANT', payload: {square: {row, column}}});
-            dispatch(syncDatabaseWithState(matchId))
+            matchId !== 'ai' && dispatch(syncDatabaseWithState(matchId))
         }
                
         else if(legalSquare === 'take enpassant'){
             dispatch({type: 'IMPLEMENT_ENPASSANT', payload: {square: {row, column}}});
-            dispatch(syncDatabaseWithState(matchId))
+            matchId !== 'ai' && dispatch(syncDatabaseWithState(matchId))
         }
             
         else if(legalSquare === 'promotion')
@@ -76,7 +76,7 @@ function Squares({row, column, colorOfSquare, id}) {
                 ...((piece?.includes('rook') && piece?.includes('h')) && {hasRookBeenMoved: hasKingSideRookBeenMoved})            
                 }
             });       
-            dispatch(syncDatabaseWithState(matchId));        
+            matchId !== 'ai' && dispatch(syncDatabaseWithState(matchId))       
         }
     }
 
