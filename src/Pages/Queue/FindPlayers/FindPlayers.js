@@ -10,7 +10,7 @@ import icons from '~/assets/icons'
 function FindPlayers() {
     const username = useSelector(state => state.account.username);
     const [players, setPlayers] = useWebSocket(
-        `wss://https://world-class-chess-server.com:443/queue?username=${username}`, 
+        `wss://world-class-chess-server.com:443/queue?username=${username}`, 
         (e) => {
             const documents = JSON.parse(e.data);             
             setPlayers(documents);            

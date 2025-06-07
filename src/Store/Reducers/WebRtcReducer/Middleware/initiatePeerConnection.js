@@ -6,7 +6,7 @@ const initiatePeerConnection = (_, {dispatch, fulfillWithValue, getState}) => {
         const {account} = getState();
         const localClientUsername = account.username;
 
-        const signalingServer = new WebSocket(`wss://https://world-class-chess-server.com:443/signal?username=${localClientUsername}`);
+        const signalingServer = new WebSocket(`wss://world-class-chess-server.com:443/signal?username=${localClientUsername}`);
         const peerConnection = new RTCPeerConnection();
 
         signalingServer.onmessage = signalingServerOnMessage(peerConnection, dispatch, signalingServer, getState);        

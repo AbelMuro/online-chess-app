@@ -991,7 +991,7 @@ const ChessReducer = createReducer(initialState, (builder) => {
       const message = action.error.message;
       const endpoint = action.error.endpoint;
       const type = action.error.type;
-    console.log('from syncStateWithDatabase', action);
+      console.log('from syncStateWithDatabase', action);
       if(type === 'internal')
         console.error(`Internal server error has occurred in this endpoint ${endpoint} `, message);
       else
