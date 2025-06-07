@@ -973,9 +973,9 @@ const ChessReducer = createReducer(initialState, (builder) => {
       console.log(message);
     })
     .addCase(syncDatabaseWithState.rejected, (state, action) => {
-      const message = action.error.message;
-      const endpoint = action.error.endpoint;
-      const type = action.error.type;
+      const message = action.error.message.message;
+      const endpoint = action.error.message.endpoint;
+      const type = action.error.message.type;
       console.log('from syncDatabaseWithState', action);
       if(type === 'internal')
         console.error(`Internal server error has occurred in this endpoint ${endpoint} `, message);
