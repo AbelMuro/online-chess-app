@@ -6,7 +6,7 @@ import * as styles from './styles.module.css';
 
 //this is where i left off, i need to create the animation for the mobile menu bar with framer-motion
 
-function MobileNavBar() {
+function MobileNavBar({handleLink}) {
     const [open, setOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -32,20 +32,25 @@ function MobileNavBar() {
                         <button className={styles.menu_close} onClick={handleOpen}>
                             <img/>
                         </button>
-                        <ul className={styles.menu_links}>
-                            <li onClick={() => handleNavigate('/')}>
+                        <ul className={styles.menu_links} onClick={handleOpen}>
+                            <li onClick={() => handleLink('intro')}>
                                 <a>
-                                    Home
+                                    Intro
                                 </a>
                             </li>
-                            <li onClick={() => handleNavigate('/aboutus')}>
+                            <li onClick={() => handleLink('about-us')}>
                                 <a>
                                     About Us
                                 </a>
                             </li>
-                            <li onClick={() => handleNavigate('/contactus')}>
+                            <li onClick={() => handleLink('faq')}>
                                 <a>
-                                    Contact Us
+                                    FAQ
+                                </a>
+                            </li>
+                            <li onClick={() => handleLink('footer')}>
+                                <a>
+                                    Credits
                                 </a>
                             </li>
                             <li onClick={() => handleNavigate('/register')}>

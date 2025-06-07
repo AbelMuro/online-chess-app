@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useDispatch} from 'react-redux';
 import { ClipLoader } from 'react-spinners';
-import EnterEmail from '~/assets/Components/EnterEmail';
-import EnterPassword from '~/assets/Components/EnterPassword';
+import EnterEmail from '~/Common/Components/EnterEmail';
+import EnterPassword from '~/Common/Components/EnterPassword';
 import * as styles from './styles.module.css';
 
 function Form() {
@@ -20,7 +20,7 @@ function Form() {
         setLoading(true);
 
         try{
-            const response = await fetch('http://localhost:8080/login', {
+            const response = await fetch('world-class-chess-server.com/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

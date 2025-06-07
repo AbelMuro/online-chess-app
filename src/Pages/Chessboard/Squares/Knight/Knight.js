@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import CountLegalMoves from '~/assets/Components/CountLegalMoves';
+import CountLegalMoves from '~/Common/Components/CountLegalMoves';
 import {useDispatch, useSelector} from 'react-redux';
 import {motion} from 'framer-motion';
 import { useDrag } from "react-dnd"

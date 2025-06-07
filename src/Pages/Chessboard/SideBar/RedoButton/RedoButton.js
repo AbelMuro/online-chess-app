@@ -1,6 +1,6 @@
 import React from 'react';
 import {useParams} from 'react-router-dom';
-import MessageBox from '~/assets/Components/MessageBox';
+import MessageBox from '~/Common/Components/MessageBox';
 import icons from '../icons';
 import {useDispatch} from 'react-redux';
 import * as styles from './styles.module.css';

@@ -2,7 +2,7 @@ import React from 'react';
 import { squareCoordinates } from '~/assets/SquareCoordinates';
 import icons from '~/assets/icons';
 import {useSelector} from 'react-redux';
-import Dialog from '~/assets/Components/Dialog';
+import Dialog from '~/Common/Components/Dialog';
 import * as styles from './styles.module.css';
 
 function ShowMovesDialog() {

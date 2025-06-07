@@ -1,6 +1,6 @@
 import React from 'react';
 import icons from '~/assets/icons';
-import Dialog from '~/assets/Components/Dialog';
+import Dialog from '~/Common/Components/Dialog';
 import {useSelector} from 'react-redux';
 import * as styles from './styles.module.css';
 

@@ -1,7 +1,7 @@
 import React, {useEffect, useRef} from 'react';
 import { useParams } from 'react-router-dom';
 import {syncDatabaseWithState} from '!/ChessReducer'
-import Dialog from '~/assets/Components/Dialog';
+import Dialog from '~/Common/Components/Dialog';
 import { useDrop } from "react-dnd"
 import {useSelector, useDispatch} from 'react-redux';
 import Pawn from './Pawn';

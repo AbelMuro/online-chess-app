@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
-import SetPinnedPieces from '~/assets/Components/SetPinnedPieces';
-import CountLegalMoves from '~/assets/Components/CountLegalMoves';
+import SetPinnedPieces from '~/Common/Components/SetPinnedPieces';
+import CountLegalMoves from '~/Common/Components/CountLegalMoves';
 import {useDispatch, useSelector} from 'react-redux';
 import {motion} from 'framer-motion';
 import { useDrag } from "react-dnd"

@@ -6,8 +6,6 @@ import * as styles from './styles.module.css';
 
 
 function AnimateText(){
-    const [tablet] = useMediaQuery('(max-width: 960px)');
-    const [mobile] = useMediaQuery('(max-width: 600px)');
     const text = useRef('FAQ'.split(''));
     const controls = useAnimationControls();
 
@@ -19,7 +17,7 @@ function AnimateText(){
         return () => {
             clearTimeout(timeout)
         }
-    }, [mobile, tablet])
+    }, [])
 
 
 

@@ -11,7 +11,7 @@ function AnimateStartButton() {
     const [stopColorOne, setStopColorOne] = useState('blue');
     const [stopColorTwo, setStopColorTwo] = useState('black');
     const {scrollYProgress} = useScroll();
-    const opacity = useTransform(scrollYProgress, [0, 0.12], [1, 0]);
+    const opacity = useTransform(scrollYProgress, [topThreshold, topThreshold + 0.15], [1, 0]);
     const button = useRef();
 
     const onHoverStart = () => {

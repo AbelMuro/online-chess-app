@@ -1,13 +1,11 @@
-import React, {useRef, useMemo, useState} from "react";
-import {motion, useMotionValue, useScroll, useTransform} from 'framer-motion'
+import React, {useRef, useMemo, useEffect} from "react";
+import {motion, useMotionValue} from 'framer-motion';
+import useMediaQuery from '~/Hooks/useMediaQuery';
 import * as styles from './styles.module.css';
 
-/* 
-    this is where i left off, i need to animate the text that is being displayed
-    based on the scroll position
-*/
-
 function AnimateLetter({letter}) {
+    const [tablet] = useMediaQuery('(max-width: 960px)');
+    const [mobile] = useMediaQuery('(max-width: 600px)');
     const containerRef = useRef();
     const x = useMotionValue(0);     
     const repeat = useMemo(() => Array.from({length: 15}, (_, i) => i), []);
@@ -26,6 +24,21 @@ function AnimateLetter({letter}) {
         containerRef.current.scrollTo({top: value, behavior: 'smooth'});
     })
 
+    useEffect(() => {
+        const handleResize = () => {
+            if(!containerRef.current) return;
+
+            requestAnimationFrame(() => {
+                const scrollHeight = containerRef.current.scrollHeight;
+                containerRef.current.scrollTo({top: scrollHeight, behavior: 'smooth'});                
+            })
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
     return(       
         <div className={styles.container}>
             <div className={styles.letter} ref={containerRef}>
@@ -35,7 +48,7 @@ function AnimateLetter({letter}) {
                 className={styles.ignore} 
                 variants={{
                     initial: {x: 0}, 
-                    end: {x: 3500}
+                    end: {x: 4500}
                 }} 
                 style={{x}}/>        
         </div>             

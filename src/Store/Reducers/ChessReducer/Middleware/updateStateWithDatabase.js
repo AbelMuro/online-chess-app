@@ -12,7 +12,7 @@ const updateStateWithDatabase = async (matchId, {dispatch, getState}) => {
         const {account} = getState();
         const localClientUsername = account.username;
 
-        const response = await fetch(`http://localhost:8080/get_match/${matchId}`, {
+        const response = await fetch(`world-class-chess-server.com/get_match/${matchId}`, {
             method: 'GET'
         });
 

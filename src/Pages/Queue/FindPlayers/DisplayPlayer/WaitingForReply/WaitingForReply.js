@@ -46,7 +46,7 @@ function WaitingForReply({setWaiting}) {
             dispatch({type: 'CLOSE_DATA_CHANNEL'});
         }
         else{
-            fetch('http://localhost:8080/create_match', {
+            fetch('world-class-chess-server.com/create_match', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

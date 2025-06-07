@@ -1,6 +1,5 @@
 import React, {createContext, useState, useEffect} from 'react';
 import DisplayBorder from './DisplayBorder';
-import NavigationBar from './NavigationBar';
 import BackgroundMouseAnimation from './BackgroundMouseAnimation';
 import Intro from './Intro';
 import AboutUs from './AboutUs';
@@ -29,7 +28,6 @@ function Home() {
     }
     
     useMotionValueEvent(scrollYProgress, 'change', (value) => {
-        console.log(value)
         if(value < 0.739)
             setBlueBoxTransition('first phase');
         else if(value >= 0.739)
@@ -45,7 +43,6 @@ function Home() {
         <section className={styles.home}>
             {/*<BackgroundMouseAnimation/> */}
             {/*<DisplayBorder/> */ }
-            <NavigationBar/>
             <Intro/>
             <AboutUs/>
             <BlueScreenContext value={{blueBoxTransition, setBlueBoxTransition}}>

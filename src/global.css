@@ -16,7 +16,7 @@ html{
 body{
     margin: 0px;
     min-height: 100vh;
-    background-color: var(--background);
+    background-color: black;
     overflow-x: hidden;
     scroll-behavior: smooth;
 }

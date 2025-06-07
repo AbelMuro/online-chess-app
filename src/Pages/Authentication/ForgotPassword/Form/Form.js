@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import EnterEmail from '~/assets/Components/EnterEmail';
+import EnterEmail from '~/Common/Components/EnterEmail';
 import { ClipLoader } from 'react-spinners';
 import * as styles from './styles.module.css';
 
@@ -16,7 +16,7 @@ function Form() {
         setLoading(true);
 
         try{
-            const response = await fetch('http://localhost:8080/forgotpassword', {
+            const response = await fetch('world-class-chess-server.com/forgotpassword', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

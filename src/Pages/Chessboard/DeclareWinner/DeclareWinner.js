@@ -1,6 +1,6 @@
 import React, {useRef, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
-import Dialog from '~/assets/Components/Dialog';
+import Dialog from '~/Common/Components/Dialog';
 import {useSelector} from 'react-redux';
 import * as styles from './styles.module.css';
 

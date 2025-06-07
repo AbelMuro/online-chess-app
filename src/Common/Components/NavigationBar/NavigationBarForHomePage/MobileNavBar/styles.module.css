@@ -24,7 +24,7 @@
 .navigation_button > img{
     width: 30px;
     height: 32.28px;
-    mask-image: url('/src/Pages/Home/NavigationBar/MobileNavBar/icons/hamburger_icon.svg');
+    mask-image: url('./icons/hamburger_icon.svg');
     mask-size: 30px 34.28px;
     mask-position: center;
     mask-repeat: no-repeat;

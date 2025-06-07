@@ -2,9 +2,9 @@ import React, {useState} from 'react';
 import { ClipLoader } from 'react-spinners';
 import {useDispatch} from 'react-redux';
 import {useNavigate} from 'react-router-dom'
-import EnterEmail from '~/assets/Components/EnterEmail';
-import EnterUsername from '~/assets/Components/EnterUsername';
-import RegisterPassword from '~/assets/Components/RegisterPassword';
+import EnterEmail from '~/Common/Components/EnterEmail';
+import EnterUsername from '~/Common/Components/EnterUsername';
+import RegisterPassword from '~/Common/Components/RegisterPassword';
 import UploadImage from './UploadImage';
 import * as styles from './styles.module.css';
 
@@ -33,7 +33,7 @@ function Form(){
         formData.append('image', image);
 
         try{
-            const response = await fetch('http://localhost:8080/register', {
+            const response = await fetch('world-class-chess-server.com/register', {
                 method: 'POST',
                 body: formData,
                 credentials: 'include'
