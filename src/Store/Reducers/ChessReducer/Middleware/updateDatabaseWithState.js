@@ -1,7 +1,6 @@
 
-const updateDatabaseWithState = async (matchId, {getState, dispatch}) => {
+const updateDatabaseWithState = async (matchId, {getState, dispatch, rejectWithValue}) => {
     try{
-        console.log(matchId);
         const {chess, account} = getState();
         const localClientUsername = account.username;
 
@@ -20,18 +19,18 @@ const updateDatabaseWithState = async (matchId, {getState, dispatch}) => {
         else if(response.status === 404){
             const message = await response.text();
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Match was not found in the database'}})    
-            return Promise.reject({message: {message, endpoint: '/update_match', type: 'internal'}});
+            return rejectWithValue({message, endpoint: '/update_match', type: 'internal'});
         }
         else{
             const message = await response.text();
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later'}})    
-            return Promise.reject({message: {message, endpoint: '/update_match', type: 'internal'}})
+            return rejectWithValue({message, endpoint: '/update_match', type: 'internal'})
         }
     }
     catch(error){
         const message = error.message;
         dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later'}})  
-        return Promise.reject({message: {message, endpoint: '/update_match', type: 'offline'}});
+        return rejectWithValue({message, endpoint: '/update_match', type: 'offline'});
     }
 }
 

@@ -27,13 +27,13 @@ const updateStateWithDatabase = async (matchId, {dispatch, getState}) => {
         else{
             const message = await response.text();
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Internal Server Error has occurred, please try again later'}})    
-            return Promise.reject({message, endpoint: '/get_match', type: 'internal'});
+            return rejectWithValue({message, endpoint: '/get_match', type: 'internal'});
         }
     }
     catch(error){
         const message = error.message;
         dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later'}})  
-        return Promise.reject({message, endpoint: '/get_match', type: 'offline'});
+        return rejectWithValue({message, endpoint: '/get_match', type: 'offline'});
     }
 }
 

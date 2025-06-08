@@ -76,7 +76,7 @@ function Squares({row, column, colorOfSquare, id}) {
                 ...((piece?.includes('rook') && piece?.includes('h')) && {hasRookBeenMoved: hasKingSideRookBeenMoved})            
                 }
             });       
-            matchId !== 'ai' && dispatch(syncDatabaseWithState(matchId))       
+            dispatch(syncDatabaseWithState(matchId))       
         }
     }
 
