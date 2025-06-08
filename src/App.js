@@ -16,6 +16,7 @@ import Menu from './Pages/Menu';
 import DisplayPopupMessage from '~/Common/Components/DisplayPopupMessage';
 import './global.css';
 
+/* this is where i left off, i need to update my notes on react-router-dom*/
 
 
 function App() {
