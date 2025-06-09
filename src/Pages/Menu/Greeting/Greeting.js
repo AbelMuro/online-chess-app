@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js';
 import {useNavigate} from 'react-router-dom';
@@ -8,7 +8,7 @@ function Greeting(){
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const username = useSelector(state => state.account.username);
-    const imageURL = useSelector(state => state.account.imageURL);
+    const [imageURL, setImageURL] = useState();
 
     const getInfo = async () => {
         try{
@@ -22,13 +22,13 @@ function Greeting(){
                 const username = account.username;
                 const image = account.image;
                 const contentType = account.contentType;
+                let url = '';
 
-                if(image){
-                    const url = convertBase64ToBlobURL(image, contentType);
-                    dispatch({type: 'SET_ACCOUNT', payload: {username, imageURL: url}})
-                }
-                else
-                    dispatch({type: 'SET_ACCOUNT', payload: {username, imageURL: ''}})
+                if(image)
+                    url = convertBase64ToBlobURL(image, contentType);
+
+                dispatch({type: 'SET_ACCOUNT', payload: {username}})
+                setImageURL(url);
             }
             else if(response.status === 403){
                 const message = await response.text();

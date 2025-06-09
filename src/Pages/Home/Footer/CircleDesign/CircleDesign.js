@@ -8,7 +8,6 @@ function CircleDesign() {
             className={styles.container}
             viewBox="0 0 297 210"
             version="1.1"
-            preserveAspectRatio='xMinYMin none'
             xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <filter id='blurCircle'>
