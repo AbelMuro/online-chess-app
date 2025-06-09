@@ -12,28 +12,59 @@ function FindPlayers() {
     const [players, setPlayers] = useWebSocket(
         `wss://world-class-chess-server.com:443/queue?username=${username}`, 
         (e) => {
-            const documents = JSON.parse(e.data);             
-            setPlayers(documents);            
+            const documents = JSON.parse(e.data);
+            const allPromises = [];
+            
+            for(let i = 0; i < documents.length; i++){
+                if(documents[i].player === username) continue;
+
+                const playerInQueue = documents[i].player;
+                const promise = fetch(`https://world-class-chess-server.com/get_player_account/${playerInQueue}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+
+                });
+                promise.then((account) => {
+                    setPlayers([...players, account])
+                })
+                promise.catch((error) => {
+                    console.log(error.message);
+                })
+
+                allPromises.push(promise);
+            }
+            const result = Promise.all(allPromises);   
+            result.then(() => {
+                console.log('Players in the queue have been successfully displayed')
+            })
+            result.catch((error) => {
+                console.log(error.message);
+            })
+        
         }, []);
 
 
     const availablePlayers = useMemo(() => {
-        const currentPlayers = [];
+        if(!players.length) return;
+        let currentPlayers = [];
 
-        for(let i = 0; i < players.length; i++){
-            if(players[i].player === username) continue;
-
-            const playerInQueue = players[i].player;
-            const profileImageBase64 = players[i].profileImageBase64;
-            const contentType = players[i].contentType;
+        players.map((player) => {
+            const profileImageBase64 = player.imageBase64;
+            const username = player.username;
+            const contentType = player.contentType;
+            
             const url = profileImageBase64 ? convertBase64ToBlobURL(profileImageBase64, contentType) : icons['empty avatar'];
 
-            currentPlayers.push(<DisplayPlayer username={playerInQueue} image={url}/>)                
-        }
+            currentPlayers.push(<DisplayPlayer username={username} image={url}/>)
+        })
 
         return currentPlayers;
 
     }, [players])
+
+
 
 
     return (
