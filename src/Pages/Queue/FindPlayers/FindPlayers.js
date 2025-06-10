@@ -9,7 +9,7 @@ import icons from '~/assets/icons'
 
 function FindPlayers() {
     const username = useSelector(state => state.account.username);
-    console.log(username);
+    console.log('at the top level username', username);
     const [players, setPlayers] = useWebSocket(
         `wss://world-class-chess-server.com:443/queue?username=${username}`, 
         (e) => {
@@ -42,6 +42,7 @@ function FindPlayers() {
         let currentPlayers = [];
 
         for(let player of players){
+            console.log('username inside useMemo()', username)
             if(player.username === username) continue;
 
             const profileImageBase64 = player.imageBase64;
