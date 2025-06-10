@@ -22,13 +22,12 @@ function FindPlayers() {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-
                 });
                 promise.then(response => response.json())
-                promise.then(result => result.json())
-                promise.then(account => {
+                promise.then(result => {
+                    console.log('result', result);
                     setPlayers((players) => {
-                        return [...players, account];
+                        return [...players, result];
                     })
                 })
                 promise.catch((error) => {
@@ -70,7 +69,7 @@ function FindPlayers() {
     }, [players])
 
     useEffect(() => {
-        console.log(availablePlayers)
+        console.log('available players', availablePlayers)
     }, [availablePlayers])
 
 
