@@ -9,6 +9,7 @@ import icons from '~/assets/icons'
 
 function FindPlayers() {
     const username = useSelector(state => state.account.username);
+    console.log(username);
     const [players, setPlayers] = useWebSocket(
         `wss://world-class-chess-server.com:443/queue?username=${username}`, 
         (e) => {
@@ -41,7 +42,6 @@ function FindPlayers() {
         let currentPlayers = [];
 
         for(let player of players){
-            console.log(player.username, username);
             if(player.username === username) continue;
 
             const profileImageBase64 = player.imageBase64;
@@ -50,16 +50,13 @@ function FindPlayers() {
             
             const url = profileImageBase64 ? convertBase64ToBlobURL(profileImageBase64, contentType) : icons['empty avatar'];
 
-            currentPlayers.push(<DisplayPlayer username={username} image={url}/>)
+            currentPlayers.push(<DisplayPlayer username={username} image={url} key={player.username}/>)
         }
 
         return currentPlayers;
 
     }, [players])
 
-    useEffect(() => {
-        console.log('available players', availablePlayers)
-    }, [availablePlayers])
 
 
 
