@@ -23,21 +23,16 @@ function FindPlayers() {
                         'Content-Type': 'application/json'
                     },
                 })
-                promise
-                    .then(response => response.json())
-                    .then(account => setPlayers(players => [...players, account]))
-                    .catch(error => console.log(error.message));
 
                 allPromises.push(promise);
             }
-            const result = Promise.all(allPromises);   
-            result.then(() => {
-                console.log('Players in the queue have been successfully displayed')
+            const responses = Promise.all(allPromises);   
+            responses.then((responses) => {
+                const result = Promise.all(responses.map(result => result.json()))
+                result.then(accounts => setPlayers(accounts))
+                result.catch(error => console.log('error from calling result.json() in nested promise.all()', error.message))
             })
-            result.catch((error) => {
-                console.log(error.message);
-            })
-        
+            responses.catch(error => console.log('error from one of the fetch requests made in endpoint /get_player_account', error.message))
         }, []);
 
 
