@@ -38,7 +38,7 @@ function FindPlayers() {
 
     const availablePlayers = useMemo(() => {
         console.log('useMemo', players);
-        if(!players.length) return;
+        if(!players.length) return [];
         let currentPlayers = [];
 
         for(let player of players){
