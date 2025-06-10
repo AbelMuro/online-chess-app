@@ -1,4 +1,4 @@
-import React, {useMemo, memo, useEffect} from 'react';
+import React, {useMemo, memo} from 'react';
 import { useSelector } from 'react-redux';
 import { ClipLoader } from 'react-spinners';
 import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js';
@@ -54,8 +54,6 @@ function FindPlayers() {
         return currentPlayers;
 
     }, [players])
-
-
 
 
     return (
