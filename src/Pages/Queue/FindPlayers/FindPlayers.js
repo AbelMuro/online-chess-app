@@ -48,9 +48,9 @@ function FindPlayers() {
         if(!players.length) return;
         let currentPlayers = [];
 
-        for(let player in players){
+        for(let player of players){
             if(player.username === username) continue;
-            
+
             const profileImageBase64 = player.imageBase64;
             const username = player.username;
             const contentType = player.contentType;
