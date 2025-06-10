@@ -37,11 +37,11 @@ function FindPlayers() {
 
 
     const availablePlayers = useMemo(() => {
-        console.log('useMemo', players);
         if(!players.length) return [];
         let currentPlayers = [];
 
         for(let player of players){
+            console.log(player.username, username);
             if(player.username === username) continue;
 
             const profileImageBase64 = player.imageBase64;
