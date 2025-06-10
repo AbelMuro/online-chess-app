@@ -25,7 +25,10 @@ function FindPlayers() {
 
                 });
                 promise.then((account) => {
-                    setPlayers([...players, account])
+                    console.log('account', account);
+                    setPlayers((players) => {
+                        return [...players, account]
+                    })
                 })
                 promise.catch((error) => {
                     console.log(error.message);
