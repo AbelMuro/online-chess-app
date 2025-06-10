@@ -24,10 +24,11 @@ function FindPlayers() {
                     },
                 });
                 promise.then(response => response.json())
-                promise.then(result => {
-                    console.log('result', result);
+                promise.then(result => result.json())
+                promise.then(account => {
+                    console.log('account', account)
                     setPlayers((players) => {
-                        return [...players, result];
+                        return [...players, account];
                     })
                 })
                 promise.catch((error) => {
