@@ -22,18 +22,11 @@ function FindPlayers() {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                });
-                promise.then(response => response.json())
-                promise.then(result => result.json())
-                promise.then(account => {
-                    console.log('account', account)
-                    setPlayers((players) => {
-                        return [...players, account];
-                    })
                 })
-                promise.catch((error) => {
-                    console.log(error.message);
-                })
+                promise
+                    .then(response => response.json())
+                    .then(account => setPlayers(players => [...players, account]))
+                    .catch(error => console.log(error.message));
 
                 allPromises.push(promise);
             }
