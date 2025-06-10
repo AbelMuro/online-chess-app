@@ -16,8 +16,6 @@ function FindPlayers() {
             const allPromises = [];
             
             for(let i = 0; i < documents.length; i++){
-                if(documents[i].player === username) continue;
-
                 const playerInQueue = documents[i].player;
                 const promise = fetch(`https://world-class-chess-server.com/get_player_account/${playerInQueue}`, {
                     method: 'GET',
@@ -50,7 +48,9 @@ function FindPlayers() {
         if(!players.length) return;
         let currentPlayers = [];
 
-        players.map((player) => {
+        for(let player in players){
+            if(player.username === username) continue;
+            
             const profileImageBase64 = player.imageBase64;
             const username = player.username;
             const contentType = player.contentType;
@@ -58,7 +58,7 @@ function FindPlayers() {
             const url = profileImageBase64 ? convertBase64ToBlobURL(profileImageBase64, contentType) : icons['empty avatar'];
 
             currentPlayers.push(<DisplayPlayer username={username} image={url}/>)
-        })
+        }
 
         return currentPlayers;
 
