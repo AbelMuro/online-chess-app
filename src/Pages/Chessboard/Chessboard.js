@@ -73,8 +73,10 @@ function Chessboard() {
     const squares = useMemo(() => CreateSquaresForChessboard(userColor, Squares), [userColor]);
 
     useEffect(() => {
-        //dispatch({type: 'CANCEL_CONNECTION'});
-
+        setTimeout(() => {
+            dispatch({type: 'CANCEL_CONNECTION'});
+        }, 2000)
+        
         return () => {
             dispatch({type: 'RESET_STATE'});
         }

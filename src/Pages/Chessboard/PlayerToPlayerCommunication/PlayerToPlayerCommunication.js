@@ -27,6 +27,11 @@ function PlayerToPlayerCommunication({matchId}) {
         const closeSocket = ConnectToWebsocket(`wss://world-class-chess-server.com:443/match?matchId=${matchId}&username=${localClientUsername}&color=${localClientColor}`,         
             (e) => {
                 const state = JSON.parse(e.data);
+                if(state.matchDeleted){
+                    console.log('opponent has left the match, you win by default');
+                    return;
+                }
+                
                 dispatch({type: 'UPDATE_STATE', payload: {state}})
             }
         )

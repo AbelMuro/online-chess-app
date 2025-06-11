@@ -27,12 +27,10 @@ const initiatePeerConnection = (_, {dispatch, fulfillWithValue, getState}) => {
             };
         
             receivedChannel.onclose = () => {
-                console.log('remote channel was closed');
                 dispatch({type: 'CLOSE_DATA_CHANNEL'})
             };
     
             receivedChannel.onerror = (error) => {
-                console.log('remote data channel error')
                 dispatch({type: 'SET_ERROR', payload: {error, message: 'Remote data channel experienced an error'}});
             }
         }
