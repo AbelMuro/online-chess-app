@@ -79,6 +79,10 @@ function Chessboard() {
         
         return () => {
             dispatch({type: 'RESET_STATE'});
+            fetch(`https://world-class-chess-server.com/delete_match/${matchId}`, {
+                method: 'DELETE',
+                keepalive: true,
+            })
         }
     }, [])
 
