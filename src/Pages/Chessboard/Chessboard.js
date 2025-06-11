@@ -73,16 +73,10 @@ function Chessboard() {
     const squares = useMemo(() => CreateSquaresForChessboard(userColor, Squares), [userColor]);
 
     useEffect(() => {
-        setTimeout(() => {
-            dispatch({type: 'CANCEL_CONNECTION'});
-        }, 2000)
-        
+        dispatch({type: 'CANCEL_CONNECTION'});
+ 
         return () => {
             dispatch({type: 'RESET_STATE'});
-            fetch(`https://world-class-chess-server.com/delete_match/${matchId}`, {
-                method: 'DELETE',
-                keepalive: true,
-            })
         }
     }, [])
 
