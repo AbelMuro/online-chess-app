@@ -82,9 +82,7 @@ function App() {
                 loading={null}
                 persistor={persistedStore}>
                     <DisplayPopupMessage/>
-                    <RouterProvider router={router}>
-                        <NavigationBar/>    
-                    </RouterProvider>
+                    <RouterProvider router={router}/> 
             </PersistGate>
         </Provider>
     )
