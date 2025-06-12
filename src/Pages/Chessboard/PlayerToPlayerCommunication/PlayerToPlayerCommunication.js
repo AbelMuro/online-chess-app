@@ -2,6 +2,14 @@ import {memo, useEffect, useRef} from 'react';
 import ConnectToWebsocket from '~/assets/functions/ConnectToWebsocket';
 import {useSelector, useDispatch} from 'react-redux';
 
+
+
+/* 
+    i need to display a message to the user that their opponent left the match and they win by default
+    the timer must end as well
+*/
+
+
 function PlayerToPlayerCommunication({matchId}) {
     const board = useSelector(state => state.chess.board)
     const localClientUsername = useSelector(state => state.account.username);

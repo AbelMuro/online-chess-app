@@ -54,15 +54,7 @@ import * as styles from './styles.module.css';
 
 
 /* 
-    this is where i left off, i need to find the right time and place to dispatch the action 'CANCEL_CONNECTION'
-    to destroy any lingering webRTC connections before the match starts
-
-    i also need to refactor the <AI_Player> and the <PlayerToPlayerCommunication> component
-
-    i may be able to refactor the <Square> component
-
-    i also need to make sure i can reset the state properly when i nagivate away from the chessboard
-
+     i need to find a reliable way to end the webRTC connection
 */
 
 function Chessboard() {
