@@ -34,7 +34,8 @@ function PlayerToPlayerCommunication({matchId}) {
             (e) => {
                 const state = JSON.parse(e.data);
                 if(state.matchDeleted){
-                    console.log('opponent has left the match, you win by default');
+                    dispatch({type: 'STOP_TIMER'});
+                    dispatch({type: 'FORFEIT'})
                     return;
                 }
                 

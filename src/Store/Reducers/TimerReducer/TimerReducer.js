@@ -2,6 +2,7 @@ import {createAction, createReducer} from '@reduxjs/toolkit';
 
 const updateTimer = createAction('UPDATE_TIMER')
 const resetTimer = createAction('RESET_TIMER');
+const stopTimer = createAction('STOP_TIMER');
 
 const initialState = {
     seconds: 60,
@@ -16,6 +17,9 @@ const timerReducer = createReducer(initialState, (builder) => {
         })
         .addCase(resetTimer, (state, action) => {
             state.seconds = action.payload.seconds;
+        })
+        .addCase(stopTimer, (state) => {
+            state.stop = true;
         })
 })
 

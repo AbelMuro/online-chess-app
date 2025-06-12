@@ -40,6 +40,7 @@ const isOpposingKingInCheck = createAction('IS_OPPOSING_KING_IN_CHECK');
 const hasKingBeenMoved = createAction('HAS_KING_BEEN_MOVED');
 const hasRooksBeenMoved = createAction('HAS_ROOKS_BEEN_MOVED')
 const resigns = createAction('RESIGNS');
+const forfeit = createAction('FORFEIT')
 const countLegalMoves = createAction('COUNT_LEGAL_MOVES');
 const resetLegalMoves = createAction('RESET_LEGAL_MOVES');
 const checkStalemate = createAction('CHECK_STALEMATE');
@@ -931,6 +932,9 @@ const ChessReducer = createReducer(initialState, (builder) => {
     .addCase(resigns, (state, action) => {
       const playerWhoResigned = action.payload.resigns;
       state.resigns = playerWhoResigned;
+    })
+    .addCase(forfeit, (state) => {
+      state.forfeit = true;
     })
     .addCase(countLegalMoves, (state, action) => {
       const color = action.payload.square.color;
