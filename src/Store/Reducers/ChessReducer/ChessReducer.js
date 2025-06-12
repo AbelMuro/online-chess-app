@@ -87,7 +87,7 @@ const initialState = {
     checkmate: {
       king_in_check: false,
       squares_between_king_and_attacker: [],
-      game_over: false
+      game_over: false,
     },   
 
     time_traveling: {        
@@ -106,6 +106,7 @@ const initialState = {
     current_turn: 'white',
     en_passant: null,
     resigns: false,
+    forfeit: false,
     pinned_pieces: [],
     difficulty: '',
     pieceToBeMoved: {square: {row: null, column: null}},

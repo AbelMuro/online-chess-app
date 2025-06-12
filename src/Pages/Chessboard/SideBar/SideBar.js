@@ -5,14 +5,12 @@ import ShowMoves from './ShowMoves';
 import ResignButton from './ResignButton'
 import TakeBackButton from './TakeBackButton';
 import RedoButton from './RedoButton';
-import {useParams} from 'react-router-dom';
 import {useSelector} from 'react-redux'
 import * as styles from './styles.module.css';
 import MobileBar from './MobileBar';
 import useMediaQuery from '~/Hooks/useMediaQuery';
 
 function SideBar(){
-    const {matchId} = useParams();
     const currentTurn = useSelector(state => state.chess.current_turn);
     const [mobile] = useMediaQuery('(max-width: 620px)');
 

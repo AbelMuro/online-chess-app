@@ -7,7 +7,8 @@ import * as styles from './styles.module.css';
 function DeclareWinner() {
     const checkmate = useSelector(state => state.chess.checkmate.game_over);
     const stalemate = useSelector(state => state.chess.stalemate.game_over);
-    const playerRanOutOfTime = useSelector(state => state.chess.out_of_time)
+    const playerRanOutOfTime = useSelector(state => state.chess.out_of_time);
+    const forfeit = useSelector(state => state.chess.forfeit);
     const resigns = useSelector(state => state.chess.resigns);
     const buttonRef = useRef();
     const navigate = useNavigate();
@@ -28,7 +29,7 @@ function DeclareWinner() {
             e.returnValue = ''
         }
 
-        if(checkmate || resigns || stalemate || playerRanOutOfTime.player)
+        if(checkmate || resigns || stalemate || playerRanOutOfTime.player || forfeit)
             window.removeEventListener('beforeunload', beforeunload)
         else
             window.addEventListener('beforeunload', beforeunload)
@@ -36,7 +37,7 @@ function DeclareWinner() {
         return () => {
             window.removeEventListener('beforeunload', beforeunload);
         }
-    }, [checkmate, resigns, stalemate, playerRanOutOfTime])
+    }, [checkmate, resigns, stalemate, playerRanOutOfTime, forfeit])
 
     return(
         <Dialog 
@@ -47,6 +48,7 @@ function DeclareWinner() {
                             {checkmate && `${checkmate} wins!`}
                             {resigns && `${resigns} resigns!`}
                             {stalemate.game_over && `It's a draw!`} 
+                            {forfeit && 'Opponent has left the match, you win by default'}
                             {playerRanOutOfTime.player && `${playerRanOutOfTime.player} ran out of time!`}
                         </h2>
                         <button className={styles.dialog_button} onClick={handleGoBack}>

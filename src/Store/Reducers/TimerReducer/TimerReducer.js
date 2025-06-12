@@ -4,7 +4,8 @@ const updateTimer = createAction('UPDATE_TIMER')
 const resetTimer = createAction('RESET_TIMER');
 
 const initialState = {
-    seconds: 60
+    seconds: 60,
+    stop: false,
 }
 
 const timerReducer = createReducer(initialState, (builder) => {
