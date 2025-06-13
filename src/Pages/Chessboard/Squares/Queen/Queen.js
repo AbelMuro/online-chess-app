@@ -43,10 +43,6 @@ function Queen({color, row, column, pieceId}) {
         }
     }
 
-
-
-
-    
     return (
         <>
         {isDragging ?         

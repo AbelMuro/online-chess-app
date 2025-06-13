@@ -4,7 +4,8 @@ import {useSelector, useDispatch} from 'react-redux';
 function CountLegalMoves({row, column, color, pieceId}){
     const dispatch = useDispatch();
     const board = useSelector(state => state.chess.board);
-    console.log('count legal moves');
+
+    console.log(row, column, color, pieceId)
 
     useEffect(() => {
         dispatch({type: 'COUNT_LEGAL_MOVES', payload: {square: {row, column, color}}});

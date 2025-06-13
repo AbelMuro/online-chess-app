@@ -18,9 +18,12 @@ function DeclareWinner() {
     }
 
     useEffect(() => {
-        if(checkmate || resigns || stalemate || playerRanOutOfTime.player || forfeit)
+        if(checkmate || resigns || stalemate || playerRanOutOfTime.player)
             buttonRef.current.click();
-    }, [checkmate, resigns, stalemate, playerRanOutOfTime, forfeit])
+        else if(!checkmate && !resigns && !stalemate && !playerRanOutOfTime.player && forfeit)      // if one player checkmates another player,
+            buttonRef.current.click();                                                              // and then leaves the page, it will close the websocket 
+    }, [checkmate, resigns, stalemate, playerRanOutOfTime, forfeit])                                // and trigger a dispatch for the forfeit property of the state
+
 
 
 

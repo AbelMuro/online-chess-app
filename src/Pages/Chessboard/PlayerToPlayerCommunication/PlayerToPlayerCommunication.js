@@ -48,8 +48,6 @@ function PlayerToPlayerCommunication({matchId}) {
 
     useEffect(() => {
         return () => {
-            console.log(closeWebsocket.current);
-
             if(!closeWebsocket.current) return;
             closeWebsocket.current();
         }
