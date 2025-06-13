@@ -51,12 +51,6 @@ import * as styles from './styles.module.css';
 // if a black pawn is between the white queen and the black king, that black pawn cannot be moved, so it will be stored within the pinned_pieces array
 
 
-
-
-/* 
-     i need to find a reliable way to end the webRTC connection
-*/
-
 function Chessboard() {
     const block = useConfirmNavigation(true);
     const {matchId} = useParams();

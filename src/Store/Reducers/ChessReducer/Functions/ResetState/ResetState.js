@@ -32,6 +32,7 @@ export const ResetProperties = (state, initialState) => {
 
     state.pinned_pieces = initialState.pinned_pieces;
     state.resigns = initialState.resigns;
+    state.forfeit = initialState.forfeit;
 
     state.current_turn =  initialState.current_turn;
     state.en_passant = initialState.en_passant;
