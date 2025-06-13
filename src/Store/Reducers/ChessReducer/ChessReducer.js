@@ -943,6 +943,7 @@ const ChessReducer = createReducer(initialState, (builder) => {
       const piece = state.board[row][column];
 
       const pieceCanMove = legalMovesExist(state, piece, color, {row, column});
+      console.log('piece can move', pieceCanMove)
 
       if(pieceCanMove && !state.stalemate[`movesAvailableFor${color === 'white' ? 'White' : 'Black'}`].includes(piece))
         state.stalemate[`movesAvailableFor${color === 'white' ? 'White' : 'Black'}`].push(piece);
