@@ -5,8 +5,6 @@ function CountLegalMoves({row, column, color, pieceId}){
     const dispatch = useDispatch();
     const board = useSelector(state => state.chess.board);
 
-    console.log(row, column, color, pieceId)
-
     useEffect(() => {
         dispatch({type: 'COUNT_LEGAL_MOVES', payload: {square: {row, column, color}}});
         
@@ -15,6 +13,11 @@ function CountLegalMoves({row, column, color, pieceId}){
         }
 
     }, [board])
+
+
+    useEffect(() => {
+        console.log('')
+    }, [row, column, color, pieceId])
     
 
     return null;
