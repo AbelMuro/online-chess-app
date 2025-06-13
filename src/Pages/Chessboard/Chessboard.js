@@ -62,7 +62,6 @@ function Chessboard() {
         dispatch({type: 'CANCEL_CONNECTION'});
  
         return () => {
-            console.log('resetting the state')
             dispatch({type: 'RESET_STATE'});
         }
     }, [])
