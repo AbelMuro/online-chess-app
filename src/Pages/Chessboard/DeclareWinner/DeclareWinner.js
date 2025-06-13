@@ -19,7 +19,7 @@ function DeclareWinner() {
     }
 
     useEffect(() => {
-        console.log(forfeit);
+        console.log('declare winner', forfeit);
         if(checkmate)
             setMessage(`${checkmate} wins the game!`);
         else if(resigns)
@@ -31,7 +31,6 @@ function DeclareWinner() {
         else if(forfeit)
             setMessage('Opponent has left the match, you win by default');
 
-        
     }, [checkmate, resigns, stalemate, playerRanOutOfTime, forfeit])                           
 
     useEffect(() => {
