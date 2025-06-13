@@ -16,7 +16,7 @@ function CountLegalMoves({row, column, color, pieceId}){
 
 
     useEffect(() => {
-        console.log('')
+        console.log('count legal moves')
     }, [row, column, color, pieceId])
     
 
