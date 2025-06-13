@@ -35,7 +35,7 @@ function DeclareWinner() {
 
     useEffect(() => {
         if(!message) return;
-
+        console.log(message);
         buttonRef.current.click();
 
     }, [message])
