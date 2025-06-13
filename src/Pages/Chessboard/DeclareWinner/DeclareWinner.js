@@ -32,7 +32,7 @@ function DeclareWinner() {
                         <h2 className={styles.dialog_title}>
                             {checkmate && `${checkmate} wins!`}
                             {resigns && `${resigns} resigns!`}
-                            {stalemate.game_over && `It's a draw!`} 
+                            {stalemate && `It's a draw!`} 
                             {forfeit && 'Opponent has left the match, you win by default'}
                             {playerRanOutOfTime.player && `${playerRanOutOfTime.player} ran out of time!`}
                         </h2>

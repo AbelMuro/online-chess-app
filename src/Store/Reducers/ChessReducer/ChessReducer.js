@@ -963,6 +963,8 @@ const ChessReducer = createReducer(initialState, (builder) => {
         const legalSquaresForKing = createLegalSquaresForKing(state, row, column, color);
         const kingInCheck = state.checkmate.king_in_check;
 
+        console.log('check stalemate case', movesAvailable, legalSquaresForKing, kingInCheck)
+
         if(legalSquaresForKing.length === 0 && !kingInCheck && movesAvailable.length === 0)
           state.stalemate.game_over = true;
     })
