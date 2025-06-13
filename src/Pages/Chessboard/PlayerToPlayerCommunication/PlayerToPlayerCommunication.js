@@ -33,6 +33,7 @@ function PlayerToPlayerCommunication({matchId}) {
         const closeSocket = ConnectToWebsocket(`wss://world-class-chess-server.com:443/match?matchId=${matchId}&username=${localClientUsername}&color=${localClientColor}`,         
             (e) => {
                 const state = JSON.parse(e.data);
+                console.log(state)
                 if(state.matchDeleted){
                     dispatch({type: 'STOP_TIMER'});
                     dispatch({type: 'FORFEIT'})
