@@ -9,6 +9,7 @@ function CountLegalMoves({row, column, color, pieceId}){
         dispatch({type: 'COUNT_LEGAL_MOVES', payload: {square: {row, column, color}}});
         
         return () => {
+            console.log('reset legal moves')
             dispatch({type: 'RESET_LEGAL_MOVES', payload: {pieceId, color}});
         }
 
