@@ -7,6 +7,7 @@ function CheckStalemate({row, column, color}) {
 
 
     useEffect(() => {
+        console.log('moves available', movesAvailable);
         dispatch({type: 'CHECK_STALEMATE', payload: {square: {row, column, color}, movesAvailable}})
     }, [movesAvailable])
 
