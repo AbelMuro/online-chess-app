@@ -9,7 +9,7 @@ function Timer() {
     const {matchId} = useParams();
     if(matchId === 'ai') return null;
     const seconds = useSelector(state => state.timer.seconds);
-    const stop = useSelector(state => state.timer.stop);
+    //const stop = useSelector(state => state.timer.stop);
     const localClientUsername = useSelector(state => state.account.username);
     const currentTurn = useSelector(state => state.chess.current_turn);
     const userColor = useSelector(state => state.settings.user_color)
@@ -42,13 +42,13 @@ function Timer() {
         }
     }, [currentTurn, userColor])
 
-
+/*
     useEffect(() => {
         if(!stop) return;
 
         clearInterval(timerRef.current)
     }, [stop])
-
+*/
     return(
         <div className={styles.timer}>
             {displayTimer()}
