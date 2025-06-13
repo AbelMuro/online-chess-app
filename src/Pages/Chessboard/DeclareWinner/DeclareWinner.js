@@ -18,26 +18,11 @@ function DeclareWinner() {
     }
 
     useEffect(() => {
-        if(checkmate || resigns || stalemate || playerRanOutOfTime.player)
-            buttonRef.current.click();
-    }, [checkmate, resigns, stalemate, playerRanOutOfTime])
-
-
-    useEffect(() => {
-        const beforeunload = (e) => {
-            e.preventDefault();
-            e.returnValue = ''
-        }
-
         if(checkmate || resigns || stalemate || playerRanOutOfTime.player || forfeit)
-            window.removeEventListener('beforeunload', beforeunload)
-        else
-            window.addEventListener('beforeunload', beforeunload)
-
-        return () => {
-            window.removeEventListener('beforeunload', beforeunload);
-        }
+            buttonRef.current.click();
     }, [checkmate, resigns, stalemate, playerRanOutOfTime, forfeit])
+
+
 
     return(
         <Dialog 
