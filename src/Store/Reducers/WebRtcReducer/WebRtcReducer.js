@@ -25,14 +25,10 @@ export const connectionManager = {
     cancelConnection: function() {
         if(this.dataChannel?.readyState === 'open')
             this.dataChannel.close();           
-        if(this.peerConnection?.connectionState !== 'closed')
+        if(this.peerConnection?.iceConnectionState === 'disconnected')
             this.peerConnection.close()                 
         if(this.signalingServer?.readyState === WebSocket.OPEN)
             this.signalingServer.close();           
-
-        this.dataChannel = null;       
-        this.peerConnection = null;  
-        this.signalingServer = null; 
     }
 }
 

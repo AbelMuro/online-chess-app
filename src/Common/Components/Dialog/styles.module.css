@@ -12,7 +12,7 @@
 }
 
 .dialog{
-    min-width: 300px;
+    width: 300px;
     padding: 30px 20px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
