@@ -4,8 +4,6 @@ const onIceCandidate = (signalingServer, getState) => {
         const localClientUsername = account.username;
         const remoteClientUsername = webRTC.remoteClientUsername;
 
-        console.log(localClientUsername);
-
         if(e.candidate) 
             signalingServer.send(JSON.stringify({
                 type: 'candidate', 
@@ -15,15 +13,17 @@ const onIceCandidate = (signalingServer, getState) => {
             }));
         else
             console.log('All ICE candidates have been collected');
-    };
+    }
 }
 
 const onIceConnectionStateChange = (peerConnection, dispatch) => {
     return () => {
         const state = peerConnection.iceConnectionState;
         console.log(`ICE state: ${state}`)
-        if(state === 'disconnected' || state === 'failed' || state === 'closed')
+        if(state === 'disconnected' || state === 'failed')
             dispatch({type: 'SET_ERROR', payload: {error: state, message: 'Could not establish ICE connection'}});
+        else if(state === 'closed')
+            dispatch({type: 'CLOSE_PEER_CONNECTION'})
     }
 }
 
