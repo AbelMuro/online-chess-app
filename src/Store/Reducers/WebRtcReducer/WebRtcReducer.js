@@ -29,8 +29,7 @@ export const connectionManager = {
             this.dataChannel.close();
     },
     cancelPeerConnection: function() {
-        if(this.peerConnection?.iceConnectionState === 'disconnected')
-            this.peerConnection?.close();   
+        this.peerConnection?.close();   
     },
     cancelSignalingServer: function() {
         if(this.signalingServer?.readyState === WebSocket.OPEN)
