@@ -1,5 +1,7 @@
 import React from 'react';
 import Dialog from '~/Common/Components/Dialog';
+import {syncDatabaseWithState} from '!/ChessReducer'
+import {useParams} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import icons from '../icons';
 import MessageBox from '~/Common/Components/MessageBox';
@@ -8,10 +10,13 @@ import * as styles from './styles.module.css';
 function ResignButton(){
     const currentTurn = useSelector(state => state.chess.current_turn);
     const dispatch = useDispatch();
+    const {matchId} = useParams();
 
 
     const handleResignation = () => {
         dispatch({type: 'RESIGNS', payload: {resigns: currentTurn}});
+        dispatch({type: 'STOP_TIMER'});
+        matchId !== 'ai' && dispatch(syncDatabaseWithState(matchId));  
     }
 
     return(

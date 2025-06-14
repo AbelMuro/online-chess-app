@@ -7,7 +7,6 @@ function PlayerToPlayerCommunication({matchId}) {
     const localClientUsername = useSelector(state => state.account.username);
     const playerOne = useSelector(state => state.settings.player_one);
     const playerTwo = useSelector(state => state.settings.player_two);
-    const renderedOnce = useRef(false);
     const dispatch = useDispatch();
     const skipFirstRender = useRef(true);
 
