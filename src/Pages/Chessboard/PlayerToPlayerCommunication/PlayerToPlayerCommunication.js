@@ -13,7 +13,7 @@ function PlayerToPlayerCommunication({matchId}) {
     const localClientUsername = useSelector(state => state.account.username);
     const playerOne = useSelector(state => state.settings.player_one);
     const playerTwo = useSelector(state => state.settings.player_two);
-    const closeWebsocket = useRef(() => {})
+    const renderedOnce = useRef(false);
     const dispatch = useDispatch();
     const skipFirstRender = useRef(true);
 
@@ -29,11 +29,12 @@ function PlayerToPlayerCommunication({matchId}) {
 
     useEffect(() => {
         if(!playerOne?.color || !playerTwo?.color || !playerOne?.username) return;
+        if(renderedOnce.current) return;
 
-        console.log('initiating the match web socket');
+        renderedOnce.current = true;
 
         const localClientColor = playerOne.username === localClientUsername ? playerOne.color: playerTwo.color;
-        closeWebsocket.current = ConnectToWebsocket(`wss://world-class-chess-server.com:443/match?matchId=${matchId}&username=${localClientUsername}&color=${localClientColor}`,         
+        const closeWebsocket = ConnectToWebsocket(`wss://world-class-chess-server.com:443/match?matchId=${matchId}&username=${localClientUsername}&color=${localClientColor}`,         
             (e) => {
                 const state = JSON.parse(e.data);
                 if(state.matchDeleted){
@@ -46,14 +47,12 @@ function PlayerToPlayerCommunication({matchId}) {
             }
         )
 
+        return () => {
+            closeWebsocket()
+        }
+
     }, [playerOne, playerTwo, localClientUsername])
 
-    useEffect(() => {
-        return () => {
-            if(!closeWebsocket.current) return;
-            closeWebsocket.current();
-        }
-    }, [])
 
 
     return null;
