@@ -11,6 +11,8 @@ function PlayerToPlayerCommunication({matchId}) {
     const dispatch = useDispatch();
     const skipFirstRender = useRef(true);
 
+
+
     useEffect(() => {
         if(skipFirstRender.current){
             skipFirstRender.current = false;
@@ -24,9 +26,6 @@ function PlayerToPlayerCommunication({matchId}) {
     useEffect(() => {
         console.log('initiating match web socket', playerOne, playerTwo)
         if(!playerOne?.color || !playerTwo?.color || !playerOne?.username) return;
-        if(renderedOnce.current) return;
-
-        renderedOnce.current = true;
 
         const localClientColor = playerOne.username === localClientUsername ? playerOne.color: playerTwo.color;
         const closeWebsocket = ConnectToWebsocket(`wss://world-class-chess-server.com:443/match?matchId=${matchId}&username=${localClientUsername}&color=${localClientColor}`,         
@@ -43,7 +42,7 @@ function PlayerToPlayerCommunication({matchId}) {
         )
 
         return () => {
-            closeWebsocket();
+            closeWebsocket?.();
         }
 
     }, [playerOne, playerTwo, localClientUsername])
