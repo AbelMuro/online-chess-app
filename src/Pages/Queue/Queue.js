@@ -11,7 +11,7 @@ function Queue() {
     const navigate = useNavigate();   
      
     const handleLeave = () => {
-        confirm('Are you sure you want to leave queue?');
+        navigate('/menu');
     }
 
     const putPlayerInQueue = async () => {

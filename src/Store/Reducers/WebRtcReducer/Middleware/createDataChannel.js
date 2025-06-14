@@ -1,6 +1,5 @@
 import { connectionManager } from "../WebRtcReducer.js";
 
-
 const createDataChannel = (_, {dispatch, fulfillWithValue}) => {
     try{
         const peerConnection = connectionManager.peerConnection;      
@@ -11,14 +10,12 @@ const createDataChannel = (_, {dispatch, fulfillWithValue}) => {
             dispatch({type: 'SET_CONNECTED', payload: {connected: true}}) 
         };
         dataChannel.onclose = () => {
-            console.log('local data channel was closed')
             dispatch({type: 'CLOSE_DATA_CHANNEL'})
         };  
         dataChannel.onerror = (error) => {
             dispatch({type: 'SET_ERROR', payload: {error, message: 'Local data channel experienced an error'}});
         };
         dataChannel.onmessage = (e) => {
-            console.log('Received message from remote client', e.data)
             const data = JSON.parse(e.data);
             const message = data.message;
             dispatch({type: 'SET_MESSAGE', payload: {message}})

@@ -1,5 +1,4 @@
-import WebRtcReducer from "./WebRtcReducer";
-import {initiateWebRTC, createLocalDataChannel, sendOffer} from './WebRtcReducer.js';
+import WebRtcReducer, {initiateWebRTC, createLocalDataChannel, sendOffer, connectionManager} from "./WebRtcReducer";
 
-export {initiateWebRTC, createLocalDataChannel, sendOffer}
+export {initiateWebRTC, createLocalDataChannel, sendOffer, connectionManager}
 export default WebRtcReducer

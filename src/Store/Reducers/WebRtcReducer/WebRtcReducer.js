@@ -25,10 +25,19 @@ export const connectionManager = {
     cancelConnection: function() {
         if(this.dataChannel?.readyState === 'open')
             this.dataChannel.close();           
-        if(this.peerConnection?.iceConnectionState === 'disconnected')
-            this.peerConnection.close()                 
+        if(this.peerConnection?.iceConnectionState === 'connected')
+            this.peerConnection.close();                 
         if(this.signalingServer?.readyState === WebSocket.OPEN)
             this.signalingServer.close();           
+    },
+    resetPeerConnection: function() {
+        this.peerConnection = null;
+    },
+    resetSignalingServer: function() {
+        this.signalingServer = null;
+    },
+    resetDataChannel: function() {
+        this.dataChannel = null;
     }
 }
 
@@ -56,14 +65,14 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
         })
         .addCase(createLocalDataChannel.fulfilled, (state, action) => {
             connectionManager.dataChannel = action.payload.dataChannel;
-            console.log('Local data channel has been created');
+            console.log('Data channel has been created');
         })
         .addCase(createLocalDataChannel.pending, (state, action) => {
             console.log('waiting for data channel to be created...')
         })
         .addCase(createLocalDataChannel.rejected, (state, action) => {
             state.error = action.error.message;
-            console.log('Local data channel could not be opened ', state.error);
+            console.log('Data channel could not be opened ', state.error);
         })
         .addCase(sendOffer.fulfilled, (state, action) => {
             const message = action.payload;
@@ -94,15 +103,14 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
         })
         .addCase(setLocalDataChannel, (state, action) => {
             connectionManager.dataChannel = action.payload.dataChannel;
-            console.log("Remote data channel is open!");
+            console.log("Data channel is open!");
         })
         .addCase(closeLocalDataChannel, (state) => {
-            connectionManager.dataChannel?.close();
-            connectionManager.dataChannel = null;
             state.message = '';
             state.connected = false;
             state.remoteClientUsername = '';
-            console.log("Remote data channel closed");
+            connectionManager.resetDataChannel();
+            console.log("Data channel closed");
         })
         .addCase(setConnected, (state, action) => {
             state.connected = action.payload.connected;
