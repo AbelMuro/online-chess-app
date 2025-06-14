@@ -15,8 +15,6 @@ function ResignButton(){
 
     const handleResignation = () => {
         dispatch({type: 'RESIGNS', payload: {resigns: currentTurn}});
-        dispatch({type: 'STOP_TIMER'});
-        console.log(matchId);
         matchId !== 'ai' && dispatch(syncDatabaseWithState(matchId));  
     }
 

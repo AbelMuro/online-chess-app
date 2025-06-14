@@ -10,8 +10,6 @@ function PlayerToPlayerCommunication({matchId}) {
     const dispatch = useDispatch();
     const skipFirstRender = useRef(true);
 
-
-
     useEffect(() => {
         if(skipFirstRender.current){
             skipFirstRender.current = false;
@@ -30,7 +28,6 @@ function PlayerToPlayerCommunication({matchId}) {
             (e) => {
                 const state = JSON.parse(e.data);
                 if(state.matchDeleted){
-                    dispatch({type: 'STOP_TIMER'});
                     dispatch({type: 'FORFEIT'});
                     return;
                 }

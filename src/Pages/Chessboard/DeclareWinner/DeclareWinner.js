@@ -34,7 +34,8 @@ function DeclareWinner() {
 
     useEffect(() => {
         if(!message) return;
-        console.log(message);
+        
+        dispatch({type: 'STOP_TIMER'});
         buttonRef.current.click();
 
     }, [message])
