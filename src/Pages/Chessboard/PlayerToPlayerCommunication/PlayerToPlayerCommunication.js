@@ -24,8 +24,7 @@ function PlayerToPlayerCommunication({matchId}) {
     }, [board])
 
     useEffect(() => {
-        console.log('initiating match web socket', playerOne, playerTwo)
-        if(!playerOne?.color || !playerTwo?.color || !playerOne?.username) return;
+        if(!playerOne?.color || !playerTwo?.color || !playerOne?.username || !localClientUsername) return;
 
         const localClientColor = playerOne.username === localClientUsername ? playerOne.color: playerTwo.color;
         const closeWebsocket = ConnectToWebsocket(`wss://world-class-chess-server.com:443/match?matchId=${matchId}&username=${localClientUsername}&color=${localClientColor}`,         
