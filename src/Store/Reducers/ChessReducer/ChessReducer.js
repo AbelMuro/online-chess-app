@@ -106,7 +106,7 @@ const initialState = {
     }, 
     current_turn: 'white',
     en_passant: null,
-    resigns: false,
+    resigns: '',
     forfeit: false,
     pinned_pieces: [],
     difficulty: '',
