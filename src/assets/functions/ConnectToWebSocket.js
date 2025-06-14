@@ -15,7 +15,7 @@ const ConnectToWebsocket = (url, onmessage) => {
         console.error(`Error occurred in websocket ${url}: `, error);
     };
 
-    return socket.close();
+    return socket.close;
 }
 
 export default ConnectToWebsocket;
