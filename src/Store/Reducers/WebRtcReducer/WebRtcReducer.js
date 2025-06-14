@@ -7,6 +7,8 @@ export const sendOffer = createAsyncThunk('CREATE_OFFER', createOffer)
 
 const setLocalDataChannel = createAction('SET_DATA_CHANNEL');
 const closeLocalDataChannel = createAction('CLOSE_DATA_CHANNEL');
+const closePeerConnection = createAction('CLOSE_PEER_CONNECTION');
+const closeSignalingServer = createAction('CLOSE_SIGNALING_SERVER');
 const setMessage = createAction('SET_MESSAGE');
 const sendMessage = createAction('SEND_MESSAGE');
 const clearMessage = createAction('CLEAR_MESSAGE');
@@ -22,13 +24,17 @@ export const connectionManager = {
     peerConnection: null,
     signalingServer: null,
     dataChannel: null,
-    cancelConnection: function() {
+    cancelDataChannel: function() {
         if(this.dataChannel?.readyState === 'open')
-            this.dataChannel.close();           
-        if(this.peerConnection?.iceConnectionState === 'connected')
-            this.peerConnection.close();                 
+            this.dataChannel.close();
+    },
+    cancelPeerConnection: function() {
+        if(this.peerConnection?.iceConnectionState === 'disconnected')
+            this.peerConnection?.close();   
+    },
+    cancelSignalingServer: function() {
         if(this.signalingServer?.readyState === WebSocket.OPEN)
-            this.signalingServer.close();           
+            this.signalingServer.close();   
     },
     resetPeerConnection: function() {
         this.peerConnection = null;
@@ -105,22 +111,31 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             connectionManager.dataChannel = action.payload.dataChannel;
             console.log("Data channel is open!");
         })
+        .addCase(cancelConnection, (state) => {
+            state.message = '';
+            state.connected = false;
+            state.remoteClientUsername = '';
+            connectionManager.cancelDataChannel();    
+        })
         .addCase(closeLocalDataChannel, (state) => {
             state.message = '';
             state.connected = false;
             state.remoteClientUsername = '';
             connectionManager.resetDataChannel();
+            connectionManager.cancelPeerConnection();
             console.log("Data channel closed");
+        })
+        .addCase(closePeerConnection, (state, action) => {
+            connectionManager.resetPeerConnection();
+            connectionManager.cancelSignalingServer();
+            console.log("Peer connection closed");
+        })
+        .addCase(closeSignalingServer, () => {
+            connectionManager.resetSignalingServer();
+            console.log('Signaling server closed');
         })
         .addCase(setConnected, (state, action) => {
             state.connected = action.payload.connected;
-        })
-        .addCase(cancelConnection, (state) => {
-            connectionManager.cancelConnection();
-            state.message = '';
-            state.connected = false;
-            state.remoteClientUsername = '';
-            console.log('Connection has been cancelled');    
         })
         .addCase(setError, (state, action) => {
             connectionManager.dataChannel?.close();
