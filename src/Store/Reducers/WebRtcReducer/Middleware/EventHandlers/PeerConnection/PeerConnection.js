@@ -19,11 +19,10 @@ const onIceCandidate = (signalingServer, getState) => {
 const onIceConnectionStateChange = (peerConnection, dispatch) => {
     return () => {
         const state = peerConnection.iceConnectionState;
-        console.log(`ICE state: ${state}`)
-        if(state === 'disconnected' || state === 'failed')
+        console.log(`ICE state: ${state}`);
+
+        if(state === 'disconnected' || state === 'failed' || state === 'closed')
             dispatch({type: 'SET_ERROR', payload: {error: state, message: 'Could not establish ICE connection'}});
-        else if(state === 'closed')
-            dispatch({type: 'CLOSE_PEER_CONNECTION'})
     }
 }
 

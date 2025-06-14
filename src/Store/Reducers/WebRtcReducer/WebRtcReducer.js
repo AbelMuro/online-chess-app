@@ -7,8 +7,6 @@ export const sendOffer = createAsyncThunk('CREATE_OFFER', createOffer)
 
 const setLocalDataChannel = createAction('SET_DATA_CHANNEL');
 const closeLocalDataChannel = createAction('CLOSE_DATA_CHANNEL');
-const closePeerConnection = createAction('CLOSE_PEER_CONNECTION');
-const closeSignalingServer = createAction('CLOSE_SIGNALING_SERVER');
 const setMessage = createAction('SET_MESSAGE');
 const sendMessage = createAction('SEND_MESSAGE');
 const clearMessage = createAction('CLEAR_MESSAGE');
@@ -122,16 +120,10 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             state.remoteClientUsername = '';
             connectionManager.resetDataChannel();
             connectionManager.cancelPeerConnection();
-            console.log("Data channel closed");
-        })
-        .addCase(closePeerConnection, (state, action) => {
             connectionManager.resetPeerConnection();
             connectionManager.cancelSignalingServer();
-            console.log("Peer connection closed");
-        })
-        .addCase(closeSignalingServer, () => {
             connectionManager.resetSignalingServer();
-            console.log('Signaling server closed');
+            console.log("Connection has been canceled");
         })
         .addCase(setConnected, (state, action) => {
             state.connected = action.payload.connected;

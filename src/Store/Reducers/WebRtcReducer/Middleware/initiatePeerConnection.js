@@ -1,6 +1,5 @@
 import { signalingServerOnMessage, signalingServerOnOpen} from './EventHandlers/SignalingServer';
 import { onIceCandidate, onIceConnectionStateChange} from './EventHandlers/PeerConnection';
-import { connectionManager } from '../WebRtcReducer';
 
 const initiatePeerConnection = (_, {dispatch, fulfillWithValue, getState}) => {
     try{
@@ -12,7 +11,6 @@ const initiatePeerConnection = (_, {dispatch, fulfillWithValue, getState}) => {
 
         signalingServer.onmessage = signalingServerOnMessage(peerConnection, dispatch, signalingServer, getState);        
         signalingServer.onopen = signalingServerOnOpen();
-        signalingServer.onclose = () => dispatch({type: 'CLOSE_SIGNALING_SERVER'});
         peerConnection.onicecandidate = onIceCandidate(signalingServer, getState)                                                  //returns a callback
         peerConnection.oniceconnectionstatechange = onIceConnectionStateChange(peerConnection, dispatch);
         peerConnection.ondatachannel = (e) => {
