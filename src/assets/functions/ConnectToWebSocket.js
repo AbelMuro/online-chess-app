@@ -17,4 +17,5 @@ const ConnectToWebsocket = (url, onmessage) => {
 
     return socket.close();
 }
+
 export default ConnectToWebsocket;
