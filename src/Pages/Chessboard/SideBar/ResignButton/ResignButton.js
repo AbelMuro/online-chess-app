@@ -12,7 +12,6 @@ function ResignButton(){
     const dispatch = useDispatch();
     const {matchId} = useParams();
 
-
     const handleResignation = () => {
         dispatch({type: 'RESIGNS', payload: {resigns: currentTurn}});
         matchId !== 'ai' && dispatch(syncDatabaseWithState(matchId));  
@@ -54,7 +53,6 @@ function ResignButton(){
                     )
                 }}/>       
         </>
-
     )
 }
 

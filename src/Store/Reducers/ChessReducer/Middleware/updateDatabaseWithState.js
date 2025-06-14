@@ -2,7 +2,6 @@
 const updateDatabaseWithState = async (matchId, {getState, dispatch, rejectWithValue}) => {
     try{
         const {chess, account} = getState();
-        console.log(chess);
         const localClientUsername = account.username;
 
         const response = await fetch(`https://world-class-chess-server.com/update_match`, {
