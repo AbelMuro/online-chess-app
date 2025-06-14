@@ -1,5 +1,5 @@
 import {memo, useEffect, useRef} from 'react';
-import ConnectToWebsocket from '~/assets/functions/ConnectToWebsocket';
+import ConnectToWebsocket from '~/assets/functions/ConnectToWebsocket.js';
 import {useSelector, useDispatch} from 'react-redux';
 
 
@@ -49,12 +49,10 @@ function PlayerToPlayerCommunication({matchId}) {
         )
 
         return () => {
-            closeWebsocket()
+            closeWebsocket();
         }
 
     }, [playerOne, playerTwo, localClientUsername])
-
-
 
     return null;
 }

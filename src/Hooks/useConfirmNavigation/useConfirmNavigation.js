@@ -2,7 +2,6 @@ import {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useBlocker} from 'react-router-dom';
 
-
 function useConfirmNavigation(shouldBlock) {
     const block = useBlocker(shouldBlock);
     const dispatch = useDispatch();

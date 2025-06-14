@@ -1,19 +1,20 @@
-const ConnectToWebSocket = (url, callback) =>  {
+const ConnectToWebsocket = (url, onmessage) => {
     const socket = new WebSocket(url);            	
 
     socket.onopen = () => {                                        
-        console.log('Connected to WebSocket server');
+        console.log(`Connected to ${url} websocket server`);
     };
 
-    socket.onmessage = callback;                        
+    socket.onmessage = onmessage;                        
 
     socket.onclose = () => {
-        console.log('Disconnected from WebSocket server');
+        console.log(`Disconnected from ${url} websocket server`);
     };
 
     socket.onerror = (error) => {
-        console.error('WebSocket error:', error);
+        console.error(`Error occurred in websocket ${url}: `, error);
     };
-}
 
-export default ConnectToWebSocket;
+    return socket.close();
+}
+export default ConnectToWebsocket;
