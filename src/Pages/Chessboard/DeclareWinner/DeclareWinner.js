@@ -1,7 +1,7 @@
 import React, {useRef, useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import Dialog from '~/Common/Components/Dialog';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import * as styles from './styles.module.css';
 
 function DeclareWinner() {
@@ -11,6 +11,7 @@ function DeclareWinner() {
     const playerRanOutOfTime = useSelector(state => state.chess.out_of_time);
     const forfeit = useSelector(state => state.chess.forfeit);
     const resigns = useSelector(state => state.chess.resigns);
+    const dispatch = useDispatch();
     const buttonRef = useRef();
     const navigate = useNavigate();
 
