@@ -30,12 +30,13 @@ function PlayerToPlayerCommunication({matchId}) {
     useEffect(() => {
         if(!playerOne?.color || !playerTwo?.color || !playerOne?.username) return;
 
+        console.log('initiating the match web socket');
+
         const localClientColor = playerOne.username === localClientUsername ? playerOne.color: playerTwo.color;
         closeWebsocket.current = ConnectToWebsocket(`wss://world-class-chess-server.com:443/match?matchId=${matchId}&username=${localClientUsername}&color=${localClientColor}`,         
             (e) => {
                 const state = JSON.parse(e.data);
                 if(state.matchDeleted){
-                    console.log('--------------opponent has been disconnected from Websocket');
                     dispatch({type: 'STOP_TIMER'});
                     dispatch({type: 'FORFEIT'});
                     return;
