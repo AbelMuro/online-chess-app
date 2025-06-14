@@ -35,8 +35,9 @@ function PlayerToPlayerCommunication({matchId}) {
             (e) => {
                 const state = JSON.parse(e.data);
                 if(state.matchDeleted){
+                    console.log('--------------opponent has been disconnected from Websocket');
                     dispatch({type: 'STOP_TIMER'});
-                    dispatch({type: 'FORFEIT'})
+                    dispatch({type: 'FORFEIT'});
                     return;
                 }
                 

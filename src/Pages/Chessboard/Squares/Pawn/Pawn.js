@@ -40,29 +40,29 @@ function Pawn({color, row, column, pieceId}) {
 
     return(
         <>
-        {
-            isDragging ?                 
-                <div 
-                    className={styles.container} 
-                    onClick={handleMove} 
-                    onMouseDown={handleMove}
-                    style={isDragging ? {opacity: 0} : {opacity: 1}} 
-                    ref={drag}
-                    >
-                    <img className={styles.piece} src={icons[`${color} pawn`]}/>  
-                </div> :             
-                <motion.div 
-                    className={styles.container} 
-                    onClick={handleMove} 
-                    onMouseDown={handleMove}
-                    layoutId={pieceId}
-                    key={pieceId}
-                    ref={drag}
-                    >
-                        <img className={styles.piece} src={icons[`${color} pawn`]}/>                      
-                </motion.div>    
-        }    
-        <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>   
+            {
+                isDragging ?                 
+                    <div 
+                        className={styles.container} 
+                        onClick={handleMove} 
+                        onMouseDown={handleMove}
+                        style={isDragging ? {opacity: 0} : {opacity: 1}} 
+                        ref={drag}
+                        >
+                        <img className={styles.piece} src={icons[`${color} pawn`]}/>  
+                    </div> :             
+                    <motion.div 
+                        className={styles.container} 
+                        onClick={handleMove} 
+                        onMouseDown={handleMove}
+                        layoutId={pieceId}
+                        key={pieceId}
+                        ref={drag}
+                        >
+                            <img className={styles.piece} src={icons[`${color} pawn`]}/>                      
+                    </motion.div>    
+            }    
+            <CountLegalMoves row={row} column={column} color={color} pieceId={pieceId}/>   
         </>
     )
 }

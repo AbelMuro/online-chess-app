@@ -19,6 +19,7 @@ function useConfirmNavigation(shouldBlock) {
             
         else
             block.reset();
+        
     }, [block.state])
 
     return block;
