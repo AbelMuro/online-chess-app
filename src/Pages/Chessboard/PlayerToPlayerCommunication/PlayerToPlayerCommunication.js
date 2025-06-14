@@ -22,8 +22,8 @@ function PlayerToPlayerCommunication({matchId}) {
     }, [board])
 
     useEffect(() => {
-        console.log('initiating match web socket', playerOne, playerTwo, localClientUsername)
-        if(!playerOne?.color || !playerTwo?.color || !playerOne?.username || !localClientUsername) return;
+        console.log('initiating match web socket', playerOne, playerTwo)
+        if(!playerOne?.color || !playerTwo?.color || !playerOne?.username) return;
         if(renderedOnce.current) return;
 
         renderedOnce.current = true;
