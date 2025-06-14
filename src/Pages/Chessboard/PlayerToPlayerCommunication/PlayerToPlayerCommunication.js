@@ -29,7 +29,7 @@ function PlayerToPlayerCommunication({matchId}) {
 
     useEffect(() => {
         console.log('initiating match web socket', playerOne, playerTwo, localClientUsername)
-        if(!playerOne?.color || !playerTwo?.color || !playerOne?.username) return;
+        if(!playerOne?.color || !playerTwo?.color || !playerOne?.username || !localClientUsername) return;
         if(renderedOnce.current) return;
 
         renderedOnce.current = true;

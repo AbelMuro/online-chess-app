@@ -19,7 +19,6 @@ function DeclareWinner() {
     }
 
     useEffect(() => {
-        console.log('declare winner', forfeit);
         if(checkmate)
             setMessage(`${checkmate} wins the game!`);
         else if(resigns)

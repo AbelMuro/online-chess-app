@@ -2,7 +2,6 @@ import {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useBlocker} from 'react-router-dom';
 
-//this is where i left off, i may need to find a more reliable way of reseting the state
 
 function useConfirmNavigation(shouldBlock) {
     const block = useBlocker(shouldBlock);
@@ -19,7 +18,7 @@ function useConfirmNavigation(shouldBlock) {
             
         else
             block.reset();
-        
+
     }, [block.state])
 
     return block;
