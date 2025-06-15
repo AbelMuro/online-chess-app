@@ -74,10 +74,9 @@ function Chessboard() {
         dispatch(syncStateWithDatabase(matchId))
         .then((result) => {
             if(result.meta.rejectedWithValue){
-                block.reset();
-                navigate('/menu')
+                navigate('/menu');
+                block.proceed();
             }
-                
         })
     }, [matchId])
 
