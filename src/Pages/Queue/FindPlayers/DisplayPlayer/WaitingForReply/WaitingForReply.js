@@ -6,7 +6,6 @@ import {ClipLoader} from 'react-spinners';
 import {motion} from 'framer-motion';
 import * as styles from './styles.module.css';
 
-//local client
 
 function WaitingForReply({setWaiting}) {
     const navigate = useNavigate();
@@ -43,7 +42,7 @@ function WaitingForReply({setWaiting}) {
         if(decision === 'decline'){
             setWaiting(false);
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player declined'}});
-            dispatch({type: 'CLOSE_DATA_CHANNEL'});
+            dispatch({type: 'CANCEL_CONNECTION'});
         }
         else{
             fetch('https://world-class-chess-server.com/create_match', {

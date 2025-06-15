@@ -6,7 +6,6 @@ const createDataChannel = (_, {dispatch, fulfillWithValue}) => {
         const dataChannel = peerConnection.createDataChannel('chat');   
 
         dataChannel.onopen = () => {
-            console.log('Local data channel is open');
             dispatch({type: 'SET_CONNECTED', payload: {connected: true}}) 
         };
         dataChannel.onclose = () => {

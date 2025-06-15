@@ -5,8 +5,8 @@ export const initiateWebRTC = createAsyncThunk('INITIATE_WEBRTC', initiatePeerCo
 export const createLocalDataChannel = createAsyncThunk('CREATE_LOCAL_DATA_CHANNEL', createDataChannel);
 export const sendOffer = createAsyncThunk('CREATE_OFFER', createOffer)
 
-const setLocalDataChannel = createAction('SET_DATA_CHANNEL');
-const closeLocalDataChannel = createAction('CLOSE_DATA_CHANNEL');
+const setDataChannel = createAction('SET_DATA_CHANNEL');
+const closeDataChannel = createAction('CLOSE_DATA_CHANNEL');
 const setMessage = createAction('SET_MESSAGE');
 const sendMessage = createAction('SEND_MESSAGE');
 const clearMessage = createAction('CLEAR_MESSAGE');
@@ -49,7 +49,7 @@ const initialState = {
     error: '',
     message: '',
     connected: false,
-    remoteClientUsername: ''
+    remoteClientUsername: '',
 }
 
 const WebRtcReducer = createReducer(initialState, (builder) => {
@@ -57,10 +57,10 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
         .addCase(initiateWebRTC.fulfilled, (state, action) => {
             connectionManager.peerConnection = action.payload.peerConnection;
             connectionManager.signalingServer = action.payload.signalingServer;
-            console.log('Peer connection has been established')
+            console.log('Peer connection has been established');
         })
         .addCase(initiateWebRTC.pending, (state, action) => {
-            console.log('waiting to initialize WebRTC...')
+            console.log('Waiting to initialize WebRTC...');
         })  
         .addCase(initiateWebRTC.rejected, (state, action) => {
             state.error = action.error.message;
@@ -104,7 +104,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
                 console.log('Message has been sent')
             }
         })
-        .addCase(setLocalDataChannel, (state, action) => {
+        .addCase(setDataChannel, (state, action) => {
             connectionManager.dataChannel = action.payload.dataChannel;
             console.log("Data channel is open!");
         })
@@ -114,19 +114,17 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             state.remoteClientUsername = '';
             connectionManager.cancelDataChannel();    
         })
-        .addCase(closeLocalDataChannel, (state) => {
-            state.message = '';
-            state.connected = false;
-            state.remoteClientUsername = '';
+        .addCase(closeDataChannel, () => {
             connectionManager.resetDataChannel();
             connectionManager.cancelPeerConnection();
             connectionManager.resetPeerConnection();
             connectionManager.cancelSignalingServer();
             connectionManager.resetSignalingServer();
             console.log("Connection has been canceled");
-        })
+        })            
         .addCase(setConnected, (state, action) => {
             state.connected = action.payload.connected;
+            console.log('Connection has been established');
         })
         .addCase(setError, (state, action) => {
             connectionManager.dataChannel?.close();
