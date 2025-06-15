@@ -30,7 +30,7 @@ function FindPlayers() {
             responses.then((responses) => {
                 Promise.all(responses.map(async response => {
                     if(response.status === 200 || response.status === 404)
-                        return result.json();
+                        return response.json();
                     else{
                         const message = await response.text()
                         throw new Error(message);
