@@ -22,6 +22,7 @@ const updateStateWithDatabase = async (matchId, {dispatch, getState, rejectWithV
                 playerOne: playerOne,
                 playerTwo: playerTwo,
             }});            
+            
             return Promise.resolve({chess});
         }
         else{

@@ -70,8 +70,10 @@ function Chessboard() {
 
     useEffect(() => {
         if(matchId === 'ai') return;
+
         dispatch(syncStateWithDatabase(matchId))
         .catch(() => {
+            console.log('dispatch error,.....')
             navigate('/menu');
         })
     }, [matchId])
