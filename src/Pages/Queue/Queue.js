@@ -9,7 +9,6 @@ import {initiateWebRTC} from '!/WebRtcReducer'
 function Queue() {
     const dispatch = useDispatch();
     const navigate = useNavigate();   
-    const connected = useSelector(state => state.webRTC.connected)
      
     const handleLeave = () => {
         if(confirm('Are you sure you wish to leave?'))
@@ -61,10 +60,8 @@ function Queue() {
     }, [])
 
     useEffect(() => {
-        console.log('initiating web RTC..')
-        console.log(connected);
         dispatch(initiateWebRTC())
-    }, [connected])
+    }, [])
 
     return(
         <>

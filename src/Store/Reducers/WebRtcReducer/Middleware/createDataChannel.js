@@ -8,11 +8,8 @@ const createDataChannel = (_, {dispatch, fulfillWithValue}) => {
         dataChannel.onopen = () => {
             dispatch({type: 'SET_CONNECTED', payload: {connected: true}}) 
         };
-        dataChannel.onclose = () => {
-            dispatch({type: 'CLOSE_DATA_CHANNEL'})
-        };  
         dataChannel.onerror = (error) => {
-            dispatch({type: 'SET_ERROR', payload: {error, message: 'Local data channel experienced an error'}});
+            dispatch({type: 'SET_ERROR', payload: {error, message: 'data channel experienced an error'}});
         };
         dataChannel.onmessage = (e) => {
             const data = JSON.parse(e.data);

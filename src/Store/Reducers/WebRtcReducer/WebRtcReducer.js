@@ -7,6 +7,7 @@ export const sendOffer = createAsyncThunk('CREATE_OFFER', createOffer)
 
 const setDataChannel = createAction('SET_DATA_CHANNEL');
 const closeDataChannel = createAction('CLOSE_DATA_CHANNEL');
+const closePeerConnectionAndWebsocket = createAction('CLOSE_PEER_CONNECTION_AND_WEBSOCKET');
 const setMessage = createAction('SET_MESSAGE');
 const sendMessage = createAction('SEND_MESSAGE');
 const clearMessage = createAction('CLEAR_MESSAGE');
@@ -108,23 +109,32 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             connectionManager.dataChannel = action.payload.dataChannel;
             console.log("Data channel is open!");
         })
+        .addCase(closeDataChannel, () => {
+            state.message = '';
+            state.connected = false;
+            state.remoteClientUsername = '';
+            connectionManager.dataChannel.onclose = () => {
+                console.log('close data channel event handler (close event)')
+            }
+            connectionManager.cancelDataChannel();
+            console.log('Data channel is closed');
+        })
         .addCase(cancelConnection, (state) => {
             state.message = '';
             state.connected = false;
             state.remoteClientUsername = '';
-            connectionManager.cancelDataChannel();    
-        })
-        .addCase(closeDataChannel, () => {
-            connectionManager.resetDataChannel();
-            connectionManager.cancelPeerConnection();
-            connectionManager.resetPeerConnection();
-            connectionManager.cancelSignalingServer();
-            connectionManager.resetSignalingServer();
-            console.log("Connection has been canceled");
-        })            
+            connectionManager.dataChannel.onclose = () => {
+                connectionManager.cancelPeerConnection();
+                connectionManager.resetPeerConnection();
+                connectionManager.cancelSignalingServer();
+                connectionManager.resetSignalingServer();
+                console.log('cancel connection event handler (close event)')
+            }; 
+            connectionManager.cancelDataChannel();   
+            console.log('Connection has been cancelled') 
+        })           
         .addCase(setConnected, (state, action) => {
             state.connected = action.payload.connected;
-            console.log('Connection has been established');
         })
         .addCase(setError, (state, action) => {
             connectionManager.dataChannel?.close();
