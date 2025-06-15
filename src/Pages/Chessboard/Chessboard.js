@@ -72,9 +72,10 @@ function Chessboard() {
         if(matchId === 'ai') return;
 
         dispatch(syncStateWithDatabase(matchId))
-        .catch(() => {
-            console.log('dispatch error,.....')
-            navigate('/menu');
+        .then((result) => {
+            console.log('inside the then() method')
+            if(result.meta.rejectedWithValue)
+                navigate('/menu')
         })
     }, [matchId])
 
