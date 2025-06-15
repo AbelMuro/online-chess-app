@@ -1,7 +1,7 @@
 import React, {useMemo, memo} from 'react';
 import { useSelector } from 'react-redux';
 import { ClipLoader } from 'react-spinners';
-import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js';
+import convertBase64ToBlobURL from '~/Common/Functions/convertBase64ToBlobURL.js';
 import DisplayPlayer from './DisplayPlayer';
 import useWebSocket from '~/Hooks/useWebSocket';
 import * as styles from './styles.module.css';

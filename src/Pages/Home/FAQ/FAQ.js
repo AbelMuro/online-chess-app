@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef, createContext} from 'react';
-import calculateScrollThresholds from '~/assets/functions/calculateScrollThresholds.js';
+import calculateScrollThresholds from '~/Common/Functions/calculateScrollThresholds.js';
 import AnimateBoxToScreen from './AnimateBoxToScreen';
 import * as styles from './styles.module.css';
 

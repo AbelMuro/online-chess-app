@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useRef, createContext} from 'react';
 import WhoWeAre from './WhoWeAre';
 import Features from './Features';
-import calculateScrollThreshold from '~/assets/functions/calculateScrollThresholds.js';
+import calculateScrollThreshold from '~/Common/Functions/calculateScrollThresholds.js';
 import * as styles from './styles.module.css';
 
 export const ThresholdContext = createContext()

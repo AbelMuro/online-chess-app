@@ -2,7 +2,7 @@ import React, {useState, useEffect, memo} from "react";
 import { ClipLoader } from "react-spinners";
 import {useNavigate} from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
-import convertBase64ToBlobURL from '~/assets/functions/convertBase64ToBlobURL.js'
+import convertBase64ToBlobURL from '~/Common/Functions/convertBase64ToBlobURL.js'
 import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 import { overlayVariants, dialogVariants } from "./Variants/Variants";

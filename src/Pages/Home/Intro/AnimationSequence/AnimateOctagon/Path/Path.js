@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useContext} from 'react';
 import { ThresholdContext } from '../../../Intro';
-import CreateMapping from '~/assets/functions/CreateMapping.js';
+import CreateMapping from '~/Common/Functions/CreateMapping.js';
 import {motion, useScroll, useMotionValueEvent, useMotionValue} from 'framer-motion';
 import * as styles from './styles.module.css';
 

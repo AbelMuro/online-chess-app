@@ -1,5 +1,5 @@
 import React, {useEffect, createContext, useRef, useState} from 'react';
-import calculateScrollThreshold from '~/assets/functions/calculateScrollThresholds';
+import calculateScrollThreshold from '~/Common/Functions/calculateScrollThresholds';
 import DisplayVerticalText from './DisplayVerticalText';
 import IndividualMessage from './IndividualMessage';
 import AnimateBox from './AnimateBox';

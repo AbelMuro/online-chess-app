@@ -1,5 +1,5 @@
 import React from 'react';
-import { squareCoordinates } from '~/assets/SquareCoordinates';
+import { squareCoordinates } from '~/Common/SquareCoordinates';
 import icons from '~/assets/icons';
 import {useSelector} from 'react-redux';
 import Dialog from '~/Common/Components/Dialog';

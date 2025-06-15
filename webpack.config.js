@@ -32,26 +32,63 @@ module.exports = {
     
     module: {
         rules: [                               
-            {                                   //loaders are transformations that are applied to files (typescript to javascript, sass to css)
+            {                                 
                 test: /\.js$/, 
                 use: {
-                    loader: 'babel-loader',  //for all .js files, we will load the babel transpiler
-                    options: {presets: ['@babel/preset-env', '@babel/preset-react']} //preset-env is a group of babel plugins that will transpile all the new features of javascript 
-                    }                                                                 //preset-react is also a group of babel plugins, but it will transpile jsx with other new features of javascript
+                    loader: 'babel-loader',  
+                    options: {
+                        presets: ['@babel/preset-env', '@babel/preset-react'],
+                        plugins: [
+                            [
+                                'babel-plugin-root-import',
+                                {
+                                    rootPathSuffix: "./src",             
+                                    rootPathPrefix: "~/"              
+                                }, 
+                                'src directory'                             
+                            ], 
+                            [
+                                'babel-plugin-root-import',
+                                {
+                                    rootPathSuffix: "./src/Store/Reducers",
+                                    rootPathPrefix: "!/"
+                                },
+                                'reducers directory'
+                            ],
+                            [
+                                'babel-plugin-root-import',
+                                {
+                                    rootPathSuffix: "./src/Pages/Home",
+                                    rootPathPrefix: "-/"
+                                },
+                                'home directory'  
+                            ]
+
+                        ]
+                    } 
+                }                                                                  
             },
             {
                 test: /\.css$/,
-                use: [{loader: 'style-loader'}, {loader: 'css-loader'}, {loader: 'postcss-loader'}]             //using style loader and css loader to load css onto application
+                use: [
+                    {loader: 'style-loader'}, 
+                    {loader: 'css-loader'}, 
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    require('autoprefixer'),                                    
+                                ]
+                            }
+                        }
+                    }
+                ]            
             },
             {
                 test: /\.(png|jpg|webp|mp4|wav|svg)$/,
                 type: 'asset/resource'                                              //asset/resource loads files such as images, audio and videos
             }, 
-            {
-                test: /\.wasm$/,
-                type: 'javascript/auto',
-                loader: 'file-loader',
-            }
         ]
     },
 }

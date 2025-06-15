@@ -1,5 +1,5 @@
 import {memo, useEffect, useRef} from 'react';
-import ConnectToWebsocket from '~/assets/functions/ConnectToWebSocket.js';
+import ConnectToWebsocket from '~/Common/Functions/ConnectToWebSocket.js';
 import {useSelector, useDispatch} from 'react-redux';
 
 function PlayerToPlayerCommunication({matchId}) {
