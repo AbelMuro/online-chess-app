@@ -53,7 +53,7 @@ import * as styles from './styles.module.css';
 
 function Chessboard() {
     const navigate = useNavigate();
-    const block = useConfirmNavigation(true);
+    const [block, shouldBlock, setShouldBlock] = useConfirmNavigation(true);
     const {matchId} = useParams();
     const dispatch = useDispatch();
     const userColor = useSelector(state => state.settings.user_color)
@@ -72,13 +72,17 @@ function Chessboard() {
         if(matchId === 'ai') return;
 
         dispatch(syncStateWithDatabase(matchId))
-        .then((result) => {
-            if(result.meta.rejectedWithValue){
-                navigate('/menu');
-                block.proceed();
-            }
-        })
+            .then((result) => {
+                if(result.meta.rejectedWithValue)
+                    setShouldBlock(false);
+            })
     }, [matchId])
+
+    useEffect(() => {
+        if(shouldBlock) return;
+
+        navigate('/menu');
+    }, [shouldBlock])
 
     return(
         <DndProvider backend={HTML5Backend}> 

@@ -1,9 +1,10 @@
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {useBlocker} from 'react-router-dom';
 
-function useConfirmNavigation(shouldBlock) {
-    const block = useBlocker(shouldBlock);
+function useConfirmNavigation(initialBlock) {
+    const [shouldBlock, setShouldBlock] = useState(initialBlock);
+    const block = useBlocker(() => shouldBlock);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -20,7 +21,7 @@ function useConfirmNavigation(shouldBlock) {
 
     }, [block.state])
 
-    return block;
+    return [block, shouldBlock, setShouldBlock];
 }
 
 export default useConfirmNavigation;
