@@ -112,7 +112,8 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             state.message = '';
             state.connected = false;
             state.remoteClientUsername = '';
-            connectionManager.dataChannel.onclose = () => {}
+            if(connectionManager.dataChannel)
+                connectionManager.dataChannel.onclose = () => {}
             connectionManager.cancelDataChannel();
             console.log('Data channel is closed');
         })
@@ -120,12 +121,13 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             state.message = '';
             state.connected = false;
             state.remoteClientUsername = '';
-            connectionManager.dataChannel.onclose = () => {
-                connectionManager.cancelPeerConnection();
-                connectionManager.resetPeerConnection();
-                connectionManager.cancelSignalingServer();
-                connectionManager.resetSignalingServer();
-            }; 
+            if(connectionManager.dataChannel)
+                connectionManager.dataChannel.onclose = () => {
+                    connectionManager.cancelPeerConnection();
+                    connectionManager.resetPeerConnection();
+                    connectionManager.cancelSignalingServer();
+                    connectionManager.resetSignalingServer();
+                }; 
             connectionManager.cancelDataChannel();   
             console.log('Connection has been cancelled'); 
         })           
@@ -133,8 +135,9 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             state.connected = action.payload.connected;
         })
         .addCase(setError, (state, action) => {
-            connectionManager.dataChannel?.close();
-            connectionManager.dataChannel = null;
+            if(connectionManager.dataChannel)
+                connectionManager.dataChannel.onclose = () => {};
+            connectionManager.cancelDataChannel();  
             state.message = '';
             state.connected = false;
             state.remoteClientUsername = '';
