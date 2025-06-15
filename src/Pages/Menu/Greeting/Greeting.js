@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import convertBase64ToBlobURL from '~/Common/Functions/convertBase64ToBlobURL.js';
 import {useNavigate} from 'react-router-dom';
+import icons from '~/assets/icons';
 import * as styles from './styles.module.css';
 
 function Greeting(){
@@ -56,7 +57,7 @@ function Greeting(){
 
     return(
         <section className={styles.container}>
-            {imageURL && <img className={styles.photo} src={imageURL}/>}
+            {imageURL ? <img className={styles.photo} src={imageURL}/> : <img className={styles.photo} src={icons['empty avatar']}/>}
             <h1 className={styles.title}>
                 Hello {username}!
             </h1>
