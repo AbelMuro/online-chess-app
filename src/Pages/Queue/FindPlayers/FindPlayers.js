@@ -26,13 +26,19 @@ function FindPlayers() {
 
                 allPromises.push(promise);
             }
-            const responses = Promise.all(allPromises);   
+            const responses = Promise.all(allPromises);                         //all promises will always be resolved in this case
             responses.then((responses) => {
-                const result = Promise.all(responses.map(result => result.json()))
-                result.then(accounts => setPlayers(accounts))
-                result.catch(error => console.log('error from calling result.json() in nested promise.all()', error.message))
+                Promise.all(responses.map(async response => {
+                    if(response.status === 200 || response.status === 404)
+                        return result.json();
+                    else{
+                        const message = await response.text()
+                        throw new Error(message);
+                    }
+                }))
+                .then(accounts => setPlayers(accounts))
+                .catch(error => console.log('error from one of the responses in /get_player_account: ', error.message))
             })
-            responses.catch(error => console.log('error from one of the fetch requests made in endpoint /get_player_account', error.message))
         }, []);
 
 
