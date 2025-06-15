@@ -73,9 +73,11 @@ function Chessboard() {
 
         dispatch(syncStateWithDatabase(matchId))
         .then((result) => {
-            console.log('inside the then() method')
-            if(result.meta.rejectedWithValue)
+            if(result.meta.rejectedWithValue){
+                block.reset();
                 navigate('/menu')
+            }
+                
         })
     }, [matchId])
 
