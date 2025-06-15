@@ -2,6 +2,11 @@ import {useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {useBlocker} from 'react-router-dom';
 
+/* 
+    this is where i left off, i need to update my notes on useBlocker() in the react-router-dom section
+*/
+
+
 function useConfirmNavigation(initialBlock) {
     const [shouldBlock, setShouldBlock] = useState(initialBlock);
     const block = useBlocker(() => shouldBlock);
