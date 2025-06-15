@@ -68,7 +68,12 @@ function FindPlayers() {
                 <h2 className={styles.desc}>
                     Looking for other players
                 </h2>}
-            {(availablePlayers && availablePlayers.length === 0) ? <ClipLoader size={'35px'} color='#CECECE'/> : availablePlayers}        
+            {(availablePlayers && availablePlayers.length === 0) ? 
+                <div className={styles.clip_container}>
+                    <ClipLoader size={'35px'} color='#CECECE'/>
+                </div> 
+                : 
+                availablePlayers}        
         </>
     )
 
