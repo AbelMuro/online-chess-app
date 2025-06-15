@@ -1,5 +1,5 @@
 
-const updateStateWithDatabase = async (matchId, {dispatch, getState}) => {
+const updateStateWithDatabase = async (matchId, {dispatch, getState, rejectWithValue}) => {
     try{
         const {account} = getState();
         const localClientUsername = account.username;

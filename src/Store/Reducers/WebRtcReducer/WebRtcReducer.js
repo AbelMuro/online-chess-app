@@ -7,7 +7,6 @@ export const sendOffer = createAsyncThunk('CREATE_OFFER', createOffer)
 
 const setDataChannel = createAction('SET_DATA_CHANNEL');
 const closeDataChannel = createAction('CLOSE_DATA_CHANNEL');
-const closePeerConnectionAndWebsocket = createAction('CLOSE_PEER_CONNECTION_AND_WEBSOCKET');
 const setMessage = createAction('SET_MESSAGE');
 const sendMessage = createAction('SEND_MESSAGE');
 const clearMessage = createAction('CLEAR_MESSAGE');
