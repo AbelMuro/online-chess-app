@@ -33,3 +33,15 @@
 .goBack > img:active{
     background-color: rgb(138, 138, 138);
 }
+
+@media(max-width: 600px){
+    .container{
+        height: 60px;
+    }
+
+    .goBack > img{
+        width: 30px;
+        height: 30px;
+        mask-size: 30px 30px;
+    }
+}

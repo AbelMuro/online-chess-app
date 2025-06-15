@@ -1,7 +1,31 @@
 .desc{
+    grid-column: 1/5;
+    justify-self: center;
     font-size: 1.2rem;
     font-family: 'mulish';
     font-weight: 800;
     color: var(--text-color);
     margin: 0px;
+}
+
+
+@media(max-width: 830px){
+    .desc{
+        grid-column: 1/4;
+    }
+}
+
+@media(max-width: 600px){
+    .desc{
+        grid-column: 1/3;
+    }
+}
+
+
+@media(max-width: 460px){
+    .desc{
+        grid-column: 1/2;
+        font-size: 1rem;
+        text-align: center;
+    }
 }

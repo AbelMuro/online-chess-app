@@ -1,24 +1,23 @@
 .container{
     width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    min-height: 100vh;
+    padding-top: 45px;
 }
 
 .queue{
-    width: 500px;
+    width: 1000px;
     padding: 20px 30px 20px 30px;
     background-color: var(--container-background);
     border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(4, auto);
     gap: 20px;
+    margin: auto;
 }
 
 
 .queue_title{
+    grid-column: 1/5;
     font-size: 1.6rem;
     font-family: 'mulish';
     font-weight: 800;
@@ -28,6 +27,7 @@
 }
 
 .queue_button{
+    grid-column: 1/5;
     width: 100%;
     height: 45px;
     background-color: var(--button-bg);
@@ -47,9 +47,42 @@
     background-color: var(--button-bg-active);
 }
 
-
-@media(max-width: 530px){
+@media(max-width: 1080px){
     .queue{
-        width: 340px;
+        width: 90%;
+    }
+}
+
+@media(max-width: 830px){
+    .queue{
+        grid-template-columns: repeat(3, auto);
+    }
+
+    .queue_title, .queue_button{
+        grid-column: 1/4;
+    }
+}
+
+@media(max-width: 600px){
+    .queue{
+        grid-template-columns: repeat(2, auto);
+    }
+
+    .queue_title, .queue_button{
+        grid-column: 1/3;
+    }
+}
+
+@media(max-width: 460px){
+    .queue{
+        grid-template-columns: auto;
+    }
+
+    .queue_title, .queue_button{
+        grid-column: 1/2;
+    }
+
+    .queue_title{
+        font-size: 1.3rem;
     }
 }

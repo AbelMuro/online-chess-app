@@ -9,7 +9,7 @@ function useConfirmNavigation(shouldBlock) {
     useEffect(() => {
         if(block.state !== 'blocked') return;
 
-        const confirmed = confirm('Are you sure you want to leave? You will forfeit the match in doing so');
+        const confirmed = confirm('Are you sure you want to leave?');
         if(confirmed){
             dispatch({type: 'RESET_STATE'});
             block.proceed();

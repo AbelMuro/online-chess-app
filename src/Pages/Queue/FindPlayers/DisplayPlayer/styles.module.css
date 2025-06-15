@@ -1,6 +1,5 @@
-
 .queue_player{
-    width: 212px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -22,7 +21,6 @@
 .queue_player_image{
     width: 100px;
     object-fit: contain;
-    border-radius: 100%;
     align-self: center;
 }
 
@@ -44,4 +42,15 @@
 
 .queue_button:active{
     background-color: var(--button-bg-active);
+}
+
+
+@media(max-width: 460px){
+    .queue_button{
+        font-size: 1rem;
+    }
+
+    .queue_player_image{
+        width: 80px;
+    }
 }
