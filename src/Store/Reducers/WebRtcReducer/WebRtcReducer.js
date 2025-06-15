@@ -113,9 +113,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             state.message = '';
             state.connected = false;
             state.remoteClientUsername = '';
-            connectionManager.dataChannel.onclose = () => {
-                console.log('close data channel event handler (close event)')
-            }
+            connectionManager.dataChannel.onclose = () => {}
             connectionManager.cancelDataChannel();
             console.log('Data channel is closed');
         })
@@ -128,7 +126,6 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
                 connectionManager.resetPeerConnection();
                 connectionManager.cancelSignalingServer();
                 connectionManager.resetSignalingServer();
-                console.log('cancel connection event handler (close event)')
             }; 
             connectionManager.cancelDataChannel();   
             console.log('Connection has been cancelled') 
