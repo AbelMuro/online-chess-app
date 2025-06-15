@@ -16,7 +16,12 @@ import Menu from './Pages/Menu';
 import DisplayPopupMessage from '~/Common/Components/DisplayPopupMessage';
 import './global.css';
 
-/* this is where i left off, i need to update my notes on react-router-dom*/
+/* 
+    i believe i fixed all the bugs for the chessboard page, 
+    now i need to refactor the folders in this project and implement
+    the guest login feature
+
+*/
 
 
 function App() {
