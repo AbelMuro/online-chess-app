@@ -7,7 +7,7 @@ import SideBar from './SideBar';
 import DeclareWinner from './DeclareWinner';
 import {useDispatch, useSelector} from 'react-redux';
 import useConfirmNavigation from '~/Hooks/useConfirmNavigation';
-import {useParams} from 'react-router-dom';
+import {useParams, useNavigate} from 'react-router-dom';
 import { DndProvider } from "react-dnd"
 import { HTML5Backend } from "react-dnd-html5-backend"
 import {syncStateWithDatabase} from '!/ChessReducer';
@@ -52,6 +52,7 @@ import * as styles from './styles.module.css';
 
 
 function Chessboard() {
+    const navigate = useNavigate();
     const block = useConfirmNavigation(true);
     const {matchId} = useParams();
     const dispatch = useDispatch();
@@ -70,6 +71,9 @@ function Chessboard() {
     useEffect(() => {
         if(matchId === 'ai') return;
         dispatch(syncStateWithDatabase(matchId))
+        .catch(() => {
+            navigate('/menu');
+        })
     }, [matchId])
 
     return(
