@@ -29,7 +29,7 @@ function FindPlayers() {
             const responses = Promise.all(allPromises);                         //all promises will always be resolved in this case
             responses.then((responses) => {
                 Promise.all(responses.map(async response => {
-                    if(response.status === 200 || response.status === 404)
+                    if(response.status === 200 || response.status === 202)
                         return response.json();
                     else{
                         const message = await response.text()
