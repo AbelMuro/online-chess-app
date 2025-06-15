@@ -109,7 +109,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             connectionManager.dataChannel = action.payload.dataChannel;
             console.log("Data channel is open!");
         })
-        .addCase(closeDataChannel, () => {
+        .addCase(closeDataChannel, (state) => {
             state.message = '';
             state.connected = false;
             state.remoteClientUsername = '';
