@@ -42,7 +42,7 @@ function WaitingForReply({setWaiting}) {
         if(decision === 'decline'){
             setWaiting(false);
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player declined'}});
-            dispatch({type: 'CANCEL_CONNECTION'});
+            dispatch({type: 'CLOSE_DATA_CHANNEL'});
         }
         else{
             fetch('https://world-class-chess-server.com/create_match', {
