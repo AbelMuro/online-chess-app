@@ -72,7 +72,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             console.log('Data channel has been created');
         })
         .addCase(createLocalDataChannel.pending, (state, action) => {
-            console.log('waiting for data channel to be created...')
+            console.log('waiting for data channel to be created...');
         })
         .addCase(createLocalDataChannel.rejected, (state, action) => {
             state.error = action.error.message;
@@ -128,7 +128,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
                 connectionManager.resetSignalingServer();
             }; 
             connectionManager.cancelDataChannel();   
-            console.log('Connection has been cancelled') 
+            console.log('Connection has been cancelled'); 
         })           
         .addCase(setConnected, (state, action) => {
             state.connected = action.payload.connected;

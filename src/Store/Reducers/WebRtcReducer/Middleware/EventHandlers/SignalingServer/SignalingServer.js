@@ -18,7 +18,7 @@ const signalingServerOnMessage = (peerConnection, dispatch, signalingServer, get
                     answer, 
                     from: localClientUsername, 
                     to: remoteClientUsername 
-                }));                   //we send the answer to the websocket
+                }));                                                                                
             } 
             else if(data.type === 'answer' && peerConnection.signalingState === 'have-local-offer'){
                 await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));  //we create a remote description of the answer from another peer
