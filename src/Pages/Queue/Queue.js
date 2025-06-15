@@ -62,6 +62,7 @@ function Queue() {
 
     useEffect(() => {
         console.log('initiating web RTC..')
+        console.log(connected);
         dispatch(initiateWebRTC())
     }, [connected])
 
