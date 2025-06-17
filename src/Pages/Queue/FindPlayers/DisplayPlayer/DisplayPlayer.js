@@ -14,8 +14,9 @@ function DisplayPlayer({username, image}) {
     const [waiting, setWaiting] = useState(false);  
 
     const handleConnection = async () => {
+        setWaiting(true);
         try{
-            setWaiting(true);
+            
             const response = await fetch('https://world-class-chess-server.com/challenge_player_in_queue', {
                 method: 'POST',
                 headers: {
@@ -47,6 +48,7 @@ function DisplayPlayer({username, image}) {
             const message = error.message;
             console.log(message);
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
+            setWaiting(false);
         }
     }
 

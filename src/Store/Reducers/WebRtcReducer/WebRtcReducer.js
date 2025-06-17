@@ -58,14 +58,14 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
         .addCase(initiateWebRTC.fulfilled, (state, action) => {
             connectionManager.peerConnection = action.payload.peerConnection;
             connectionManager.signalingServer = action.payload.signalingServer;
-            console.log('Peer connection has been established');
+            console.log('WebRTC has been established');
         })
         .addCase(initiateWebRTC.pending, (state, action) => {
             console.log('Waiting to initialize WebRTC...');
         })  
         .addCase(initiateWebRTC.rejected, (state, action) => {
             state.error = action.error.message;
-            console.log('Peer connection could not be established ', state.error);
+            console.log('WebRTC couldnt be established: ', state.error);
         })
         .addCase(createLocalDataChannel.fulfilled, (state, action) => {
             connectionManager.dataChannel = action.payload.dataChannel;
@@ -99,6 +99,8 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
         .addCase(sendMessage, (state, action) => {
             const dataChannel = connectionManager.dataChannel;
             const message = action.payload;
+
+            console.log(dataChannel.readyState);
 
             if(dataChannel?.readyState === 'open'){
                 dataChannel?.send(JSON.stringify(message));
