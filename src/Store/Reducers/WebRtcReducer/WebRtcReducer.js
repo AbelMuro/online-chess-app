@@ -122,7 +122,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             connectionManager.cancelSignalingServer();
             connectionManager.resetSignalingServer();
             console.log('Connection has been cancelled'); 
-            state.reInitiate = !state.reInitiate;
+            //state.reInitiate = !state.reInitiate;
         })      
         .addCase(setConnected, (state, action) => {
             state.connected = action.payload.connected;
