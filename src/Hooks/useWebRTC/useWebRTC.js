@@ -2,7 +2,6 @@ import React, {useEffect, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import onmessage from './signalingServer.js';
 
-
 function useWebRTC() {
     const signalingServer = useRef();
     const peerConnection = useRef();
@@ -11,7 +10,7 @@ function useWebRTC() {
     const localMessage = useSelector(state => state.webRTC.localMessage);
     const localClientUsername = useSelector(state => state.account.username);
     const remoteClientUsername = useSelector(state => state.webRTC.remoteClientUsername);
-    const reInitiateWebRTC = useSelector(state => state.webRTC.reInitiateConnection);
+    const reInitiateWebRTC = useSelector(state => state.webRTC.reInitiateWebRTC);
 
     const connectToRemoteClient = async () => {
         const dataChannel = peerConnection.createDataChannel('chat');
@@ -46,7 +45,7 @@ function useWebRTC() {
 
 
     useEffect(() => {
-        if(!localMessage) return;
+        if(!localMessage || !dataChannel.current) return;
         dataChannel.current?.send(JSON.stringify(localMessage))
     }, [localMessage])
 

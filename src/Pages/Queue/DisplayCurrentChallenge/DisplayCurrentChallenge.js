@@ -10,7 +10,7 @@ import {motion, AnimatePresence} from 'framer-motion';
 
 
 function DisplayCurrentChallenge(){
-    const message = useSelector(state => state.webRTC.message);
+    const message = useSelector(state => state.webRTC.remoteMessage);
     const error = useSelector(state => state.webRTC.error);
     const [challenge, setChallenge] = useState();
     const [loading, setLoading] = useState(false);
@@ -20,11 +20,12 @@ function DisplayCurrentChallenge(){
 
     const handleDecision = (decision) => {
         setLoading(true);
-        dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, action: 'decision', data: {decision}}} })
+        dispatch({type: 'SET_LOCAL_MESSAGE', payload: {message: {from: clientUsername, action: 'decision', data: {decision}}} })
 
         if(decision === 'decline'){
             setChallenge(null);
             setLoading(false);
+            dispatch({type: 'REINITIATE_WEBRTC'});
         }    
     }
 
@@ -64,7 +65,6 @@ function DisplayCurrentChallenge(){
 
         const data = message.data;
         const matchId = data.matchId;
-        dispatch({type: 'CLEAR_MESSAGE'});
         navigate(`/chessboard/${matchId}`);
     }, [message])
 
@@ -73,7 +73,7 @@ function DisplayCurrentChallenge(){
 
         console.log(error);
         dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Challenger was disconnected'}});
-        dispatch({type: 'CANCEL_CONNECTION'});        
+        dispatch({type: 'REINITIATE_WEBRTC'});        
         setChallenge(null);
     }, [error])    
 

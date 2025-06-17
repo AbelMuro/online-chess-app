@@ -1,7 +1,6 @@
 import React, {useState, memo, useEffect} from 'react';
 import WaitingForReply from './WaitingForReply';
 import {useDispatch, useSelector} from 'react-redux'; 
-import {createLocalDataChannel, sendOffer} from '!/WebRtcReducer';
 import { AnimatePresence } from 'framer-motion';
 import * as styles from './styles.module.css';
 
@@ -10,7 +9,7 @@ import * as styles from './styles.module.css';
 function DisplayPlayer({username, image}) {
     const dispatch = useDispatch();
     const clientUsername = useSelector(state => state.account.username);
-    const connected = useSelector(state => state.webRTC.connected);
+    const connectionEstablished = useSelector(state => state.webRTC.connectionEstablished);
     const [waiting, setWaiting] = useState(false);  
 
     const handleConnection = async () => {
@@ -51,9 +50,9 @@ function DisplayPlayer({username, image}) {
     }
 
     useEffect(() => {
-        if(!connected || !waiting) return;
-        dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, action: 'challenge', data: {challenger: clientUsername}}}})
-    }, [connected, waiting])
+        if(!connectionEstablished || !waiting) return;
+        dispatch({type: 'SET_LOCAL_MESSAGE', payload: {message: {from: clientUsername, action: 'challenge', data: {challenger: clientUsername}}}})
+    }, [connectionEstablished, waiting])
 
     return(    
         <>

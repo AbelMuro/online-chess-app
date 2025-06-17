@@ -17,8 +17,8 @@ function WaitingForReply({setWaiting, username}) {
 
     const handleCancel = async () => {
         setWaiting(false);        
-        dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, action: 'cancel', data: {decision: 'decline'}}} });
-        dispatch({type: 'CANCEL_CONNECTION'})
+        dispatch({type: 'SET_LOCAL_MESSAGE', payload: {message: {from: clientUsername, action: 'cancel', data: {decision: 'decline'}}} });
+        dispatch({type: 'REINITIATE_WEBRTC'})
         cancelChallenge();
 
     }
@@ -41,7 +41,7 @@ function WaitingForReply({setWaiting, username}) {
         
         setWaiting(false);
         dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player was disconnected'}});
-        dispatch({type: 'CANCEL_CONNECTION'});
+        dispatch({type: 'REINITIATE_WEBRTC'})
 
     }, [error])      
 
@@ -58,7 +58,7 @@ function WaitingForReply({setWaiting, username}) {
         if(decision === 'decline'){
             setWaiting(false);
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player declined'}});
-            dispatch({type: 'CANCEL_CONNECTION'});
+            dispatch({type: 'REINITIATE_WEBRTC'})
             cancelChallenge();
         }
         else{
@@ -81,8 +81,7 @@ function WaitingForReply({setWaiting, username}) {
             }) 
             .then((result) => {
                 console.log('Received match ID: ', result);
-                dispatch({type: 'CLEAR_MESSAGE'});
-                dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, action: 'match', data: {matchId: result}}}})
+                dispatch({type: 'SET_LOCAL_MESSAGE', payload: {message: {from: clientUsername, action: 'match', data: {matchId: result}}}})
                 navigate(`/chessboard/${result}`); 
             })
             .catch((error) => {
@@ -99,7 +98,7 @@ function WaitingForReply({setWaiting, username}) {
                 }      
                 
                 navigate('/menu');
-                dispatch({type: 'CANCEL_CONNECTION'});
+                dispatch({type: 'REINITIATE_WEBRTC'})
             })
         }
     }, [message])
