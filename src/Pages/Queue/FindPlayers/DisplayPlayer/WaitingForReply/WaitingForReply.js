@@ -11,7 +11,7 @@ function WaitingForReply({setWaiting, username}) {
     const navigate = useNavigate();
     const dispatch = useDispatch();    
     const chess = useSelector(state => state.chess);
-    const message = useSelector(state => state.webRTC.message);
+    const message = useSelector(state => state.webRTC.remoteMessage);
     const error = useSelector(state => state.webRTC.error);
     const clientUsername = useSelector(state => state.account.username);
 
