@@ -6,7 +6,7 @@ import DisplayPlayer from './DisplayPlayer';
 import useWebSocket from '~/Hooks/useWebSocket';
 import * as styles from './styles.module.css';
 import icons from '~/assets/icons'
-
+ 
 function FindPlayers() {
     const username = useSelector(state => state.account.username);
     const [players, setPlayers] = useWebSocket(
@@ -54,7 +54,9 @@ function FindPlayers() {
             const contentType = player.contentType;
             
             const url = profileImageBase64 ? convertBase64ToBlobURL(profileImageBase64, contentType) : icons['empty avatar'];
-            currentPlayers.push(<DisplayPlayer username={currentPlayer} image={url} key={currentPlayer}/>)
+            currentPlayers.push(
+                <DisplayPlayer username={currentPlayer} image={url} key={currentPlayer}/>
+            )
         }
 
         return currentPlayers;

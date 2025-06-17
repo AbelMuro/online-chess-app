@@ -7,7 +7,7 @@ import {motion} from 'framer-motion';
 import * as styles from './styles.module.css';
 
 
-function WaitingForReply({setWaiting}) {
+function WaitingForReply({setWaiting, username}) {
     const navigate = useNavigate();
     const dispatch = useDispatch();    
     const chess = useSelector(state => state.chess);
@@ -43,6 +43,16 @@ function WaitingForReply({setWaiting}) {
             setWaiting(false);
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player declined'}});
             dispatch({type: 'CLOSE_DATA_CHANNEL'});
+            fetch('https://world-class-chess-server.com/cancel_challenge', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({username})
+            })
+            .then((response) => response.text())
+            .then((result) => console.log(result))
+            .catch((error) => console.error(error.message));
         }
         else{
             fetch('https://world-class-chess-server.com/create_match', {

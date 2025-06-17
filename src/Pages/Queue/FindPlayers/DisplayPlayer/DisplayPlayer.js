@@ -14,10 +14,40 @@ function DisplayPlayer({username, image}) {
     const [waiting, setWaiting] = useState(false);  
 
     const handleConnection = async () => {
-        setWaiting(true);
-        dispatch({type: 'SET_REMOTE_CLIENT', payload: {username}})
-        await dispatch(createLocalDataChannel())
-        await dispatch(sendOffer())
+        try{
+            setWaiting(true);
+            const response = await fetch('https://world-class-chess-server.com/challenge_player_in_queue', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({username})
+            });
+
+            if(response.status === 200){   
+                dispatch({type: 'SET_REMOTE_CLIENT', payload: {username}})
+                await dispatch(createLocalDataChannel())
+                await dispatch(sendOffer());
+            }
+            else if(response.status === 404){
+                const message = await response.text();
+                console.log(message);
+                dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player is no longer in the queue'}})
+                setWaiting(false);
+            }
+            else if(response.status === 403){
+                const message = await response.text();
+                console.log(message);
+                dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player is currently being challenged by another player'}});
+                setWaiting(false);
+            }
+
+        }
+        catch(error){
+            const message = error.message;
+            console.log(message);
+            dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
+        }
     }
 
     useEffect(() => {
@@ -28,7 +58,7 @@ function DisplayPlayer({username, image}) {
     return(    
         <>
             <AnimatePresence>
-                {waiting && <WaitingForReply setWaiting={setWaiting} />}
+                {waiting && <WaitingForReply setWaiting={setWaiting} username={username}/>}
             </AnimatePresence>
             <div className={styles.queue_player} key={username}>
                 <img className={styles.queue_player_image} src={image}/>

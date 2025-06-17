@@ -1,6 +1,6 @@
 .container{
     width: 100%;
-    min-height: 100vh;
+    min-height: calc(100vh - 80px);
     padding-top: 45px;
 }
 
@@ -64,6 +64,10 @@
 }
 
 @media(max-width: 600px){
+    .container{
+        min-height: calc(100vh - 60px);
+    }
+
     .queue{
         grid-template-columns: repeat(2, auto);
     }
