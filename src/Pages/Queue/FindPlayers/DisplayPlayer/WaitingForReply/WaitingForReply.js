@@ -18,7 +18,21 @@ function WaitingForReply({setWaiting, username}) {
     const handleCancel = async () => {
         setWaiting(false);        
         dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, action: 'cancel', data: {decision: 'decline'}}} });
-        dispatch({type: 'CLOSE_DATA_CHANNEL'})
+        dispatch({type: 'CLOSE_DATA_CHANNEL'});
+        cancelChallenge();
+    }
+
+    const cancelChallenge = () => {
+        fetch('https://world-class-chess-server.com/cancel_challenge', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({username})
+        })
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.error(error.message));
     }
 
     useEffect(() => {
@@ -43,16 +57,7 @@ function WaitingForReply({setWaiting, username}) {
             setWaiting(false);
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player declined'}});
             dispatch({type: 'CLOSE_DATA_CHANNEL'});
-            fetch('https://world-class-chess-server.com/cancel_challenge', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({username})
-            })
-            .then((response) => response.text())
-            .then((result) => console.log(result))
-            .catch((error) => console.error(error.message));
+            cancelChallenge();
         }
         else{
             fetch('https://world-class-chess-server.com/create_match', {
