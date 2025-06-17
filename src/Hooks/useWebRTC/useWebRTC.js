@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import onmessage from './signalingServer.js';
+import onmessage from './EventHandlers/signalingServer.js';
 
 function useWebRTC() {
     const signalingServer = useRef();
