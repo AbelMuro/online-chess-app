@@ -116,13 +116,10 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             connectionManager.cancelDataChannel();   
         })     
         .addCase(closePeerConnectionAndWebsocket, (state) => {
-            connectionManager.resetDataChannel();
             connectionManager.cancelPeerConnection();
-            connectionManager.resetPeerConnection();
             connectionManager.cancelSignalingServer();
-            connectionManager.resetSignalingServer();
             console.log('Connection has been cancelled'); 
-            //state.reInitiate = !state.reInitiate;
+            state.reInitiate = !state.reInitiate;
         })      
         .addCase(setConnected, (state, action) => {
             state.connected = action.payload.connected;
