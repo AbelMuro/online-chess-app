@@ -12,7 +12,7 @@ const createDataChannel = (_, {dispatch, fulfillWithValue}) => {
             dispatch({type: 'SET_ERROR', payload: {error, message: 'data channel experienced an error'}});
         };
         dataChannel.onclose = () => {
-            dispatch({type: 'CANCEL_CONNECTION'});
+            dispatch({type: 'CLOSE_PEER_CONNECTION_AND_WEBSOCKET'});
         }
         dataChannel.onmessage = (e) => {
             const data = JSON.parse(e.data);
