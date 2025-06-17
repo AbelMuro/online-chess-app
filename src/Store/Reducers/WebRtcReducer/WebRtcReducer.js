@@ -115,7 +115,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             state.remoteClientUsername = '';
             connectionManager.cancelDataChannel();   
         })     
-        .addCase(closePeerConnectionAndWebsocket, () => {
+        .addCase(closePeerConnectionAndWebsocket, (state) => {
             connectionManager.resetDataChannel();
             connectionManager.cancelPeerConnection();
             connectionManager.resetPeerConnection();
