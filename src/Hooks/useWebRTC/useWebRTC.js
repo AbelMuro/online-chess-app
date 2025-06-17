@@ -13,7 +13,7 @@ function useWebRTC() {
     const reInitiateWebRTC = useSelector(state => state.webRTC.reInitiateWebRTC);
 
     const connectToRemoteClient = async () => {
-        const dataChannel = peerConnection.createDataChannel('chat');
+        dataChannel.current = peerConnection.current.createDataChannel('chat');
         dataChannel.current.onopen = () => {
             console.log('Data channel is open');
             dispatch({type: 'CONNECTION_ESTABLISHED', payload: {connection: true}})
@@ -80,7 +80,7 @@ function useWebRTC() {
                 console.log('All ICE candidates have been collected');
         };
         peerConnection.current.oniceconnectionstatechange = () => {
-            console.log(`ICE state: ${peerConnection.iceConnectionState}`);
+            console.log(`ICE state: ${peerConnection.current.iceConnectionState}`);
         };
         peerConnection.current.ondatachannel = (e) => {
             dataChannel.current = e.channel;
