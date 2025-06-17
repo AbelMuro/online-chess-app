@@ -17,6 +17,12 @@ const cancelConnection = createAction('CANCEL_CONNECTION');
 const setError = createAction('SET_ERROR');
 const setRemoteClient = createAction('SET_REMOTE_CLIENT');
 
+
+//the problem here is that updating the values inside connectionManager will not reflect
+// the values used in the cases, the cases form a closure during the definition of the function
+//i need to find a way to store the non-serializable values in the redux store and detecting changes
+// in those values within the state
+
 //non-serializable values
 export const connectionManager = {
     peerConnection: null,
@@ -99,8 +105,6 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
         .addCase(sendMessage, (state, action) => {
             const dataChannel = connectionManager.dataChannel;
             const message = action.payload;
-
-            console.log(dataChannel.readyState);
 
             if(dataChannel?.readyState === 'open'){
                 dataChannel?.send(JSON.stringify(message));
