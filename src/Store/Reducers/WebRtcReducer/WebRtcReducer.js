@@ -1,144 +1,40 @@
-import { createAction, createReducer, createAsyncThunk } from '@reduxjs/toolkit';
-import {initiatePeerConnection, createDataChannel, createOffer} from './Middleware';
+import { createAction, createReducer} from '@reduxjs/toolkit';
 
-export const initiateWebRTC = createAsyncThunk('INITIATE_WEBRTC', initiatePeerConnection);
-export const createLocalDataChannel = createAsyncThunk('CREATE_LOCAL_DATA_CHANNEL', createDataChannel);
-export const sendOffer = createAsyncThunk('CREATE_OFFER', createOffer)
-
-const setDataChannel = createAction('SET_DATA_CHANNEL');
-const setMessage = createAction('SET_MESSAGE');
-const sendMessage = createAction('SEND_MESSAGE');
-const clearMessage = createAction('CLEAR_MESSAGE');
-const closePeerConnectionAndWebsocket = createAction('CLOSE_PEER_CONNECTION_AND_WEBSOCKET');
-
-const setConnected = createAction('SET_CONNECTED');
-const cancelConnection = createAction('CANCEL_CONNECTION');
-
+const connectionEstablished = createAction('CONNECTION_ESTABLISHED');
 const setError = createAction('SET_ERROR');
-const setRemoteClient = createAction('SET_REMOTE_CLIENT');
+const setRemoteMessage = createAction('SET_REMOTE_MESSAGE');
+const setLocalMessage = createAction('SET_LOCAL_MESSAGE');
+const setRemoteClientUsername = createAction('SET_REMOTE_CLIENT_USERNAME');
+const reInitiateConnection = createAction('REINITIATE_CONNECTION');
 
-
-//the problem here is that updating the values inside connectionManager will not reflect
-// the values used in the cases, the cases form a closure during the definition of the function
-//i need to find a way to store the non-serializable values in the redux store and detecting changes
-// in those values within the state
-
-//non-serializable values
-export const connectionManager = {
-    peerConnection: null,
-    signalingServer: null,
-    dataChannel: null,
-    cancelDataChannel: function() {
-        if(this.dataChannel?.readyState === 'open')
-            this.dataChannel.close();
-    },
-    cancelPeerConnection: function() {
-        this.peerConnection?.close();   
-    },
-    cancelSignalingServer: function() {
-        if(this.signalingServer?.readyState === WebSocket.OPEN)
-            this.signalingServer.close();   
-    },
-    resetPeerConnection: function() {
-        this.peerConnection = null;
-    },
-    resetSignalingServer: function() {
-        this.signalingServer = null;
-    },
-    resetDataChannel: function() {
-        this.dataChannel = null;
-    }
-}
-
-//serializable values
 const initialState = {
     error: '',
-    message: '',
-    connected: false,
-    reInitiate: false,
+    localMessage: '',
+    remoteMessage: '',
+    reInitiateConnection: false,
+    connectionEstablished: false,
     remoteClientUsername: '',
 }
 
 const WebRtcReducer = createReducer(initialState, (builder) => {
     builder 
-        .addCase(initiateWebRTC.fulfilled, (state, action) => {
-            connectionManager.peerConnection = action.payload.peerConnection;
-            connectionManager.signalingServer = action.payload.signalingServer;
-            console.log('WebRTC has been established');
-        })
-        .addCase(initiateWebRTC.pending, (state, action) => {
-            console.log('Waiting to initialize WebRTC...');
-        })  
-        .addCase(initiateWebRTC.rejected, (state, action) => {
-            state.error = action.error.message;
-            console.log('WebRTC couldnt be established: ', state.error);
-        })
-        .addCase(createLocalDataChannel.fulfilled, (state, action) => {
-            connectionManager.dataChannel = action.payload.dataChannel;
-            console.log('Data channel has been created');
-        })
-        .addCase(createLocalDataChannel.pending, (state, action) => {
-            console.log('waiting for data channel to be created...');
-        })
-        .addCase(createLocalDataChannel.rejected, (state, action) => {
-            state.error = action.error.message;
-            console.log('Data channel could not be opened ', state.error);
-        })
-        .addCase(sendOffer.fulfilled, (state, action) => {
-            const message = action.payload;
-            console.log(message);
-        })
-        .addCase(sendOffer.pending, () => {
-            console.log('waiting for offer to be created and sent...');
-        })
-        .addCase(sendOffer.rejected, (state, action) => {
-            state.error = action.error.message;
-            console.log('Offer could not be sent to remote client ', state.error)
-        })
-        .addCase(setRemoteClient, (state, action) => {
-            state.remoteClientUsername = action.payload.username;
-        })
-        .addCase(setMessage, (state, action) => {
-            state.message = action.payload.message;
-            console.log('Received message from remote client')
-        })
-        .addCase(sendMessage, (state, action) => {
-            const dataChannel = connectionManager.dataChannel;
-            const message = action.payload;
-
-            if(dataChannel?.readyState === 'open'){
-                dataChannel?.send(JSON.stringify(message));
-                console.log('Message has been sent')
-            }
-        })
-        .addCase(setDataChannel, (state, action) => {
-            connectionManager.dataChannel = action.payload.dataChannel;
-            console.log("Data channel is open!");
-        })
-        .addCase(cancelConnection, (state) => {
-            state.message = '';
-            state.connected = false;
-            state.remoteClientUsername = '';
-            connectionManager.cancelDataChannel();   
-        })     
-        .addCase(closePeerConnectionAndWebsocket, (state) => {
-            connectionManager.cancelPeerConnection();
-            console.log('Connection has been cancelled'); 
-            state.reInitiate = !state.reInitiate;
-        })      
-        .addCase(setConnected, (state, action) => {
-            state.connected = action.payload.connected;
+        .addCase(setLocalMessage, (state, action) => {
+            state.localMessage = action.payload.message
         })
         .addCase(setError, (state, action) => {
-            state.message = '';
-            state.connected = false;
-            state.remoteClientUsername = '';
             state.error = action.payload.error;
-            const message = action.payload.message;
-            console.error(message, state.error);
         })
-        .addCase(clearMessage, (state) => {
-            state.message = '';
+        .addCase(setRemoteMessage, (state, action) => {
+            state.remoteMessage = action.payload.message;
+        })
+        .addCase(reInitiateConnection, (state) => {
+            state.reInitiateConnection = !state.reInitiateConnection;
+        })  
+        .addCase(connectionEstablished, (state, action) => {
+            state.connectionEstablished = action.payload.connectionEstablished;
+        })
+        .addCase(setRemoteClientUsername, (state, action) => {
+            state.remoteClientUsername = action.payload.username;
         })
 });
 

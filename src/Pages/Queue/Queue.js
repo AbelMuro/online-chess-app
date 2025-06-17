@@ -4,13 +4,13 @@ import * as styles from './styles.module.css';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import DisplayCurrentChallenge from './DisplayCurrentChallenge';
-import {initiateWebRTC} from '!/WebRtcReducer'
+import useWebRTC from '~/Hooks/useWebRTC';
 
 
 function Queue() {
     const dispatch = useDispatch();
-    const navigate = useNavigate();   
-    const reInitiate = useSelector(state => state.webRTC.reInitiate);
+    const navigate = useNavigate();  
+    useWebRTC(); 
      
     const handleLeave = () => {
         if(confirm('Are you sure you wish to leave?'))
@@ -61,9 +61,6 @@ function Queue() {
         putPlayerInQueue();
     }, [])
 
-    useEffect(() => {
-        dispatch(initiateWebRTC())
-    }, [reInitiate])
 
     return(
         <>

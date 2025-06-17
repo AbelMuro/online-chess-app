@@ -26,9 +26,7 @@ function DisplayPlayer({username, image}) {
             });
 
             if(response.status === 200){   
-                dispatch({type: 'SET_REMOTE_CLIENT', payload: {username}})
-                await dispatch(createLocalDataChannel())
-                await dispatch(sendOffer());
+                dispatch({type: 'SET_REMOTE_CLIENT_USERNAME', payload: {username}})
             }
             else if(response.status === 404){
                 const message = await response.text();
