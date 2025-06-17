@@ -18,8 +18,9 @@ function WaitingForReply({setWaiting, username}) {
     const handleCancel = async () => {
         setWaiting(false);        
         dispatch({type: 'SEND_MESSAGE', payload: {message: {from: clientUsername, action: 'cancel', data: {decision: 'decline'}}} });
-        dispatch({type: 'CLOSE_DATA_CHANNEL'});
+        dispatch({type: 'CANCEL_CONNECTION'})
         cancelChallenge();
+
     }
 
     const cancelChallenge = () => {
@@ -40,7 +41,8 @@ function WaitingForReply({setWaiting, username}) {
         
         setWaiting(false);
         dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player was disconnected'}});
-        dispatch({type: 'CLOSE_DATA_CHANNEL'})
+        dispatch({type: 'CANCEL_CONNECTION'});
+
     }, [error])      
 
     useEffect(() => {
@@ -56,7 +58,7 @@ function WaitingForReply({setWaiting, username}) {
         if(decision === 'decline'){
             setWaiting(false);
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player declined'}});
-            dispatch({type: 'CLOSE_DATA_CHANNEL'});
+            dispatch({type: 'CANCEL_CONNECTION'});
             cancelChallenge();
         }
         else{
@@ -97,7 +99,7 @@ function WaitingForReply({setWaiting, username}) {
                 }      
                 
                 navigate('/menu');
-                dispatch({type: 'CANCEL_CONNECTION'})
+                dispatch({type: 'CANCEL_CONNECTION'});
             })
         }
     }, [message])

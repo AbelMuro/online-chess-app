@@ -27,7 +27,7 @@ const initiatePeerConnection = (_, {dispatch, fulfillWithValue, getState}) => {
             };
         
             receivedChannel.onclose = () => {
-                dispatch({type: 'CLOSE_DATA_CHANNEL'})
+                dispatch({type: 'CANCEL_CONNECTION'});
             };
     
             receivedChannel.onerror = (error) => {

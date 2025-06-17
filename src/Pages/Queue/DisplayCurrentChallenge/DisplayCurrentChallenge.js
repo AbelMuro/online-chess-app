@@ -8,7 +8,6 @@ import * as styles from './styles.module.css';
 import { overlayVariants, dialogVariants } from "./Variants/Variants";
 import {motion, AnimatePresence} from 'framer-motion';
 
-//remote client
 
 function DisplayCurrentChallenge(){
     const message = useSelector(state => state.webRTC.message);
@@ -55,6 +54,7 @@ function DisplayCurrentChallenge(){
         setChallenge(null);
         dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player has canceled the challenge'}});
 
+
     }, [message])
 
     useEffect(() => {
@@ -73,6 +73,7 @@ function DisplayCurrentChallenge(){
 
         console.log(error);
         dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Challenger was disconnected'}});
+        dispatch({type: 'CANCEL_CONNECTION'});        
         setChallenge(null);
     }, [error])    
 

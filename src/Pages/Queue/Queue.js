@@ -6,9 +6,11 @@ import {useNavigate} from 'react-router-dom';
 import DisplayCurrentChallenge from './DisplayCurrentChallenge';
 import {initiateWebRTC} from '!/WebRtcReducer'
 
+
 function Queue() {
     const dispatch = useDispatch();
     const navigate = useNavigate();   
+    const reInitiate = useSelector(state => state.webRTC.reInitiate);
      
     const handleLeave = () => {
         if(confirm('Are you sure you wish to leave?'))
@@ -61,7 +63,7 @@ function Queue() {
 
     useEffect(() => {
         dispatch(initiateWebRTC())
-    }, [])
+    }, [reInitiate])
 
     return(
         <>
