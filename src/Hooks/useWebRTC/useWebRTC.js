@@ -57,8 +57,6 @@ function useWebRTC() {
     useEffect(() => {
         if(!localMessage) return;
 
-        console.log(dataChannel.current?.readyState);
-
         if(dataChannel.current?.readyState === 'open'){
             dataChannel.current?.send(JSON.stringify(localMessage))
             console.log('Message has been sent')            
@@ -106,9 +104,10 @@ function useWebRTC() {
             
                 dataChannel.current.onclose = () => {
                     console.log("Data channel closed");
-                    dispatch({type: 'CONNECTION_ESTABLISHED', payload: {connection: false}});
                     peerConnection.current.close();
-                    signalingServer.current.close();
+                    signalingServer.current.close();      
+                    dispatch({type: 'RESET_WEBRTC'});              
+                    dispatch({type: 'REINITIATE_WEBRTC'})
                 };
         
                 dataChannel.current.onerror = (error) => {                                    
@@ -121,9 +120,8 @@ function useWebRTC() {
         }
         catch(error){
             const message = error.message;
-            console.error('Error occurred inside useWebRTC hook: ',message)
+            console.error('Error occurred inside useWebRTC hook: ', message)
         }
-
 
     }, [reInitiateWebRTC])
 
