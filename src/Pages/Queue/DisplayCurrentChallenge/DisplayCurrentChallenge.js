@@ -72,7 +72,14 @@ function DisplayCurrentChallenge(){
 
         console.log(error);
         dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: error}});
-        dispatch({type: 'REINITIATE_WEBRTC', payload: {initiate: true}});        
+        dispatch({type: 'REINITIATE_WEBRTC', payload: {initiate: true}});    
+        fetch('https://world-class-chess-server.com/cancel_challenge', {
+            method: 'PUT', 
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({username: clientUsername})
+        });    
         setChallenge(null);
     }, [error])    
 
