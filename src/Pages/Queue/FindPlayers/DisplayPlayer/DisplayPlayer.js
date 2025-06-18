@@ -52,7 +52,7 @@ function DisplayPlayer({username, image}) {
     useEffect(() => {
         if(!connectionEstablished || !waiting) return;
         dispatch({type: 'SET_LOCAL_MESSAGE', payload: {message: {from: clientUsername, action: 'challenge', data: {challenger: clientUsername}}}});
-        dispatch({type: 'CONNECTION_ESTABLISHED', payload: {message}});
+        dispatch({type: 'CONNECTION_ESTABLISHED', payload: {connection: false}});
     }, [connectionEstablished, waiting])
 
     return(    

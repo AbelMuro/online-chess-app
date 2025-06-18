@@ -41,7 +41,7 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
             state.remoteClientUsername = action.payload.username;
         })
         .addCase(startConnection, (state, action) => {
-            state.startConnection = !state.startConnection;
+            state.startConnection = action.payload.connection;
         })
         .addCase(resetWebRTC, (state) => {
             state.error = initialState.error;
