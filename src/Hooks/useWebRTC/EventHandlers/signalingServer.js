@@ -1,6 +1,7 @@
 export default function onmessage (signalingServer, peerConnection) {
 
     return async (message) => {
+        console.log('signaling websocket has been called')
         const text = await message.data.text();
         const data = JSON.parse(text);
 
