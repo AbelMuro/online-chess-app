@@ -1,6 +1,7 @@
 import React, {useEffect, useRef} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import onmessage from './EventHandlers/signalingServer.js';
+import onicecandidate from './EventHandlers/peerConnection.js';
 
 function useWebRTC() {
     const signalingServer = useRef();
@@ -76,12 +77,7 @@ function useWebRTC() {
             });
             signalingServer.current.onmessage = onmessage(signalingServer.current, peerConnection.current);
             signalingServer.current.onopen = () => {console.log(`Connected to wss://world-class-chess-server.com:443/signal?username=${localClientUsername} websocket`)};
-            peerConnection.current.onicecandidate = (e) => {
-                if(e.candidate) 
-                    signalingServer.current.send(JSON.stringify({type: 'candidate', candidate: e.candidate}));
-                else
-                    console.log('All ICE candidates have been collected');
-            };
+            peerConnection.current.onicecandidate = onicecandidate(signalingServer.current, )
             peerConnection.current.oniceconnectionstatechange = () => {
                 console.log(`ICE state: ${peerConnection.current.iceConnectionState}`);
             };
