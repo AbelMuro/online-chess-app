@@ -55,7 +55,10 @@ function useWebRTC() {
 
 
     useEffect(() => {
-        if(!localMessage || !dataChannel.current) return;
+        if(!localMessage) return;
+
+        console.log(dataChannel.current?.readyState);
+
         if(dataChannel.current?.readyState === 'open'){
             dataChannel.current?.send(JSON.stringify(localMessage))
             console.log('Message has been sent')            
