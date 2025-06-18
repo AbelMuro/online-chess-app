@@ -56,7 +56,7 @@ function WaitingForReply({setWaiting, username}) {
         if(decision === 'decline'){
             setWaiting(false);
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player declined'}});          
-            dispatch({type: 'REINITIATE_WEBRTC'});
+            dispatch({type: 'REINITIATE_WEBRTC', payload: {initiate: true}});
             cancelChallenge();
         }
         else{

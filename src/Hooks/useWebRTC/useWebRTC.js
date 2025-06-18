@@ -24,11 +24,6 @@ function useWebRTC() {
             console.log('Data channel is open');
             dispatch({type: 'SET_LOCAL_MESSAGE', payload: {message: {from: localClientUsername, action: 'challenge', data: {challenger: localClientUsername}}}});
         };
-        dataChannel.current.onclose = () => {
-            console.log('Data channel is closed');         
-            peerConnection.current.close();
-            signalingServer.current.close();
-        };
         dataChannel.current.onerror = (error) => {
             console.log(`Data channel error: ${error}`);
             dispatch({type: 'SET_ERROR', payload: {error}});
@@ -75,6 +70,20 @@ function useWebRTC() {
     }, [startConnection, remoteClientUsername])
 
     useEffect(() => {
+        if(!reInitiateWebRTC) return;
+        if(dataChannel.current){
+            dataChannel.current.onclose = () => {
+                peerConnection.current?.close();
+                signalingServer.current?.close();
+            }
+            dataChannel.current.close();            
+        }
+
+        dispatch({type: 'REINITIATE_WEBRTC', payload: {initiate: false}});
+
+    }, [reInitiateWebRTC])
+
+    useEffect(() => {
         try{
             signalingServer.current = new WebSocket(`wss://world-class-chess-server.com:443/signal?username=${localClientUsername}`);
             peerConnection.current = new RTCPeerConnection({
@@ -105,12 +114,6 @@ function useWebRTC() {
                     console.log("Data channel is open!");
                 };
             
-                dataChannel.current.onclose = () => {
-                    console.log("Data channel closed");
-                    peerConnection.current.close();
-                    signalingServer.current.close();               
-                    dispatch({type: 'REINITIATE_WEBRTC'})
-                };
         
                 dataChannel.current.onerror = (error) => {                                    
                     console.log('Data channel error: ', error);

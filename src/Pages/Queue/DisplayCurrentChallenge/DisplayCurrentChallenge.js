@@ -53,7 +53,7 @@ function DisplayCurrentChallenge(){
 
         setChallenge(null);
         dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player has canceled the challenge'}}); 
-        dispatch({type: 'REINITIATE_WEBRTC'});
+        dispatch({type: 'REINITIATE_WEBRTC', payload: {initiate: true}});
 
     }, [message])
 
@@ -72,7 +72,7 @@ function DisplayCurrentChallenge(){
 
         console.log(error);
         dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Challenger was disconnected'}});
-        dispatch({type: 'REINITIATE_WEBRTC'});        
+        dispatch({type: 'REINITIATE_WEBRTC', payload: {initiate: true}});        
         setChallenge(null);
     }, [error])    
 

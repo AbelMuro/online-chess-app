@@ -30,8 +30,8 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
         .addCase(setError, (state, action) => {
             state.error = action.payload.error;
         })
-        .addCase(reInitiateWebRTC, (state) => {
-            state.reInitiateWebRTC = !state.reInitiateWebRTC;
+        .addCase(reInitiateWebRTC, (state, action) => {
+            state.reInitiateWebRTC = action.payload.initiate;
         })  
         .addCase(connectionEstablished, (state, action) => {
             state.connectionEstablished = action.payload.connection;
