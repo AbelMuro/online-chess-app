@@ -74,7 +74,7 @@ function useWebRTC() {
                     }
                 ]
             });
-            signalingServer.current.onmessage = onmessage;
+            signalingServer.current.onmessage = onmessage(signalingServer.current, peerConnection.current);
             signalingServer.current.onopen = () => {console.log('Connected to signaling websocket')};
             peerConnection.current.onicecandidate = (e) => {
                 if(e.candidate) 
