@@ -25,8 +25,7 @@ function useWebRTC() {
             dispatch({type: 'CONNECTION_ESTABLISHED', payload: {connection: true}})
         };
         dataChannel.current.onclose = () => {
-            console.log('Data channel is closed');
-            dispatch({type: 'CONNECTION_ESTABLISHED', payload: {connection: false}})            
+            console.log('Data channel is closed');         
             peerConnection.current.close();
             signalingServer.current.close();
         };
@@ -69,7 +68,7 @@ function useWebRTC() {
 
 
     useEffect(() => {
-        if(!remoteClientUsername || startConnection === null) return;
+        if(!remoteClientUsername || !startConnection) return;
 
         connectToRemoteClient();
     }, [startConnection, remoteClientUsername])
@@ -103,7 +102,6 @@ function useWebRTC() {
                 }
                 dataChannel.current.onopen = () => {
                     console.log("Data channel is open!");
-                    dispatch({type: 'CONNECTION_ESTABLISHED', payload: {connection: true}})
                 };
             
                 dataChannel.current.onclose = () => {

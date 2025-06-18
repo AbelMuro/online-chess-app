@@ -40,7 +40,6 @@ function DisplayPlayer({username, image}) {
                 dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player is currently being challenged by another player'}});
                 setWaiting(false);
             }
-
         }
         catch(error){
             const message = error.message;
@@ -52,8 +51,8 @@ function DisplayPlayer({username, image}) {
 
     useEffect(() => {
         if(!connectionEstablished || !waiting) return;
-        console.log('sending first message');
-        dispatch({type: 'SET_LOCAL_MESSAGE', payload: {message: {from: clientUsername, action: 'challenge', data: {challenger: clientUsername}}}})
+        dispatch({type: 'SET_LOCAL_MESSAGE', payload: {message: {from: clientUsername, action: 'challenge', data: {challenger: clientUsername}}}});
+        dispatch({type: 'CONNECTION_ESTABLISHED', payload: {message}});
     }, [connectionEstablished, waiting])
 
     return(    

@@ -13,7 +13,7 @@ const initialState = {
     error: '',
     localMessage: '',
     remoteMessage: '',
-    startConnection: null,
+    startConnection: false,
     reInitiateWebRTC: false,
     connectionEstablished: false,
     remoteClientUsername: '',
