@@ -8,14 +8,11 @@ import * as styles from './styles.module.css';
 
 function DisplayPlayer({username, image}) {
     const dispatch = useDispatch();
-    const clientUsername = useSelector(state => state.account.username);
-    const connectionEstablished = useSelector(state => state.webRTC.connectionEstablished);
     const [waiting, setWaiting] = useState(false);  
 
     const handleConnection = async () => {
         setWaiting(true);
-        try{
-            
+        try{  
             const response = await fetch('https://world-class-chess-server.com/challenge_player_in_queue', {
                 method: 'POST',
                 headers: {
@@ -48,12 +45,6 @@ function DisplayPlayer({username, image}) {
             setWaiting(false);
         }
     }
-
-    useEffect(() => {
-        if(!connectionEstablished || !waiting) return;
-        dispatch({type: 'SET_LOCAL_MESSAGE', payload: {message: {from: clientUsername, action: 'challenge', data: {challenger: clientUsername}}}});
-        dispatch({type: 'CONNECTION_ESTABLISHED', payload: {connection: false}});
-    }, [connectionEstablished, waiting])
 
     return(    
         <>

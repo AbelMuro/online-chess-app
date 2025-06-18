@@ -22,7 +22,7 @@ function useWebRTC() {
         dataChannel.current = peerConnection.current.createDataChannel('chat');
         dataChannel.current.onopen = () => {
             console.log('Data channel is open');
-            dispatch({type: 'CONNECTION_ESTABLISHED', payload: {connection: true}})
+            dispatch({type: 'SET_LOCAL_MESSAGE', payload: {message: {from: localClientUsername, action: 'challenge', data: {challenger: localClientUsername}}}});
         };
         dataChannel.current.onclose = () => {
             console.log('Data channel is closed');         
@@ -108,8 +108,7 @@ function useWebRTC() {
                 dataChannel.current.onclose = () => {
                     console.log("Data channel closed");
                     peerConnection.current.close();
-                    signalingServer.current.close();      
-                    dispatch({type: 'RESET_WEBRTC'});              
+                    signalingServer.current.close();               
                     dispatch({type: 'REINITIATE_WEBRTC'})
                 };
         
@@ -126,6 +125,7 @@ function useWebRTC() {
             console.error('Error occurred inside useWebRTC hook: ', message)
         }
         return () => {
+            dispatch({type: 'RESET_WEBRTC'});     
             if(dataChannel.current)
                 dataChannel.current.close();
         }

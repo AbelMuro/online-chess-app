@@ -39,7 +39,6 @@ function WaitingForReply({setWaiting, username}) {
         
         setWaiting(false);
         dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player was disconnected'}});
-        dispatch({type: 'RESET_WEBRTC'});
         dispatch({type: 'REINITIATE_WEBRTC'})
 
     }, [error])      
@@ -56,8 +55,7 @@ function WaitingForReply({setWaiting, username}) {
 
         if(decision === 'decline'){
             setWaiting(false);
-            dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player declined'}});
-            dispatch({type: 'RESET_WEBRTC'});            
+            dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player declined'}});          
             dispatch({type: 'REINITIATE_WEBRTC'});
             cancelChallenge();
         }
@@ -96,7 +94,6 @@ function WaitingForReply({setWaiting, username}) {
                     console.error('Server went offline in this endpoint /create_match ', message)
                     dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
                 }      
-                dispatch({type: 'RESET_WEBRTC'}); 
                 navigate('/menu');
             })
         }
