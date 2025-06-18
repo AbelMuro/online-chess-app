@@ -21,11 +21,11 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
         .addCase(setLocalMessage, (state, action) => {
             state.localMessage = action.payload.message
         })
-        .addCase(setError, (state, action) => {
-            state.error = action.payload.error;
-        })
         .addCase(setRemoteMessage, (state, action) => {
             state.remoteMessage = action.payload.message;
+        })
+        .addCase(setError, (state, action) => {
+            state.error = action.payload.error;
         })
         .addCase(reInitiateWebRTC, (state) => {
             state.reInitiateWebRTC = !state.reInitiateWebRTC;
