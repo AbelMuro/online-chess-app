@@ -71,6 +71,7 @@ function useWebRTC() {
         if(!remoteClientUsername || !startConnection) return;
 
         connectToRemoteClient();
+        dispatch({type: 'START_CONNECTION', payload: {connection: false}});
     }, [startConnection, remoteClientUsername])
 
     useEffect(() => {

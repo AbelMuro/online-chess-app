@@ -26,7 +26,7 @@ function DisplayPlayer({username, image}) {
 
             if(response.status === 200){   
                 dispatch({type: 'SET_REMOTE_CLIENT_USERNAME', payload: {username}})
-                dispatch({type: 'START_CONNECTION'});
+                dispatch({type: 'START_CONNECTION', payload: {connection: true}});
             }
             else if(response.status === 404){
                 const message = await response.text();
