@@ -3,9 +3,9 @@ import {useSelector, useDispatch} from 'react-redux';
 import onmessage from './EventHandlers/signalingServer.js';
 import onicecandidate from './EventHandlers/peerConnection.js';
 
-/* 
-    this is where i left off, everytime i re-initialize webRTC, i need to close the old connection to the signaling websocket, peerConnection and data channel BEFORE i instatiate a new object
-*/
+/* this is where i left off, i need to test out the useEffect 
+that closes the data channel and the rest of webRTC, 
+it will trigger a re-render that will re-initialize webrtc */
 
 function useWebRTC() {
     const signalingServer = useRef();
