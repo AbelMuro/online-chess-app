@@ -18,7 +18,6 @@ function WaitingForReply({setWaiting, username}) {
     const handleCancel = async () => {
         setWaiting(false);        
         dispatch({type: 'SET_LOCAL_MESSAGE', payload: {message: {from: clientUsername, action: 'cancel', data: {decision: 'decline'}}} });
-        dispatch({type: 'REINITIATE_WEBRTC'})
         cancelChallenge();
     }
 
@@ -57,8 +56,8 @@ function WaitingForReply({setWaiting, username}) {
         if(decision === 'decline'){
             setWaiting(false);
             dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player declined'}});
-            dispatch({type: 'REINITIATE_WEBRTC'})
-            dispatch({type: 'RESET_WEBRTC'});
+            dispatch({type: 'RESET_WEBRTC'});            
+            dispatch({type: 'REINITIATE_WEBRTC'});
             cancelChallenge();
         }
         else{
@@ -96,7 +95,7 @@ function WaitingForReply({setWaiting, username}) {
                     console.error('Server went offline in this endpoint /create_match ', message)
                     dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Server is offline, please try again later'}})
                 }      
-                
+                dispatch({type: 'RESET_WEBRTC'}); 
                 navigate('/menu');
             })
         }
