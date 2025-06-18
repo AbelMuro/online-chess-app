@@ -52,6 +52,7 @@ function DisplayPlayer({username, image}) {
 
     useEffect(() => {
         if(!connectionEstablished || !waiting) return;
+        console.log('sending first message');
         dispatch({type: 'SET_LOCAL_MESSAGE', payload: {message: {from: clientUsername, action: 'challenge', data: {challenger: clientUsername}}}})
     }, [connectionEstablished, waiting])
 
