@@ -122,6 +122,10 @@ function useWebRTC() {
             const message = error.message;
             console.error('Error occurred inside useWebRTC hook: ', message)
         }
+        return () => {
+            if(dataChannel.current)
+                dataChannel.current.close();
+        }
 
     }, [reInitiateWebRTC])
 
