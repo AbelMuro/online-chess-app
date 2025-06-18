@@ -25,6 +25,12 @@ function useWebRTC() {
             console.log('Data channel is open');
             dispatch({type: 'SET_LOCAL_MESSAGE', payload: {message: {from: localClientUsername, action: 'challenge', data: {challenger: localClientUsername}}}});
         };
+        dataChannel.current.onclose = () => {
+            console.log('Data channel is closed');
+            peerConnection.current?.close();
+            signalingServer.current?.close();
+            setInitiate(prevState => !prevState);
+        }
         dataChannel.current.onerror = (error) => {
             console.log(`Data channel error: ${error}`);
             dispatch({type: 'SET_ERROR', payload: {error}});
@@ -72,16 +78,9 @@ function useWebRTC() {
 
     useEffect(() => {
         if(!reInitiateWebRTC) return;
-        if(dataChannel.current){
-            console.log('data channel and re iniitate web rtc')
-            dataChannel.current.onclose = () => {
-                console.log('Data channel is closed');
-                peerConnection.current?.close();
-                signalingServer.current?.close();
-                setInitiate(prevState => !prevState);
-            }
+        if(dataChannel.current)
             dataChannel.current.close();            
-        }
+        
 
         dispatch({type: 'REINITIATE_WEBRTC', payload: {initiate: false}});
 
@@ -113,6 +112,12 @@ function useWebRTC() {
                     const data = JSON.parse(e.data);
                     console.log('Received message from remote client ', data);    
                     dispatch({type: 'SET_REMOTE_MESSAGE', payload: {message: data}})          
+                }
+                dataChannel.current.onclose = () => {
+                    console.log('Data channel is closed');
+                    peerConnection.current?.close();
+                    signalingServer.current?.close();
+                    setInitiate(prevState => !prevState);
                 }
                 dataChannel.current.onopen = () => {
                     console.log("Data channel is open!");
