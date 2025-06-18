@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import onmessage from './EventHandlers/signalingServer.js';
 import onicecandidate from './EventHandlers/peerConnection.js';
@@ -11,6 +11,7 @@ function useWebRTC() {
     const signalingServer = useRef();
     const peerConnection = useRef();
     const dataChannel = useRef();
+    const [initiate, setInitiate] = useState(false);
     const dispatch = useDispatch();
     const localMessage = useSelector(state => state.webRTC.localMessage);
     const localClientUsername = useSelector(state => state.account.username);
@@ -73,8 +74,10 @@ function useWebRTC() {
         if(!reInitiateWebRTC) return;
         if(dataChannel.current){
             dataChannel.current.onclose = () => {
+                console.log('Data channel is closed');
                 peerConnection.current?.close();
                 signalingServer.current?.close();
+                setInitiate(prevState => !prevState);
             }
             dataChannel.current.close();            
         }
@@ -114,7 +117,6 @@ function useWebRTC() {
                     console.log("Data channel is open!");
                 };
             
-        
                 dataChannel.current.onerror = (error) => {                                    
                     console.log('Data channel error: ', error);
                     dispatch({type: 'SET_ERROR', payload: {error}});
@@ -133,7 +135,7 @@ function useWebRTC() {
                 dataChannel.current.close();
         }
 
-    }, [reInitiateWebRTC])
+    }, [initiate])
 
     return null
 }
