@@ -62,8 +62,6 @@ function useWebRTC() {
 
     useEffect(() => {
         try{
-            if(signalingServer.current) signalingServer.current.close();
-            if(peerConnection.current) peerConnection.current.close();
 
             signalingServer.current = new WebSocket(`wss://world-class-chess-server.com:443/signal?username=${localClientUsername}`);
             peerConnection.current = new RTCPeerConnection({
@@ -77,7 +75,7 @@ function useWebRTC() {
                 ]
             });
             signalingServer.current.onmessage = onmessage(signalingServer.current, peerConnection.current);
-            signalingServer.current.onopen = () => {console.log('Connected to signaling websocket')};
+            signalingServer.current.onopen = () => {console.log(`Connected to wss://world-class-chess-server.com:443/signal?username=${localClientUsername} websocket`)};
             peerConnection.current.onicecandidate = (e) => {
                 if(e.candidate) 
                     signalingServer.current.send(JSON.stringify({type: 'candidate', candidate: e.candidate}));
@@ -121,7 +119,8 @@ function useWebRTC() {
         }
 
         return () => {
-            dataChannel.current?.close();
+            if(dataChannel.current?.readyState === 'open')
+                dataChannel.current?.close();
         }
 
     }, [reInitiateWebRTC])
