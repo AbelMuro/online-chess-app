@@ -12,6 +12,7 @@ function useWebRTC() {
     const localClientUsername = useSelector(state => state.account.username);
     const remoteClientUsername = useSelector(state => state.webRTC.remoteClientUsername);
     const reInitiateWebRTC = useSelector(state => state.webRTC.reInitiateWebRTC);
+    const startConnection = useSelector(state => state.webRTC.startConnection);
 
     const connectToRemoteClient = async () => {
         dataChannel.current = peerConnection.current.createDataChannel('chat');
@@ -60,7 +61,7 @@ function useWebRTC() {
         if(!remoteClientUsername) return;
 
         connectToRemoteClient();
-    }, [remoteClientUsername])
+    }, [startConnection, remoteClientUsername])
 
     useEffect(() => {
         try{

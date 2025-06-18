@@ -6,11 +6,13 @@ const setRemoteMessage = createAction('SET_REMOTE_MESSAGE');
 const setLocalMessage = createAction('SET_LOCAL_MESSAGE');
 const setRemoteClientUsername = createAction('SET_REMOTE_CLIENT_USERNAME');
 const reInitiateWebRTC = createAction('REINITIATE_WEBRTC');
+const startConnection = createAction('START_CONNECTION');
 
 const initialState = {
     error: '',
     localMessage: '',
     remoteMessage: '',
+    startConnection: false,
     reInitiateWebRTC: false,
     connectionEstablished: false,
     remoteClientUsername: '',
@@ -35,6 +37,9 @@ const WebRtcReducer = createReducer(initialState, (builder) => {
         })
         .addCase(setRemoteClientUsername, (state, action) => {
             state.remoteClientUsername = action.payload.username;
+        })
+        .addCase(startConnection, (state, action) => {
+            state.startConnection = !state.startConnection;
         })
 });
 
