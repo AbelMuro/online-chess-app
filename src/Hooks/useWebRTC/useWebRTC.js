@@ -81,7 +81,6 @@ function useWebRTC() {
         if(dataChannel.current)
             dataChannel.current.close();            
         
-
         dispatch({type: 'REINITIATE_WEBRTC', payload: {initiate: false}});
 
     }, [reInitiateWebRTC])
@@ -103,7 +102,13 @@ function useWebRTC() {
             signalingServer.current.onopen = () => {console.log(`Connected to wss://world-class-chess-server.com:443/signal?username=${localClientUsername} websocket`)};
             peerConnection.current.onicecandidate = onicecandidate(signalingServer.current)
             peerConnection.current.oniceconnectionstatechange = () => {
-                console.log(`ICE state: ${peerConnection.current.iceConnectionState}`);
+                const iceState = peerConnection.current.iceConnectionState;
+                console.log(`ICE state: ${iceState}`);
+                if(iceState === 'disconnected')
+                    dispatch({type: 'SET_ERROR', payload: {error: 'Connection has been interrupted'}})
+                else if(iceState === 'failed')
+                    dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Could not establish secure connection'}});
+                    
             };
             peerConnection.current.ondatachannel = (e) => {
                 dataChannel.current = e.channel;

@@ -71,7 +71,7 @@ function DisplayCurrentChallenge(){
         if(!error) return;
 
         console.log(error);
-        dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Challenger was disconnected'}});
+        dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: error}});
         dispatch({type: 'REINITIATE_WEBRTC', payload: {initiate: true}});        
         setChallenge(null);
     }, [error])    

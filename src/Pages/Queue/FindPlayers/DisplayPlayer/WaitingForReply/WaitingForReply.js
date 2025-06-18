@@ -38,7 +38,7 @@ function WaitingForReply({setWaiting, username}) {
         if(!error) return;
         
         setWaiting(false);
-        dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Player was disconnected'}});
+        dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: error}});
         dispatch({type: 'REINITIATE_WEBRTC'})
 
     }, [error])      
