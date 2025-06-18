@@ -20,7 +20,6 @@ function WaitingForReply({setWaiting, username}) {
         dispatch({type: 'SET_LOCAL_MESSAGE', payload: {message: {from: clientUsername, action: 'cancel', data: {decision: 'decline'}}} });
         dispatch({type: 'REINITIATE_WEBRTC'})
         cancelChallenge();
-
     }
 
     const cancelChallenge = () => {
