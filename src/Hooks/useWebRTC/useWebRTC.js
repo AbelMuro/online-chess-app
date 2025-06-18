@@ -40,7 +40,8 @@ function useWebRTC() {
         signalingServer.current.send(JSON.stringify({
             type: 'offer',
             offer: {sdp: offer.sdp, type: offer.type},
-            to: remoteClientUsername
+            to: remoteClientUsername,
+            from: localClientUsername
         }))
         console.log('Data channel has been created and offer has been sent');
     }
@@ -63,7 +64,6 @@ function useWebRTC() {
 
     useEffect(() => {
         try{
-
             signalingServer.current = new WebSocket(`wss://world-class-chess-server.com:443/signal?username=${localClientUsername}`);
             peerConnection.current = new RTCPeerConnection({
                 iceServers: [
