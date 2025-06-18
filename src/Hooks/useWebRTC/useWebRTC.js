@@ -58,7 +58,7 @@ function useWebRTC() {
 
 
     useEffect(() => {
-        if(!remoteClientUsername) return;
+        if(!remoteClientUsername || startConnection === null) return;
 
         connectToRemoteClient();
     }, [startConnection, remoteClientUsername])
