@@ -39,7 +39,7 @@ function useWebRTC() {
         signalingServer.current.send(JSON.stringify({
             type: 'offer',
             offer: {sdp: offer.sdp, type: offer.type},
-            username: remoteClientUsername
+            to: remoteClientUsername
         }))
         console.log('Data channel has been created and offer has been sent');
     }
