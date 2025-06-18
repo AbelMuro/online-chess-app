@@ -73,6 +73,7 @@ function useWebRTC() {
     useEffect(() => {
         if(!reInitiateWebRTC) return;
         if(dataChannel.current){
+            console.log('data channel and re iniitate web rtc')
             dataChannel.current.onclose = () => {
                 console.log('Data channel is closed');
                 peerConnection.current?.close();
