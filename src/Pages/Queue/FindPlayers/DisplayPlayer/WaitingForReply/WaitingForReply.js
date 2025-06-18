@@ -97,7 +97,6 @@ function WaitingForReply({setWaiting, username}) {
                 }      
                 
                 navigate('/menu');
-                dispatch({type: 'REINITIATE_WEBRTC'})
             })
         }
     }, [message])

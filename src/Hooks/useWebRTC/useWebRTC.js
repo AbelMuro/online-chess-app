@@ -47,6 +47,12 @@ function useWebRTC() {
         console.log('Data channel has been created and offer has been sent');
     }
 
+    useEffect(() => {
+        return () => {
+            dispatch({type: 'RESET_WEBRTC'});
+        }
+    }, [])
+
 
     useEffect(() => {
         if(!localMessage || !dataChannel.current) return;
@@ -115,10 +121,6 @@ function useWebRTC() {
             console.error('Error occurred inside useWebRTC hook: ',message)
         }
 
-        return () => {
-            if(dataChannel.current?.readyState === 'open')
-                dataChannel.current?.close();
-        }
 
     }, [reInitiateWebRTC])
 

@@ -25,7 +25,6 @@ function DisplayCurrentChallenge(){
         if(decision === 'decline'){
             setChallenge(null);
             setLoading(false);
-            dispatch({type: 'REINITIATE_WEBRTC'});
         }    
     }
 
