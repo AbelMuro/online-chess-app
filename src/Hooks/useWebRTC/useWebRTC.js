@@ -87,7 +87,7 @@ function useWebRTC() {
         }
         
         dispatch({type: 'REINITIATE_WEBRTC', payload: {initiate: false}});
-    }, [])
+    }, [reInitiateWebRTC])
 
     useEffect(() => {
         try{
