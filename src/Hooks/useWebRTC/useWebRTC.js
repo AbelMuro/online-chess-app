@@ -32,8 +32,8 @@ function useWebRTC() {
             setInitiate(prevState => !prevState);
         }
         dataChannel.current.onerror = (error) => {
-            console.log(`Data channel error: ${error}`);
-            dispatch({type: 'SET_ERROR', payload: {error}});
+            console.log(`Data channel error`);
+            dispatch({type: 'SET_ERROR', payload: {error: error.message}});
         };
         dataChannel.current.onmessage = (e) => {
             const data = JSON.parse(e.data);
@@ -141,8 +141,8 @@ function useWebRTC() {
                 };
             
                 dataChannel.current.onerror = (error) => {                                    
-                    console.log('Data channel error: ', error);
-                    dispatch({type: 'SET_ERROR', payload: {error}});
+                    console.log('Data channel error');
+                    dispatch({type: 'SET_ERROR', payload: {error: error.message}});
                 }
             }
 
