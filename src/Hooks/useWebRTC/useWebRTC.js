@@ -78,6 +78,7 @@ function useWebRTC() {
 
     useEffect(() => {
         if(!reInitiateWebRTC) return;
+        console.log('re-initiate webRTC useEffect', dataChannel.current?.readyState);
         if(dataChannel.current?.readyState === 'open')
             dataChannel.current.close();            
         else{
