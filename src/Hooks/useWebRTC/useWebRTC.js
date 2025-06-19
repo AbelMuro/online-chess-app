@@ -58,12 +58,9 @@ function useWebRTC() {
             if(dataChannel.current)
                 dataChannel.current.close();
             if(peerConnection.current)
-                peerConnection.current?.close();
+                peerConnection.current.close();
             if(signalingServer.current)
-                signalingServer.current?.close();
-            
-                
-
+                signalingServer.current.close();
         }
     }, [])
 
