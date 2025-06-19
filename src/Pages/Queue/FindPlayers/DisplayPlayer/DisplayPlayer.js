@@ -1,6 +1,6 @@
-import React, {useState, memo, useEffect} from 'react';
+import React, {useState, memo} from 'react';
 import WaitingForReply from './WaitingForReply';
-import {useDispatch, useSelector} from 'react-redux'; 
+import {useDispatch} from 'react-redux'; 
 import { AnimatePresence } from 'framer-motion';
 import * as styles from './styles.module.css';
 
@@ -22,7 +22,7 @@ function DisplayPlayer({username, image}) {
             });
 
             if(response.status === 200){   
-                dispatch({type: 'SET_REMOTE_CLIENT_USERNAME', payload: {username}})
+                dispatch({type: 'SET_REMOTE_CLIENT_USERNAME', payload: {username}});
                 dispatch({type: 'START_CONNECTION', payload: {connection: true}});
             }
             else if(response.status === 404){

@@ -55,6 +55,15 @@ function useWebRTC() {
     useEffect(() => {
         return () => {
             dispatch({type: 'RESET_WEBRTC'});
+            if(dataChannel.current)
+                dataChannel.current.close();
+            if(peerConnection.current)
+                peerConnection.current?.close();
+            if(signalingServer.current)
+                signalingServer.current?.close();
+            
+                
+
         }
     }, [])
 

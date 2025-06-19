@@ -15,9 +15,9 @@ export default function onmessage (signalingServer, peerConnection) {
             Store.dispatch({type: 'SET_REMOTE_CLIENT_USERNAME', payload: {username: to}})                                
             signalingServer.send(JSON.stringify({ type: 'answer', answer, to, from}));                      
         } 
-        else if(data.type === 'answer' && peerConnection.signalingState === 'have-local-offer'){ 
+        else if(data.type === 'answer' && peerConnection.signalingState === 'have-local-offer')
             await peerConnection.setRemoteDescription(new RTCSessionDescription(data.answer));      
-        } 
+         
         else if(data.type === 'candidate' && peerConnection.signalingState !== 'closed')    
             await peerConnection.addIceCandidate(new RTCIceCandidate(data.candidate)); 
     }
