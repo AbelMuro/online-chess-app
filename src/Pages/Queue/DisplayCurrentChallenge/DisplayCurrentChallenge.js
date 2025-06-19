@@ -70,7 +70,6 @@ function DisplayCurrentChallenge(){
     useEffect(() => {
         if(!error) return;
         
-        console.log('error has occurred inside use effect dusplaycurrent challenge')
         setChallenge(null);
         dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: error}});
         dispatch({type: 'REINITIATE_WEBRTC', payload: {initiate: true}});    
