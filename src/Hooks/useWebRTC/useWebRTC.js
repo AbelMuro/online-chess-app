@@ -78,12 +78,16 @@ function useWebRTC() {
 
     useEffect(() => {
         if(!reInitiateWebRTC) return;
-        if(dataChannel.current)
+        if(dataChannel.current?.readyState === 'open')
             dataChannel.current.close();            
+        else{
+            peerConnection.current?.close();
+            signalingServer.current?.close();
+            setInitiate(prevState => !prevState);
+        }
         
         dispatch({type: 'REINITIATE_WEBRTC', payload: {initiate: false}});
-
-    }, [reInitiateWebRTC])
+    }, [])
 
     useEffect(() => {
         try{
@@ -107,8 +111,7 @@ function useWebRTC() {
                 if(iceState === 'disconnected')
                     dispatch({type: 'SET_ERROR', payload: {error: 'Connection has been interrupted'}})
                 else if(iceState === 'failed')
-                    dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: 'Could not establish secure connection'}});
-                    
+                    dispatch({type: 'SET_ERROR', payload: {message: 'Could not establish connection to player'}});
             };
             peerConnection.current.ondatachannel = (e) => {
                 dataChannel.current = e.channel;
