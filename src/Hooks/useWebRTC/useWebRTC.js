@@ -78,8 +78,10 @@ function useWebRTC() {
 
     useEffect(() => {
         if(!reInitiateWebRTC) return;
-        console.log('re-initiate webRTC useEffect', dataChannel.current?.readyState);
-        if(dataChannel.current?.readyState === 'open')
+
+        const iceState = peerConnection.current.iceConnectionState;
+
+        if(dataChannel.current?.readyState === 'open' && iceState === 'connected')
             dataChannel.current.close();            
         else{
             peerConnection.current?.close();
