@@ -39,7 +39,7 @@ function WaitingForReply({setWaiting, username}) {
         
         setWaiting(false);
         dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: error}});
-        dispatch({type: 'REINITIATE_WEBRTC'});
+        dispatch({type: 'REINITIATE_WEBRTC', payload: {initiate: true}});
 
     }, [error])      
 
