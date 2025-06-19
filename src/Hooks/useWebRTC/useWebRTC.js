@@ -32,7 +32,7 @@ function useWebRTC() {
             setInitiate(prevState => !prevState);
         }
         dataChannel.current.onerror = (error) => {
-            console.log(`Data channel error`);
+            console.log(`Data channel error: ${error.message}`);
             dispatch({type: 'SET_ERROR', payload: {error: error.message}});
         };
         dataChannel.current.onmessage = (e) => {
@@ -141,7 +141,7 @@ function useWebRTC() {
                 };
             
                 dataChannel.current.onerror = (error) => {                                    
-                    console.log('Data channel error');
+                    console.log(`Data channel error: ${error.message}`);
                     dispatch({type: 'SET_ERROR', payload: {error: error.message}});
                 }
             }

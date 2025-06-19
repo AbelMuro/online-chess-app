@@ -69,8 +69,9 @@ function DisplayCurrentChallenge(){
 
     useEffect(() => {
         if(!error) return;
-
-        console.log(error);
+        
+        console.log('error has occurred inside use effect dusplaycurrent challenge')
+        setChallenge(null);
         dispatch({type: 'DISPLAY_POPUP_MESSAGE', payload: {message: error}});
         dispatch({type: 'REINITIATE_WEBRTC', payload: {initiate: true}});    
         fetch('https://world-class-chess-server.com/cancel_challenge', {
@@ -80,7 +81,6 @@ function DisplayCurrentChallenge(){
             },
             body: JSON.stringify({username: clientUsername})
         });    
-        setChallenge(null);
     }, [error])    
 
     return (
